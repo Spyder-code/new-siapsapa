@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\KwartirController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('get-number-of-member/{id_wilayah}', [KwartirController::class, 'numberOfMemberAndAdmin']);
+Route::get('get-admin/{id_wilayah}', [KwartirController::class, 'anggotaAdmin']);

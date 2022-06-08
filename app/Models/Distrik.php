@@ -15,6 +15,5 @@ class Distrik extends Model
         'regency_id',
         'name',
         'no_kec',
-
     ];
 }

@@ -16,6 +16,8 @@
     <!-- Custom CSS -->
     <link href="{{ asset('dashboard') }}/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" />
     <link href="{{ asset('dashboard') }}/dist/css/style.min.css" rel="stylesheet" />
+    {{-- laravel token meta --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @yield('style')
 </head>
 

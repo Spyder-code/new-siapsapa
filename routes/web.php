@@ -23,4 +23,14 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('kwartir', [KwartirController::class, 'index'])->name('kwartir');
+// Kwartir
+// Route::get('kwartir', [KwartirController::class, 'index'])->name('kwartir.index');
+// Route::get('kwartir/{id_wilayah}/edit', [KwartirController::class, 'edit'])->name('kwartir.edit');
+Route::resource('kwartir', KwartirController::class)->except(['show','create','store']);
+Route::get('kwartir/anggota/{id_wilayah}', [KwartirController::class, 'anggota'])->name('kwartir.anggota');
+
+// datatable prefix
+Route::prefix('datatable')->group(function(){
+    Route::get('kwartir', [KwartirController::class, 'data_table'])->name('datatable.kwartir');
+    Route::get('kwartir/anggota', [KwartirController::class, 'data_table_anggota'])->name('datatable.kwartir.anggota');
+});

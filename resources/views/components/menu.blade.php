@@ -7,7 +7,7 @@
         'access' => ['all'],
     ],[
         'text' => 'Kwartir',
-        'href' => '/kwartir',
+        'href' => route('kwartir.index'),
         'icon' => 'map',
         'access' => ['all'],
     ],[
