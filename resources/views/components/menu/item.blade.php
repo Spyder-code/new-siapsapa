@@ -9,6 +9,7 @@
     'sidebar-link',
     'waves-effect',
     'waves-dark',
+    'two-column' => $twoColumn,
     'has-arrow'=> !$isSingle,
     ]) href="{{ $href }}" aria-expanded="false">
     <i data-feather="{{ $icon }}" class="feather-icon"></i>

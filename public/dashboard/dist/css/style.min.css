@@ -46131,3 +46131,22 @@ html[dir=rtl] [type=radio].material-inputs+label:before {
 .mailbox .message-center .message-item .user-img .offline {
     background: #ffbc34
 }
+
+
+.dt-button-collection {
+    /* display: flex; */
+    position: relative;
+    margin-top: 10px !important;
+}
+
+.button-page-length{
+    /* btn-primary */
+    background-color: #212529;
+    border-color: #212529;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: .5rem .75rem;
+    text-align: center;
+}

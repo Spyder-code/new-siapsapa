@@ -12,8 +12,9 @@
     <meta name="robots" content="noindex,nofollow" />
     <title>Dashboard Admin</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('dashboard') }}/assets/images/favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('dashboard/assets/images/sipap_logo.png') }}" />
     <!-- Custom CSS -->
+    <link href="{{ asset('dashboard') }}/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" />
     <link href="{{ asset('dashboard') }}/dist/css/style.min.css" rel="stylesheet" />
     @yield('style')
 </head>
@@ -74,22 +75,22 @@
                     <!-- ============================================================== -->
                     <!-- Logo -->
                     <!-- ============================================================== -->
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="/">
                         <!-- Logo icon -->
-                        <b class="logo-icon">
+                        {{-- <b class="logo-icon">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="{{ asset('dashboard') }}/assets/images/logo-icon.png" alt="homepage" class="dark-logo"/>
+                            <img src="{{ asset('dashboard/assets/images/sipap_logo.png') }}" alt="homepage" class="dark-logo"/>
                             <!-- Light Logo icon -->
-                            <img src="{{ asset('dashboard') }}/assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
-                        </b>
+                            <img src="{{ asset('dashboard/assets/images/sipap_logo.png') }}" alt="homepage" class="light-logo" />
+                        </b> --}}
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="{{ asset('dashboard') }}/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                            <img src="{{ asset('dashboard/assets/images/sipap_logo_text.png') }}" alt="homepage" class="dark-logo" />
                             <!-- Light Logo text -->
-                            <img src="{{ asset('dashboard') }}/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                            <img src="{{ asset('dashboard/assets/images/sipap_logo_text.png') }}" class="light-logo" alt="homepage" />
                         </span>
                     </a>
                     <!-- ============================================================== -->
@@ -114,7 +115,7 @@
                         <!-- ============================================================== -->
                         <!-- Comment -->
                         <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
+                        {{-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell"></i>
                                 <div class="notify">
@@ -153,14 +154,14 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> --}}
                         <!-- ============================================================== -->
                         <!-- End Comment -->
                         <!-- ============================================================== -->
                         <!-- ============================================================== -->
                         <!-- Messages -->
                         <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
+                        {{-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope"></i>
                                 <div class="notify">
@@ -183,7 +184,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> --}}
                         <!-- ============================================================== -->
                         <!-- End Messages -->
                         <!-- ============================================================== -->
@@ -215,41 +216,20 @@
                                         <img src="{{ asset('dashboard') }}/assets/images/users/5.jpg" alt="user" class="rounded-circle" width="60" />
                                     </div>
                                     <div class="ms-2">
-                                        <h4 class="mb-0 text-white">Marken Doe</h4>
-                                        <p class="mb-0">deo@gmail.com</p>
+                                        <h4 class="mb-0 text-white">{{ Auth::user()->name }}</h4>
+                                        <p class="mb-0">{{ Auth::user()->username }}</p>
                                     </div>
                                 </div>
-                                <a class="dropdown-item" href="#">
-                                    <i data-feather="user" class="feather-sm text-info me-1 ms-1" ></i>
-                                    My Profile
-                                </a>
-                                <a class="dropdown-item" href="#" >
-                                    <i data-feather="credit-card" class="feather-sm text-info me-1 ms-1" ></i>
-                                    My Balance
-                                </a>
-                                <a class="dropdown-item" href="#" >
-                                    <i data-feather="mail" class="feather-sm text-success me-1 ms-1" ></i>
-                                    Inbox
-                                </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" >
+                                <a class="dropdown-item" href="" >
                                     <i data-feather="settings" class="feather-sm text-warning me-1 ms-1" ></i>
-                                    Account Setting
+                                    Ubah Password
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#"
-                                    ><i
-                                    data-feather="log-out"
-                                    class="feather-sm text-danger me-1 ms-1"
-                                    ></i>
-                                    Logout</a
-                                >
-                                <div class="dropdown-divider"></div>
-                                <div class="pl-4 p-2">
-                                    <a href="#" class="btn d-block w-100 btn-info rounded-pill"
-                                    >View Profile</a
-                                    >
-                                </div>
+                                <a class="dropdown-item" href="" onclick="return confirm('Apa anda ingin keluar?')">
+                                    <i data-feather="log-out" class="feather-sm text-danger me-1 ms-1" ></i>
+                                    Keluar
+                                </a>
                             </div>
                         </li>
                     </ul>
@@ -278,6 +258,23 @@
         </div>
 
         <div class="container-fluid">
+            <div class="my-2">
+                {{-- session success --}}
+                @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Yey!</strong> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
+                {{-- boostrap 5 session danger --}}
+                @if (session('danger'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Maaf!</strong> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+            </div>
             @yield('content')
         </div>
         <!-- ============================================================== -->
@@ -335,6 +332,36 @@
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
     {{-- <script src="{{ asset('dashboard') }}/dist/js/pages/datatable/datatable-advanced.init.js"></script> --}}
+    <script>
+        (function() {
+            "use strict";
+            window.addEventListener(
+                "load",
+                function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName("needs-validation");
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(
+                        forms,
+                        function(form) {
+                            form.addEventListener(
+                                "submit",
+                                function(event) {
+                                    if (form.checkValidity() === false) {
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                    }
+                                    form.classList.add("was-validated");
+                                },
+                                false
+                            );
+                        }
+                    );
+                },
+                false
+            );
+        })();
+    </script>
     @yield('script')
 </body>
 
