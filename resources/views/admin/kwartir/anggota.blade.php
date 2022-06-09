@@ -88,7 +88,6 @@
                 url: {!! json_encode(url('api/get-number-of-member')) !!}+'/'+{!! json_encode($id_wilayah) !!},
                 type: 'GET',
                 success: function(data) {
-                    console.log(data);
                     $('#total-anggota').html(data.anggota);
                     $('#total-admin').html(data.admin);
                 }
@@ -107,7 +106,7 @@
                                     <div class="fw-bold">${value.nama}</div>
                                     ${value.email}
                                 </div>
-                                <span class="badge bg-danger rounded-pill">Hapus Role</span>
+                                <button class="btn btn-sm btn-outline-danger rounded-pill">Hapus Admin</button>
                             </li>`
                         );
                     });

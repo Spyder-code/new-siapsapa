@@ -35,17 +35,17 @@ class KwartirController extends Controller
 
         if($type==2){
             $admin = Anggota::where('provinsi',$data->id)->whereHas('user', function ($query) {
-                $query->where('role','kwarcab');
+                $query->where('role','kwarda');
             })->count();
             $anggota = Anggota::where('provinsi',$data->id)->count();
         }elseif($type==3){
             $admin = Anggota::where('kabupaten',$data->id)->whereHas('user', function ($query) {
-                $query->where('role','kwaran');
+                $query->where('role','kwarcab');
             })->count();
             $anggota = Anggota::where('kabupaten',$data->id)->count();
         }elseif($type==4){
             $admin = Anggota::where('kecamatan',$data->id)->whereHas('user', function ($query) {
-                $query->where('role','gudep');
+                $query->where('role','kwaran');
             })->count();
             $anggota = Anggota::where('kecamatan',$data->id)->count();
         }
@@ -56,14 +56,8 @@ class KwartirController extends Controller
         ]);
     }
 
-    public function showAdmin($id_wilayah)
-    {
-
-    }
-
     public function anggotaAdmin($id_wilayah)
     {
-        $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
             return false;
         }else{
@@ -72,17 +66,17 @@ class KwartirController extends Controller
                 $admin = 'kwarda';
                 $data = Anggota::where('provinsi',$id_wilayah)->whereHas('user', function ($query) use ($admin) {
                     $query->where('role',$admin);
-                })->select('id','nama','email');
+                })->select('id','nama','email')->get();
             }elseif($len==4){
                 $admin = 'kwarcab';
                 $data =  Anggota::where('kabupaten',$id_wilayah)->whereHas('user', function ($query) use ($admin){
                     $query->where('role',$admin);
-                })->select('id','nama','email');
+                })->select('id','nama','email')->get();
             }else{
                 $admin = 'kwaran';
                 $data = Anggota::where('kecamatan',$id_wilayah)->whereHas('user', function ($query) use ($admin){
                     $query->where('role',$admin);
-                })->select('id','nama','email');
+                })->select('id','nama','email')->get();
             }
         }
 
