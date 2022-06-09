@@ -185,13 +185,19 @@ class KwartirController extends Controller
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = Anggota::where('provinsi',$id_wilayah)->select('id','nama','email','foto');
+                $data = Anggota::where('provinsi',$id_wilayah)->select('id','nama','email','foto')->whereHas('user', function($q){
+                    $q->where('role','anggota');
+                });
                 $wilayah = Provinsi::find($id_wilayah)->name;
             }elseif($len==4){
-                $data =  Anggota::where('kabupaten',$id_wilayah)->select('id','nama','email','foto');
+                $data =  Anggota::where('kabupaten',$id_wilayah)->select('id','nama','email','foto')->whereHas('user', function($q){
+                    $q->where('role','anggota');
+                });
                 $wilayah = City::find($id_wilayah)->name;
             }else{
-                $data = Anggota::where('kecamatan',$id_wilayah)->select('id','nama','email','foto');
+                $data = Anggota::where('kecamatan',$id_wilayah)->select('id','nama','email','foto')->whereHas('user', function($q){
+                    $q->where('role','anggota');
+                });
                 $wilayah = Distrik::find($id_wilayah)->name;
             }
         }
@@ -203,7 +209,7 @@ class KwartirController extends Controller
             ->addColumn('action', function ($data) {
                 $html = '<div class="btn-group">
                             <a href="#" class="btn btn-sm btn-primary">Detail Anggota</a>
-                            <a href="#" class="btn btn-sm btn-success">Tambah Sebagai Admin</a>
+                            <button type="button" onclick="addAdmin('.$data->id.')" class="btn btn-sm btn-success">Tambah Sebagai Admin</button>
                         </div>';
                 return $html;
             })

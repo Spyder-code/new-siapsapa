@@ -28,6 +28,18 @@
 @section('content')
 <div class="row">
     <div class="col-12">
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item">Total Siaga: <strong id="total-siaga">-</strong></li>
+            <li class="list-group-item">Total Penggalang: <strong id="total-penggalang">-</strong></li>
+            <li class="list-group-item">Total Penegak: <strong id="total-penegak">-</strong></li>
+            <li class="list-group-item">Total Pandega: <strong id="total-pandega">-</strong></li>
+            <li class="list-group-item">Total Dewasa: <strong id="total-dewasa">-</strong></li>
+            <li class="list-group-item">Total pelatih: <strong id="total-pelatih">-</strong></li>
+        </ul>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-12">
         <div class="card">
             <div class="border-bottom title-part-padding">
                 <h4 class="card-title mb-0">List Wilayah</h4>
@@ -96,6 +108,22 @@
                     console.log(data);
                     $('#total-anggota').html(data.anggota);
                     $('#total-admin').html(data.admin);
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            $.ajax({
+                url: {!! json_encode(url('api/get-number-of-pramuka')) !!}+'/'+{!! json_encode($id_wilayah) !!},
+                type: 'GET',
+                success: function(data) {
+                    console.log(data);
+                    $('#total-siaga').html(data.siaga);
+                    $('#total-penggalang').html(data.penggalang);
+                    $('#total-penegak').html(data.penegak);
+                    $('#total-pandega').html(data.pandega);
+                    $('#total-dewasa').html(data.dewasa);
+                    $('#total-pelatih').html(data.pelatih);
                 }
             });
         });

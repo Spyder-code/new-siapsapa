@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class KwartirController extends Controller
 {
-    public function numberOfMemberAndAdmin($id_wilayah)
+    public function getNumberOfMemberAndAdmin($id_wilayah)
     {
         if($id_wilayah=='all'){
             $admin = Anggota::whereHas('user', function($q){
@@ -56,7 +56,7 @@ class KwartirController extends Controller
         ]);
     }
 
-    public function anggotaAdmin($id_wilayah)
+    public function getAdmin($id_wilayah)
     {
         if($id_wilayah=='all'){
             return false;
@@ -83,6 +83,82 @@ class KwartirController extends Controller
         return response()->json([
             'data' => $data,
             'admin' => $admin
+        ]);
+    }
+
+    public function getNumberOfPramuka($id_wilayah)
+    {
+        if($id_wilayah=='all'){
+            $siaga = Anggota::where('pramuka',1)->count();
+            $penggalang = Anggota::where('pramuka',2)->count();
+            $penegak = Anggota::where('pramuka',3)->count();
+            $pandega = Anggota::where('pramuka',4)->count();
+            $dewasa = Anggota::where('pramuka',5)->count();
+            $pelatih = Anggota::where('pramuka',6)->count();
+        }else{
+            $len = strlen($id_wilayah);
+            if ($len==2) {
+                $query = Anggota::where('provinsi',$id_wilayah)->get();
+            }elseif($len==4){
+                $query = Anggota::where('kabupaten',$id_wilayah)->get();
+            }else{
+                $query = Anggota::where('kecamatan',$id_wilayah)->get();
+            }
+
+            $siaga = $query->where('pramuka',1)->count();
+            $penggalang = $query->where('pramuka',2)->count();
+            $penegak = $query->where('pramuka',3)->count();
+            $pandega = $query->where('pramuka',4)->count();
+            $dewasa = $query->where('pramuka',5)->count();
+            $pelatih = $query->where('pramuka',6)->count();
+        }
+
+        return response()->json([
+            'siaga' => $siaga,
+            'penggalang' => $penggalang,
+            'penegak' => $penegak,
+            'pandega' => $pandega,
+            'dewasa' => $dewasa,
+            'pelatih' => $pelatih
+        ]);
+    }
+
+    public function addAdmin()
+    {
+        $id_wilayah = request()->id_wilayah;
+        $anggota_id = request()->anggota_id;
+        $len = strlen($id_wilayah);
+        if($id_wilayah=='all'){
+            return false;
+        }else{
+            $len = strlen($id_wilayah);
+            $anggota = Anggota::find($anggota_id);
+            if ($len==2) {
+                $role = 'kwarda';
+            }elseif($len==4){
+                $role = 'kwarcab';
+            }else{
+                $role = 'kwaran';
+            }
+
+            $anggota->user->role = $role;
+            $anggota->user->save();
+        }
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+    public function deleteAdmin()
+    {
+        $anggota_id = request()->anggota_id;
+        $anggota = Anggota::find($anggota_id);
+        $anggota->user->role = 'user';
+        $anggota->user->save();
+
+        return response()->json([
+            'status' => 'success'
         ]);
     }
 }
