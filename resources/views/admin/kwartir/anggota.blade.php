@@ -31,9 +31,8 @@
                     <table class="table table-bordered table-striped file-export" style="width: 100%">
                         <thead>
                             <tr>
-                                <th>Foto</th>
-                                <th>Email</th>
                                 <th>Nama Lengkap</th>
+                                <th>Email</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -66,9 +65,8 @@
                     },
                 },
                 columns: [
-                    {data: 'foto', name: 'foto', searchable: false},
-                    {data: 'email', name: 'email'},
                     {data: 'nama', name: 'nama'},
+                    {data: 'email', name: 'email'},
                     {data: 'action', name: 'action', searchable: false, orderable: false},
                 ],
                 dom: "Bfrtip",

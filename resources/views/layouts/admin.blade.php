@@ -12,7 +12,7 @@
     <meta name="robots" content="noindex,nofollow" />
     <title>Dashboard Admin</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('dashboard/assets/images/sipap_logo.png') }}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/logosiap.png') }}" />
     <!-- Custom CSS -->
     <link href="{{ asset('dashboard') }}/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" />
     <link href="{{ asset('dashboard') }}/dist/css/style.min.css" rel="stylesheet" />
@@ -62,6 +62,12 @@
             </path>
         </svg>
     </div>
+
+    <div class="loading-overlay" id="loading">
+        <div class="loading">
+            <img src="{{ asset('images/logosiap.png') }}" alt="siapsapa">
+        </div>
+    </div>
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -90,9 +96,9 @@
                         <!-- Logo text -->
                         <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="{{ asset('dashboard/assets/images/sipap_logo_text.png') }}" alt="homepage" class="dark-logo" />
+                            <img src="#" alt="homepage" class="dark-logo" />
                             <!-- Light Logo text -->
-                            <img src="{{ asset('dashboard/assets/images/sipap_logo_text.png') }}" class="light-logo" alt="homepage" />
+                            <img src="#" class="light-logo" alt="homepage" />
                         </span>
                     </a>
                     <!-- ============================================================== -->
@@ -333,8 +339,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+    <script src="{{ asset('js/site.js') }}"></script>
     {{-- <script src="{{ asset('dashboard') }}/dist/js/pages/datatable/datatable-advanced.init.js"></script> --}}
     <script>
+        // window.ajax_loading = false;
+        // $.hasAjaxRunning = function() {
+        //     return window.ajax_loading;
+        // };
+        // $(document).ajaxStart(function(){
+        //     window.ajax_loading = true;
+        //     $('#loading').show();
+        // }).ajaxStop(function(){
+        //     window.ajax_loading = false;
+        //     $('#loading').hide();
+        // });
         (function() {
             "use strict";
             window.addEventListener(

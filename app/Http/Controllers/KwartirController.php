@@ -88,15 +88,27 @@ class KwartirController extends Controller
     {
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Provinsi::select('id','name','no_prov as code');
+            $data = Provinsi::withCount('anggota', function($q){
+                $q->whereHas('user', function($qu){
+                    $qu->where('role', 'kwarda');
+                });
+            })->select('id','name','no_prov as code','anggota_count as admin');
             $type = 1;
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = City::where('province_id',$id_wilayah)->select('id','name','no_kab as code');
+                $data = City::where('province_id',$id_wilayah)->withCount('anggota', function($q){
+                    $q->whereHas('user', function($qu){
+                        $qu->where('role', 'kwarcab');
+                    });
+                })->select('id','name','no_kab as code','anggota_count as admin');
                 $type = 2;
             }elseif($len==4){
-                $data =  Distrik::where('regency_id',$id_wilayah)->select('id','name','no_kec as code');
+                $data =  Distrik::where('regency_id',$id_wilayah)->withCount('anggota', function($q){
+                    $q->whereHas('user', function($qu){
+                        $qu->where('role', 'kwaran');
+                    });
+                })->select('id','name','no_kec as code','anggota_count as admin');
                 $type = 3;
             }else{
                 $data = Gudep::where('kecamatan',$id_wilayah)->select('id','nama_sekolah as name','npsn as code');
@@ -105,26 +117,26 @@ class KwartirController extends Controller
         }
 
         return DataTables::of($data)
-            ->addColumn('admin', function ($data) use ($type) {
-                if($type==1){
-                    $count = Anggota::where('provinsi',$data->id)->whereHas('user', function ($query) {
-                        $query->where('role','kwarda');
-                    })->count();
-                }elseif($type==2){
-                    $count = Anggota::where('kabupaten',$data->id)->whereHas('user', function ($query) {
-                        $query->where('role','kwarcab');
-                    })->count();
-                }elseif($type==3){
-                    $count = Anggota::where('kecamatan',$data->id)->whereHas('user', function ($query) {
-                        $query->where('role','kwaran');
-                    })->count();
-                }elseif($type==4){
-                    $count = Anggota::where('gudep',$data->id)->whereHas('user', function ($query) {
-                        $query->where('role','gudep');
-                    })->count();
-                }
-                return $count;
-            })
+            // ->addColumn('admin', function ($data) use ($type) {
+            //     if($type==1){
+            //         $count = Anggota::where('provinsi',$data->id)->whereHas('user', function ($query) {
+            //             $query->where('role','kwarda');
+            //         })->count();
+            //     }elseif($type==2){
+            //         $count = Anggota::where('kabupaten',$data->id)->whereHas('user', function ($query) {
+            //             $query->where('role','kwarcab');
+            //         })->count();
+            //     }elseif($type==3){
+            //         $count = Anggota::where('kecamatan',$data->id)->whereHas('user', function ($query) {
+            //             $query->where('role','kwaran');
+            //         })->count();
+            //     }elseif($type==4){
+            //         $count = Anggota::where('gudep',$data->id)->whereHas('user', function ($query) {
+            //             $query->where('role','gudep');
+            //         })->count();
+            //     }
+            //     return $count;
+            // })
             ->addColumn('anggota', function ($data) use ($type) {
                 if($type==1){
                     $count = Anggota::where('provinsi',$data->id)->count();
@@ -141,13 +153,13 @@ class KwartirController extends Controller
                 if($type==4){
                     $html = '<div class="btn-group">
                                 <a href="" class="btn btn-sm btn-primary">Detail Gudep</a>
-                                <a href="#" class="btn btn-sm btn-success">Detail Admin</a>
+                                <button type="button" onclick="showAdmin('.$data->id.',\'gudep\')" class="btn btn-sm btn-success">Detail Admin</button>
                                 <a href="'.route('kwartir.anggota',$data->id).'" class="btn btn-sm btn-warning">Detail Anggota</a>
                             </div>';
                 }else{
                     $html = '<div class="btn-group">
                                 <a href="'.route('kwartir.index', ['id_wilayah'=>$data->id]).'" class="btn btn-sm btn-primary">Detail Wilayah</a>
-                                <a href="#" class="btn btn-sm btn-success">Detail Admin</a>
+                                <button type="button" onclick="showAdmin('.$data->id.')" class="btn btn-sm btn-success">Detail Admin</button>
                                 <a href="'.route('kwartir.anggota',$data->id).'" class="btn btn-sm btn-warning">Detail Anggota</a>
                                 <a href="#" class="btn btn-sm btn-info">Detail Statistik</a>
                             </div>';
@@ -203,9 +215,6 @@ class KwartirController extends Controller
         }
 
         return DataTables::of($data)
-            ->addColumn('foto', function ($data) {
-                return '<img src="'.asset('berkas/anggota/'.$data->foto).'" alt="" class="img-fluid rounded-circle" width="50">';
-            })
             ->addColumn('action', function ($data) {
                 $html = '<div class="btn-group">
                             <a href="#" class="btn btn-sm btn-primary">Detail Anggota</a>

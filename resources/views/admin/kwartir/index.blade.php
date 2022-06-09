@@ -16,7 +16,7 @@
             <li class="list-group-item">Total Admin: <strong id="total-admin">-</strong></li>
             @if($id_wilayah!='all')
                 <li class="list-group-item">
-                    <a href="" style="font-size: .8rem" class="btn btn-sm btn-outline-success">
+                    <a href="{{ route('kwartir.anggota',$id_wilayah) }}" style="font-size: .8rem" class="btn btn-sm btn-outline-success">
                         <i class="fa fa-plus-circle"></i> Tambah admin
                     </a>
                 </li>
@@ -26,6 +26,9 @@
 </div>
 @endsection
 @section('content')
+@php
+    $len = strlen($id_wilayah);
+@endphp
 <div class="row">
     <div class="col-12">
         <ul class="list-group list-group-horizontal">
@@ -49,8 +52,8 @@
                     <table class="table table-bordered table-striped file-export" style="width: 100%">
                         <thead>
                             <tr>
-                                <th>Kode</th>
-                                <th>Nama</th>
+                                <th>Kode {{ $len>4 ? 'Sekolah' : '' }}</th>
+                                <th>Nama {{ $len>4 ? 'Gudep' : '' }}</th>
                                 <th>Jumlah Admin</th>
                                 <th>Jumlah Anggota</th>
                                 <th>Detail</th>
@@ -65,10 +68,31 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">List Admin</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ol class="list-group list-group-numbered" id="list-admin"></ol>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
     <script>
+        var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+            keyboard: false
+        })
         var table = $(".file-export").DataTable({
             processing: true,
             serverSide: true,
@@ -100,32 +124,68 @@
         .addClass("btn btn-primary");
         $(".buttons-collection ").addClass("btn btn-info m-1");
 
-        $(document).ready(function() {
-            $.ajax({
-                url: {!! json_encode(url('api/get-number-of-member')) !!}+'/'+{!! json_encode($id_wilayah) !!},
-                type: 'GET',
-                success: function(data) {
-                    console.log(data);
-                    $('#total-anggota').html(data.anggota);
-                    $('#total-admin').html(data.admin);
-                }
-            });
+        $.ajax({
+            url: {!! json_encode(url('api/get-number-of-member')) !!}+'/'+{!! json_encode($id_wilayah) !!},
+            type: 'GET',
+            success: function(data) {
+                $('#total-anggota').html(data.anggota);
+                $('#total-admin').html(data.admin);
+            }
         });
 
-        $(document).ready(function() {
+        $.ajax({
+            url: {!! json_encode(url('api/get-number-of-pramuka')) !!}+'/'+{!! json_encode($id_wilayah) !!},
+            type: 'GET',
+            success: function(data) {
+                $('#total-siaga').html(data.siaga);
+                $('#total-penggalang').html(data.penggalang);
+                $('#total-penegak').html(data.penegak);
+                $('#total-pandega').html(data.pandega);
+                $('#total-dewasa').html(data.dewasa);
+                $('#total-pelatih').html(data.pelatih);
+            }
+        });
+
+        let showAdmin = (id_wilayah, type = null) => {
+            if(type==null){
+                var url = {!! json_encode(url('api/get-admin')) !!}+'/'+id_wilayah;
+            }else{
+                var url = {!! json_encode(url('api/get-admin-gudep')) !!}+'/'+id_wilayah;
+            }
             $.ajax({
-                url: {!! json_encode(url('api/get-number-of-pramuka')) !!}+'/'+{!! json_encode($id_wilayah) !!},
+                url: url,
                 type: 'GET',
                 success: function(data) {
-                    console.log(data);
-                    $('#total-siaga').html(data.siaga);
-                    $('#total-penggalang').html(data.penggalang);
-                    $('#total-penegak').html(data.penegak);
-                    $('#total-pandega').html(data.pandega);
-                    $('#total-dewasa').html(data.dewasa);
-                    $('#total-pelatih').html(data.pelatih);
+                    var data = data.data;
+                    $('#list-admin').html('');
+                    $.each(data, function(index, value) {
+                        $('#list-admin').append(
+                            `<li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div div class="ms-2 me-auto">
+                                    <div class="fw-bold">${value.nama}</div>
+                                    ${value.email}
+                                </div>
+                                <button onclick="deleteAdmin(${value.id})" class="btn btn-sm btn-outline-danger rounded-pill">Hapus Admin</button>
+                            </li>`
+                        );
+                    });
+                    myModal.show();
                 }
             });
-        });
+        }
+
+        let deleteAdmin = (anggota_id) => {
+            myModal.hide();
+            $.ajax({
+                url: {!! json_encode(url('api/delete-admin')) !!},
+                type: 'PUT',
+                data: {
+                    anggota_id: anggota_id,
+                },
+                success: function(data) {
+                    table.ajax.reload();
+                }
+            });
+        }
     </script>
 @endsection

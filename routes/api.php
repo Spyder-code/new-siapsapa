@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\GudepController;
 use App\Http\Controllers\Api\KwartirController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('get-number-of-member/{id_wilayah}', [KwartirController::class, 'getNumberOfMemberAndAdmin']);
 Route::get('get-admin/{id_wilayah}', [KwartirController::class, 'getAdmin']);
+Route::get('get-admin-gudep/{gudep_id}', [GudepController::class, 'getAdmin']);
 Route::get('get-number-of-pramuka/{id_wilayah}', [KwartirController::class, 'getNumberOfPramuka']);
 Route::post('add-admin', [KwartirController::class, 'addAdmin']);
 Route::put('delete-admin', [KwartirController::class, 'deleteAdmin']);

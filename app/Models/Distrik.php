@@ -16,4 +16,9 @@ class Distrik extends Model
         'name',
         'no_kec',
     ];
+
+    public function anggota()
+    {
+        return $this->hasMany(Anggota::class, 'kabupaten');
+    }
 }

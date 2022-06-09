@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\KwartirController;
+use App\Models\Provinsi;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +18,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('blank');
+    $data = Provinsi::withCount(['anggota as admin' => function(Builder $q){
+        $q->whereHas('user', function(Builder $q){
+            $q->where('role', 'kwaran');
+        });
+    },
+    'anggota as member' => function(Builder $q){
+        $q->whereHas('user', function(Builder $q){
+            $q->where('role', 'anggota');
+        });
+    }
+    ])->orderByDesc('name')->get();
+
+    dd($data);
+    // return view('blank');
 });
 
 Auth::routes();
