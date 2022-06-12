@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\UpdateCode;
 use App\Models\Anggota;
 use App\Models\City;
 use App\Models\Distrik;
 use App\Models\Gudep;
 use App\Models\Provinsi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Datatables;
 
@@ -52,7 +54,25 @@ class KwartirController extends Controller
         $data = $this->getData($kwartir);
         $kwartir = $data[1];
         $data1 = $data[0];
+        if($data1->code != $request->code){
+            if ($kwartir=='Provinsi') {
+                $offset = 0;
+            }elseif($kwartir=='Kabupaten'){
+                $offset = 3;
+            }elseif($kwartir=='Kecamatan'){
+                $offset = 6;
+            }
+
+            foreach ($data1->anggota->chunk(1000) as $anggota) {
+                dispatch(new UpdateCode($anggota, $request->code, $offset));
+                // foreach ($anggota as $key => $value) {
+                //     $value->kode = substr_replace($value->kode, $request->code, $offset, 2);
+                //     $value->save();
+                // }
+            }
+        }
         $data1->update($request->all());
+        // $exitCode = Artisan::call('queue:work', []);
         return redirect()->route('kwartir.index', ['id_wilayah'=>$data[0]->prev]);
     }
 
@@ -88,80 +108,71 @@ class KwartirController extends Controller
     {
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Provinsi::withCount('anggota', function($q){
-                $q->whereHas('user', function($qu){
-                    $qu->where('role', 'kwarda');
+            $data = Provinsi::select('id', 'name', 'no_prov as code', 'id as prev')->withCount(['anggota as admin' => function($q){
+                $q->whereHas('user', function($q){
+                    $q->where('role', 'kwarda');
                 });
-            })->select('id','name','no_prov as code','anggota_count as admin');
+            },
+            'anggota as anggota' => function($q){
+                $q->whereHas('user', function($q){
+                    $q->where('role', 'anggota');
+                });
+            }]);
             $type = 1;
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = City::where('province_id',$id_wilayah)->withCount('anggota', function($q){
-                    $q->whereHas('user', function($qu){
-                        $qu->where('role', 'kwarcab');
+                $data = City::where('province_id',$id_wilayah)->select('id','name','no_kab as code')->withCount(['anggota as admin' => function($q){
+                    $q->whereHas('user', function($q){
+                        $q->where('role', 'kwarcab');
                     });
-                })->select('id','name','no_kab as code','anggota_count as admin');
+                },
+                'anggota as anggota' => function($q){
+                    $q->whereHas('user', function($q){
+                        $q->where('role', 'anggota');
+                    });
+                }]);
                 $type = 2;
             }elseif($len==4){
-                $data =  Distrik::where('regency_id',$id_wilayah)->withCount('anggota', function($q){
-                    $q->whereHas('user', function($qu){
-                        $qu->where('role', 'kwaran');
+                $data =  Distrik::where('regency_id',$id_wilayah)->select('id','name','no_kec as code')->withCount(['anggota as admin' => function($q){
+                    $q->whereHas('user', function($q){
+                        $q->where('role', 'kwaran');
                     });
-                })->select('id','name','no_kec as code','anggota_count as admin');
+                },
+                'anggota as anggota' => function($q){
+                    $q->whereHas('user', function($q){
+                        $q->where('role', 'anggota');
+                    });
+                }]);
                 $type = 3;
             }else{
-                $data = Gudep::where('kecamatan',$id_wilayah)->select('id','nama_sekolah as name','npsn as code');
+                $data = Gudep::where('kecamatan',$id_wilayah)->select('id','nama_sekolah as name','npsn as code')->withCount(['anggota as admin' => function($q){
+                    $q->whereHas('user', function($q){
+                        $q->where('role', 'gudep');
+                    });
+                },
+                'anggota as anggota' => function($q){
+                    $q->whereHas('user', function($q){
+                        $q->where('role', 'anggota');
+                    });
+                }]);
                 $type = 4;
             }
         }
 
         return DataTables::of($data)
-            // ->addColumn('admin', function ($data) use ($type) {
-            //     if($type==1){
-            //         $count = Anggota::where('provinsi',$data->id)->whereHas('user', function ($query) {
-            //             $query->where('role','kwarda');
-            //         })->count();
-            //     }elseif($type==2){
-            //         $count = Anggota::where('kabupaten',$data->id)->whereHas('user', function ($query) {
-            //             $query->where('role','kwarcab');
-            //         })->count();
-            //     }elseif($type==3){
-            //         $count = Anggota::where('kecamatan',$data->id)->whereHas('user', function ($query) {
-            //             $query->where('role','kwaran');
-            //         })->count();
-            //     }elseif($type==4){
-            //         $count = Anggota::where('gudep',$data->id)->whereHas('user', function ($query) {
-            //             $query->where('role','gudep');
-            //         })->count();
-            //     }
-            //     return $count;
-            // })
-            ->addColumn('anggota', function ($data) use ($type) {
-                if($type==1){
-                    $count = Anggota::where('provinsi',$data->id)->count();
-                }elseif($type==2){
-                    $count = Anggota::where('kabupaten',$data->id)->count();
-                }elseif($type==3){
-                    $count = Anggota::where('kecamatan',$data->id)->count();
-                }elseif($type==4){
-                    $count = Anggota::where('gudep',$data->id)->count();
-                }
-                return $count;
-            })
             ->addColumn('action', function ($data) use ($type) {
                 if($type==4){
                     $html = '<div class="btn-group">
                                 <a href="" class="btn btn-sm btn-primary">Detail Gudep</a>
-                                <button type="button" onclick="showAdmin('.$data->id.',\'gudep\')" class="btn btn-sm btn-success">Detail Admin</button>
-                                <a href="'.route('kwartir.anggota',$data->id).'" class="btn btn-sm btn-warning">Detail Anggota</a>
+                                <button type="button" onclick="showAdmin('.$data->id.',\'gudep\')" class="btn btn-sm btn-info">Lihat Admin</button>
                             </div>';
                 }else{
                     $html = '<div class="btn-group">
-                                <a href="'.route('kwartir.index', ['id_wilayah'=>$data->id]).'" class="btn btn-sm btn-primary">Detail Wilayah</a>
-                                <button type="button" onclick="showAdmin('.$data->id.')" class="btn btn-sm btn-success">Detail Admin</button>
-                                <a href="'.route('kwartir.anggota',$data->id).'" class="btn btn-sm btn-warning">Detail Anggota</a>
-                                <a href="#" class="btn btn-sm btn-info">Detail Statistik</a>
+                                <a href="'.route('kwartir.index', ['id_wilayah'=>$data->id]).'" class="btn btn-sm btn-primary">Lihat Wilayah</a>
+                                <button type="button" onclick="showAdmin('.$data->id.')" class="btn btn-sm btn-info">Lihat Admin</button>
+                                <a href="'.route('kwartir.anggota',$data->id).'" class="btn btn-sm btn-success">Tambah Admin</a>
+                                <a href="'.route('statistik.index',['id_wilayah'=>$data->id]).'" class="btn btn-sm btn-warning">Lihat Statistik</a>
                             </div>';
                 }
                 return $html;

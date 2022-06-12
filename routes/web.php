@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\KwartirController;
+use App\Http\Controllers\StatistikController;
+use App\Models\Anggota;
+use App\Models\DocumentType;
 use App\Models\Provinsi;
+use App\Repositories\StatistikService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -18,25 +22,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $data = Provinsi::withCount(['anggota as admin' => function(Builder $q){
-        $q->whereHas('user', function(Builder $q){
-            $q->where('role', 'kwaran');
-        });
-    },
-    'anggota as member' => function(Builder $q){
-        $q->whereHas('user', function(Builder $q){
-            $q->where('role', 'anggota');
-        });
-    }
-    ])->orderByDesc('name')->get();
-
-    dd($data);
-    // return view('blank');
+    $str = '11.20.00.000.740765';
+    $data = substr_replace($str, '22', 6, 2);
+    return $data;
+    return view('blank');
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik.index');
 
 // Kwartir
 // Route::get('kwartir', [KwartirController::class, 'index'])->name('kwartir.index');

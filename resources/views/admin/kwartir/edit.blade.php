@@ -33,7 +33,8 @@
             <form action="{{ route('kwartir.update', $id_wilayah) }}" method="post" class="card-body row">
                 @csrf
                 @method('PUT')
-                <x-input :name="$name" :col="12" :value="$data->code" :label="'Kode Wilayah'" :type="'text'" :attr="['required']" />
+                <input type="hidden" name="code" id="code">
+                <x-input :name="$name" :id="'code_name'" :col="12" :value="$data->code" :label="'Kode Wilayah'" :type="'text'" :attr="['required']" />
                 <x-input :name="'name'" :col="12" :value="$data->name" :label="'Nama Wilayah'" :type="'text'" :attr="['required']" />
                 <div class="mb-3 btn-group">
                     <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">Kembali</a>
@@ -43,5 +44,14 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+    <script>
+        $('#code_name').keyup(function (e) {
+            var val = $(this).val();
+            $('#code').val(val);
+        });
+    </script>
 @endsection
 

@@ -86,43 +86,6 @@ class KwartirController extends Controller
         ]);
     }
 
-    public function getNumberOfPramuka($id_wilayah)
-    {
-        if($id_wilayah=='all'){
-            $siaga = Anggota::where('pramuka',1)->count();
-            $penggalang = Anggota::where('pramuka',2)->count();
-            $penegak = Anggota::where('pramuka',3)->count();
-            $pandega = Anggota::where('pramuka',4)->count();
-            $dewasa = Anggota::where('pramuka',5)->count();
-            $pelatih = Anggota::where('pramuka',6)->count();
-        }else{
-            $len = strlen($id_wilayah);
-            if ($len==2) {
-                $query = Anggota::where('provinsi',$id_wilayah)->get();
-            }elseif($len==4){
-                $query = Anggota::where('kabupaten',$id_wilayah)->get();
-            }else{
-                $query = Anggota::where('kecamatan',$id_wilayah)->get();
-            }
-
-            $siaga = $query->where('pramuka',1)->count();
-            $penggalang = $query->where('pramuka',2)->count();
-            $penegak = $query->where('pramuka',3)->count();
-            $pandega = $query->where('pramuka',4)->count();
-            $dewasa = $query->where('pramuka',5)->count();
-            $pelatih = $query->where('pramuka',6)->count();
-        }
-
-        return response()->json([
-            'siaga' => $siaga,
-            'penggalang' => $penggalang,
-            'penegak' => $penegak,
-            'pandega' => $pandega,
-            'dewasa' => $dewasa,
-            'pelatih' => $pelatih
-        ]);
-    }
-
     public function addAdmin()
     {
         $id_wilayah = request()->id_wilayah;
