@@ -20,4 +20,9 @@ class Provinsi extends Model
     {
         return $this->hasMany(Anggota::class,'provinsi');
     }
+
+    public function regency()
+    {
+        return $this->hasMany(City::class,'province_id');
+    }
 }

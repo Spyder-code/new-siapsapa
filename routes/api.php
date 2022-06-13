@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\GudepController;
 use App\Http\Controllers\Api\KwartirController;
 use App\Http\Controllers\Api\StatistikController;
+use App\Http\Controllers\Api\WilayahController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,3 +29,7 @@ Route::get('get-number-of-pramuka/{id_wilayah}', [StatistikController::class, 'g
 Route::get('dashboard/{id_wilayah}', [StatistikController::class, 'dashboard']);
 Route::post('add-admin', [KwartirController::class, 'addAdmin']);
 Route::put('delete-admin', [KwartirController::class, 'deleteAdmin']);
+
+// wilayah
+Route::get('get-kabupaten/{id}', [WilayahController::class, 'getKabupatenByIdProvinsi']);
+Route::get('get-kecamatan/{id}', [WilayahController::class, 'getKecamatanByIdKabupaten']);

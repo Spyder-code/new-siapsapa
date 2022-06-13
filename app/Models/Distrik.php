@@ -21,4 +21,9 @@ class Distrik extends Model
     {
         return $this->hasMany(Anggota::class, 'kecamatan');
     }
+
+    public function regency()
+    {
+        return $this->belongsTo(City::class, 'regency_id');
+    }
 }

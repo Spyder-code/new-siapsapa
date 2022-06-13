@@ -22,4 +22,14 @@ class City extends Model
     {
         return $this->hasMany(Anggota::class, 'kabupaten');
     }
+
+    public function province()
+    {
+        return $this->belongsTo(Provinsi::class, 'province_id');
+    }
+
+    public function district()
+    {
+        return $this->hasMany(Distrik::class, 'regency_id');
+    }
 }

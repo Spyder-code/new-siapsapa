@@ -15,7 +15,11 @@ class StatistikController extends Controller
     public function getNumberOfPramuka($id_wilayah)
     {
         $statistik = new StatistikService($id_wilayah);
-        $data = $statistik->getNumberOfPramuka();
+        if(request('type')){
+            $data = $statistik->getNumberOfPramuka(request('type'));
+        }else{
+            $data = $statistik->getNumberOfPramuka();
+        }
         return response()->json($data);
     }
 

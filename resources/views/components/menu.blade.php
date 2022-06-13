@@ -16,8 +16,8 @@
         'icon' => 'bookmark',
         'access' => ['all'],
         'sub' => [
-            ['text'=>'List Gudep','href'=>'gudep','icon'=>'fa-list'],
-            ['text'=>'Registrasi Gudep','href'=>'gudep/create','icon'=>'fa-plus'],
+            ['text'=>'List Gudep','href'=>route('gudep.index'),'icon'=>'fa-list'],
+            ['text'=>'Registrasi Gudep','href'=>route('gudep.create'),'icon'=>'fa-plus'],
         ]
     ],[
         'text' => 'Data Anggota',
