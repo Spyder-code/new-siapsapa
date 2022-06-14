@@ -129,109 +129,6 @@
         </div>
     </div>
 </div>
-{{-- <div class="row">
-    <!-- Column -->
-    <div class="col-lg-2 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <!-- Row -->
-                <div class="row">
-                    <div class="col-8">
-                        <span class="display-6">12</span>
-                        <h6>Total Semua Laporan</h6>
-                    </div>
-                    <div class="col-4 align-self-center text-end pl-0">
-                        <div id="total-visits"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Column -->
-    <div class="col-lg-2 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <!-- Row -->
-                <div class="row">
-                    <div class="col-8">
-                        <span class="display-6">12</span>
-                        <h6>Total Laporan Keluar</h6>
-                    </div>
-                    <div class="col-4 align-self-center text-end pl-0">
-                        <div id="page-views"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Column -->
-    <div class="col-lg-2 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <!-- Row -->
-                <div class="row">
-                    <div class="col-8">
-                        <span class="display-6">12</span>
-                        <h6>Total Laporan Masuk</h6>
-                    </div>
-                    <div class="col-4 align-self-center text-end pl-0">
-                        <div id="unique-visits"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Column -->
-    <div class="col-lg-2 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <!-- Row -->
-                <div class="row">
-                    <div class="col-8">
-                        <span class="display-6">12</span>
-                        <h6>Total Laporan Ditolak</h6>
-                    </div>
-                    <div class="col-4 align-self-center text-end pl-0">
-                        <div id="bounce-rate"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-2 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <!-- Row -->
-                <div class="row">
-                    <div class="col-8">
-                        <span class="display-6">12</span>
-                        <h6>Total Laporan Ditolak</h6>
-                    </div>
-                    <div class="col-4 align-self-center text-end pl-0">
-                        <div id="bounce-rate"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-2 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <!-- Row -->
-                <div class="row">
-                    <div class="col-8">
-                        <span class="display-6">12</span>
-                        <h6>Total Laporan Ditolak</h6>
-                    </div>
-                    <div class="col-4 align-self-center text-end pl-0">
-                        <div id="bounce-rate"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> --}}
-
 <div class="cards">
     <div class="row">
         <div class="col-8">
@@ -242,7 +139,24 @@
                 <div id="insert-data" style="height: 300px"></div>
             </div>
             <div class="card p-3 my-3">
-                <div id="calendar"></div>
+                <div class="border-bottom title-part-padding">
+                    <h4 class="card-title mb-0">List Anggota</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped file-export" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Nama Lengkap</th>
+                                    <th>Email</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-4">
@@ -268,4 +182,34 @@
 
 @section('script')
     @include('components.dashboard',['id_wilayah' => $id_wilayah])
+    <script>
+        var table = $(".file-export").DataTable({
+            processing: true,
+            serverSide: true,
+            scrollY: '300px',
+            ajax: {
+            url: '{!! route('datatable.kwartir.anggota') !!}',
+            type: 'GET',
+            data: {
+                    id_wilayah: {!! json_encode($id_wilayah) !!},
+                },
+            },
+            columns: [
+                {data: 'nama', name: 'nama'},
+                {data: 'email', name: 'email'},
+                {data: 'action', name: 'action', searchable: false, orderable: false},
+            ],
+            dom: "Bfrtip",
+            lengthMenu: [
+                [ 10, 25, 50, -1 ],
+                [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+            ],
+            buttons: ["pageLength","copy", "csv", "excel", "pdf", "print"],
+            "bLengthChange": true,
+        });
+
+        $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel, .buttons-collection ")
+        .addClass("btn btn-primary");
+        $(".buttons-collection ").addClass("btn btn-info m-1");
+    </script>
 @endsection

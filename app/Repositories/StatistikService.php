@@ -20,18 +20,18 @@ class StatistikService {
         $id_wilayah = $this->id_wilayah;
         if($id_wilayah=='all'){
             $male = Anggota::where('jk','Laki-Laki')->count();
-            $female = Anggota::where('jk',0)->count();
+            $female = Anggota::where('jk','Perempuan')->count();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
                 $male = Anggota::where('provinsi',$id_wilayah)->where('jk','Laki-Laki')->count();
-                $female = Anggota::where('provinsi',$id_wilayah)->where('jk',0)->count();
+                $female = Anggota::where('provinsi',$id_wilayah)->where('jk','Perempuan')->count();
             }elseif($len==4){
                 $male =  Anggota::where('kabupaten',$id_wilayah)->where('jk','Laki-Laki')->count();
-                $female =  Anggota::where('kabupaten',$id_wilayah)->where('jk',0)->count();
+                $female =  Anggota::where('kabupaten',$id_wilayah)->where('jk','Perempuan')->count();
             }else{
                 $male =  Anggota::where('kecamatan',$id_wilayah)->where('jk','Laki-Laki')->count();
-                $female =  Anggota::where('kecamatan',$id_wilayah)->where('jk',0)->count();
+                $female =  Anggota::where('kecamatan',$id_wilayah)->where('jk','Perempuan')->count();
             }
         }
 
@@ -71,19 +71,19 @@ class StatistikService {
     {
         $id_wilayah = $this->id_wilayah;
         if($id_wilayah=='all'){
-            $gudep = Anggota::where('gudep','>',0)->count();
-            $non_gudep = Anggota::where('gudep','!=',null)->count();
+            $gudep = Anggota::whereNotNull('gudep')->count();
+            $non_gudep = Anggota::whereNull('gudep')->count();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $gudep = Anggota::where('provinsi',$id_wilayah)->where('gudep','>',0)->count();
-                $non_gudep = Anggota::where('provinsi',$id_wilayah)->where('gudep','!=',null)->count();
+                $gudep = Anggota::where('provinsi',$id_wilayah)->whereNotNull('gudep')->count();
+                $non_gudep = Anggota::where('provinsi',$id_wilayah)->whereNull('gudep')->count();
             }elseif($len==4){
-                $gudep =  Anggota::where('kabupaten',$id_wilayah)->where('gudep','>',0)->count();
-                $non_gudep =  Anggota::where('kabupaten',$id_wilayah)->where('gudep','!=',null)->count();
+                $gudep =  Anggota::where('kabupaten',$id_wilayah)->whereNotNull('gudep')->count();
+                $non_gudep =  Anggota::where('kabupaten',$id_wilayah)->whereNull('gudep')->count();
             }else{
-                $gudep =  Anggota::where('kecamatan',$id_wilayah)->where('gudep','>',0)->count();
-                $non_gudep =  Anggota::where('kecamatan',$id_wilayah)->where('gudep','!=',null)->count();
+                $gudep =  Anggota::where('kecamatan',$id_wilayah)->whereNotNull('gudep')->count();
+                $non_gudep =  Anggota::where('kecamatan',$id_wilayah)->whereNull('gudep')->count();
             }
         }
 
@@ -95,15 +95,9 @@ class StatistikService {
 
     public function getNumberOfPramuka($gudep = null)
     {
-        // salah
         $id_wilayah = $this->id_wilayah;
-        if($gudep==null){
-            $anggota = Anggota::select(['id','pramuka','provinsi','kabupaten','kecamatan']);
-        }else{
-            $anggota = Anggota::where('gudep','>',0)->select('id','pramuka','provinsi','kabupaten','kecamatan');
-        }
-        if($id_wilayah=='all'){
-            $anggota = $anggota->get();
+        if($gudep!=null){
+            $anggota = Anggota::where('gudep',$gudep)->get();
             $siaga = $anggota->where('pramuka',1)->count();
             $penggalang = $anggota->where('pramuka',2)->count();
             $penegak = $anggota->where('pramuka',3)->count();
@@ -111,21 +105,30 @@ class StatistikService {
             $dewasa = $anggota->where('pramuka',5)->count();
             $pelatih = $anggota->where('pramuka',6)->count();
         }else{
-            $len = strlen($id_wilayah);
-            if ($len==2) {
-                $query = $anggota->where('provinsi',$id_wilayah)->get();
-            }elseif($len==4){
-                $query = $anggota->where('kabupaten',$id_wilayah)->get();
+            if($id_wilayah=='all'){
+                $siaga = Anggota::where('pramuka',1)->count();
+                $penggalang = Anggota::where('pramuka',2)->count();
+                $penegak = Anggota::where('pramuka',3)->count();
+                $pandega = Anggota::where('pramuka',4)->count();
+                $dewasa = Anggota::where('pramuka',5)->count();
+                $pelatih = Anggota::where('pramuka',6)->count();
             }else{
-                $query = $anggota->where('kecamatan',$id_wilayah)->get();
-            }
+                $len = strlen($id_wilayah);
+                if ($len==2) {
+                    $query = Anggota::where('provinsi',$id_wilayah)->get();
+                }elseif($len==4){
+                    $query = Anggota::where('kabupaten',$id_wilayah)->get();
+                }else{
+                    $query = Anggota::where('kecamatan',$id_wilayah)->get();
+                }
 
-            $siaga = $query->where('pramuka',1)->count();
-            $penggalang = $query->where('pramuka',2)->count();
-            $penegak = $query->where('pramuka',3)->count();
-            $pandega = $query->where('pramuka',4)->count();
-            $dewasa = $query->where('pramuka',5)->count();
-            $pelatih = $query->where('pramuka',6)->count();
+                $siaga = $query->where('pramuka',1)->count();
+                $penggalang = $query->where('pramuka',2)->count();
+                $penegak = $query->where('pramuka',3)->count();
+                $pandega = $query->where('pramuka',4)->count();
+                $dewasa = $query->where('pramuka',5)->count();
+                $pelatih = $query->where('pramuka',6)->count();
+            }
         }
 
         return [
@@ -177,18 +180,17 @@ class StatistikService {
     public function getNumberOfMemberAndAdmin($gudep = null)
     {
         if($gudep!=null){
-            $query = Anggota::where('gudep',$gudep);
-            $admin = $query->whereHas('user', function ($query) {
-                $query->where('role','kwarda');
+            $admin = Anggota::where('gudep',$gudep)->whereHas('user', function ($query) {
+                $query->where('role','gudep');
             })->count();
-            $member = $query->count();
+            $member = Anggota::where('gudep',$gudep)->count();
         }else{
             $id_wilayah = $this->id_wilayah;
             if($id_wilayah=='all'){
-                $admin = $query->whereHas('user', function($q){
+                $admin = Anggota::whereHas('user', function($q){
                     $q->where('role','kwarda');
                 })->count();
-                $member = $query->count();
+                $member = Anggota::count();
                 $type = 1;
             }else{
                 $len = strlen($id_wilayah);
@@ -205,20 +207,20 @@ class StatistikService {
             }
 
             if($type==2){
-                $admin = $query->where('provinsi',$data->id)->whereHas('user', function ($query) {
+                $admin = Anggota::where('provinsi',$data->id)->whereHas('user', function ($query) {
                     $query->where('role','kwarda');
                 })->get()->count();
-                $member = $query->where('provinsi',$data->id)->get()->count();
+                $member = Anggota::where('provinsi',$data->id)->get()->count();
             }elseif($type==3){
-                $admin = $query->where('kabupaten',$data->id)->whereHas('user', function ($query) {
+                $admin = Anggota::where('kabupaten',$data->id)->whereHas('user', function ($query) {
                     $query->where('role','kwarcab');
                 })->get()->count();
-                $member = $query->where('kabupaten',$data->id)->count();
+                $member = Anggota::where('kabupaten',$data->id)->count();
             }elseif($type==4){
-                $admin = $query->where('kecamatan',$data->id)->whereHas('user', function ($query) {
+                $admin = Anggota::where('kecamatan',$data->id)->whereHas('user', function ($query) {
                     $query->where('role','kwaran');
                 })->count();
-                $member = $query->where('kecamatan',$data->id)->count();
+                $member = Anggota::where('kecamatan',$data->id)->count();
             }
 
         }
@@ -254,7 +256,7 @@ class StatistikService {
             $label[$idx] = array();
             foreach ($pramuka as $document ) {
                 $counts = $query->where('tingkat',$document->id)->count();
-                $counts = $counts == 0 ? 1 : $counts;
+                $counts = $counts == 0 ? 0 : $counts;
                 $name = $document->name;
                 array_push($label[$idx],$name);
                 array_push($count[$idx],$counts);

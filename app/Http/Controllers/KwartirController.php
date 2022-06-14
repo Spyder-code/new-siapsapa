@@ -181,7 +181,10 @@ class KwartirController extends Controller
                 if($type==4){
                     $html = '<a class="dropdown-item" href="'.route('gudep.edit',$data->id).'">
                                 <i class="fa fa-pencil-alt me-1"></i> Edit Gudep
-                            </a>';
+                            </a>
+                            <button type="button" class="dropdown-item" onclick="deleteGudep('.$data->id.')">
+                                <i class="fa fa-trash-alt me-1"></i> Delete Gudep
+                            </button>';
                 }else{
                     $html = '<a class="dropdown-item" href="'.route('kwartir.edit',$data->id).'">
                                 <i class="fa fa-pencil-alt me-1"></i> Edit Wilayah

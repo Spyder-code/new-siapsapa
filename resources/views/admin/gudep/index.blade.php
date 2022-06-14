@@ -10,37 +10,12 @@
         :title="'Wilayah '.$kwartir.' '.ucfirst(strtolower($title))"
         :description="'Daftar Gudep wilayah '.$kwartir.' '. ucfirst(strtolower($title))"
     />
-    <div class="col-md-7 justify-content-end align-self-center d-none d-md-flex">
-        <ul class="list-group list-group-horizontal">
-            <li class="list-group-item">Total Anggota: <strong id="total-anggota">-</strong></li>
-            <li class="list-group-item">Total Admin: <strong id="total-admin">-</strong></li>
-            @if($id_wilayah!='all')
-                <li class="list-group-item">
-                    <a href="{{ route('kwartir.anggota',$id_wilayah) }}" style="font-size: .8rem" class="btn btn-sm btn-outline-success">
-                        <i class="fa fa-plus-circle"></i> Tambah admin
-                    </a>
-                </li>
-            @endif
-        </ul>
-    </div>
 </div>
 @endsection
 @section('content')
 @php
     $len = strlen($id_wilayah);
 @endphp
-<div class="row">
-    <div class="col-12">
-        <ul class="list-group list-group-horizontal">
-            <li class="list-group-item">Total Siaga: <strong id="total-siaga">-</strong></li>
-            <li class="list-group-item">Total Penggalang: <strong id="total-penggalang">-</strong></li>
-            <li class="list-group-item">Total Penegak: <strong id="total-penegak">-</strong></li>
-            <li class="list-group-item">Total Pandega: <strong id="total-pandega">-</strong></li>
-            <li class="list-group-item">Total Dewasa: <strong id="total-dewasa">-</strong></li>
-            <li class="list-group-item">Total pelatih: <strong id="total-pelatih">-</strong></li>
-        </ul>
-    </div>
-</div>
 <div class="row mt-4">
     <div class="col-12">
         <div class="card">
@@ -124,29 +99,6 @@
         .addClass("btn btn-primary");
         $(".buttons-collection ").addClass("btn btn-info m-1");
 
-        $.ajax({
-            url: {!! json_encode(url('api/get-number-of-member')) !!}+'/'+{!! json_encode($id_wilayah) !!},
-            type: 'GET',
-            success: function(data) {
-                $('#total-anggota').html(data.anggota);
-                $('#total-admin').html(data.admin);
-            }
-        });
-
-        $.ajax({
-            url: {!! json_encode(url('api/get-number-of-pramuka')) !!}+'/'+{!! json_encode($id_wilayah) !!},
-            type: 'GET',
-            data:{type:'gudep'},
-            success: function(data) {
-                $('#total-siaga').html(data.siaga);
-                $('#total-penggalang').html(data.penggalang);
-                $('#total-penegak').html(data.penegak);
-                $('#total-pandega').html(data.pandega);
-                $('#total-dewasa').html(data.dewasa);
-                $('#total-pelatih').html(data.pelatih);
-            }
-        });
-
         let showAdmin = (id_wilayah, type = null) => {
             if(type==null){
                 var url = {!! json_encode(url('api/get-admin')) !!}+'/'+id_wilayah;
@@ -166,7 +118,7 @@
                                     <div class="fw-bold">${value.nama}</div>
                                     ${value.email}
                                 </div>
-                                <button onclick="deleteAdmin(${value.id})" class="btn btn-sm btn-outline-danger rounded-pill">Hapus Admin</button>
+                                <button onclick="deleteAdmin(${value.id})" class="btn btn-sm btn-outline-danger rounded-pill"><i class="fas fa-trash-alt"></i></button>
                             </li>`
                         );
                     });
@@ -187,6 +139,21 @@
                     table.ajax.reload();
                 }
             });
+        }
+
+        let deleteGudep = (gudep) => {
+            if(confirm('Are you sure?')){
+                $.ajax({
+                    url: {!! json_encode(url('api/delete-gudep')) !!},
+                    type: 'DELETE',
+                    data: {
+                        gudep: gudep,
+                    },
+                    success: function(data) {
+                        table.ajax.reload();
+                    }
+                });
+            }
         }
     </script>
 @endsection

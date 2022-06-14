@@ -72,7 +72,7 @@ class KwartirController extends Controller
     {
         $anggota_id = request()->anggota_id;
         $anggota = Anggota::find($anggota_id);
-        $anggota->user->role = 'user';
+        $anggota->user->role = 'anggota';
         $anggota->user->save();
 
         return response()->json([

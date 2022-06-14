@@ -18,4 +18,27 @@ class GudepController extends Controller
             'data' => $admin,
         ]);
     }
+
+    public function addAdmin()
+    {
+        $anggota_id = request()->anggota_id;
+        $anggota = Anggota::find($anggota_id);
+        $anggota->user->role = 'gudep';
+        $anggota->user->save();
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+    public function deleteGudep()
+    {
+        $gudep_id = request()->gudep;
+        $gudep = Gudep::find($gudep_id);
+        $gudep->delete();
+        Anggota::where('gudep', $gudep_id)->update(['gudep' => null]);
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
 }

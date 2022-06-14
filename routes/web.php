@@ -44,6 +44,7 @@ Route::get('kwartir/anggota/{id_wilayah}', [KwartirController::class, 'anggota']
 // datatable prefix
 Route::prefix('datatable')->group(function(){
     Route::get('gudep', [GudepController::class, 'data_table'])->name('datatable.gudep');
+    Route::get('gudep/anggota', [GudepController::class, 'data_table_anggota'])->name('datatable.gudep.anggota');
     Route::get('kwartir', [KwartirController::class, 'data_table'])->name('datatable.kwartir');
     Route::get('kwartir/anggota', [KwartirController::class, 'data_table_anggota'])->name('datatable.kwartir.anggota');
 });

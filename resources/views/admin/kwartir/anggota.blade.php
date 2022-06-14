@@ -57,6 +57,7 @@
         var table = $(".file-export").DataTable({
                 processing: true,
                 serverSide: true,
+                scrollY: '500px',
                 ajax: {
                 url: '{!! route('datatable.kwartir.anggota') !!}',
                 type: 'GET',
@@ -108,7 +109,7 @@
                                         <div class="fw-bold">${value.nama}</div>
                                         ${value.email}
                                     </div>
-                                    <button onclick="deleteAdmin(${value.id})" class="btn btn-sm btn-outline-danger rounded-pill">Hapus Admin</button>
+                                    <button onclick="deleteAdmin(${value.id})" class="btn btn-sm btn-outline-danger rounded-pill"><i class="fas fa-trash-alt"></i></button>
                                 </li>`
                             );
                         });
