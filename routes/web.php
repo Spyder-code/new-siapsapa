@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\GudepController;
 use App\Http\Controllers\KwartirController;
 use App\Http\Controllers\StatistikController;
@@ -39,11 +40,13 @@ Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik
 // Route::get('kwartir/{id_wilayah}/edit', [KwartirController::class, 'edit'])->name('kwartir.edit');
 Route::resource('kwartir', KwartirController::class)->except(['show','create','store']);
 Route::resource('gudep', GudepController::class);
+Route::resource('anggota', AnggotaController::class);
 Route::get('kwartir/anggota/{id_wilayah}', [KwartirController::class, 'anggota'])->name('kwartir.anggota');
 
 // datatable prefix
 Route::prefix('datatable')->group(function(){
     Route::get('gudep', [GudepController::class, 'data_table'])->name('datatable.gudep');
+    Route::get('anggota', [AnggotaController::class, 'data_table'])->name('datatable.anggota');
     Route::get('gudep/anggota', [GudepController::class, 'data_table_anggota'])->name('datatable.gudep.anggota');
     Route::get('kwartir', [KwartirController::class, 'data_table'])->name('datatable.kwartir');
     Route::get('kwartir/anggota', [KwartirController::class, 'data_table_anggota'])->name('datatable.kwartir.anggota');

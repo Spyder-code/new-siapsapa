@@ -46188,10 +46188,40 @@ html[dir=rtl] [type=radio].material-inputs+label:before {
     0% {
         transform: scale(.3);
     }
+    25% {
+        transform: scale(.6);
+    }
     50% {
-        transform: scale(1);
+        transform: scale(.9);
+    }
+    75% {
+        transform: scale(1.2);
     }
     100% {
         transform: scale(1.5);
     }
+}
+
+.bg-siaga{
+    background-color: #17a00e;
+}
+
+.bg-penggalang{
+    background-color: #f41127;
+}
+
+.bg-penegak{
+    background-color: #ffc107;
+}
+
+.bg-pandega{
+    background-color: #e67300;
+}
+
+.bg-dewasa{
+    background-color: #804000;
+}
+
+.bg-pelatih{
+    background-color: #9900ff;
 }

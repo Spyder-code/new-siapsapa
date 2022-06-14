@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Distrik;
+use App\Models\Gudep;
 use App\Models\Provinsi;
 use Illuminate\Http\Request;
 
@@ -25,6 +26,12 @@ class WilayahController extends Controller
     public function getKecamatanByIdKabupaten($id)
     {
         $data = Distrik::all()->where('regency_id',$id);
+        return response($data);
+    }
+
+    public function getGudepByIdKecamatan($id)
+    {
+        $data = Gudep::all()->where('kecamatan', $id);
         return response($data);
     }
 }

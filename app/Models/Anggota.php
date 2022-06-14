@@ -49,15 +49,15 @@ class Anggota extends Model
     }
 
     public function province(){
-        return $this->belongsTo(Provinsi::class, 'provinsi', 'id');
+        return $this->belongsTo(Provinsi::class, 'provinsi');
     }
 
     public function city(){
-        return $this->belongsTo(Kabupaten::class, 'kabupaten', 'id');
+        return $this->belongsTo(City::class, 'kabupaten');
     }
 
     public function district(){
-        return $this->belongsTo(Kecamatan::class, 'kecamatan', 'id');
+        return $this->belongsTo(Distrik::class, 'kecamatan');
     }
 
     public function document_type()

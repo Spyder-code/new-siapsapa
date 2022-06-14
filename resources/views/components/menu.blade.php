@@ -25,8 +25,8 @@
         'icon' => 'users',
         'access' => ['admin'],
         'sub' => [
-            ['text' => 'Anggota Gudep','href' => 'siapsapa','icon' => 'fa-users'],
-            ['text' => 'Anggota non Gudep','href' => 'master/kategori-laporan','icon' => 'fa-users',],
+            ['text' => 'Anggota non Gudep','href' => route('anggota.index'),'icon' => 'fa-users'],
+            ['text' => 'Anggota Gudep','href' => route('anggota.index',['gudep'=>true]),'icon' => 'fa-users',],
             ['text' => 'Anggota tidak aktif','href' => 'master/divisi','icon' => 'fa-users',],
             ['text' => 'Registrasi Anggota','href' => 'master/divisi','icon' => 'fa-user-plus',],
         ]

@@ -214,17 +214,14 @@ class KwartirController extends Controller
                 $data = Anggota::where('provinsi',$id_wilayah)->select('id','nama','email','foto')->whereHas('user', function($q){
                     $q->where('role','anggota');
                 });
-                $wilayah = Provinsi::find($id_wilayah)->name;
             }elseif($len==4){
                 $data =  Anggota::where('kabupaten',$id_wilayah)->select('id','nama','email','foto')->whereHas('user', function($q){
                     $q->where('role','anggota');
                 });
-                $wilayah = City::find($id_wilayah)->name;
             }else{
                 $data = Anggota::where('kecamatan',$id_wilayah)->select('id','nama','email','foto')->whereHas('user', function($q){
                     $q->where('role','anggota');
                 });
-                $wilayah = Distrik::find($id_wilayah)->name;
             }
         }
 
