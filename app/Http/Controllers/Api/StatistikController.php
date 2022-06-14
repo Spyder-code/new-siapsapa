@@ -12,11 +12,22 @@ use Illuminate\Http\Request;
 
 class StatistikController extends Controller
 {
+
+    public function getNumberOfMemberAndAdmin($id_wilayah)
+    {
+        $statistik = new StatistikService($id_wilayah);
+        if(request('gudep')){
+            $data = $statistik->getNumberOfMemberAndAdmin(request('gudep'));
+        }else{
+            $data = $statistik->getNumberOfMemberAndAdmin();
+        }
+        return response()->json($data);
+    }
     public function getNumberOfPramuka($id_wilayah)
     {
         $statistik = new StatistikService($id_wilayah);
-        if(request('type')){
-            $data = $statistik->getNumberOfPramuka(request('type'));
+        if(request('gudep')){
+            $data = $statistik->getNumberOfPramuka(request('gudep'));
         }else{
             $data = $statistik->getNumberOfPramuka();
         }

@@ -106,8 +106,8 @@
             columns: [
                 {data: 'npsn', name: 'npsn'},
                 {data: 'nama_sekolah', name: 'nama_sekolah'},
-                {data: 'admin', name: 'admin', searchable: false,},
-                {data: 'anggota', name: 'anggota', searchable: false,},
+                {data: 'admin', name: 'admin', searchable: false, orderable: false},
+                {data: 'anggota', name: 'anggota', searchable: false, orderable: false},
                 {data: 'action', name: 'action', searchable: false, orderable: false},
                 {data: 'tools', name: 'tools', searchable: false, orderable: false},
             ],

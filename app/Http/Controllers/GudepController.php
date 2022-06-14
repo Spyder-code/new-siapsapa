@@ -60,9 +60,65 @@ class GudepController extends Controller
         return view('admin.gudep.create', compact('data','id_wilayah'));
     }
 
+    public function edit(Gudep $gudep)
+    {
+        if(request('id_wilayah')){
+            $id_wilayah = request('id_wilayah');
+        }else{
+            $user = Auth::user();
+            $role = $user->role;
+            if($role=='admin')
+                $id_wilayah = 'all';
+            if($role=='kwarda')
+                $id_wilayah = $user->anggota->provinsi;
+            if($role=='kwarcab')
+                $id_wilayah = $user->anggota->kabupaten;
+            if($role=='kwaran')
+                $id_wilayah = $user->anggota->kecamatan;
+        }
+
+        $wilayah = new WilayahService($id_wilayah);
+        $data = $wilayah->getData();
+        if($data[0]==null){
+            $data[0] = Provinsi::pluck('name', 'id');
+        }
+        return view('admin.gudep.edit', compact('data','id_wilayah','gudep'));
+    }
+
+    public function show(Gudep $gudep)
+    {
+        if(request('id_wilayah')){
+            $id_wilayah = request('id_wilayah');
+        }else{
+            $user = Auth::user();
+            $role = $user->role;
+            if($role=='admin')
+                $id_wilayah = 'all';
+            if($role=='kwarda')
+                $id_wilayah = $user->anggota->provinsi;
+            if($role=='kwarcab')
+                $id_wilayah = $user->anggota->kabupaten;
+            if($role=='kwaran')
+                $id_wilayah = $user->anggota->kecamatan;
+        }
+
+        $wilayah = new WilayahService($id_wilayah);
+        $data = $wilayah->getData();
+        if($data[0]==null){
+            $data[0] = Provinsi::pluck('name', 'id');
+        }
+        return view('admin.gudep.show', compact('data','id_wilayah','gudep'));
+    }
+
     public function store()
     {
         Gudep::create(request()->all());
+        return redirect()->route('gudep.index');
+    }
+
+    public function update(Gudep $gudep)
+    {
+        $gudep->update(request()->all());
         return redirect()->route('gudep.index');
     }
 
@@ -125,13 +181,13 @@ class GudepController extends Controller
         return DataTables::of($data)
             ->addColumn('action', function ($data) {
                 $html = '<div class="btn-group">
-                                <a href="" class="btn btn-sm btn-primary">Detail Gudep</a>
+                                <a href="'.route('gudep.show', $data).'" class="btn btn-sm btn-primary">Detail Gudep</a>
                                 <button type="button" onclick="showAdmin('.$data->id.',\'gudep\')" class="btn btn-sm btn-info">Lihat Admin</button>
                             </div>';
                 return $html;
             })
             ->addColumn('tools', function ($data) {
-                $html = '<a class="dropdown-item" href="">
+                $html = '<a class="dropdown-item" href="'.route('gudep.edit',$data).'">
                                 <i class="fa fa-pencil-alt me-1"></i> Edit Gudep
                             </a>';
                 return '<div class="dropdown">

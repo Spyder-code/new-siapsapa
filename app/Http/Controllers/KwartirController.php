@@ -164,7 +164,7 @@ class KwartirController extends Controller
             ->addColumn('action', function ($data) use ($type) {
                 if($type==4){
                     $html = '<div class="btn-group">
-                                <a href="" class="btn btn-sm btn-primary">Detail Gudep</a>
+                                <a href="'.route('gudep.show', $data->id).'" class="btn btn-sm btn-primary">Detail Gudep</a>
                                 <button type="button" onclick="showAdmin('.$data->id.',\'gudep\')" class="btn btn-sm btn-info">Lihat Admin</button>
                             </div>';
                 }else{
@@ -179,7 +179,7 @@ class KwartirController extends Controller
             })
             ->addColumn('tools', function ($data) use ($type) {
                 if($type==4){
-                    $html = '<a class="dropdown-item" href="">
+                    $html = '<a class="dropdown-item" href="'.route('gudep.edit',$data->id).'">
                                 <i class="fa fa-pencil-alt me-1"></i> Edit Gudep
                             </a>';
                 }else{

@@ -23,9 +23,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $str = '11.20.00.000.740765';
-    $data = substr_replace($str, '22', 6, 2);
-    return $data;
+    $gudep = 3554;
+    $statistik = new StatistikService(5101);
+    $data = $statistik->getNumberOfMemberAndAdmin($gudep);
     return view('blank');
 });
 

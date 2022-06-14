@@ -93,15 +93,17 @@ class StatistikService {
         ];
     }
 
-    public function getNumberOfPramuka($type = null)
+    public function getNumberOfPramuka($gudep = null)
     {
+        // salah
         $id_wilayah = $this->id_wilayah;
-        if($type==null){
-            $anggota = Anggota::query();
+        if($gudep==null){
+            $anggota = Anggota::select(['id','pramuka','provinsi','kabupaten','kecamatan']);
         }else{
-            $anggota = Anggota::query()->where('gudep','>',0);
+            $anggota = Anggota::where('gudep','>',0)->select('id','pramuka','provinsi','kabupaten','kecamatan');
         }
         if($id_wilayah=='all'){
+            $anggota = $anggota->get();
             $siaga = $anggota->where('pramuka',1)->count();
             $penggalang = $anggota->where('pramuka',2)->count();
             $penegak = $anggota->where('pramuka',3)->count();
@@ -169,6 +171,62 @@ class StatistikService {
         return [
             'data' => $data,
             'label' => $label
+        ];
+    }
+
+    public function getNumberOfMemberAndAdmin($gudep = null)
+    {
+        if($gudep!=null){
+            $query = Anggota::where('gudep',$gudep);
+            $admin = $query->whereHas('user', function ($query) {
+                $query->where('role','kwarda');
+            })->count();
+            $member = $query->count();
+        }else{
+            $id_wilayah = $this->id_wilayah;
+            if($id_wilayah=='all'){
+                $admin = $query->whereHas('user', function($q){
+                    $q->where('role','kwarda');
+                })->count();
+                $member = $query->count();
+                $type = 1;
+            }else{
+                $len = strlen($id_wilayah);
+                if ($len==2) {
+                    $data = Provinsi::where('id',$id_wilayah)->select('id')->first();
+                    $type = 2;
+                }elseif($len==4){
+                    $data =  City::where('id',$id_wilayah)->select('id')->first();
+                    $type = 3;
+                }else{
+                    $data =  Distrik::where('id',$id_wilayah)->select('id')->first();
+                    $type = 4;
+                }
+            }
+
+            if($type==2){
+                $admin = $query->where('provinsi',$data->id)->whereHas('user', function ($query) {
+                    $query->where('role','kwarda');
+                })->get()->count();
+                $member = $query->where('provinsi',$data->id)->get()->count();
+            }elseif($type==3){
+                $admin = $query->where('kabupaten',$data->id)->whereHas('user', function ($query) {
+                    $query->where('role','kwarcab');
+                })->get()->count();
+                $member = $query->where('kabupaten',$data->id)->count();
+            }elseif($type==4){
+                $admin = $query->where('kecamatan',$data->id)->whereHas('user', function ($query) {
+                    $query->where('role','kwaran');
+                })->count();
+                $member = $query->where('kecamatan',$data->id)->count();
+            }
+
+        }
+
+
+        return [
+            'admin' => $admin,
+            'anggota' => $member
         ];
     }
 

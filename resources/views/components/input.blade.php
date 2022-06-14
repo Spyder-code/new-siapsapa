@@ -7,7 +7,7 @@
         $value = $value ?? old($name);
     @endphp
         <select name="{{ $name }}" id="{{ $id ?? $name }}" class="form-control" {{ !empty($attr)?implode(' ', $attr) : '' }}>
-            <option disabled>Pilih {{ $label }}</option>
+            <option disabled selected>Pilih {{ $label }}</option>
             @foreach ($options as $idx => $option)
                 <option value="{{ $idx }}" {{ $value==$idx ? 'selected' : '' }}>{{ $option }}</option>
             @endforeach
