@@ -41,6 +41,9 @@ Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik
 Route::resource('kwartir', KwartirController::class)->except(['show','create','store']);
 Route::resource('gudep', GudepController::class);
 Route::resource('anggota', AnggotaController::class);
+Route::get('import/anggota', [AnggotaController::class,'import']);
+Route::post('import/anggota', [AnggotaController::class,'import_store'])->name('anggota.import');
+Route::delete('import/anggota', [AnggotaController::class,'import_delete'])->name('anggota.import.delete');
 Route::get('kwartir/anggota/{id_wilayah}', [KwartirController::class, 'anggota'])->name('kwartir.anggota');
 
 // datatable prefix

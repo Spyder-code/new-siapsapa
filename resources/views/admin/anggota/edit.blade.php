@@ -18,7 +18,7 @@
 @endsection
 @section('content')
 <div class="row justify-content-center">
-    <div class="col-12 col-md-12">
+    <div class="col-12 col-md-8">
         <div class="card">
             <div class="border-bottom title-part-padding">
                 <h4 class="card-title mb-0">Registrasi Anggota</h4>

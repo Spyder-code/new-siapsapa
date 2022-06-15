@@ -83,10 +83,18 @@
 @section('script')
     <script>
         var gudep = @json($is_gudep);
-        if(gudep)
+        var active = @json($is_active);
+        if(gudep){
             gudep = 1;
-        else
+        }else{
             gudep = 0;
+        }
+        if(active){
+            active = 1;
+        }else{
+            active = 0;
+        }
+
         var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
             keyboard: false
         })
@@ -99,6 +107,7 @@
             data: {
                     id_wilayah: {!! json_encode($id_wilayah) !!},
                     gudep: gudep,
+                    active: active,
                 },
             },
             columns: [

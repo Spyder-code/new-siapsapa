@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AnggotaRequest;
+use App\Imports\AnggotaImport;
 use App\Models\Anggota;
 use App\Models\City;
 use App\Models\Distrik;
@@ -11,15 +12,21 @@ use App\Repositories\AnggotaService;
 use App\Repositories\WilayahService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AnggotaController extends Controller
 {
     public function index()
     {
         $is_gudep = false;
+        $is_active = true;
         if(request('gudep')){
             $is_gudep = true;
+        }
+        if(request('active')!=null){
+            $is_active = false;
         }
         if(request('id_wilayah')){
             $id_wilayah = request('id_wilayah');
@@ -40,7 +47,7 @@ class AnggotaController extends Controller
         $data = $wilayah->getData();
         $kwartir = $data[1];
         $title = $data[0]->name ?? 'Nasional';
-        return view('admin.anggota.index', compact('is_gudep','data','id_wilayah','kwartir','title'));
+        return view('admin.anggota.index', compact('is_gudep','is_active','data','id_wilayah','kwartir','title'));
     }
 
     public function create()
@@ -96,6 +103,39 @@ class AnggotaController extends Controller
         return view('admin.anggota.edit', compact('data','anggota'));
     }
 
+    public function import()
+    {
+        return view('admin.anggota.import');
+    }
+
+    public function import_store(Request $request)
+    {
+        $file = $request->file('file');
+        $import = new AnggotaImport();
+        Excel::import($import, $file);
+        $data = $import->getData();
+        $error_arr = [];
+        foreach ($data as $value) {
+            if (preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $value['tgl_lahir'], $matches)) {
+                if (!checkdate($matches[2], $matches[1], $matches[3])) {
+                    $error = true;
+                    array_push($error_arr, $value['nama']);
+                }else{
+                    $error = false;
+                }
+            } else {
+                $error = true;
+                array_push($error_arr, $value['nama']);
+            }
+        }
+
+        return response()->json(['data' => $data, 'error' => $error_arr]);
+    }
+
+    public function import_destroy()
+    {
+
+    }
     public function store(AnggotaRequest $request)
     {
         $data = $request->validated();
@@ -116,11 +156,18 @@ class AnggotaController extends Controller
     {
         $id_wilayah = request('id_wilayah');
         $is_gudep = request('gudep');
+        $is_active = request('active');
         $query = Anggota::query();
         if($is_gudep == 1){
             $query->whereNotNull('gudep');
         }else{
             $query->whereNull('gudep');
+        }
+
+        if ($is_active == 1){
+            $query->where('status', 1);
+        }else{
+            $query->where('status', 0);
         }
 
         if($id_wilayah=='all'){

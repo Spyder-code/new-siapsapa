@@ -27,8 +27,8 @@
         'sub' => [
             ['text' => 'Anggota non Gudep','href' => route('anggota.index'),'icon' => 'fa-users'],
             ['text' => 'Anggota Gudep','href' => route('anggota.index',['gudep'=>true]),'icon' => 'fa-users',],
-            ['text' => 'Anggota tidak aktif','href' => 'master/divisi','icon' => 'fa-users',],
-            ['text' => 'Registrasi Anggota','href' => 'master/divisi','icon' => 'fa-user-plus',],
+            ['text' => 'Anggota tidak aktif','href' => route('anggota.index',['active' => false]),'icon' => 'fa-users',],
+            ['text' => 'Registrasi Anggota','href' => route('anggota.create'),'icon' => 'fa-user-plus',],
         ]
     ],[
         'text' => 'Validasi Anggota',
