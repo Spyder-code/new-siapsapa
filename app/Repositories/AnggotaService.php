@@ -7,10 +7,46 @@ use App\Models\Gudep;
 use App\Models\Provinsi;
 use App\Models\User;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class AnggotaService{
 
-    public function createUser($data)
+    public function createUserArray($data)
+    {
+        $data_arr = [];
+        $prov = Auth::user()->anggota->provinsi;
+        $kab = Auth::user()->anggota->kabupaten;
+        $kec = Auth::user()->anggota->kecamatan;
+        $gud = Auth::user()->anggota->gudep;
+        foreach ($data['nik'] as $key => $value) {
+            $email = $data['email'][$key] == '-' ? $data['nik'][$key].'@siapsapa.id' : $data['email'][$key];
+            $data_arr[$key]['foto'] =  $data['foto'][$key];
+            $data_arr[$key]['tempat_lahir'] =  $data['tempat_lahir'][$key];
+            $data_arr[$key]['nohp'] =  $data['nohp'][$key];
+            $data_arr[$key]['agama'] =  $data['agama'][$key];
+            $data_arr[$key]['jk'] =  $data['jk'][$key];
+            $data_arr[$key]['gol_darah'] =  $data['gol_darah'][$key];
+            $data_arr[$key]['nik'] =  $value;
+            $data_arr[$key]['tgl_lahir'] = date('Y-m-d', strtotime( $data['tgl_lahir'][$key]));
+            $data_arr[$key]['alamat'] =  $data['alamat'][$key];
+            $data_arr[$key]['nama'] =  $data['nama'][$key];
+            $data_arr[$key]['email'] =   $email;
+            $data_arr[$key]['provinsi'] =  $prov;
+            $data_arr[$key]['kabupaten'] =  $kab;
+            $data_arr[$key]['kecamatan'] =  $kec;
+            $data_arr[$key]['gudep'] =  $gud;
+            $data_arr[$key]['status'] =  1;
+        }
+
+        foreach ($data_arr as $item) {
+            $this->createUser($item, false);
+        }
+
+        return 'success';
+    }
+
+    public function createUser($data, $ulpoad_foto = true)
     {
         $user_data = [
             'name' => $data['nama'],
@@ -26,7 +62,11 @@ class AnggotaService{
         $data['user_id'] = $user->id;
         $data['pramuka'] = $this->getPramuka($data['tgl_lahir']);
         $data['kode'] = $this->generateCode($data['kecamatan'], $data['gudep'], $data['jk']);
-        $data['foto'] = $this->uploadImage($data['foto']);
+        if($ulpoad_foto){
+            $data['foto'] = $this->uploadImage($data['foto']);
+        }else{
+            File::move(public_path('berkas/import/foto/'.$data['foto']), public_path('berkas/anggota/'.$data['foto']));
+        }
 
         $anggota = Anggota::create($data);
         return $anggota;

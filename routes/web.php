@@ -41,8 +41,12 @@ Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik
 Route::resource('kwartir', KwartirController::class)->except(['show','create','store']);
 Route::resource('gudep', GudepController::class);
 Route::resource('anggota', AnggotaController::class);
-Route::get('import/anggota', [AnggotaController::class,'import']);
-Route::post('import/anggota', [AnggotaController::class,'import_store'])->name('anggota.import');
+Route::get('import/anggota', [AnggotaController::class,'import'])->name('anggota.import');
+Route::get('import/anggota/confirm', [AnggotaController::class,'import_confirm_view'])->name('anggota.import.confirm.view');
+Route::post('import/anggota/excel', [AnggotaController::class,'import_excel'])->name('anggota.import.excel');
+Route::post('import/anggota/foto', [AnggotaController::class,'import_foto'])->name('anggota.import.foto');
+Route::post('import/anggota/confirm', [AnggotaController::class,'import_confirm'])->name('anggota.import.confirm');
+Route::post('store/array', [AnggotaController::class,'store_array'])->name('anggota.store.array');
 Route::delete('import/anggota', [AnggotaController::class,'import_delete'])->name('anggota.import.delete');
 Route::get('kwartir/anggota/{id_wilayah}', [KwartirController::class, 'anggota'])->name('kwartir.anggota');
 

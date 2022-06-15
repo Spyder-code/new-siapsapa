@@ -33,7 +33,7 @@ class AnggotaRequest extends FormRequest
             'agama' => 'required',
             'gol_darah' => 'required',
             'nohp' => 'required|numeric',
-            'alamat' => 'required|max:25',
+            'alamat' => 'required|max:64',
             'provinsi' => 'required',
             'kabupaten' => 'required',
             'kecamatan' => 'required',

@@ -21,12 +21,9 @@ class AnggotaController extends Controller
     public function index()
     {
         $is_gudep = false;
-        $is_active = true;
+        $is_active = request('active');
         if(request('gudep')){
             $is_gudep = true;
-        }
-        if(request('active')!=null){
-            $is_active = false;
         }
         if(request('id_wilayah')){
             $id_wilayah = request('id_wilayah');
@@ -105,10 +102,11 @@ class AnggotaController extends Controller
 
     public function import()
     {
+        session()->forget('data-import-'.Auth::id());
         return view('admin.anggota.import');
     }
 
-    public function import_store(Request $request)
+    public function import_excel(Request $request)
     {
         $file = $request->file('file');
         $import = new AnggotaImport();
@@ -132,10 +130,66 @@ class AnggotaController extends Controller
         return response()->json(['data' => $data, 'error' => $error_arr]);
     }
 
-    public function import_destroy()
+    public function import_foto(Request $request)
     {
-
+        if ($files = $request->file('file')) {
+            $order = $files->getClientOriginalName();
+            $filePath = public_path('/berkas/import/foto');
+            $profileImage = Auth::id().date('dmyHis'). random_int(1, 99999).'.'. $files->getClientOriginalExtension();
+            $files->move($filePath, $profileImage);
+            return response([
+                'name' => $profileImage,
+                'order' => $order,
+            ]);
+        }
     }
+
+    public function import_confirm(Request $request)
+    {
+        $data = json_decode($request->data);
+        $foto = json_decode($request->foto);
+        $data = $data[0];
+        foreach ($foto as $idx => $item) {
+            $data[$idx]->foto = $item->name;
+        }
+        session()->put('data-import-'.Auth::id(), $data);
+        return redirect()->route('anggota.import.confirm.view');
+    }
+
+    public function import_confirm_view()
+    {
+        $data = session()->get('data-import-'.Auth::id());
+        return view('admin.anggota.import_confirm', compact('data'));
+    }
+
+    public function store_array(Request $request)
+    {
+        $validator = $request->validate([
+            'nik'    => 'required|array',
+            'nik.*'  => 'required|string|unique:tb_anggota,nik',
+            'nama'    => 'required|array|min:3',
+            'nama.*'  => 'required|string',
+            'tgl_lahir'    => 'required|array',
+            'tgl_lahir.*'  => 'required|date_format:d/m/Y',
+            'alamat'    => 'required|array',
+            'alamat.*'  => 'required|max:64',
+        ], [
+            'nik.*.required' => 'NIK tidak boleh kosong',
+            'nik.*.unique' => 'NIK sudah terdaftar',
+            'nama.*.required' => 'Nama tidak boleh kosong',
+            'tgl_lahir.*.required' => 'Tanggal lahir tidak boleh kosong',
+            'tgl_lahir.*.date_format' => 'Format tanggal lahir salah',
+            'alamat.*.required' => 'Alamat tidak boleh kosong',
+            'alamat.*.max' => 'Alamat terlalu panjang',
+        ]);
+
+        $data = $request->all();
+        $service = new AnggotaService();
+        $anggota = $service->createUserArray($data);
+        session()->forget('data-import-'.Auth::id());
+        return redirect()->route('anggota.index')->with('success', 'Import Data berhasil');
+    }
+
     public function store(AnggotaRequest $request)
     {
         $data = $request->validated();
@@ -156,7 +210,7 @@ class AnggotaController extends Controller
     {
         $id_wilayah = request('id_wilayah');
         $is_gudep = request('gudep');
-        $is_active = request('active');
+        $status = request('active');
         $query = Anggota::query();
         if($is_gudep == 1){
             $query->whereNotNull('gudep');
@@ -164,11 +218,7 @@ class AnggotaController extends Controller
             $query->whereNull('gudep');
         }
 
-        if ($is_active == 1){
-            $query->where('status', 1);
-        }else{
-            $query->where('status', 0);
-        }
+        $query->where('status', $status);
 
         if($id_wilayah=='all'){
             $data = $query->select('id','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
@@ -204,11 +254,17 @@ class AnggotaController extends Controller
                     </div>
                 ';
             })
-            ->addColumn('action', function ($data) {
+            ->addColumn('action', function ($data) use($status) {
+                $btn = '';
+                if($status==2){
+                    $btn = '
+                        <button type="button" onclick="validasi('.$data->id.')" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Validasi</button>
+                    ';
+                }
                 $html = '<div class="btn-group">
-                            <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning" style="width:30px"><i class="fas fa-edit"></i></a>
-                            <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info" style="width:30px"><i class="fas fa-info"></i></a>
-                            <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-secondary" style="width:30px"><i class="fas fa-power-off"></i></a>
+                            <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
+                            '.$btn.'
                         </div>';
                 return $html;
             })

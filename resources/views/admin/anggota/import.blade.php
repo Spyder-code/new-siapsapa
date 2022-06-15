@@ -46,8 +46,10 @@
             <div class="border-bottom title-part-padding">
                 <h4 class="card-title mb-0">Import Anggota</h4>
             </div>
-            <form action="{{ route('anggota.store') }}" method="post" enctype="multipart/form-data" class="card-body needs-validation" novalidate>
+            <form action="{{ route('anggota.import.confirm') }}" method="post" enctype="multipart/form-data" class="card-body needs-validation" novalidate>
                 @csrf
+                <input type="hidden" name="data">
+                <input type="hidden" name="foto">
                 {{-- Error Validation --}}
                 @if ($errors->any())
                 <div class="alert alert-danger">
@@ -63,10 +65,10 @@
                     </ul>
                 </div>
                 @include('admin.anggota.form_import')
-                {{-- <div class="mb-3 btn-group">
-                    <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">Kembali</a>
+                <div class="mb-3 btn-group my-3" id="confirm">
+                    {{-- <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">Kembali</a> --}}
                     <button type="submit" class="btn btn-outline-primary">Simpan</button>
-                </div> --}}
+                </div>
             </form>
         </div>
     </div>
@@ -80,10 +82,12 @@
 <script>
     $('#error').hide();
     $('#tab-2').hide();
+    $('#confirm').hide();
     var data_arr = [];
+    var foto = [];
     Dropzone.autoDiscover = false;
     var myDropzone = new Dropzone("#my-dropzone-excel", {
-        url: "{{ route('anggota.import') }}",
+        url: "{{ route('anggota.import.excel') }}",
         maxFilesize: 5,
         maxFiles: 1,
         uploadMultiple: false,
@@ -130,7 +134,7 @@
     });
 
     var myDropzone = new Dropzone("#my-dropzone-foto", {
-        url: "{{ route('anggota.import') }}",
+        url: "{{ route('anggota.import.foto') }}",
         maxFilesize: 5,
         acceptedFiles: ".jpg, .png, .jpeg",
         addRemoveLinks: true,
@@ -146,22 +150,12 @@
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        success: function(file, response) {
-            console.log(response);
-            if(response.success){
-                $('#my-dropzone').removeClass('dz-started');
-                $('#my-dropzone').addClass('dz-success');
-                $('#my-dropzone').find('.dz-message').html(response.message);
-                $('#my-dropzone').find('.dz-message').addClass('text-success');
-                $('#my-dropzone').find('.dz-message').removeClass('text-danger');
-            }
-            else{
-                $('#my-dropzone').removeClass('dz-started');
-                $('#my-dropzone').addClass('dz-error');
-                $('#my-dropzone').find('.dz-message').html(response.message);
-                $('#my-dropzone').find('.dz-message').addClass('text-danger');
-                $('#my-dropzone').find('.dz-message').removeClass('text-success');
-            }
+        success: function(file, resp) {
+            foto.push(resp);
+            foto.sort(dynamicSort("order"));
+            $('[name="foto"]').val(JSON.stringify(foto));
+            $('[name="data"]').val(JSON.stringify(data_arr));
+            $('#confirm').show();
         },
         error: function(file, response) {
             $('#my-dropzone').removeClass('dz-started');
@@ -187,6 +181,21 @@
             return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
         }
     });
+
+    function dynamicSort(property) {
+        var sortOrder = 1;
+        if(property[0] === "-") {
+            sortOrder = -1;
+            property = property.substr(1);
+        }
+        return function (a,b) {
+            /* next line works with strings and numbers,
+            * and you may want to customize it to your needs
+            */
+            var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            return result * sortOrder;
+        }
+    }
 </script>
 @endsection
 

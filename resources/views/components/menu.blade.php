@@ -25,14 +25,14 @@
         'icon' => 'users',
         'access' => ['admin'],
         'sub' => [
-            ['text' => 'Anggota non Gudep','href' => route('anggota.index'),'icon' => 'fa-users'],
-            ['text' => 'Anggota Gudep','href' => route('anggota.index',['gudep'=>true]),'icon' => 'fa-users',],
-            ['text' => 'Anggota tidak aktif','href' => route('anggota.index',['active' => false]),'icon' => 'fa-users',],
+            ['text' => 'Anggota non Gudep','href' => route('anggota.index', ['active' => 1]),'icon' => 'fa-users'],
+            ['text' => 'Anggota Gudep','href' => route('anggota.index',['gudep'=>true, 'active' => 1]),'icon' => 'fa-users',],
+            ['text' => 'Anggota tidak aktif','href' => route('anggota.index',['active' => '0']),'icon' => 'fa-users',],
             ['text' => 'Registrasi Anggota','href' => route('anggota.create'),'icon' => 'fa-user-plus',],
         ]
     ],[
         'text' => 'Validasi Anggota',
-        'href' => 'users',
+        'href' => route('anggota.index',['active' => 2]),
         'icon' => 'user-check',
         'access' => ['admin'],
     ],[

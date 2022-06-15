@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AnggotaController;
 use App\Http\Controllers\Api\GudepController;
 use App\Http\Controllers\Api\KwartirController;
 use App\Http\Controllers\Api\StatistikController;
@@ -22,12 +23,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// statistik
 Route::get('get-number-of-member/{id_wilayah}', [StatistikController::class, 'getNumberOfMemberAndAdmin']);
-Route::get('get-admin/{id_wilayah}', [KwartirController::class, 'getAdmin']);
+Route::get('dashboard/{id_wilayah}', [StatistikController::class, 'dashboard']);
+Route::get('get-number-of-pramuka/{id_wilayah}', [StatistikController::class, 'getNumberOfPramuka']);
+
+// gudep
 Route::get('get-admin-gudep/{gudep_id}', [GudepController::class, 'getAdmin']);
 Route::post('add-admin-gudep', [GudepController::class, 'addAdmin']);
-Route::get('get-number-of-pramuka/{id_wilayah}', [StatistikController::class, 'getNumberOfPramuka']);
-Route::get('dashboard/{id_wilayah}', [StatistikController::class, 'dashboard']);
+
+// kwartir
+Route::get('get-admin/{id_wilayah}', [KwartirController::class, 'getAdmin']);
 Route::post('add-admin', [KwartirController::class, 'addAdmin']);
 Route::put('delete-admin', [KwartirController::class, 'deleteAdmin']);
 Route::delete('delete-gudep', [GudepController::class, 'deleteGudep']);
@@ -36,3 +42,6 @@ Route::delete('delete-gudep', [GudepController::class, 'deleteGudep']);
 Route::get('get-kabupaten/{id}', [WilayahController::class, 'getKabupatenByIdProvinsi']);
 Route::get('get-kecamatan/{id}', [WilayahController::class, 'getKecamatanByIdKabupaten']);
 Route::get('get-gudep/{id}', [WilayahController::class, 'getGudepByIdKecamatan']);
+
+// anggota
+Route::put('anggota-validate', [AnggotaController::class, 'anggotaValidate']);

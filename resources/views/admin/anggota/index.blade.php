@@ -89,11 +89,6 @@
         }else{
             gudep = 0;
         }
-        if(active){
-            active = 1;
-        }else{
-            active = 0;
-        }
 
         var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
             keyboard: false
@@ -101,6 +96,7 @@
         var table = $(".file-export").DataTable({
             processing: true,
             serverSide: true,
+            scrollY: '500px',
             ajax: {
             url: '{!! route('datatable.anggota') !!}',
             type: 'GET',
@@ -184,6 +180,23 @@
                         gudep: gudep,
                     },
                     success: function(data) {
+                        table.ajax.reload();
+                    }
+                });
+            }
+        }
+
+        let validasi = (id) => {
+            if(confirm('Apakah anda yakin?')){
+                $.ajax({
+                    url: {!! json_encode(url('api/anggota-validate')) !!},
+                    type: 'PUT',
+                    data: {
+                        id: id,
+                    },
+                    success: function(data) {
+                        // alert
+                        alert('Anggota berhasil divalidasi');
                         table.ajax.reload();
                     }
                 });
