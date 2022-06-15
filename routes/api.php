@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AnggotaController;
+use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\GudepController;
 use App\Http\Controllers\Api\KwartirController;
 use App\Http\Controllers\Api\StatistikController;
@@ -45,3 +46,6 @@ Route::get('get-gudep/{id}', [WilayahController::class, 'getGudepByIdKecamatan']
 
 // anggota
 Route::put('anggota-validate', [AnggotaController::class, 'anggotaValidate']);
+
+// document
+Route::get('get-document/{id}', [DocumentController::class, 'getDocumentTypeByPramukaId']);

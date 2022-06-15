@@ -7,12 +7,12 @@
     <x-breadcrumb_left
         :links="[
             ['name' => 'Dashboard', 'url' => '/'],
-            ['name' => 'Anggota', 'url' => '#'],
+            ['name' => 'Agenda', 'url' => route('agenda.index')],
             ['name' => 'Create', 'url' => '#'],
         ]"
 
-        :title="'Registrasi Anggota'"
-        :description="'Form Pendaftaran Anggota Baru'"
+        :title="'Registrasi Agenda'"
+        :description="'Form Registrasi Agenda Baru'"
     />
 </div>
 @endsection
@@ -21,11 +21,10 @@
     <div class="col-12 col-md-8">
         <div class="card">
             <div class="border-bottom title-part-padding">
-                <h4 class="card-title mb-0">Registrasi Anggota</h4>
+                <h4 class="card-title mb-0">Registrasi Agenda</h4>
             </div>
-            <form action="{{ route('anggota.store') }}" method="post" enctype="multipart/form-data" class="card-body needs-validation" novalidate>
+            <form action="{{ route('agenda.store') }}" method="post" enctype="multipart/form-data" class="card-body needs-validation" novalidate>
                 @csrf
-                <input type="hidden" name="status" value="1">
                 {{-- Error Validation --}}
                 @if ($errors->any())
                 <div class="alert alert-danger">
@@ -36,7 +35,7 @@
                     </ul>
                 </div>
                 @endif
-                @include('admin.anggota.form')
+                @include('admin.agenda.form')
                 <div class="mb-3 btn-group">
                     <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">Kembali</a>
                     <button type="submit" class="btn btn-outline-primary">Simpan</button>
@@ -95,19 +94,17 @@
                 }
             });
         });
-        var tgl_lahir = flatpickr('#tgl_lahir',{
+        var tgl_mulai = flatpickr('#tgl_mulai',{
+            altInput: true,
+            altFormat: "d/m/Y",
+            dateFormat: 'Y-m-d',
+        });
+        var tgl_selesai = flatpickr('#tgl_selesai',{
             altInput: true,
             altFormat: "d/m/Y",
             dateFormat: 'Y-m-d',
         });
 
-        $('#nik').keyup(function (e) {
-            var $input = $(this);
-            $input.val($input.val().replace(/[^\d]+/g,''));
-        });
-
-        $('#alamat').attr('maxlength', 64);
-        $('#nik').attr('maxlength', 16);
         $('#foto').attr('accept', 'accept="image/jpeg, image/png, image/jpg"');
 
         function readURL(input) {

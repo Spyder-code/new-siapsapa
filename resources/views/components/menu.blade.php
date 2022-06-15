@@ -37,12 +37,12 @@
         'access' => ['admin'],
     ],[
         'text' => 'Dokumen',
-        'href' => 'laporan-masuk',
+        'href' => route('dokumen.index'),
         'icon' => 'file-text',
         'access' => ['all'],
     ],[
         'text' => 'Agenda',
-        'href' => 'laporan-masuk',
+        'href' => route('agenda.index'),
         'icon' => 'calendar',
         'access' => ['all'],
     ],[

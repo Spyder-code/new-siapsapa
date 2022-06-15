@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\AnggotaController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GudepController;
 use App\Http\Controllers\KwartirController;
 use App\Http\Controllers\StatistikController;
+use App\Http\Controllers\SyncController;
 use App\Models\Anggota;
 use App\Models\DocumentType;
 use App\Models\Provinsi;
@@ -41,6 +44,8 @@ Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik
 Route::resource('kwartir', KwartirController::class)->except(['show','create','store']);
 Route::resource('gudep', GudepController::class);
 Route::resource('anggota', AnggotaController::class);
+Route::resource('dokumen', DocumentController::class);
+Route::resource('agenda', AgendaController::class);
 Route::get('import/anggota', [AnggotaController::class,'import'])->name('anggota.import');
 Route::get('import/anggota/confirm', [AnggotaController::class,'import_confirm_view'])->name('anggota.import.confirm.view');
 Route::post('import/anggota/excel', [AnggotaController::class,'import_excel'])->name('anggota.import.excel');
@@ -57,4 +62,8 @@ Route::prefix('datatable')->group(function(){
     Route::get('gudep/anggota', [GudepController::class, 'data_table_anggota'])->name('datatable.gudep.anggota');
     Route::get('kwartir', [KwartirController::class, 'data_table'])->name('datatable.kwartir');
     Route::get('kwartir/anggota', [KwartirController::class, 'data_table_anggota'])->name('datatable.kwartir.anggota');
+});
+
+Route::controller(SyncController::class)->prefix('sync')->group(function(){
+    Route::get('document', 'document')->name('sync.document');
 });
