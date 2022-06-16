@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GudepController;
 use App\Http\Controllers\KwartirController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\SyncController;
 use App\Http\Controllers\UserController;
@@ -28,12 +29,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    $gudep = 3554;
-    $statistik = new StatistikService(5101);
-    $data = $statistik->getNumberOfMemberAndAdmin($gudep);
-    return view('blank');
-});
+Route::get('/', [PageController::class, 'home'])->name('home');
 
 Auth::routes();
 
