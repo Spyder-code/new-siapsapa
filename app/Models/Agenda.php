@@ -33,10 +33,10 @@ class Agenda extends Model
     }
 
     public function kabupaten(){
-        return $this->belongsTo(Kabupaten::class, 'kabupaten_id', 'id');
+        return $this->belongsTo(City::class, 'kabupaten_id', 'id');
     }
 
     public function kecamatan(){
-        return $this->belongsTo(Kecamatan::class, 'kecamatan_id', 'id');
+        return $this->belongsTo(Distrik::class, 'kecamatan_id', 'id');
     }
 }

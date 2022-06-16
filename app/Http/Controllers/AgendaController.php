@@ -18,51 +18,44 @@ class AgendaController extends Controller
 
     public function create()
     {
-        if(request('id_wilayah')){
-            $id_wilayah = request('id_wilayah');
-        }else{
-            $user = Auth::user();
-            $role = $user->role;
-            if($role=='admin')
-                $id_wilayah = 'all';
-            if($role=='kwarda')
-                $id_wilayah = $user->anggota->provinsi;
-            if($role=='kwarcab')
-                $id_wilayah = $user->anggota->kabupaten;
-            if($role=='kwaran')
-                $id_wilayah = $user->anggota->kecamatan;
-        }
-
-        $wilayah = new WilayahService($id_wilayah);
-        $data = $wilayah->getData();
-        if($data[0]==null){
-            $data[0] = Provinsi::pluck('name', 'id');
-        }
-        return view('admin.agenda.create', compact('data','id_wilayah'));
+        $provinsi = Provinsi::pluck('name', 'id');
+        return view('admin.agenda.create', compact('provinsi'));
     }
 
     public function edit(Agenda $agenda)
     {
-        if(request('id_wilayah')){
-            $id_wilayah = request('id_wilayah');
-        }else{
-            $user = Auth::user();
-            $role = $user->role;
-            if($role=='admin')
-                $id_wilayah = 'all';
-            if($role=='kwarda')
-                $id_wilayah = $user->anggota->provinsi;
-            if($role=='kwarcab')
-                $id_wilayah = $user->anggota->kabupaten;
-            if($role=='kwaran')
-                $id_wilayah = $user->anggota->kecamatan;
-        }
+        $provinsi = Provinsi::pluck('name', 'id');
+        return view('admin.agenda.edit', compact('provinsi','agenda'));
+    }
 
-        $wilayah = new WilayahService($id_wilayah);
-        $data = $wilayah->getData();
-        if($data[0]==null){
-            $data[0] = Provinsi::pluck('name', 'id');
+    public function store(Request $request)
+    {
+        $data = $request->all();
+        if($file = $request->file('foto')){
+            $fileName = time().'.'.$file->getClientOriginalExtension();
+            $file->move(public_path('/berkas/agenda'), $fileName);
+            $data['foto'] = $fileName;
         }
-        return view('admin.agenda.edit', compact('data','id_wilayah','agenda'));
+        $data['created_by'] = Auth::id();
+        Agenda::create($data);
+        return redirect()->route('agenda.index')->with('success', 'Data berhasil ditambahkan');
+    }
+
+    public function update(Request $request, Agenda $agenda)
+    {
+        $data = $request->all();
+        if($file = $request->file('foto')){
+            $fileName = $agenda->foto;
+            $file->move(public_path('/berkas/agenda'), $fileName);
+            $data['foto'] = $fileName;
+        }
+        $agenda->update($data);
+        return redirect()->route('agenda.index')->with('success', 'Data berhasil diubah');
+    }
+
+    public function destroy(Agenda $agenda)
+    {
+        $agenda->delete();
+        return redirect()->route('agenda.index')->with('success', 'Data berhasil dihapus');
     }
 }

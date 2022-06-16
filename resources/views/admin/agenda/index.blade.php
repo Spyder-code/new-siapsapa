@@ -4,11 +4,11 @@
     <x-breadcrumb_left
         :links="[
             ['name' => 'Dashboard', 'url' => '/'],
-            ['name' => 'Dokumen', 'url' => '#'],
+            ['name' => 'Agenda', 'url' => '#'],
         ]"
 
-        :title="'Upload Dokumen'"
-        :description="'Dokumen Saya'"
+        :title="'Agenda'"
+        :description="'List Agenda'"
     />
     @if (Auth::user()->role != 'anggota')
     <div class="col-md-7 justify-content-end align-self-center d-none d-md-flex">

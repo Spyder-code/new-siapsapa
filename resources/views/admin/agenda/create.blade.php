@@ -49,57 +49,57 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-    $('select[name="provinsi"]').change(function(){
+    $('select[name="provinsi_id"]').change(function(){
             var provinsi = $(this).val();
             $.ajax({
                 url: "{{ url('/api/get-kabupaten') }}"+'/'+provinsi,
                 type: "GET",
                 success: function(data){
-                    $('select[name="kabupaten"]').empty();
+                    $('select[name="kabupaten_id"]').empty();
                     var html = '<option value="">Pilih Kabupaten</option>';
                     $.each(data, function (idx, item) {
                         html += '<option value="'+item.id+'">'+item.name+'</option>';
                     });
-                    $('select[name="kabupaten"]').html(html);
+                    $('select[name="kabupaten_id"]').html(html);
                 }
             });
         });
-        $('select[name="kabupaten"]').change(function(){
+        $('select[name="kabupaten_id"]').change(function(){
             var kabupaten = $(this).val();
             $.ajax({
                 url: "{{ url('/api/get-kecamatan') }}"+'/'+kabupaten,
                 type: "GET",
                 success: function(data){
-                    $('select[name="kecamatan"]').empty();
+                    $('select[name="kecamatan_id"]').empty();
                     var html = '<option value="">Pilih Kecamatan</option>';
                     $.each(data, function (idx, item) {
                         html += '<option value="'+item.id+'">'+item.name+'</option>';
                     });
-                    $('select[name="kecamatan"]').html(html);
+                    $('select[name="kecamatan_id"]').html(html);
                 }
             });
         });
-        $('select[name="kecamatan"]').change(function(){
-            var kecamatan = $(this).val();
-            $.ajax({
-                url: "{{ url('/api/get-gudep') }}"+'/'+kecamatan,
-                type: "GET",
-                success: function(data){
-                    $('select[name="gudep"]').empty();
-                    var html = '<option value="">Pilih Gudep</option>';
-                    $.each(data, function (idx, item) {
-                        html += '<option value="'+item.id+'">'+item.nama_sekolah+'</option>';
-                    });
-                    $('select[name="gudep"]').html(html);
-                }
-            });
-        });
-        var tgl_mulai = flatpickr('#tgl_mulai',{
+        // $('select[name="kecamatan_id"]').change(function(){
+        //     var kecamatan = $(this).val();
+        //     $.ajax({
+        //         url: "{{ url('/api/get-gudep') }}"+'/'+kecamatan,
+        //         type: "GET",
+        //         success: function(data){
+        //             $('select[name="gudep"]').empty();
+        //             var html = '<option value="">Pilih Gudep</option>';
+        //             $.each(data, function (idx, item) {
+        //                 html += '<option value="'+item.id+'">'+item.nama_sekolah+'</option>';
+        //             });
+        //             $('select[name="gudep"]').html(html);
+        //         }
+        //     });
+        // });
+        var tgl_mulai = flatpickr('#tanggal_mulai',{
             altInput: true,
             altFormat: "d/m/Y",
             dateFormat: 'Y-m-d',
         });
-        var tgl_selesai = flatpickr('#tgl_selesai',{
+        var tgl_selesai = flatpickr('#tanggal_selesai',{
             altInput: true,
             altFormat: "d/m/Y",
             dateFormat: 'Y-m-d',
