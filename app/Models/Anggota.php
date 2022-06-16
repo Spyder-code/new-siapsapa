@@ -12,6 +12,7 @@ class Anggota extends Model
     // use SoftDeletes;
     protected $table = "tb_anggota";
     protected $fillable = [
+        'kta_id',
         'kode',
         'pramuka',
         'email',
@@ -63,5 +64,15 @@ class Anggota extends Model
     public function document_type()
     {
         return $this->belongsTo(DocumentType::class, 'tingkat');
+    }
+
+    public function kta()
+    {
+        return $this->belongsTo(Kta::class, 'kta_id');
+    }
+
+    public function golongan()
+    {
+        return $this->belongsTo(Pramuka::class, 'pramuka');
     }
 }

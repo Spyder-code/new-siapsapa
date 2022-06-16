@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AgendaController;
 use App\Http\Controllers\Api\AnggotaController;
 use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\GudepController;
@@ -49,3 +50,9 @@ Route::put('anggota-validate', [AnggotaController::class, 'anggotaValidate']);
 
 // document
 Route::get('get-document/{id}', [DocumentController::class, 'getDocumentTypeByPramukaId']);
+
+// agenda
+Route::delete('delete-agenda/{agenda}', [AgendaController::class, 'destroy']);
+Route::post('add-kegiatan', [AgendaController::class, 'addKegiatan']);
+Route::delete('delete-kegiatan', [AgendaController::class, 'deleteKegiatan']);
+Route::put('update-kegiatan', [AgendaController::class, 'updateKegiatan']);

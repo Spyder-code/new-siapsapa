@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
+use Milon\Barcode\DNS2D;
 
 class AnggotaController extends Controller
 {
@@ -76,6 +77,11 @@ class AnggotaController extends Controller
     public function edit(Anggota $anggotum)
     {
         $anggota = $anggotum;
+        if( Auth::user()->role == 'anggota'){
+            if($anggota->user_id != Auth::user()->id){
+                return abort(404);
+            }
+        }
         if(request('id_wilayah')){
             $id_wilayah = request('id_wilayah');
         }else{
@@ -98,6 +104,19 @@ class AnggotaController extends Controller
         }
 
         return view('admin.anggota.edit', compact('data','anggota'));
+    }
+
+    public function show(Anggota $anggotum)
+    {
+        $anggota = $anggotum;
+        if( Auth::user()->role == 'anggota'){
+            if($anggota->user_id != Auth::user()->id){
+                return abort(404);
+            }
+        }
+        // $data = DNS2D::getBarcodePNG('4445645656', 'PDF417');
+        // dd($data);
+        return view('admin.anggota.show', compact('anggota'));
     }
 
     public function import()

@@ -33,3 +33,19 @@
 </div>
 @endsection
 
+@section('script')
+<script>
+    const deleteAgenda = (id) =>{
+        if(confirm('are you sure?')){
+            $.ajax({
+                url: "{{ url('api/delete-agenda') }}"+"/"+id,
+                type: 'DELETE',
+                success: function(response){
+                    window.location.reload();
+                }
+            });
+        }
+    }
+</script>
+@endsection
+

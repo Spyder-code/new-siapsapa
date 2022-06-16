@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agenda;
+use App\Models\Kegiatan;
 use App\Models\Provinsi;
 use App\Repositories\WilayahService;
 use Illuminate\Http\Request;
@@ -26,6 +27,12 @@ class AgendaController extends Controller
     {
         $provinsi = Provinsi::pluck('name', 'id');
         return view('admin.agenda.edit', compact('provinsi','agenda'));
+    }
+
+    public function show(Agenda $agenda)
+    {
+        $kegiatan = Kegiatan::where('agenda_id', $agenda->id)->orderBy('jam', 'asc')->get();
+        return view('admin.agenda.show', compact('agenda', 'kegiatan'));
     }
 
     public function store(Request $request)

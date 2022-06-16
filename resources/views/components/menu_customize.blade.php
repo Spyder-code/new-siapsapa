@@ -25,9 +25,9 @@
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                     @include('components.menu.customize-one')
                 </div>
-                <div class="tab-pane fade" id="chat" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <div class="tab-pane fade" id="#" role="tabpanel" aria-labelledby="pills-profile-tab">
                     @include('components.menu.customize-two')
-                <div class="tab-pane fade p-3" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <div class="tab-pane fade p-3" id="#" role="tabpanel" aria-labelledby="pills-contact-tab">
                     @include('components.menu.customize-three')
                 </div>
             </div>

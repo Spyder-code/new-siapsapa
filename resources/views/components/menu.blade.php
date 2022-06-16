@@ -1,8 +1,8 @@
 @php
     $menu = [
     [
-        'text' => 'Dashboard',
-        'href' => 'dashboar',
+        'text' => 'Statistik',
+        'href' => route('statistik.index'),
         'icon' => 'home',
         'access' => ['all'],
     ],[
@@ -52,8 +52,8 @@
         'access' => ['all'],
         // 'twoColumn' => true,
         'sub' => [
-            ['text' => 'Pesan KTA','href' => 'siapsapa','icon' => 'fa-list'],
-            ['text' => 'Pesan Produk','href' => 'siapsapa','icon' => 'fa-list'],
+            ['text' => 'Pesan KTA','href' => '#','icon' => 'fa-lock'],
+            ['text' => 'Pesan Produk','href' => '#','icon' => 'fa-lock'],
         ]
     ]
 ];

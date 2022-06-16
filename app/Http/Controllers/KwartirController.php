@@ -207,7 +207,9 @@ class KwartirController extends Controller
     {
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Provinsi::select('id','name','no_prov as code');
+            $data = Anggota::select('id','nama','email','foto')->whereHas('user', function($q){
+                $q->where('role','anggota');
+            });
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
@@ -228,7 +230,7 @@ class KwartirController extends Controller
         return DataTables::of($data)
             ->addColumn('action', function ($data) {
                 $html = '<div class="btn-group">
-                            <a href="#" class="btn btn-sm btn-primary">Detail Anggota</a>
+                            <a href="'.route('anggota.show', $data).'" class="btn btn-sm btn-primary">Detail Anggota</a>
                             <button type="button" onclick="addAdmin('.$data->id.')" class="btn btn-sm btn-success">Tambah Sebagai Admin</button>
                         </div>';
                 return $html;

@@ -16,8 +16,8 @@
     <div class="col-md-7 justify-content-end align-self-center d-none d-md-flex">
         <ul class="list-group list-group-horizontal">
             <li class="list-group-item">Total Anggota: <strong id="total-anggota">-</strong></li>
-            <li class="list-group-item">Total Admin: <strong id="total-admin">-</strong></li>
             @if($id_wilayah!='all')
+                <li class="list-group-item">Total Admin: <strong id="total-admin">-</strong></li>
                 <li class="list-group-item">
                     <a href="{{ route('kwartir.anggota',$id_wilayah) }}" style="font-size: .8rem" class="btn btn-sm btn-outline-success">
                         <i class="fa fa-plus-circle"></i> Tambah admin

@@ -16,15 +16,11 @@
                         <div class="fw-bold">Tanggal selesai: {{ date('d/m/Y', strtotime($item->tanggal_selesai)) }}</div>
                     </li>
                     <li class="list-group-item d-flex btn-group">
-                        <a href="" class="btn btn-sm btn-primary">Detail</a>
+                        <a href="{{ route('agenda.show', $item) }}" class="btn btn-sm btn-primary">Detail</a>
                         <a href="" class="btn btn-sm btn-success">Daftar</a>
                         @if (Auth::id() == $item->created_by || Auth::user()->role=='admin')
                             <a href="{{ route('agenda.edit', $item) }}" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="{{ route('agenda.destroy', $item) }}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" onclick="return confirm('are you sure?')" class="btn btn-sm btn-danger">Hapus</button>
-                            </form>
+                            <button type="button" onclick="deleteAgenda({{ $item->id }})" class="btn btn-sm btn-danger">Hapus</button>
                         @endif
                     </li>
                 </ul>

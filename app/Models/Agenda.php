@@ -39,4 +39,9 @@ class Agenda extends Model
     public function kecamatan(){
         return $this->belongsTo(Distrik::class, 'kecamatan_id', 'id');
     }
+
+    public function kegiatan()
+    {
+        return $this->hasMany(Kegiatan::class, 'agenda_id', 'id');
+    }
 }

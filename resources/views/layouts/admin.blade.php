@@ -71,11 +71,11 @@
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <div id="main-wrapper">
+    <div id="main-wrapper" data-navbarbg="skin1">
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
-        <header class="topbar">
+        <header class="topbar" data-navbarbg="skin1">
             <nav class="navbar top-navbar navbar-expand-lg navbar-dark">
                 <div class="navbar-header">
                     <!-- This is for the sidebar toggle which is visible on mobile only -->
@@ -95,10 +95,13 @@
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span class="logo-text">
+                            <div class="d-flex">
+                                <img src="{{ asset('images/logo.png') }}" alt="homepage" class="dark-logo" />
+                                <p class="rainbow-texts navbar-brand" style="font-weight: bold; font-size: 2rem">SIAPSAPA</p>
+                            </div>
                             <!-- dark Logo text -->
-                            <img src="#" alt="homepage" class="dark-logo" />
                             <!-- Light Logo text -->
-                            <img src="#" class="light-logo" alt="homepage" />
+                            {{-- <img src="{{ asset('images/logo_text.png') }}" class="light-logo" alt="homepage" /> --}}
                         </span>
                     </a>
                     <!-- ============================================================== -->
@@ -123,7 +126,7 @@
                         <!-- ============================================================== -->
                         <!-- Comment -->
                         <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
+                        {{-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell"></i>
                                 <div class="notify">
@@ -131,38 +134,9 @@
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-start mailbox dropdown-menu-animate-up">
-                                <ul class="list-style-none">
-                                    <li>
-                                        <div class="border-bottom rounded-top py-3 px-4">
-                                            <div class="mb-0 font-weight-medium fs-4">
-                                                Notifications
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="message-center notifications position-relative" style="height: 230px">
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)" class=" message-item d-flex align-items-center border-bottom px-3 py-2">
-                                                <span class="btn btn-light-danger text-danger btn-circle">
-                                                    <i data-feather="link" class="feather-sm fill-white"></i>
-                                                </span>
-                                                <div class="w-75 d-inline-block v-middle ps-3">
-                                                    <h5 class="message-title mb-0 mt-1 fs-3 fw-bold">Luanch Admin</h5>
-                                                    <span class=" fs-2 text-nowrap d-block time text-truncate fw-normal text-muted mt-1">Just see the my new admin!</span>
-                                                    <span class=" fs-2 text-nowrap d-block subtext text-muted">9:30 AM</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="nav-link border-top text-center text-dark pt-3" href="javascript:void(0);">
-                                            <strong>Check all notifications</strong>
-                                            <i class="fa fa-angle-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
+                                @include('components.menu.notification')
                             </div>
-                        </li>
+                        </li> --}}
                         <!-- ============================================================== -->
                         <!-- End Comment -->
                         <!-- ============================================================== -->
@@ -216,12 +190,12 @@
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ asset('dashboard') }}/assets/images/users/5.jpg" alt="user" width="30" class="profile-pic rounded-circle"/>
+                                <img src="{{ asset('berkas/anggota/'.Auth::user()->anggota->foto ) ?? asset('images/logo.png') }}" alt="user" width="30" class="profile-pic rounded-circle"/>
                             </a>
                             <div class=" dropdown-menu dropdown-menu-end user-dd animated flipInY">
                                 <div class=" d-flex no-block align-items-center p-3 bg-info text-white mb-2">
                                     <div class="">
-                                        <img src="{{ asset('dashboard') }}/assets/images/users/5.jpg" alt="user" class="rounded-circle" width="60" />
+                                        <img src="{{ asset('berkas/anggota/'.Auth::user()->anggota->foto ) ?? asset('images/logo.png') }}" alt="user" class="rounded-circle" width="60" />
                                     </div>
                                     <div class="ms-2">
                                         <h4 class="mb-0 text-white">{{ Auth::user()->name }}</h4>
@@ -229,12 +203,16 @@
                                     </div>
                                 </div>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="" >
+                                <a class="dropdown-item" href="{{ route('anggota.show', Auth::user()->anggota) }}" >
+                                    <i data-feather="user" class="feather-sm text-info me-1 ms-1" ></i>
+                                    Profile Anggota
+                                </a>
+                                <a class="dropdown-item" href="{{ route('user.edit', Auth::user()) }}" >
                                     <i data-feather="settings" class="feather-sm text-warning me-1 ms-1" ></i>
-                                    Ubah Password
+                                    Ganti Password
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="" onclick="return confirm('Apa anda ingin keluar?')">
+                                <a class="dropdown-item" href="{{ url('logout') }}" onclick="return confirm('Apa anda ingin keluar?')">
                                     <i data-feather="log-out" class="feather-sm text-danger me-1 ms-1" ></i>
                                     Keluar
                                 </a>
@@ -278,7 +256,14 @@
                 {{-- boostrap 5 session danger --}}
                 @if (session('danger'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Maaf!</strong> {{ session('success') }}
+                    <strong>Maaf!</strong> {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
+                @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Maaf!</strong> {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif

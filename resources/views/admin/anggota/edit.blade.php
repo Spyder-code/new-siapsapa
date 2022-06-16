@@ -21,7 +21,7 @@
     <div class="col-12 col-md-8">
         <div class="card">
             <div class="border-bottom title-part-padding">
-                <h4 class="card-title mb-0">Registrasi Anggota</h4>
+                <h4 class="card-title mb-0">Edit Data</h4>
             </div>
             <form action="{{ route('anggota.update',['anggotum' => $anggota]) }}" method="post" enctype="multipart/form-data" class="card-body needs-validation" novalidate>
                 @csrf

@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\AnggotaController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GudepController;
 use App\Http\Controllers\KwartirController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\SyncController;
+use App\Http\Controllers\UserController;
 use App\Models\Anggota;
 use App\Models\DocumentType;
 use App\Models\Provinsi;
@@ -36,24 +38,31 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik.index');
+Route::get('/logout', [LoginController::class, 'logout']);
 
-// Kwartir
-// Route::get('kwartir', [KwartirController::class, 'index'])->name('kwartir.index');
-// Route::get('kwartir/{id_wilayah}/edit', [KwartirController::class, 'edit'])->name('kwartir.edit');
-Route::resource('kwartir', KwartirController::class)->except(['show','create','store']);
-Route::resource('gudep', GudepController::class);
-Route::resource('anggota', AnggotaController::class);
-Route::resource('dokumen', DocumentController::class);
-Route::resource('agenda', AgendaController::class);
-Route::get('import/anggota', [AnggotaController::class,'import'])->name('anggota.import');
-Route::get('import/anggota/confirm', [AnggotaController::class,'import_confirm_view'])->name('anggota.import.confirm.view');
-Route::post('import/anggota/excel', [AnggotaController::class,'import_excel'])->name('anggota.import.excel');
-Route::post('import/anggota/foto', [AnggotaController::class,'import_foto'])->name('anggota.import.foto');
-Route::post('import/anggota/confirm', [AnggotaController::class,'import_confirm'])->name('anggota.import.confirm');
-Route::post('store/array', [AnggotaController::class,'store_array'])->name('anggota.store.array');
-Route::delete('import/anggota', [AnggotaController::class,'import_delete'])->name('anggota.import.delete');
-Route::get('kwartir/anggota/{id_wilayah}', [KwartirController::class, 'anggota'])->name('kwartir.anggota');
+Route::middleware('auth')->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::get('statistik', [StatistikController::class, 'index'])->name('statistik.index');
+        Route::resource('kwartir', KwartirController::class)->except(['show','create','store']);
+        Route::resource('gudep', GudepController::class);
+        Route::resource('anggota', AnggotaController::class)->except(['edit','show']);
+        Route::get('import/anggota', [AnggotaController::class,'import'])->name('anggota.import');
+        Route::get('import/anggota/confirm', [AnggotaController::class,'import_confirm_view'])->name('anggota.import.confirm.view');
+        Route::post('import/anggota/excel', [AnggotaController::class,'import_excel'])->name('anggota.import.excel');
+        Route::post('import/anggota/foto', [AnggotaController::class,'import_foto'])->name('anggota.import.foto');
+        Route::post('import/anggota/confirm', [AnggotaController::class,'import_confirm'])->name('anggota.import.confirm');
+        Route::post('store/array', [AnggotaController::class,'store_array'])->name('anggota.store.array');
+        Route::delete('import/anggota', [AnggotaController::class,'import_delete'])->name('anggota.import.delete');
+        Route::get('kwartir/anggota/{id_wilayah}', [KwartirController::class, 'anggota'])->name('kwartir.anggota');
+    });
+    Route::prefix('i')->group(function () {
+        Route::get('anggota/{anggotum}/edit', [AnggotaController::class,'edit'])->name('anggota.edit');
+        Route::get('anggota/{anggotum}', [AnggotaController::class,'show'])->name('anggota.show');
+        Route::resource('dokumen', DocumentController::class);
+        Route::resource('agenda', AgendaController::class);
+        Route::resource('user', UserController::class);
+    });
+});
 
 // datatable prefix
 Route::prefix('datatable')->group(function(){
@@ -66,4 +75,5 @@ Route::prefix('datatable')->group(function(){
 
 Route::controller(SyncController::class)->prefix('sync')->group(function(){
     Route::get('document', 'document')->name('sync.document');
+    Route::get('anggota-kta', 'anggotaKta')->name('sync.document');
 });
