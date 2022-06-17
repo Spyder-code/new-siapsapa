@@ -11,8 +11,11 @@
         :title="$gudep->nama_sekolah"
         :description="'Detail Gudep'"
     />
-    <div class="col-md-7 justify-content-end align-self-center d-none d-md-flex">
-        <a href="{{ route('gudep.edit', $gudep) }}" class="btn btn-info">Edit Gudep</a>
+    <div class="col-md-7 justify-content-end align-self-center d-none d-md-flex gap-2">
+        <a href="{{ route('gudep.edit', $gudep) }}" class="btn btn-primary">Edit Gudep</a>
+        @if (Auth::user()->role == 'gudep')
+        <a href="{{ route('anggota.import') }}" class="btn btn-info">Import Anggota Gudep</a>
+        @endif
     </div>
 </div>
 @endsection

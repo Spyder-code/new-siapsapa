@@ -31,7 +31,7 @@
         :links="[
             ['name' => 'Dashboard', 'url' => '/'],
             ['name' => 'Anggota', 'url' => '#'],
-            ['name' => 'Create', 'url' => '#'],
+            ['name' => 'Import', 'url' => '#'],
         ]"
 
         :title="'Import Anggota'"
@@ -43,8 +43,9 @@
 <div class="row justify-content-center">
     <div class="col-12 col-md-8">
         <div class="card">
-            <div class="border-bottom title-part-padding">
+            <div class="border-bottom title-part-padding d-flex justify-content-between">
                 <h4 class="card-title mb-0">Import Anggota</h4>
+                <a href="{{ asset('berkas/data_anggota.xlsx') }}" class="btn btn-success btn-sm">Download Template Excel</a>
             </div>
             <form action="{{ route('anggota.import.confirm') }}" method="post" enctype="multipart/form-data" class="card-body needs-validation" novalidate>
                 @csrf

@@ -2,29 +2,62 @@
 @section('content')
     <!-- Carousel Start -->
     <div class="container-fluid p-0 pb-5">
-        <div class="owl-carousel header-carousel position-relative">
-            <div class="owl-carousel-item position-relative">
-                <img class="img-fluid" src="{{ asset('user/img/ban1.png') }}" alt="" style="max-height:700px">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active" style="height:500px; background:linear-gradient(rgba(184, 89, 34, 0),rgba(128, 28, 28, 0.514)),url('{{ asset('user/img/ban1.png') }}') no-repeat; background-size:cover;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>First slide label</h5>
+                        <p>Some representative placeholder content for the first slide.</p>
+                    </div>
+                </div>
+              <div class="carousel-item" style="height:500px; background:linear-gradient(rgba(184, 89, 34, 0),rgba(128, 28, 28, 0.514)),url('{{ asset('user/img/ban2.png') }}') no-repeat; background-size:cover;">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Second slide label</h5>
+                  <p>Some representative placeholder content for the second slide.</p>
+                </div>
+              </div>
+              <div class="carousel-item" style="height:500px; background:linear-gradient(rgba(184, 89, 34, 0),rgba(128, 28, 28, 0.514)),url('{{ asset('user/img/ban3.jpg') }}') no-repeat; background-size:cover;">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Third slide label</h5>
+                  <p>Some representative placeholder content for the third slide.</p>
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        {{-- <div class="owl-carousel header-carousel position-relative">
+            <div class="owl-carousel-item position-relative" style="background-color: red">
+                <img class="img-fluid" src="{{ asset('user/img/ban1.png') }}" alt="" style="max-height:400px">
                 <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(53, 53, 53, .7);">
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-12 col-lg-8 text-center">
-                                <h5 class="text-white text-uppercase mb-3 animated slideInDown">PRAMUKA</h5>
-                                <h1 class="display-3 text-white animated slideInDown mb-4">Indonesia</h1>
+                                <h1 class="display-3 text-white text-uppercase mb-3 animated slideInDown">PRAMUKA</h1>
                                 <p class="fs-5 fw-medium text-white mb-4 pb-2">Kepramukaan memberikan kesempatan kepada kaum muda untuk berpartisipasi dalam program, acara, kegiatan, dan proyek yang berkontribusi pada pertumbuhan mereka sebagai warga negara yang aktif. Melalui inisiatif ini, kaum muda menjadi agen perubahan positif yang menginspirasi orang lain untuk mengambil tindakan.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="owl-carousel-item position-relative">
-                <img class="img-fluid" src="{{ asset('user/img/ban2.png') }}" alt="" style="max-height:700px">
+            </div> --}}
+            {{-- <div class="owl-carousel-item position-relative">
+                <img class="img-fluid" src="{{ asset('user/img/ban2.png') }}" alt="" style="max-height:800px">
                 <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(53, 53, 53, .7);">
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-12 col-lg-8 text-center">
-                                <h5 class="text-white text-uppercase mb-3 animated slideInDown">PRAMUKA</h5>
-                                <h1 class="display-3 text-white animated slideInDown mb-4">Kita</h1>
+                                <h1 class="display-3 text-white text-uppercase mb-3 animated slideInDown">PRAMUKA</h1>
                                 <p class="fs-5 fw-medium text-white mb-4 pb-2">Pramuka menciptakan dunia yang lebih baik untuk komunitas mereka melalui Program Pramuka Pramuka kami, Mari bergabung dengan mereka.</p>
                             </div>
                         </div>
@@ -32,19 +65,18 @@
                 </div>
             </div>
             <div class="owl-carousel-item position-relative">
-                <img class="img-fluid" src="{{ asset('user/img/ban3.jpg') }}" alt="" style="max-height:700px">
+                <img class="img-fluid" src="{{ asset('user/img/ban3.jpg') }}" alt="" style="max-height:800px">
                 <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(53, 53, 53, .7);">
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-12 col-lg-8 text-center">
-                                <h5 class="text-white text-uppercase mb-3 animated slideInDown">PRAMUKA</h5>
-                                <h1 class="display-3 text-white animated slideInDown mb-4">Saya</h1>
+                                <h1 class="display-3 text-white text-uppercase mb-3 animated slideInDown">PRAMUKA</h1>
                                 <p class="fs-5 fw-medium text-white mb-4 pb-2">Bagian penting dari Kepramukaan adalah bertemu dan berinteraksi dengan orang-orang muda dari seluruh wilayah. Kepanduan wilayah menyatukan Pramuka melalui acara nasional, selalu ikuti terus acaranya.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <!-- Carousel End -->

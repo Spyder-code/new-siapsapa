@@ -9,21 +9,31 @@
         'text' => 'Kwartir',
         'href' => route('kwartir.index'),
         'icon' => 'map',
-        'access' => ['all'],
+        'access' => ['admin','kwarda','kwarcab','kwaran'],
     ],[
         'text' => 'Data Gudep',
         'href' => '#',
         'icon' => 'bookmark',
-        'access' => ['all'],
+        'access' => ['admin','kwarda','kwarcab','kwaran'],
         'sub' => [
             ['text'=>'List Gudep','href'=>route('gudep.index'),'icon'=>'fa-list'],
             ['text'=>'Registrasi Gudep','href'=>route('gudep.create'),'icon'=>'fa-plus'],
         ]
     ],[
         'text' => 'Data Anggota',
+        'href' => route('gudep.anggota', Auth::user()->anggota->gudep),
+        'icon' => 'users',
+        'access' => ['gudep'],
+    ],[
+        'text' => 'Transfer Anggota',
+        'href' => route('gudep.transfer'),
+        'icon' => 'external-link',
+        'access' => ['gudep'],
+    ],[
+        'text' => 'Data Anggota',
         'href' => '#',
         'icon' => 'users',
-        'access' => ['admin'],
+        'access' => ['admin','kwarda','kwarcab','kwaran'],
         'sub' => [
             ['text' => 'Anggota non Gudep','href' => route('anggota.index', ['active' => 1]),'icon' => 'fa-users'],
             ['text' => 'Anggota Gudep','href' => route('anggota.index',['gudep'=>true, 'active' => 1]),'icon' => 'fa-users',],
@@ -34,7 +44,7 @@
         'text' => 'Validasi Anggota',
         'href' => route('anggota.index',['active' => 2]),
         'icon' => 'user-check',
-        'access' => ['admin'],
+        'access' => ['admin','kwarda','kwarcab','kwaran'],
     ],[
         'text' => 'Dokumen',
         'href' => route('dokumen.index'),
@@ -46,14 +56,14 @@
         'icon' => 'calendar',
         'access' => ['all'],
     ],[
-        'text' => 'Lain-lain',
+        'text' => 'Produk',
         'href' => 'laporan-keluar',
         'icon' => 'archive',
         'access' => ['all'],
         // 'twoColumn' => true,
         'sub' => [
             ['text' => 'Pesan KTA','href' => '#','icon' => 'fa-lock'],
-            ['text' => 'Pesan Produk','href' => '#','icon' => 'fa-lock'],
+            ['text' => 'Produk Saya','href' => route('product.index'),'icon' => 'fa-heart'],
         ]
     ]
 ];

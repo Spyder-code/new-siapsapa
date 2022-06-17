@@ -1,4 +1,7 @@
 @extends('layouts.admin')
+@section('style')
+    <link rel="stylesheet" href="{{ asset('dashboard/dist/css/magnific.css') }}">
+@endsection
 @section('breadcrumb')
 <div class="row">
     <x-breadcrumb_left
@@ -79,6 +82,8 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('dashboard/dist/js/magnific.js') }}"></script>
+    <script src="{{ asset('dashboard/dist/js/magnific.init.js') }}"></script>
     <script>
         var table = $(".file-export").DataTable({
             scrollY: '500px',

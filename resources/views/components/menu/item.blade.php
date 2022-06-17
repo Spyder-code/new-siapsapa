@@ -1,6 +1,6 @@
 @php
     $isSingle = $subMenu == null ? true : false;
-    $role = 'admin';
+    $role = Auth::user()->role;
 @endphp
 
 @if (in_array($role,$access) || $access == ['all'])

@@ -14,7 +14,7 @@
                 @csrf
                 <div class="form-group mb-3">
                     <div class="col-xs-12">
-                        <input class="form-control" type="email" name="email" required placeholder="Username"/>
+                        <input class="form-control" type="email" name="email" required placeholder="Email"/>
                     </div>
                 </div>
                 <div class="form-group mb-3">
@@ -25,7 +25,7 @@
                 <div class="form-group">
                     <div class="d-flex">
                         <div class="checkbox checkbox-info pt-0">
-                            <input id="checkbox-signup" type="checkbox" class="material-inputs chk-col-indigo" />
+                            <input id="checkbox-signup" type="checkbox" name="remember" value="true" class="material-inputs chk-col-indigo" />
                             <label for="checkbox-signup"> Remember me </label>
                         </div>
                         <div class="ms-auto">
@@ -44,7 +44,7 @@
                 </div>
                 <div class="form-group mb-0">
                     <div class="col-sm-12 justify-content-center d-flex">
-                        <p>Don't have an account? <a href="authentication-register1.html" class="text-info font-weight-medium ms-1" >Sign Up</a ></p>
+                        <p>Belum memiliki akun? <a href="{{ route('register') }}" class="text-info font-weight-medium ms-1" >Register</a ></p>
                     </div>
                 </div>
             </form>

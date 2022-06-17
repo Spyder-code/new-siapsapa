@@ -25,6 +25,8 @@ class StatistikController extends Controller
                 $id_wilayah = $user->anggota->kabupaten;
             if($role=='kwaran')
                 $id_wilayah = $user->anggota->kecamatan;
+            if($role=='gudep')
+                return redirect()->route('gudep.show', $user->anggota->gudep);
         }
 
         $data = $this->getData($id_wilayah);

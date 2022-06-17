@@ -14,7 +14,7 @@
                                 <div class="fw-bold">{{ $item->documentType->name }}</div>
                                 <span class="text-{{ $item->status==0?'warning':'success' }}">Status: {{ $item->status==0?'Belum diverifikasi':'Terverifikasi' }}</span>
                             </div>
-                            <a href="{{ asset('berkas/dokumen/'.$item->document_type_id.'/'.$item->file) }}" target="d_blank" class="badge bg-primary rounded-pill border-light">Lihat</a>
+                            <a href="{{ asset('berkas/dokumen/'.$item->document_type_id.'/'.$item->file) }}" target="d_blank" class="badge bg-primary rounded-pill border-light image-popup-vertical-fit">Lihat</a>
                         </li>
                     @endforeach
                 </ul>

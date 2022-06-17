@@ -37,7 +37,7 @@ class AnggotaController extends Controller
                 $id_wilayah = $user->anggota->provinsi;
             if($role=='kwarcab')
                 $id_wilayah = $user->anggota->kabupaten;
-            if($role=='kwaran')
+            if($role=='kwaran' || $role=='gudep')
                 $id_wilayah = $user->anggota->kecamatan;
         }
 
@@ -61,7 +61,7 @@ class AnggotaController extends Controller
                 $id_wilayah = $user->anggota->provinsi;
             if($role=='kwarcab')
                 $id_wilayah = $user->anggota->kabupaten;
-            if($role=='kwaran')
+            if($role=='kwaran' || $role=='gudep')
                 $id_wilayah = $user->anggota->kecamatan;
         }
 

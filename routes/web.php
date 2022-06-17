@@ -3,10 +3,12 @@
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CartProductController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GudepController;
 use App\Http\Controllers\KwartirController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\SyncController;
 use App\Http\Controllers\UserController;
@@ -36,12 +38,17 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/logout', [LoginController::class, 'logout']);
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth','admin'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('statistik', [StatistikController::class, 'index'])->name('statistik.index');
         Route::resource('kwartir', KwartirController::class)->except(['show','create','store']);
         Route::resource('gudep', GudepController::class);
+        Route::resource('product',ProductController::class);
+        Route::resource('cartproduct',CartProductController::class);
         Route::resource('anggota', AnggotaController::class)->except(['edit','show']);
+        Route::get('anggota/gudep/{gudep}', [GudepController::class,'anggota'])->name('gudep.anggota');
+        Route::get('gudep/anggota/transfer', [GudepController::class,'transfer'])->name('gudep.transfer');
+        Route::put('gudep/anggota/transfer', [GudepController::class,'transfer_store'])->name('gudep.transfer.store');
         Route::get('import/anggota', [AnggotaController::class,'import'])->name('anggota.import');
         Route::get('import/anggota/confirm', [AnggotaController::class,'import_confirm_view'])->name('anggota.import.confirm.view');
         Route::post('import/anggota/excel', [AnggotaController::class,'import_excel'])->name('anggota.import.excel');
@@ -50,8 +57,6 @@ Route::middleware('auth')->group(function () {
         Route::post('store/array', [AnggotaController::class,'store_array'])->name('anggota.store.array');
         Route::delete('import/anggota', [AnggotaController::class,'import_delete'])->name('anggota.import.delete');
         Route::get('kwartir/anggota/{id_wilayah}', [KwartirController::class, 'anggota'])->name('kwartir.anggota');
-    });
-    Route::prefix('i')->group(function () {
         Route::get('anggota/{anggotum}/edit', [AnggotaController::class,'edit'])->name('anggota.edit');
         Route::get('anggota/{anggotum}', [AnggotaController::class,'show'])->name('anggota.show');
         Route::resource('dokumen', DocumentController::class);

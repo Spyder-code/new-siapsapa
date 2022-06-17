@@ -74,7 +74,7 @@ class GudepController extends Controller
                 $id_wilayah = $user->anggota->provinsi;
             if($role=='kwarcab')
                 $id_wilayah = $user->anggota->kabupaten;
-            if($role=='kwaran')
+            if($role=='kwaran' || $role=='gudep')
                 $id_wilayah = $user->anggota->kecamatan;
         }
 
@@ -99,7 +99,7 @@ class GudepController extends Controller
                 $id_wilayah = $user->anggota->provinsi;
             if($role=='kwarcab')
                 $id_wilayah = $user->anggota->kabupaten;
-            if($role=='kwaran')
+            if($role=='kwaran' || $role=='gudep')
                 $id_wilayah = $user->anggota->kecamatan;
         }
 
@@ -109,6 +109,34 @@ class GudepController extends Controller
             $data[0] = Provinsi::pluck('name', 'id');
         }
         return view('admin.gudep.show', compact('data','id_wilayah','gudep'));
+    }
+
+    public function anggota(Gudep $gudep)
+    {
+        return view('admin.gudep.anggota', compact('gudep'));
+    }
+
+    public function transfer()
+    {
+        $gudep = Gudep::find(Auth::user()->anggota->gudep);
+        return view('admin.gudep.transfer', compact('gudep'));
+    }
+
+    public function transfer_store(Request $request)
+    {
+        $anggota = Anggota::where('email', $request->email)->first();
+        if($anggota){
+            $user = $anggota->user;
+            if(!password_verify($request->password, $user->password)){
+                return back()->with('error', 'Password salah');
+            }else{
+                $anggota->gudep = $request->gudep;
+                $anggota->save();
+                return back()->with('success', $anggota->nama.' berhasil di transfer ke gudep');
+            }
+        }else{
+            return back()->with('error', 'Anggota tidak ditemukan');
+        }
     }
 
     public function store()
@@ -195,7 +223,7 @@ class GudepController extends Controller
     public function data_table_anggota()
     {
         $gudep = request('gudep');
-        $data = Anggota::where('gudep',$gudep)->select('id','nama','foto')->whereHas('user', function($q){
+        $data = Anggota::where('gudep',$gudep)->select('id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan')->whereHas('user', function($q){
             $q->where('role', 'anggota');
         });
 
