@@ -80,5 +80,6 @@ Route::prefix('datatable')->group(function(){
 
 Route::controller(SyncController::class)->prefix('sync')->group(function(){
     Route::get('document', 'document')->name('sync.document');
-    Route::get('anggota-kta', 'anggotaKta')->name('sync.document');
+    Route::get('anggota-kta', 'anggotaKta')->name('sync.kta.anggota');
+    Route::get('kta', 'kta')->name('sync.kta');
 });
