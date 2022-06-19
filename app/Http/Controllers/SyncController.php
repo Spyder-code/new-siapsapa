@@ -6,6 +6,7 @@ use App\Jobs\SyncAnggotaKta;
 use App\Models\Anggota;
 use App\Models\Document;
 use App\Models\Kta;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -56,17 +57,50 @@ class SyncController extends Controller
         // chunk anggota
         $data = Anggota::all(['id', 'kabupaten','kta_id'])->whereNull('kta_id');
         foreach ($data->chunk(1000) as $anggota) {
-            foreach ($anggota as $item) {
-                $kta = Kta::where('kabupaten',$item->kabupaten)->first();
-                if($kta){
-                    $item->update(['kta_id'=>$kta->id]);
-                }
-            }
-            // dispatch(new SyncAnggotaKta($anggota));
+            // foreach ($anggota as $item) {
+            //     $kta = Kta::where('kabupaten',$item->kabupaten)->first();
+            //     if($kta){
+            //         $item->update(['kta_id'=>$kta->id]);
+            //     }
+            // }
+            dispatch(new SyncAnggotaKta($anggota));
         }
 
         return response()->json([
             'message' => 'Berhasil mengupdate data'
+        ], 200);
+    }
+
+    public function golongan()
+    {
+        $anggota = Anggota::all()->whereNull('pramuka');
+        $i = 0;
+        foreach ($anggota as $item ) {
+            if($item->kawin==1){
+                $golongan = 5;
+            }else{
+                $tgl = new DateTime($item->tgl_lahir);
+                $now = new DateTime();
+                $difference = $tgl->diff($now);
+                $usia   = $difference->y; //hitung tahun
+                if ($usia < 10) {
+                    $golongan = 1;
+                } else if ($usia > 10 and $usia < 15) {
+                    $golongan = 2;
+                } else if ($usia > 16 and $usia < 20) {
+                    $golongan = 3;
+                } else if ($usia > 21 and $usia < 25) {
+                    $golongan = 4;
+                } else if ($usia > 25) {
+                    $golongan = 5;
+                }
+            }
+            $item->update(['pramuka'=>$golongan]);
+            $i++;
+        }
+
+        return response()->json([
+            'message' => 'Berhasil mengupdate '.$i.' data'
         ], 200);
     }
 }
