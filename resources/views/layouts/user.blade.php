@@ -84,7 +84,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="{{ url('/') }}" class="nav-item nav-link active">Beranda</a>
+                <a href="{{ url('/') }}" class="nav-item nav-link">Beranda</a>
                 <a href="#" class="nav-item nav-link">Berita</a>
                 <a href="#" class="nav-item nav-link">Agenda</a>
                 <a href="#" class="nav-item nav-link">Penggumuman</a>
@@ -94,6 +94,7 @@
                 @if (Auth::check())
                 <a href="{{ route('page.profile') }}" class="nav-item nav-link">Profile</a>
                 @endif
+                <a href="{{ Auth::check()?route('logout'):route('login') }}" class="nav-item nav-link">{{ Auth::check()?'Logout':'Member Area' }} <i class="fas {{ Auth::check()?'fa-sign-out-alt':'fa-arrow-right' }}"></i></a>
                 {{-- <a href="service.html" class="nav-item nav-link">Service</a>
                 <a href="project.html" class="nav-item nav-link">Project</a>
                 <div class="nav-item dropdown">
@@ -108,7 +109,7 @@
                 </div>
                 <a href="contact.html" class="nav-item nav-link">Contact</a> --}}
             </div>
-            <a href="{{ Auth::check()?route('logout'):route('login') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">{{ Auth::check()?'Logout':'Member' }}<i class="fas {{ Auth::check()?'fa-sign-out-alt':'fa-arrow-right' }} ms-3"></i></a>
+            {{-- <a href="{{ Auth::check()?route('logout'):route('login') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">{{ Auth::check()?'Logout':'Member' }}<i class="fas {{ Auth::check()?'fa-sign-out-alt':'fa-arrow-right' }} ms-3"></i></a> --}}
         </div>
     </nav>
     <!-- Navbar End -->
@@ -133,7 +134,7 @@
             <div class="copyright">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="border-bottom" href="#">siapsapa.co.id</a>, All Right Reserved.
+                        &copy; <a class="border-bottom" href="#">siapsapa.id</a>, All Right Reserved.
                     </div>
                     {{-- <div class="col-md-6 text-center text-md-end">
                         <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
