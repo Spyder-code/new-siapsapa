@@ -90,7 +90,10 @@
                 <a href="#" class="nav-item nav-link">Penggumuman</a>
                 <a href="#" class="nav-item nav-link">Tentang Kami</a>
                 <a href="#" class="nav-item nav-link">Scan QR <i class="fas fa-qrcode"></i></a>
-                <a href="#" class="nav-item nav-link">Produk <i class="fas fa-lock"></i></a>
+                <a href="#" class="nav-item nav-link">Produk</a>
+                @if (Auth::check())
+                <a href="{{ route('page.profile') }}" class="nav-item nav-link">Profile</a>
+                @endif
                 {{-- <a href="service.html" class="nav-item nav-link">Service</a>
                 <a href="project.html" class="nav-item nav-link">Project</a>
                 <div class="nav-item dropdown">
