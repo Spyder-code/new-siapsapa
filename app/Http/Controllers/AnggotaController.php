@@ -114,9 +114,24 @@ class AnggotaController extends Controller
                 return abort(404);
             }
         }
-        // $data = DNS2D::getBarcodePNG('4445645656', 'PDF417');
-        // dd($data);
         return view('admin.anggota.show', compact('anggota'));
+    }
+
+    public function handleUpdateOrStore(AnggotaRequest $request)
+    {
+        $type = $request->type;
+        $data = $request->all();
+        $data['password'] = Auth::user()->password;
+        if($type=='update'){
+            $anggota = Anggota::find($request->anggota_id);
+            $service = new AnggotaService();
+            $service->updateUser($data, $anggota);
+            return back()->with('success', 'Data berhasil diubah');
+        }else{
+            $anggota = new AnggotaService();
+            $anggota->createUser($data);
+            return back()->with('success', 'Data berhasil ditambah');
+        }
     }
 
     public function import()

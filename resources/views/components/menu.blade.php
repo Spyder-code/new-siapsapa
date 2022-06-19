@@ -21,7 +21,7 @@
         ]
     ],[
         'text' => 'Data Anggota',
-        'href' => route('gudep.anggota', Auth::user()->anggota->gudep),
+        'href' => route('gudep.anggota', Auth::user()->anggota->gudep ?? 0),
         'icon' => 'users',
         'access' => ['gudep'],
     ],[

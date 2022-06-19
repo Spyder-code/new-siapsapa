@@ -6,9 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, monster admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, "
-    />
-    <meta name="description" content="Monster is powerful and clean admin dashboard template, inpired from Google's Material Design" />
     <meta name="robots" content="noindex,nofollow" />
     <title>Dashboard Admin</title>
     <!-- Favicon icon -->
@@ -327,17 +324,6 @@
     <script src="{{ asset('js/site.js') }}"></script>
     {{-- <script src="{{ asset('dashboard') }}/dist/js/pages/datatable/datatable-advanced.init.js"></script> --}}
     <script>
-        // window.ajax_loading = false;
-        // $.hasAjaxRunning = function() {
-        //     return window.ajax_loading;
-        // };
-        // $(document).ajaxStart(function(){
-        //     window.ajax_loading = true;
-        //     $('#loading').show();
-        // }).ajaxStop(function(){
-        //     window.ajax_loading = false;
-        //     $('#loading').hide();
-        // });
         (function() {
             "use strict";
             window.addEventListener(

@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Woody - Carpenter Website Template</title>
+    <title>SIAPSAPA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
+    <meta content="siapsapa, pramuka indonesia, kwartir pramuka" name="keywords">
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/logosiap.png') }}" />
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,6 +30,8 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('user') }}/css/style.css" rel="stylesheet">
+
+    @yield('style')
 </head>
 
 <body>
@@ -82,13 +84,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="index.html" class="nav-item nav-link active">Beranda</a>
-                <a href="about.html" class="nav-item nav-link">Berita</a>
-                <a href="about.html" class="nav-item nav-link">Agenda</a>
-                <a href="about.html" class="nav-item nav-link">Penggumuman</a>
-                <a href="about.html" class="nav-item nav-link">Tentang Kami</a>
-                <a href="about.html" class="nav-item nav-link">Scan QR <i class="fas fa-qrcode"></i></a>
-                <a href="about.html" class="nav-item nav-link">Produk <i class="fas fa-lock"></i></a>
+                <a href="{{ url('/') }}" class="nav-item nav-link active">Beranda</a>
+                <a href="#" class="nav-item nav-link">Berita</a>
+                <a href="#" class="nav-item nav-link">Agenda</a>
+                <a href="#" class="nav-item nav-link">Penggumuman</a>
+                <a href="#" class="nav-item nav-link">Tentang Kami</a>
+                <a href="#" class="nav-item nav-link">Scan QR <i class="fas fa-qrcode"></i></a>
+                <a href="#" class="nav-item nav-link">Produk <i class="fas fa-lock"></i></a>
                 {{-- <a href="service.html" class="nav-item nav-link">Service</a>
                 <a href="project.html" class="nav-item nav-link">Project</a>
                 <div class="nav-item dropdown">
@@ -103,7 +105,7 @@
                 </div>
                 <a href="contact.html" class="nav-item nav-link">Contact</a> --}}
             </div>
-            <a href="{{ route('login') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Member<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="{{ Auth::check()?route('logout'):route('login') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">{{ Auth::check()?'Logout':'Member' }}<i class="fas {{ Auth::check()?'fa-sign-out-alt':'fa-arrow-right' }} ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -158,6 +160,41 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('user') }}/js/main.js"></script>
+    <script>
+        (function() {
+            "use strict";
+            window.addEventListener(
+                "load",
+                function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName("needs-validation");
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(
+                        forms,
+                        function(form) {
+                            form.addEventListener(
+                                "submit",
+                                function(event) {
+                                    if (form.checkValidity() === false) {
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                    }
+                                    form.classList.add("was-validated");
+                                },
+                                false
+                            );
+                        }
+                    );
+                },
+                false
+            );
+        })();
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+    @yield('script')
 </body>
 
 </html>

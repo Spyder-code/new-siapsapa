@@ -26,4 +26,9 @@ class Distrik extends Model
     {
         return $this->belongsTo(City::class, 'regency_id');
     }
+
+    public function gudep()
+    {
+        return $this->hasMany(Gudep::class, 'kecamatan');
+    }
 }

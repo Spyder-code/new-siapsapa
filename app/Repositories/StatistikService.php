@@ -137,7 +137,8 @@ class StatistikService {
             'penegak' => $penegak,
             'pandega' => $pandega,
             'dewasa' => $dewasa,
-            'pelatih' => $pelatih
+            'pelatih' => $pelatih,
+            'total' => $siaga+$penggalang+$penegak+$pandega+$dewasa+$pelatih
         ];
     }
 

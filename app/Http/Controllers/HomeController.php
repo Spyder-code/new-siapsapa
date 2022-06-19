@@ -25,10 +25,10 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if($user->role == 'anggota'){
-            return redirect('/')->with('success', 'Login Berhasil');
+        if($user->role == 'admin'){
+            return redirect()->route('statistik.index')->with('success', 'Login Berhasil');
         }else{
-            return redirect()->route('anggota.show', $user->anggota);
+            return redirect()->route('page.profile')->with('success', 'Login Berhasil');
         }
     }
 }

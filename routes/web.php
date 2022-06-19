@@ -32,6 +32,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/profile', [PageController::class, 'profile'])->name('page.profile');
+Route::get('/ubah-password', [PageController::class, 'change_password'])->name('page.change_password');
+Route::put('/ubah-password/{user}', [UserController::class, 'update'])->name('user.update');
+Route::post('/anggota', [AnggotaController::class, 'handleUpdateOrStore'])->name('page.profile.store');
 
 Auth::routes();
 
@@ -61,7 +65,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::get('anggota/{anggotum}', [AnggotaController::class,'show'])->name('anggota.show');
         Route::resource('dokumen', DocumentController::class);
         Route::resource('agenda', AgendaController::class);
-        Route::resource('user', UserController::class);
+        Route::resource('user', UserController::class)->except(['update']);
     });
 });
 

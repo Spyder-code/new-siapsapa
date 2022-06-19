@@ -1,55 +1,29 @@
-@extends('layouts.admin')
-@section('style')
+@extends('layouts.profile')
+@section('style-user')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 @endsection
-@section('breadcrumb')
-<div class="row">
-    <x-breadcrumb_left
-        :links="[
-            ['name' => 'Dashboard', 'url' => '/'],
-            ['name' => 'Anggota', 'url' => '#'],
-            ['name' => 'Create', 'url' => '#'],
-        ]"
-
-        :title="'Registrasi Anggota'"
-        :description="'Form Pendaftaran Anggota Baru'"
-    />
-</div>
-@endsection
-@section('content')
-<div class="row justify-content-center">
-    <div class="col-12 col-md-8">
-        <div class="card">
-            <div class="border-bottom title-part-padding">
-                <h4 class="card-title mb-0">Registrasi Anggota</h4>
+@section('content-user')
+    <div class="card">
+        <form action="{{ route('page.profile.store') }}" method="POST" class="card-body needs-validation" novalidate enctype="multipart/form-data">
+            @csrf
+            @include('user.anggota.form')
+            <div class="row">
+                <div class="col-12">
+                    @if (empty($anggota))
+                    <button type="submit" name="type" class="btn btn-primary" value="create">SImpan Data</button>
+                    @else
+                    <input type="hidden" name="anggota_id" value="{{ $anggota->id }}">
+                    <button type="submit" name="type" class="btn btn-primary" value="update">Ubah Data</button>
+                    @endif
+                </div>
             </div>
-            <form action="{{ route('anggota.store') }}" method="post" enctype="multipart/form-data" class="card-body needs-validation" novalidate>
-                @csrf
-                <input type="hidden" name="status" value="1">
-                {{-- Error Validation --}}
-                @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
-                @include('admin.anggota.form')
-                <div class="mb-3 btn-group">
-                    <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">Kembali</a>
-                    <button type="submit" class="btn btn-outline-primary">Simpan</button>
-                </div>
-            </form>
-        </div>
+        </form>
     </div>
-</div>
 @endsection
 
-@section('script')
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
+@section('script-user')
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
         $('select[name="provinsi"]').change(function(){
             var provinsi = $(this).val();
             $.ajax({
@@ -125,6 +99,5 @@
         $("#foto").change(function(){
             readURL(this);
         });
-</script>
+    </script>
 @endsection
-

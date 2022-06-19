@@ -51,16 +51,22 @@ class AnggotaService{
         $user_data = [
             'name' => $data['nama'],
             'email' => $data['email'],
-            'password' => bcrypt('pramuka'),
             'role' => 'anggota',
             'user_id' => $data['nik'],
             'id_wilayah' => $data['kecamatan'],
         ];
 
-        $user = User::create($user_data);
+        $user_check = User::where('email', $user_data['email'])->first();
+        if($user_check==null){
+            $user_data['password'] = bcrypt('pramuka');
+            $user = User::create($user_data);
+        }else{
+            $user_check->update($user_data);
+            $user = $user_check;
+        }
 
         $data['user_id'] = $user->id;
-        $data['pramuka'] = $this->getPramuka($data['tgl_lahir']);
+        $data['pramuka'] = $this->getPramuka($data['tgl_lahir'], $data['kawin']);
         $data['kode'] = $this->generateCode($data['kecamatan'], $data['gudep'], $data['jk']);
         if($ulpoad_foto){
             $data['foto'] = $this->uploadImage($data['foto']);
@@ -80,7 +86,7 @@ class AnggotaService{
             'id_wilayah' => $data['kecamatan'],
         ];
 
-        $data['pramuka'] = $this->getPramuka($data['tgl_lahir']);
+        $data['pramuka'] = $this->getPramuka($data['tgl_lahir'],$data['kawin']);
         if(!empty($data['foto'])){
             $data['foto'] = $this->uploadImage($data['foto']);
         }
@@ -90,22 +96,26 @@ class AnggotaService{
         return $anggota;
     }
 
-    public function getPramuka($tgl_lahir)
+    public function getPramuka($tgl_lahir, $kawin = 0)
     {
-        $tgl = new DateTime($tgl_lahir);
-        $now = new DateTime();
-        $difference = $tgl->diff($now);
-        $usia   = $difference->y; //hitung tahun
-        if ($usia < 10) {
-            $golongan = 1;
-        } else if ($usia >= 10 && $usia <= 15) {
-            $golongan = 2;
-        } else if ($usia >= 16 && $usia <= 20) {
-            $golongan = 3;
-        } else if ($usia >= 21 && $usia <= 25) {
-            $golongan = 4;
-        } else if ($usia > 25) {
+        if($kawin==1){
             $golongan = 5;
+        }else{
+            $tgl = new DateTime($tgl_lahir);
+            $now = new DateTime();
+            $difference = $tgl->diff($now);
+            $usia   = $difference->y; //hitung tahun
+            if ($usia < 10) {
+                $golongan = 1;
+            } else if ($usia >= 10 && $usia <= 15) {
+                $golongan = 2;
+            } else if ($usia >= 16 && $usia <= 20) {
+                $golongan = 3;
+            } else if ($usia >= 21 && $usia <= 25) {
+                $golongan = 4;
+            } else if ($usia > 25) {
+                $golongan = 5;
+            }
         }
 
         return $golongan;
