@@ -55,7 +55,7 @@ class SyncController extends Controller
     public function anggotaKta()
     {
         // chunk anggota
-        $data = Anggota::all(['id', 'kabupaten','kta_id'])->whereNull('kta_id');
+        $data = Anggota::all(['id', 'kabupaten','kta_id']);
         foreach ($data->chunk(1000) as $anggota) {
             // foreach ($anggota as $item) {
             //     $kta = Kta::where('kabupaten',$item->kabupaten)->first();
