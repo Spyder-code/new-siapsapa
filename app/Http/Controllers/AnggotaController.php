@@ -95,6 +95,8 @@ class AnggotaController extends Controller
                 $id_wilayah = $user->anggota->kabupaten;
             if($role=='kwaran')
                 $id_wilayah = $user->anggota->kecamatan;
+            if($role=='gudep')
+                $id_wilayah = $user->anggota->kecamatan;
         }
 
         $wilayah = new WilayahService($id_wilayah);
