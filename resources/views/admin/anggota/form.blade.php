@@ -24,6 +24,7 @@
             $options3 = $anggota->gudepInfo->pluck('nama_sekolah','id');
         }
     }
+
 @endphp
 <div class="row">
     <p class="font-weight-bold text-primary fs-5">1. Data Personal.</p>
@@ -56,7 +57,11 @@
         <x-input :value="$anggota->kabupaten??''" :name="'kabupaten'" :col="4" :label="'Kabupaten'" :type="'select'" :attr="['required']" :options="$options1"/>
         <x-input :value="$anggota->kecamatan??''" :name="'kecamatan'" :col="4" :label="'Kecamatan'" :type="'select'" :attr="['required']" :options="$options2" />
     @endif
+    @if (Auth::user()->role != 'gudep')
     <x-input :value="$anggota->gudep??''" :name="'gudep'" :col="6" :label="'Gudep'" :type="'select'" :options="$options3" />
+    @else
+        <input type="hidden" name="gudep" value="{{ Auth::user()->anggota->gudep }}">
+    @endif
     <x-input :value="$anggota->status_anggota??''" :name="'status_anggota'" :col="6" :label="'Status Anggota'" :type="'select'" :attr="['required']" :options="['Anggota Baru'=>'Anggota Baru','Anggota Lama'=>'Anggota Lama']" />
     <p class="font-weight-bold text-primary fs-5">2. Data Akun.</p>
     <hr>

@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 @section('breadcrumb')
+@php
+    $title = $kwartir.' '.ucfirst(strtolower($title));
+    if(Auth::user()->role=='gudep'){
+        $title = Auth::user()->anggota->gudepInfo->nama_sekolah;
+    }
+@endphp
 <div class="row">
     <x-breadcrumb_left
         :links="[
@@ -7,8 +13,8 @@
             ['name' => 'Anggota', 'url' => '#'],
         ]"
 
-        :title="'Wilayah '.$kwartir.' '.ucfirst(strtolower($title))"
-        :description="'Daftar Anggota '.$kwartir.' '. ucfirst(strtolower($title))"
+        :title="$title"
+        :description="'Daftar Anggota '.$title"
     />
     <div class="col-md-7 justify-content-end align-self-center d-none d-md-flex">
         <div class="d-flex">

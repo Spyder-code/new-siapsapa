@@ -223,18 +223,42 @@ class GudepController extends Controller
     public function data_table_anggota()
     {
         $gudep = request('gudep');
-        $data = Anggota::where('gudep',$gudep)->select('id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan')->whereHas('user', function($q){
-            $q->where('role', 'anggota');
-        });
+        $data = Anggota::where('gudep',$gudep)->select('id','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka')->with('user:id,role');
 
         return DataTables::of($data)
             ->addColumn('foto', function($data){
-                return '<img src="'.asset('berkas/anggota/'.$data->foto).'" class="img-thumbnail" height="60px" width="60px">';
+                if($data->pramuka==1){
+                    $warna = '<span class="badge bg-siaga">Siaga</span>';
+                }elseif($data->pramuka==2){
+                    $warna = '<span class="badge bg-penggalang">Penggalang</span>';
+                }elseif($data->pramuka==3){
+                    $warna = '<span class="badge bg-penegak">Penegak</span>';
+                }elseif($data->pramuka==4){
+                    $warna = '<span class="badge bg-pandega">Pandega</span>';
+                }elseif($data->pramuka==5){
+                    $warna = '<span class="badge bg-dewasa">Dewasa</span>';
+                }
+                return '
+                    <div class="justify-content-center text-center">
+                    <img src="'.asset('berkas/anggota/'.$data->foto).'" class="img-thumbnail mx-auto d-block" height="80px" width="80px">
+                        '.$warna.'
+                    </div>
+                ';
+            })
+            ->addColumn('kecamatan', function($data){
+                return $data->city->name;
+            })
+            ->addColumn('kabupaten', function($data){
+                return $data->district->name;
             })
             ->addColumn('action', function ($data) {
+                $add = '';
+                if($data->user->role=='anggota'){
+                    $add = '<button type="button" onclick="addAdmin('.$data->id.')" class="btn btn-sm btn-success">Tambah Sebagai Admin Gudep</button>';
+                }
                 $html = '<div class="btn-group">
                             <a href="'.route('anggota.show',$data->id).'" class="btn btn-sm btn-primary">Detail Anggota</a>
-                            <button type="button" onclick="addAdmin('.$data->id.')" class="btn btn-sm btn-success">Tambah Sebagai Admin</button>
+                            '.$add.'
                         </div>';
                 return $html;
             })

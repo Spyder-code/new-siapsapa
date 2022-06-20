@@ -37,8 +37,12 @@ class AnggotaController extends Controller
                 $id_wilayah = $user->anggota->provinsi;
             if($role=='kwarcab')
                 $id_wilayah = $user->anggota->kabupaten;
-            if($role=='kwaran' || $role=='gudep')
+            if($role=='kwaran')
                 $id_wilayah = $user->anggota->kecamatan;
+            if($role=='gudep'){
+                $id_wilayah = $user->anggota->kecamatan;
+                $is_gudep = true;
+            }
         }
 
         $wilayah = new WilayahService($id_wilayah);
@@ -250,6 +254,9 @@ class AnggotaController extends Controller
         $query = Anggota::query();
         if($is_gudep == 1){
             $query->whereNotNull('gudep');
+            if(Auth::user()->role=='gudep'){
+                $query->where('gudep', Auth::user()->anggota->gudep);
+            }
         }else{
             $query->whereNull('gudep');
         }

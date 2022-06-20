@@ -73,7 +73,7 @@ class SyncController extends Controller
 
     public function golongan()
     {
-        $anggota = Anggota::all()->whereNull('pramuka');
+        $anggota = Anggota::all();
         $i = 0;
         foreach ($anggota as $item ) {
             if($item->kawin==1){
@@ -85,13 +85,13 @@ class SyncController extends Controller
                 $usia   = $difference->y; //hitung tahun
                 if ($usia < 10) {
                     $golongan = 1;
-                } else if ($usia > 10 and $usia < 15) {
+                } else if ($usia >= 10 && $usia <= 15) {
                     $golongan = 2;
-                } else if ($usia > 16 and $usia < 20) {
+                } else if ($usia >= 16 && $usia <= 20) {
                     $golongan = 3;
-                } else if ($usia > 21 and $usia < 25) {
+                } else if ($usia >= 21 && $usia < 25) {
                     $golongan = 4;
-                } else if ($usia > 25) {
+                } else if ($usia >= 25) {
                     $golongan = 5;
                 }
             }

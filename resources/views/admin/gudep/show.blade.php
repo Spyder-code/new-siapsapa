@@ -31,11 +31,12 @@
                         </div>
                         <br><br>
                         <div>
-                            <h6 class="mb-0 text-light">KODE NPSN : &nbsp;50101090</h6>
+                            <h6 class="mb-0 text-light">KODE NPSN : {{ $gudep->npsn }}</h6>
                         </div>
                     </div>
 
-                    <div class="font-22 ms-auto"><img src="https://siapsapa.id/assets/images/sekolah.jpg" class="rounded-circle" width="55" height="55">
+                    <div class="font-22 ms-auto">
+                        {{-- <img src="https://siapsapa.id/assets/images/sekolah.jpg" class="rounded-circle" width="55" height="55"> --}}
                     </div>
                 </div>
             </div>
@@ -44,7 +45,7 @@
                     <div class="d-flex align-items-center">
                         <a href="">
                             <div class="ms-3">
-                                <h6 class="mb-0">Anggota </h6>
+                                <h6 class="mb-0">Total Seluruh Anggota </h6>
                             </div>
                         </a>
                         <div class="ms-auto ">
@@ -55,7 +56,7 @@
                 <li class="list-group-item bg-transparent">
                     <div class="d-flex align-items-center">
                         <div class="ms-3">
-                            <h6 class="mb-0">Pengelola </h6>
+                            <h6 class="mb-0">Total Pengelola Gudep</h6>
                         </div>
                         <div class="ms-auto star">
                             <span class="badge bg-success lg"><strong id="total-admin">-</strong></span>

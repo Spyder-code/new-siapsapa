@@ -44,7 +44,7 @@
         'text' => 'Validasi Anggota',
         'href' => route('anggota.index',['active' => 2]),
         'icon' => 'user-check',
-        'access' => ['admin','kwarda','kwarcab','kwaran'],
+        'access' => ['admin','kwarda','kwarcab','kwaran','gudep'],
     ],[
         'text' => 'Dokumen',
         'href' => route('dokumen.index'),
