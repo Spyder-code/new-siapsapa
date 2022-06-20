@@ -63,7 +63,7 @@ class SyncController extends Controller
             //         $item->update(['kta_id'=>$kta->id]);
             //     }
             // }
-            dispatch(new SyncAnggotaKta($anggota));
+            dispatch(new SyncAnggotaKta($anggota))->delay(now()->addMinutes(1));
         }
 
         return response()->json([
