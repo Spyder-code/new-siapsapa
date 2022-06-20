@@ -14,7 +14,7 @@ class SyncAnggotaKta implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $anggota;
+    public $anggota;
     public function __construct($anggota)
     {
         $this->anggota = $anggota;
