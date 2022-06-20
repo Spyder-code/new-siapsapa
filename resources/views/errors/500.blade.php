@@ -3,7 +3,7 @@
 @section('content')
 <div class="error-box">
     <div class="error-body text-center">
-        <h1 class="error-title text-info">404</h1>
+        <h1 class="error-title text-info">500</h1>
         <h3 class="text-uppercase error-subtitle">
             INTERNAL SERVER ERROR.
         </h3>

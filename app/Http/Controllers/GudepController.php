@@ -233,7 +233,7 @@ class GudepController extends Controller
             })
             ->addColumn('action', function ($data) {
                 $html = '<div class="btn-group">
-                            <a href="#" class="btn btn-sm btn-primary">Detail Anggota</a>
+                            <a href="'.route('anggota.show',$data->id).'" class="btn btn-sm btn-primary">Detail Anggota</a>
                             <button type="button" onclick="addAdmin('.$data->id.')" class="btn btn-sm btn-success">Tambah Sebagai Admin</button>
                         </div>';
                 return $html;

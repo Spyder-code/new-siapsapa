@@ -4,9 +4,11 @@ use App\Models\Anggota;
 use App\Models\City;
 use App\Models\Distrik;
 use App\Models\Gudep;
+use App\Models\Kta;
 use App\Models\Provinsi;
 use App\Models\User;
 use DateTime;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
@@ -28,7 +30,7 @@ class AnggotaService{
             $data_arr[$key]['jk'] =  $data['jk'][$key];
             $data_arr[$key]['gol_darah'] =  $data['gol_darah'][$key];
             $data_arr[$key]['nik'] =  $value;
-            $data_arr[$key]['tgl_lahir'] = date('Y-m-d', strtotime( $data['tgl_lahir'][$key]));
+            $data_arr[$key]['tgl_lahir'] = Carbon::createFromFormat('d/m/Y', $data['tgl_lahir'][$key])->format('Y-m-d');
             $data_arr[$key]['alamat'] =  $data['alamat'][$key];
             $data_arr[$key]['nama'] =  $data['nama'][$key];
             $data_arr[$key]['email'] =   $email;
@@ -65,6 +67,9 @@ class AnggotaService{
             $user = $user_check;
         }
 
+        if(empty($data['kawin'])){
+            $data['kawin'] = 0;
+        }
         $data['user_id'] = $user->id;
         $data['pramuka'] = $this->getPramuka($data['tgl_lahir'], $data['kawin']);
         $data['kode'] = $this->generateCode($data['kecamatan'], $data['gudep'], $data['jk']);
@@ -72,6 +77,11 @@ class AnggotaService{
             $data['foto'] = $this->uploadImage($data['foto']);
         }else{
             File::move(public_path('berkas/import/foto/'.$data['foto']), public_path('berkas/anggota/'.$data['foto']));
+        }
+
+        $kta = Kta::where('kabupaten', $data['kabupaten'])->where('pramuka_id', $data['pramuka'])->first();
+        if($kta){
+            $data['kta_id'] = $kta->id;
         }
 
         $anggota = Anggota::create($data);

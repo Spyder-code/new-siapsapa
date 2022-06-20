@@ -221,7 +221,7 @@ class AnggotaController extends Controller
         $service = new AnggotaService();
         $anggota = $service->createUserArray($data);
         session()->forget('data-import-'.Auth::id());
-        return redirect()->route('anggota.index')->with('success', 'Import Data berhasil');
+        return redirect()->route('gudep.anggota', Auth::user()->anggota->gudep ?? 0)->with('success', 'Import Data berhasil');
     }
 
     public function store(AnggotaRequest $request)

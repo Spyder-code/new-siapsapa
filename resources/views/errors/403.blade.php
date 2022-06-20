@@ -3,7 +3,7 @@
 @section('content')
 <div class="error-box">
     <div class="error-body text-center">
-        <h1 class="error-title text-info">404</h1>
+        <h1 class="error-title text-info">403</h1>
         <h3 class="text-uppercase error-subtitle">
         FORBIDDON ERROR!
         </h3>

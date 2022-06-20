@@ -28,7 +28,7 @@ class SyncAnggotaKta implements ShouldQueue
     public function handle()
     {
         foreach ($this->anggota as $item ) {
-            $kta = Kta::where('kabupaten',$item->kabupaten)->first();
+            $kta = Kta::where('kabupaten',$item->kabupaten)->where('pramuka_id', $item->pramuka)->first();
             if($kta){
                 $item->update(['kta_id'=>$kta->id]);
             }

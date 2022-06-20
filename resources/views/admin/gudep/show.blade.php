@@ -27,7 +27,7 @@
                 <div class="d-flex align-items-center">
                     <div class="row align-items-center">
                         <div>
-                            <h5 class="mb-0 text-light">SD Negeri 4 Dauh Peken</h5>
+                            <h5 class="mb-0 text-light">{{ $gudep->nama_sekolah }}</h5>
                         </div>
                         <br><br>
                         <div>
