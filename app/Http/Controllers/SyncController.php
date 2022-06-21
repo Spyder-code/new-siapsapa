@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SyncAnggotaKta;
+use App\Jobs\SyncGolongan;
+use App\Jobs\SyncStatusAnggota;
 use App\Models\Anggota;
 use App\Models\Document;
 use App\Models\Kta;
@@ -55,8 +57,9 @@ class SyncController extends Controller
     public function anggotaKta()
     {
         // chunk anggota
-        $data = Anggota::all(['id', 'kabupaten','kta_id']);
-        foreach ($data->chunk(1000) as $anggota) {
+        $data = Anggota::all();
+        $i = 0;
+        foreach ($data->chunk(500) as $anggota) {
             // foreach ($anggota as $item) {
             //     $kta = Kta::where('kabupaten',$item->kabupaten)->first();
             //     if($kta){
@@ -64,10 +67,11 @@ class SyncController extends Controller
             //     }
             // }
             dispatch(new SyncAnggotaKta($anggota))->delay(now()->addMinutes(1));
+            $i++;
         }
 
         return response()->json([
-            'message' => 'Berhasil mengupdate data'
+            'message' => 'Berhasil mengupdate data '. $i .' data'
         ], 200);
     }
 
@@ -75,27 +79,22 @@ class SyncController extends Controller
     {
         $anggota = Anggota::all();
         $i = 0;
-        foreach ($anggota as $item ) {
-            if($item->kawin==1){
-                $golongan = 5;
-            }else{
-                $tgl = new DateTime($item->tgl_lahir);
-                $now = new DateTime();
-                $difference = $tgl->diff($now);
-                $usia   = $difference->y; //hitung tahun
-                if ($usia < 10) {
-                    $golongan = 1;
-                } else if ($usia >= 10 && $usia <= 15) {
-                    $golongan = 2;
-                } else if ($usia >= 16 && $usia <= 20) {
-                    $golongan = 3;
-                } else if ($usia >= 21 && $usia < 25) {
-                    $golongan = 4;
-                } else if ($usia >= 25) {
-                    $golongan = 5;
-                }
-            }
-            $item->update(['pramuka'=>$golongan]);
+        foreach ($anggota->chunk(500) as $item ) {
+            dispatch(new SyncGolongan($item))->delay(now()->addMinutes(1));
+            $i++;
+        }
+
+        return response()->json([
+            'message' => 'Berhasil mengupdate '.$i.' data'
+        ], 200);
+    }
+
+    public function status()
+    {
+        $anggota = Anggota::all();
+        $i = 0;
+        foreach ($anggota->chunk(500) as $item ) {
+            dispatch(new SyncStatusAnggota($item))->delay(now()->addMinutes(1));
             $i++;
         }
 

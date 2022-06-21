@@ -40,6 +40,7 @@
                                 <th>Gender</th>
                                 <th>Kabupaten</th>
                                 <th>Kecamatan</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -95,6 +96,7 @@
                 {data: 'jk', name: 'jk'},
                 {data: 'kabupaten', name: 'kabupaten'},
                 {data: 'kecamatan', name: 'kecamatan'},
+                {data: 'status', name: 'status'},
                 {data: 'action', name: 'action', searchable: false, orderable: false},
             ],
             dom: "Bfrtip",
