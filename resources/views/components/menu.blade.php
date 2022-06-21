@@ -5,6 +5,16 @@
         'href' => route('statistik.index'),
         'icon' => 'home',
         'access' => ['all'],
+    ], [
+        'text' => 'Perbaikan Data',
+        'href' => route('statistik.index'),
+        'icon' => 'database',
+        'access' => ['all'],
+        'alert' => true,
+        'sub' => [
+            ['text' => 'Tanggal Lahir','href' => route('data.view.date'),'icon' => 'fa-calendar'],
+            ['text' => 'Foto','href' => route('data.view.image'),'icon' => 'fa-image'],
+        ]
     ],[
         'text' => 'Kwartir',
         'href' => route('kwartir.index'),
@@ -50,16 +60,17 @@
         'href' => route('dokumen.index'),
         'icon' => 'file-text',
         'access' => ['all'],
-    ],[
+    ]
+    ,[
         'text' => 'Agenda',
         'href' => route('agenda.index'),
         'icon' => 'calendar',
-        'access' => ['all'],
+        'access' => ['alls'],
     ],[
         'text' => 'Produk',
         'href' => 'laporan-keluar',
         'icon' => 'archive',
-        'access' => ['all'],
+        'access' => ['alls'],
         // 'twoColumn' => true,
         'sub' => [
             ['text' => 'Pesan KTA','href' => '#','icon' => 'fa-lock'],
@@ -80,7 +91,7 @@
                     <span class="hide-menu">Main</span>
                 </li>
                 @foreach ($menu as $item)
-                    <x-menu.item :access="$item['access']" :href="$item['href']" :icon="$item['icon']" :text="$item['text']" :twoColumn="$item['twoColumn']??false" :subMenu="$item['sub'] ?? []"/>
+                    <x-menu.item :access="$item['access']" :alert="$item['alert'] ?? false" :href="$item['href']" :icon="$item['icon']" :text="$item['text']" :twoColumn="$item['twoColumn']??false" :subMenu="$item['sub'] ?? []"/>
                 @endforeach
             </ul>
         </nav>

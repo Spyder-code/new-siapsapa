@@ -4,6 +4,7 @@ use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CartProductController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GudepController;
 use App\Http\Controllers\KwartirController;
@@ -31,6 +32,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('test', function () {
+
+});
+
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/profile', [PageController::class, 'profile'])->name('page.profile');
 Route::get('/ubah-password', [PageController::class, 'change_password'])->name('page.change_password');
@@ -44,6 +49,9 @@ Route::get('/logout', [LoginController::class, 'logout']);
 
 Route::middleware(['auth','admin'])->group(function () {
     Route::prefix('admin')->group(function () {
+        Route::get('data/wrong-date', [DataController::class, 'view_date'])->name('data.view.date');
+        Route::put('data/wrong-date', [DataController::class, 'update_tgl_lahir'])->name('data.update.date');
+        Route::get('data/wrong-image', [DataController::class, 'view_image'])->name('data.view.image');
         Route::get('statistik', [StatistikController::class, 'index'])->name('statistik.index');
         Route::resource('kwartir', KwartirController::class)->except(['show','create','store']);
         Route::resource('gudep', GudepController::class);
@@ -76,6 +84,8 @@ Route::prefix('datatable')->group(function(){
     Route::get('anggota', [AnggotaController::class, 'data_table'])->name('datatable.anggota');
     Route::get('gudep/anggota', [GudepController::class, 'data_table_anggota'])->name('datatable.gudep.anggota');
     Route::get('kwartir', [KwartirController::class, 'data_table'])->name('datatable.kwartir');
+    Route::get('wrong-date', [DataController::class, 'wrong_date'])->name('datatable.data.wrong.date');
+    Route::get('wrong-image', [DataController::class, 'wrong_image'])->name('datatable.data.wrong.image');
     Route::get('kwartir/anggota', [KwartirController::class, 'data_table_anggota'])->name('datatable.kwartir.anggota');
 });
 
