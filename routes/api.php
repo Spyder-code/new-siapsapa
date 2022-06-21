@@ -47,6 +47,7 @@ Route::get('get-gudep/{id}', [WilayahController::class, 'getGudepByIdKecamatan']
 
 // anggota
 Route::put('anggota-validate', [AnggotaController::class, 'anggotaValidate']);
+Route::put('anggota-reject', [AnggotaController::class, 'anggotaReject']);
 
 // document
 Route::get('get-document/{id}', [DocumentController::class, 'getDocumentTypeByPramukaId']);

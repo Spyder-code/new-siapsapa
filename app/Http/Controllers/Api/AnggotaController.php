@@ -19,4 +19,16 @@ class AnggotaController extends Controller
             'message' => 'Anggota berhasil di validasi'
         ]);
     }
+
+    public function anggotaReject()
+    {
+        $id = request('id');
+        $anggota = Anggota::find($id);
+        $anggota->status = 3;
+        $anggota->save();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Validasi Anggota berhasil di tolak'
+        ]);
+    }
 }

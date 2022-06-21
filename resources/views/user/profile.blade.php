@@ -5,11 +5,25 @@
 @section('content-user')
     <div class="card">
         <form action="{{ route('page.profile.store') }}" method="POST" class="card-body needs-validation" novalidate enctype="multipart/form-data">
+            @if (!empty($anggota))
+                @if ($anggota->status==2)
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"></i>
+                        Data anggota ini sedang dalam proses verifikasi.
+                    </div>
+                @elseif ($anggota->status==3)
+                    <div class="alert alert-danger">
+                        <i class="fa fa-info-circle"></i>
+                        Data anggota tidak valid, silahkan perbarui data dengan benar.
+                    </div>
+                @endif
+            @endif
             @csrf
             @include('user.anggota.form')
             <div class="row">
                 <div class="col-12">
                     @if (empty($anggota))
+                    <input type="hidden" name="status" value="2">
                     <button type="submit" name="type" class="btn btn-primary" value="create">SImpan Data</button>
                     @else
                     <input type="hidden" name="anggota_id" value="{{ $anggota->id }}">

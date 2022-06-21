@@ -55,6 +55,7 @@
                                 <th>Gender</th>
                                 <th>Kabupaten</th>
                                 <th>Kecamatan</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -120,6 +121,7 @@
                 {data: 'jk', name: 'jk'},
                 {data: 'kabupaten', name: 'kabupaten'},
                 {data: 'kecamatan', name: 'kecamatan'},
+                {data: 'status', name: 'status'},
                 {data: 'action', name: 'action', searchable: false, orderable: false},
             ],
             dom: "Bfrtip",
@@ -130,6 +132,11 @@
             buttons: ["pageLength","copy", "csv", "excel", "pdf", "print"],
             "bLengthChange": true,
         });
+
+        // hide coulmn datatable
+        if(active==2){
+            table.column(7).visible(false);
+        }
 
         $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel, .buttons-collection ")
         .addClass("btn btn-primary");
@@ -203,6 +210,23 @@
                     success: function(data) {
                         // alert
                         alert('Anggota berhasil divalidasi');
+                        table.ajax.reload();
+                    }
+                });
+            }
+        }
+
+        let tolak = (id) => {
+            if(confirm('Apakah anda yakin?')){
+                $.ajax({
+                    url: {!! json_encode(url('api/anggota-reject')) !!},
+                    type: 'PUT',
+                    data: {
+                        id: id,
+                    },
+                    success: function(data) {
+                        // alert
+                        alert('Validasi anggota berhasil ditolak');
                         table.ajax.reload();
                     }
                 });

@@ -33,9 +33,9 @@ class SyncStatusAnggota implements ShouldQueue
     {
         foreach ($this->anggota as $item ) {
             if($item->status=='0' || $item->status==0){
-                $status = 1;
+                $status = 0;
             }elseif($item->status=='1' || $item->status==1){
-                $status = 4;
+                $status = 1;
             }elseif($item->status=='2' || $item->status==2){
                 $status = 2;
             }elseif($item->status=='3' || $item->status==3){

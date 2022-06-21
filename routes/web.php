@@ -50,6 +50,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::resource('product',ProductController::class);
         Route::resource('cartproduct',CartProductController::class);
         Route::resource('anggota', AnggotaController::class)->except(['edit','show']);
+        Route::put('anggota/update/status/{anggota}', [AnggotaController::class,'updateStatus'])->name('anggota.update.status');
         Route::get('anggota/gudep/{gudep}', [GudepController::class,'anggota'])->name('gudep.anggota');
         Route::get('gudep/anggota/transfer', [GudepController::class,'transfer'])->name('gudep.transfer');
         Route::put('gudep/anggota/transfer', [GudepController::class,'transfer_store'])->name('gudep.transfer.store');

@@ -23,6 +23,9 @@ class AnggotaController extends Controller
     {
         $is_gudep = false;
         $is_active = request('active');
+        if ($is_active==null) {
+            $is_active = 'all';
+        }
         if(request('gudep')){
             $is_gudep = true;
         }
@@ -246,33 +249,44 @@ class AnggotaController extends Controller
         return redirect()->route('anggota.index')->with('success', 'Data berhasil diubah');
     }
 
+    public function updateStatus(Request $request, Anggota $anggota)
+    {
+        $data = $request->all();
+        $anggota->update($data);
+        return back()->with('success', 'Data berhasil diubah');
+    }
+
     public function data_table()
     {
         $id_wilayah = request('id_wilayah');
         $is_gudep = request('gudep');
-        $status = request('active');
         $query = Anggota::query();
         if($is_gudep == 1){
             $query->whereNotNull('gudep');
             if(Auth::user()->role=='gudep'){
                 $query->where('gudep', Auth::user()->anggota->gudep);
             }
-        }else{
+        }elseif($is_gudep == 0){
             $query->whereNull('gudep');
         }
 
-        $query->where('status', $status);
+        if(request('active')=='all'){
+            $query->where('status', '>',-1);
+        }else{
+            $status = (int)request('active');
+            $query->where('status', $status);
+        }
 
         if($id_wilayah=='all'){
-            $data = $query->select('id','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
+            $data = $query->select('id','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = $query->where('provinsi',$id_wilayah)->select('id','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
+                $data = $query->where('provinsi',$id_wilayah)->select('id','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
             }elseif($len==4){
-                $data =  $query->where('kabupaten',$id_wilayah)->select('id','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
+                $data =  $query->where('kabupaten',$id_wilayah)->select('id','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
             }else{
-                $data = $query->where('kecamatan',$id_wilayah)->select('id','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
+                $data = $query->where('kecamatan',$id_wilayah)->select('id','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
             }
 
         }
@@ -297,11 +311,30 @@ class AnggotaController extends Controller
                     </div>
                 ';
             })
-            ->addColumn('action', function ($data) use($status) {
+            ->addColumn('status', function($data){
+                $name = $data->status == 0 ? 'Tidak Aktif' : 'Aktif';
+                $value = $data->status == 0 ? 1 : 0;
+                $is_check = $data->status== 0 ? '' : 'checked';
+                $html = '<form action="' . route('anggota.update.status', $data) . '" method="post">
+                                <input type="hidden" name="_method" value="PUT">
+                                <input type="hidden" name="_token" value="' . csrf_token() . '">
+                                <input type="hidden" value="' . $value . '" name="status">
+                                <div class="form-check form-switch">
+                                    <input '.$is_check.' class="form-check-input" type="checkbox" onchange="submit()" id="flexSwitchCheckChecked">
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">' . $name . '</label>
+                                </div>
+                                </button>
+                            </form>';
+
+                return $html;
+            })
+            ->addColumn('action', function ($data) {
                 $btn = '';
+                $status = $data->status;
                 if($status==2){
                     $btn = '
                         <button type="button" onclick="validasi('.$data->id.')" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Validasi</button>
+                        <button type="button" onclick="tolak('.$data->id.')" class="btn btn-secondary btn-sm"><i class="fa fa-crosshairs"></i> Tolak</button>
                     ';
                 }
                 $html = '<div class="btn-group">
@@ -317,7 +350,7 @@ class AnggotaController extends Controller
             ->addColumn('kecamatan', function ($data) {
                 return $data->district->name;
             })
-            ->rawColumns(['action','foto'])
+            ->rawColumns(['action','foto','status'])
             ->make(true);
     }
 

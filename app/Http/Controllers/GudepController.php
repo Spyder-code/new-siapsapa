@@ -223,7 +223,7 @@ class GudepController extends Controller
     public function data_table_anggota()
     {
         $gudep = request('gudep');
-        $data = Anggota::where('gudep',$gudep)->select('id','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->with('user:id,role');
+        $data = Anggota::where('gudep',$gudep)->where('status','<=',1)->select('id','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->with('user:id,role');
 
         return DataTables::of($data)
             ->addColumn('foto', function($data){
@@ -249,15 +249,15 @@ class GudepController extends Controller
                 return $data->city->name;
             })
             ->addColumn('status', function($data){
-                $is_active = $data->status == 3 ? 0 : 1;
-                $name = $is_active == 0 ? 'Unit Active' : 'Unit Inactive';
-                // $is_check = $is_active == 0 ? 'checked' : ($data->status != 1 ? 'disabled' : '');
-                $html = '<form action="' . route('unit.update.request', $data) . '" method="post">
+                $name = $data->status == 0 ? 'Tidak Aktif' : 'Aktif';
+                $value = $data->status == 0 ? 1 : 0;
+                $is_check = $data->status== 0 ? '' : 'checked';
+                $html = '<form action="' . route('anggota.update.status', $data) . '" method="post">
                                 <input type="hidden" name="_method" value="PUT">
                                 <input type="hidden" name="_token" value="' . csrf_token() . '">
-                                <input type="hidden" value="' . $is_active . '" name="is_active">
+                                <input type="hidden" value="' . $value . '" name="status">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" onchange="submit()" id="flexSwitchCheckChecked" disabled>
+                                    <input '.$is_check.' class="form-check-input" type="checkbox" onchange="submit()" id="flexSwitchCheckChecked">
                                     <label class="form-check-label" for="flexSwitchCheckChecked">' . $name . '</label>
                                 </div>
                                 </button>
@@ -271,15 +271,20 @@ class GudepController extends Controller
             ->addColumn('action', function ($data) {
                 $add = '';
                 if($data->user->role=='anggota'){
-                    $add = '<button type="button" onclick="addAdmin('.$data->id.')" class="btn btn-sm btn-success">Tambah Sebagai Admin Gudep</button>';
+                    $add = '<button type="button" onclick="addAdmin('.$data->id.')" class="btn btn-sm btn-success">Tambah Admin</button>';
                 }
-                $html = '<div class="btn-group">
-                            <a href="'.route('anggota.show',$data->id).'" class="btn btn-sm btn-primary">Detail Anggota</a>
-                            '.$add.'
-                        </div>';
-                return $html;
+                $html = ' <a href="'.route('anggota.show',$data->id).'" class="btn btn-sm btn-primary">Detail Anggota</a>
+                '.$add.'';
+                return '<div class="dropdown">
+                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                        <i class="bx bx-dots-vertical-rounded"></i>
+                    </button>
+                    <div class="dropdown-menu px-2">
+                        '.$html.'
+                    </div>
+                </div>';
             })
-            ->rawColumns(['action','foto'])
+            ->rawColumns(['action','foto','status'])
             ->make(true);
     }
 }
