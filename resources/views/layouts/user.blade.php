@@ -31,14 +31,65 @@
     <!-- Template Stylesheet -->
     <link href="{{ asset('user') }}/css/style.css" rel="stylesheet">
 
+    <style>
+        .loading {
+            z-index: 9999;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .loading img{
+            width: 300px;
+            height: 300px;
+            animation-name: stretch;
+            animation-duration: 1.5s;
+            animation-timing-function: ease-out;
+            animation-delay: 0;
+            animation-direction: alternate;
+            animation-iteration-count: infinite;
+            animation-fill-mode: none;
+            animation-play-state: running;
+        }
+
+        /* css loading */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @keyframes stretch {
+            0% {
+                transform: scale(.3);
+            }
+            /* 25% {
+                transform: scale(.6);
+            }
+            50% {
+                transform: scale(.9);
+            }
+            75% {
+                transform: scale(1.2);
+            } */
+            100% {
+                transform: scale(1.5);
+            }
+        }
+    </style>
     @yield('style')
 </head>
 
 <body>
     <!-- Spinner Start -->
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
+    <div class="loading-overlay" id="loading">
+        <div class="loading">
+            <img src="{{ asset('images/logosiap.png') }}" alt="siapsapa">
         </div>
     </div>
     <!-- Spinner End -->
@@ -164,6 +215,7 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('user') }}/js/main.js"></script>
+    <script src="{{ asset('js/site.js') }}"></script>
     <script>
         (function() {
             "use strict";

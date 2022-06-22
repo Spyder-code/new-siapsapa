@@ -76,8 +76,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/cart/{id}', [CartController::class,'getCartByUserId']);
     Route::delete('/cart/delete/{id}', [CartController::class,'destroy']);
     Route::post('/cart', [CartController::class,'store']);
-    Route::get('get-wilayah/{id_wilayah}', [WilayahController::class, 'getData']);
-    Route::get('get-provinsi', [WilayahController::class, 'getProvince']);
-    Route::get('get-kabupaten/{id}', [WilayahController::class, 'getKabupatenByIdProvinsi']);
-    Route::get('get-kecamatan/{id}', [WilayahController::class, 'getKecamatanByIdKabupaten']);
+    // Route::get('get-wilayah/{id_wilayah}', [WilayahController::class, 'getData']);
+    // Route::get('get-provinsi', [WilayahController::class, 'getProvince']);
+    // Route::get('get-kabupaten/{id}', [WilayahController::class, 'getKabupatenByIdProvinsi']);
+    // Route::get('get-kecamatan/{id}', [WilayahController::class, 'getKecamatanByIdKabupaten']);
 });
