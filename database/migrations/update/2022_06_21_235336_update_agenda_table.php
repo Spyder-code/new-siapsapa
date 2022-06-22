@@ -13,7 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('tb_anggota', function (Blueprint $table) {
+        Schema::table('agenda', function (Blueprint $table) {
+            $table->boolean('is_finish')->after('jenis')->default(false);
             // $table->foreignId('kta_id')->after('user_id')->nullable()->constrained('kta');
         });
     }

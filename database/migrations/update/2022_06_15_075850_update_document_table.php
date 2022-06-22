@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('documents', function (Blueprint $table) {
-            $table->foreignId('pramuka')->after('document_type_id')->constrained('pramuka');
+            // $table->foreignId('pramuka')->after('document_type_id')->constrained('pramuka');
         });
     }
 

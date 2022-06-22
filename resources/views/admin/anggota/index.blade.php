@@ -199,6 +199,21 @@
             }
         }
 
+        let deleteAnggota = (id_anggota) => {
+            if(confirm('Are you sure?')){
+                $.ajax({
+                    url: {!! json_encode(url('api/anggota-delete')) !!},
+                    type: 'DELETE',
+                    data: {
+                        id_anggota: id_anggota,
+                    },
+                    success: function(data) {
+                        table.ajax.reload();
+                    }
+                });
+            }
+        }
+
         let validasi = (id) => {
             if(confirm('Apakah anda yakin?')){
                 $.ajax({

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AnggotaResource;
 use App\Models\Anggota;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AnggotaController extends Controller
@@ -30,5 +32,43 @@ class AnggotaController extends Controller
             'status' => 'success',
             'message' => 'Validasi Anggota berhasil di tolak'
         ]);
+    }
+
+    public function deleteAnggota()
+    {
+        $id = request('id_anggota');
+        $anggota = Anggota::destroy($id);
+        return response()->json([
+            'status' => 'success',
+            'data' => $anggota,
+            'message' => 'Anggota berhasil di validasi'
+        ]);
+    }
+
+    public function getAnggotaById ($id)
+    {
+        // get anggota response with error message
+        $anggota = Anggota::find($id);
+        if (!$anggota) {
+            return response()->json([
+                'message' => 'Anggota not found'
+            ], 404);
+        }
+        return new AnggotaResource($anggota);
+    }
+
+    public function getAnggotaByAdminLogin($id)
+    {
+        // get anggota response with error message
+        $user = User::find($id);
+        $provinsi = $user->anggota->provinsi;
+        $kabupaten = $user->anggota->kabupaten;
+        $anggota = Anggota::where('provinsi', $provinsi)->where('kabupaten', $kabupaten)->get();
+        if (!$anggota) {
+            return response()->json([
+                'message' => 'Anggota not found'
+            ], 404);
+        }
+        return AnggotaResource::collection($anggota);
     }
 }

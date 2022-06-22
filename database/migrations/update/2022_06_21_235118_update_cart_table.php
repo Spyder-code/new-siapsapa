@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('tb_anggota', function (Blueprint $table) {
+        Schema::table('carts', function (Blueprint $table) {
             // $table->foreignId('kta_id')->after('user_id')->nullable()->constrained('kta');
+            $table->removeColumn('kta_id');
+            $table->foreignId('anggota_id')->after('user_id')->constrained('tb_anggota');
+            $table->foreignId('golongan')->after('anggota_id')->constrained('pramuka');
         });
     }
 

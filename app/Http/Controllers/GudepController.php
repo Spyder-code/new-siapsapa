@@ -281,6 +281,7 @@ class GudepController extends Controller
                     </button>
                     <div class="dropdown-menu px-2">
                         '.$html.'
+                        <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger">Hapus Anggota</button>
                     </div>
                 </div>';
             })

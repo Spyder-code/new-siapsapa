@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AgendaController;
 use App\Http\Controllers\Api\AnggotaController;
+use App\Http\Controllers\Api\AuthApi;
 use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\GudepController;
 use App\Http\Controllers\Api\KwartirController;
@@ -48,6 +49,7 @@ Route::get('get-gudep/{id}', [WilayahController::class, 'getGudepByIdKecamatan']
 // anggota
 Route::put('anggota-validate', [AnggotaController::class, 'anggotaValidate']);
 Route::put('anggota-reject', [AnggotaController::class, 'anggotaReject']);
+Route::delete('anggota-delete', [AnggotaController::class, 'deleteAnggota']);
 
 // document
 Route::get('get-document/{id}', [DocumentController::class, 'getDocumentTypeByPramukaId']);
@@ -57,3 +59,25 @@ Route::delete('delete-agenda/{agenda}', [AgendaController::class, 'destroy']);
 Route::post('add-kegiatan', [AgendaController::class, 'addKegiatan']);
 Route::delete('delete-kegiatan', [AgendaController::class, 'deleteKegiatan']);
 Route::put('update-kegiatan', [AgendaController::class, 'updateKegiatan']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('get-agenda', [AgendaController::class, 'getAgenda']);
+});
+
+// Auth
+Route::post('register',[AuthApi::class,'register']);
+Route::post('login',[AuthApi::class,'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [AuthApi::class, 'logout']);
+    Route::get('user', [AuthApi::class, 'user']);
+    Route::post('/tokens/create', [AuthApi::class, 'createToken']);
+    Route::get('/anggota/{id}', [AnggotaController::class,'getAnggotaById']);
+    Route::get('/admin/anggota/{id}', [AnggotaController::class,'getAnggotaByAdminLogin']);
+    Route::get('/cart/{id}', [CartController::class,'getCartByUserId']);
+    Route::delete('/cart/delete/{id}', [CartController::class,'destroy']);
+    Route::post('/cart', [CartController::class,'store']);
+    Route::get('get-wilayah/{id_wilayah}', [WilayahController::class, 'getData']);
+    Route::get('get-provinsi', [WilayahController::class, 'getProvince']);
+    Route::get('get-kabupaten/{id}', [WilayahController::class, 'getKabupatenByIdProvinsi']);
+    Route::get('get-kecamatan/{id}', [WilayahController::class, 'getKecamatanByIdKabupaten']);
+});

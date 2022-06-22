@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AgendaResource;
 use App\Models\Agenda;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
@@ -57,5 +58,16 @@ class AgendaController extends Controller
             'data' => $data,
             'message' => 'Kegiatan updated successfully'
         ]);
+    }
+
+    public function getAgenda()
+    {
+        $agenda = Agenda::all();
+        if (!$agenda || $agenda->isEmpty()) {
+            return response()->json([
+                'message' => 'Cart not found'
+            ], 404);
+        }
+        return AgendaResource::collection($agenda);
     }
 }
