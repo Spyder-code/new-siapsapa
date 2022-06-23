@@ -208,6 +208,10 @@
                                     <i data-feather="settings" class="feather-sm text-warning me-1 ms-1" ></i>
                                     Ganti Password
                                 </a>
+                                <a class="dropdown-item" href="{{ route('page.profile') }}" >
+                                    <i data-feather="award" class="feather-sm text-success me-1 ms-1" ></i>
+                                    Member Area
+                                </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ url('logout') }}" onclick="return confirm('Apa anda ingin keluar?')">
                                     <i data-feather="log-out" class="feather-sm text-danger me-1 ms-1" ></i>

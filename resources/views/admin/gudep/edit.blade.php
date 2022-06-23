@@ -20,9 +20,19 @@
             <div class="border-bottom title-part-padding">
                 <h4 class="card-title mb-0">Edit Gudep</h4>
             </div>
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <form action="{{ route('gudep.update', $gudep) }}" method="post" class="card-body needs-validation" novalidate>
                 @csrf
                 @method('PUT')
+                <input type="hidden" name="prev" value="{{ url()->previous() }}">
                 <input type="hidden" name="status" value="1">
                 @include('admin.gudep.form',['wilayah'=>$data, 'gudep'=>$gudep])
                 <div class="mb-3 btn-group">

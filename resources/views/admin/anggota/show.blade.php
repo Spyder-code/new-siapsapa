@@ -48,7 +48,15 @@
                 <a href="{{ route('anggota.edit', $anggota) }}"><i class="fas fa-pencil-alt"></i> Edit</a>
             </div>
             <div class="card mb-3">
-                <x-kta :anggota="$anggota" />
+                @if ($anggota->kta_id==null)
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Info!</strong>
+                        Mohon maaf KTA masih belum tersedia untuk anggota ini.
+                    </div>
+                @else
+                    <x-kta :anggota="$anggota" />
+                @endif
                 <div class="card-body row">
                     <ul class="list-group list-group-flush col-6">
                         <li class="list-group-item d-flex justify-content-between align-items-start">

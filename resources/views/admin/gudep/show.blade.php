@@ -230,6 +230,7 @@
             type: 'GET',
             data: {
                 gudep: {!! json_encode($gudep->id) !!},
+                active: 'all'
             },
         },
         columns: [

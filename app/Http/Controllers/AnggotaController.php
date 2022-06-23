@@ -278,15 +278,15 @@ class AnggotaController extends Controller
         }
 
         if($id_wilayah=='all'){
-            $data = $query->select('id','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
+            $data = $query->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = $query->where('provinsi',$id_wilayah)->select('id','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
+                $data = $query->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
             }elseif($len==4){
-                $data =  $query->where('kabupaten',$id_wilayah)->select('id','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
+                $data =  $query->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
             }else{
-                $data = $query->where('kecamatan',$id_wilayah)->select('id','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
+                $data = $query->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi');
             }
 
         }

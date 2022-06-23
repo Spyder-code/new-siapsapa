@@ -17,6 +17,16 @@
     <title>@yield('title')</title>
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/logosiap.png') }}" />
     <link href="{{ asset('dashboard') }}/dist/css/style.min.css" rel="stylesheet" />
+    <style>
+        .field-icon {
+            float: right;
+            margin-right: 20px;
+            margin-left: -25px;
+            margin-top: -25px;
+            position: relative;
+            z-index: 99;
+        }
+    </style>
 </head>
 
 <body>
@@ -79,6 +89,15 @@
             $("#to-recover").on("click", function () {
                 $("#loginform").slideUp();
                 $("#recoverform").fadeIn();
+            });
+            $(".toggle-password").click(function() {
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                var input = $('#password');
+                if (input.attr("type") == "password") {
+                    input.attr("type", "text");
+                } else {
+                    input.attr("type", "password");
+                }
             });
         </script>
     </body>

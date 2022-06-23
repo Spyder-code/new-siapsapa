@@ -53,6 +53,7 @@ Route::delete('anggota-delete', [AnggotaController::class, 'deleteAnggota']);
 
 // document
 Route::get('get-document/{id}', [DocumentController::class, 'getDocumentTypeByPramukaId']);
+Route::delete('delete-document', [DocumentController::class, 'deleteDocument']);
 
 // agenda
 Route::delete('delete-agenda/{agenda}', [AgendaController::class, 'destroy']);

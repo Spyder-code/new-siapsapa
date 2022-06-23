@@ -6,6 +6,7 @@
     <div class="card">
         <form action="{{ route('page.profile.store') }}" method="POST" class="card-body needs-validation" novalidate enctype="multipart/form-data">
             @if (!empty($anggota))
+                <input type="hidden" name="id" value="{{ $anggota->id }}">
                 @if ($anggota->status==2)
                     <div class="alert alert-info">
                         <i class="fa fa-info-circle"></i>

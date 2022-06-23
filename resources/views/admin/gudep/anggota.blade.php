@@ -34,6 +34,7 @@
                         <thead>
                             <tr>
                                 <th>Foto</th>
+                                <th>nik</th>
                                 <th>Nomor Anggota</th>
                                 <th>Nama Lengkap</th>
                                 <th>Tgl Lahir</th>
@@ -86,10 +87,12 @@
             type: 'GET',
             data: {
                     gudep: {!! json_encode($gudep->id) !!},
+                    active: @json($active)
                 },
             },
             columns: [
                 {data: 'foto', name: 'foto'},
+                {data: 'nik', name: 'nik', visible: false},
                 {data: 'kode', name: 'kode'},
                 {data: 'nama', name: 'nama'},
                 {data: 'tgl_lahir', name: 'tgl_lahir'},

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GudepRequest;
 use App\Models\Anggota;
 use App\Models\Gudep;
 use App\Models\Provinsi;
+use App\Repositories\GudepService;
 use App\Repositories\WilayahService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +28,8 @@ class GudepController extends Controller
             if($role=='kwarcab')
                 $id_wilayah = $user->anggota->kabupaten;
             if($role=='kwaran')
+                $id_wilayah = $user->anggota->kecamatan;
+            if($role=='gudep')
                 $id_wilayah = $user->anggota->kecamatan;
         }
 
@@ -113,7 +117,11 @@ class GudepController extends Controller
 
     public function anggota(Gudep $gudep)
     {
-        return view('admin.gudep.anggota', compact('gudep'));
+        $active = request('active');
+        if($active==null){
+            $active = 'all';
+        }
+        return view('admin.gudep.anggota', compact('gudep','active'));
     }
 
     public function transfer()
@@ -145,9 +153,15 @@ class GudepController extends Controller
         return redirect()->route('gudep.index');
     }
 
-    public function update(Gudep $gudep)
-    {
-        $gudep->update(request()->all());
+    public function update(GudepRequest $request,Gudep $gudep)
+    {;
+        $gudep->update($request->all());
+        $service = new GudepService();
+        $service->updateKodeAnggota($gudep->id);
+        $role = Auth::user()->role;
+        if ($role=='gudep') {
+            return redirect()->route('gudep.show',$gudep);
+        }
         return redirect()->route('gudep.index');
     }
 
@@ -223,7 +237,12 @@ class GudepController extends Controller
     public function data_table_anggota()
     {
         $gudep = request('gudep');
-        $data = Anggota::where('gudep',$gudep)->where('status','<=',1)->select('id','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->with('user:id,role');
+        $active = request('active');
+        if($active=='all'){
+            $data = Anggota::where('gudep',$gudep)->where('status','<=',1)->select('id','nik','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->with('user:id,role');
+        }else{
+            $data = Anggota::where('gudep',$gudep)->where('status',$active)->select('id','nik','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->with('user:id,role');
+        }
 
         return DataTables::of($data)
             ->addColumn('foto', function($data){

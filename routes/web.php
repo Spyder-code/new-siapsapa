@@ -33,7 +33,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
-
+    $str = '22.22.22.222.123456';
+    $str = substr_replace($str, '111', 9,3);
+    dd($str);
 });
 
 Route::get('/', [PageController::class, 'home'])->name('home');

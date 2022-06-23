@@ -103,6 +103,24 @@
                 }
             });
         });
+
+        const deleteDocument = (id) =>{
+            console.log(id);
+            if(confirm('are you sure?')){
+                $.ajax({
+                    url: '{{ url("api/delete-document") }}',
+                    type: 'DELETE',
+                    data: {
+                        user_id: '{{ Auth::user()->id }}',
+                        document_id: id
+                    },
+                    success: function (data) {
+                        // reload
+                        location.reload();
+                    }
+                });
+            }
+        }
     </script>
 @endsection
 

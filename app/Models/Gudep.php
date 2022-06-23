@@ -12,7 +12,18 @@ class Gudep extends Model
     protected $guarded = [
         'id'
     ];
-    protected $fillable = ['npsn','nama_sekolah','no_putra', 'no_putri', 'nama_gudep_putra', 'nama_gudep_putri', 'provinsi', 'kabupaten', 'kecamatan', 'status'];
+    protected $fillable = [
+        'npsn',
+        'nama_sekolah',
+        'no_putra',
+        'no_putri',
+        'nama_gudep_putra',
+        'nama_gudep_putri',
+        'provinsi',
+        'kabupaten',
+        'kecamatan',
+        'status'
+    ];
 
     public function district()
     {
