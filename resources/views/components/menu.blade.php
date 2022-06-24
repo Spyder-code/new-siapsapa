@@ -57,7 +57,7 @@
         ]
     ],[
         'text' => 'Validasi Anggota',
-        'href' => route('anggota.index',['active' => 2]),
+        'href' => route('anggota.non_validate'),
         'icon' => 'user-check',
         'access' => ['admin','kwarda','kwarcab','kwaran','gudep'],
     ],[

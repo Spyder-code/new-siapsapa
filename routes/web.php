@@ -61,6 +61,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::resource('cartproduct',CartProductController::class);
         Route::resource('anggota', AnggotaController::class)->except(['edit','show']);
         Route::put('anggota/update/status/{anggota}', [AnggotaController::class,'updateStatus'])->name('anggota.update.status');
+        Route::get('anggota/non-validate', [AnggotaController::class,'non_validate'])->name('anggota.non_validate');
         Route::get('anggota/gudep/{gudep}', [GudepController::class,'anggota'])->name('gudep.anggota');
         Route::get('gudep/anggota/transfer', [GudepController::class,'transfer'])->name('gudep.transfer');
         Route::put('gudep/anggota/transfer', [GudepController::class,'transfer_store'])->name('gudep.transfer.store');
@@ -84,6 +85,7 @@ Route::middleware(['auth','admin'])->group(function () {
 Route::prefix('datatable')->group(function(){
     Route::get('gudep', [GudepController::class, 'data_table'])->name('datatable.gudep');
     Route::get('anggota', [AnggotaController::class, 'data_table'])->name('datatable.anggota');
+    Route::get('anggota/non-validate', [AnggotaController::class, 'data_table_non_validate'])->name('datatable.anggota.non_validate');
     Route::get('gudep/anggota', [GudepController::class, 'data_table_anggota'])->name('datatable.gudep.anggota');
     Route::get('kwartir', [KwartirController::class, 'data_table'])->name('datatable.kwartir');
     Route::get('wrong-date', [DataController::class, 'wrong_date'])->name('datatable.data.wrong.date');

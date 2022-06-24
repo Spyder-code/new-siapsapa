@@ -114,6 +114,7 @@ class KwartirController extends Controller
                 });
             },
             'anggota as anggota' => function($q){
+                $q->where('status', 1);
                 $q->whereHas('user', function($q){
                     $q->where('role', 'anggota');
                 });
