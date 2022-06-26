@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SyncAnggotaKta;
+use App\Jobs\SyncFoto;
 use App\Jobs\SyncGolongan;
 use App\Jobs\SyncStatusAnggota;
 use App\Models\Anggota;
@@ -11,6 +12,7 @@ use App\Models\Kta;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class SyncController extends Controller
@@ -95,6 +97,20 @@ class SyncController extends Controller
         $i = 0;
         foreach ($anggota->chunk(500) as $item ) {
             dispatch(new SyncStatusAnggota($item))->delay(now()->addMinutes(1));
+            $i++;
+        }
+
+        return response()->json([
+            'message' => 'Berhasil mengupdate '.$i.' data'
+        ], 200);
+    }
+
+    public function foto()
+    {
+        $anggota = Anggota::all();
+        $i = 0;
+        foreach ($anggota->chunk(500) as $item ) {
+            dispatch(new SyncFoto($item))->delay(now()->addMinutes(1));
             $i++;
         }
 

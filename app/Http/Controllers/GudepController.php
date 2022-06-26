@@ -239,9 +239,9 @@ class GudepController extends Controller
         $gudep = request('gudep');
         $active = request('active');
         if($active=='all'){
-            $data = Anggota::where('gudep',$gudep)->where('status','<=',1)->select('id','nik','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->with('user:id,role');
+            $data = Anggota::where('gudep',$gudep)->where('status','<=',1)->select('id','nik','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->orderBy('id','desc')->with('user:id,role');
         }else{
-            $data = Anggota::where('gudep',$gudep)->where('status',$active)->select('id','nik','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->with('user:id,role');
+            $data = Anggota::where('gudep',$gudep)->where('status',$active)->select('id','nik','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->orderBy('id','desc')->with('user:id,role');
         }
 
         return DataTables::of($data)

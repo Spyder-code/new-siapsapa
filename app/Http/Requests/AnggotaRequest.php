@@ -41,6 +41,7 @@ class AnggotaRequest extends FormRequest
             'status_anggota' => 'required',
             'foto' => 'nullable',
             'kawin' => 'required',
+            'status' => 'nullable',
         ];
     }
 }
