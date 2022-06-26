@@ -19,6 +19,7 @@ use App\Models\Provinsi;
 use App\Repositories\StatistikService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,9 +34,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
-    $str = '22.22.22.222.123456';
-    $str = substr_replace($str, '111', 9,3);
-    dd($str);
+    $item = Anggota::first();
+            $old_path = public_path('berkas/anggota');
+            if($item->gudep==null){
+                $new_path = public_path('berkas/foto/'.$item->provinsi.'/'.$item->kabupaten.'/'.$item->kecamatan);
+            }else{
+                $new_path = public_path('berkas/foto/'.$item->provinsi.'/'.$item->kabupaten.'/'.$item->kecamatan.'/'.$item->gudep);
+            }
+            // dd($new_path);
+            $filename = $item->foto;
+            // Storage::move_uploaded_file($old_path.'/'.$filename, $new_path.'/'.$filename);
+            if (! File::exists($new_path)) {
+                File::makeDirectory($new_path,  0755, true, true);
+            }
+            // if (File::exists($old_path.'/'.$filename)) {
+            //     File::copy(
+            //         $old_path.'/'.$filename,
+            //         $new_path.'/'.$filename
+            //     );
+            // }
 });
 
 Route::get('/', [PageController::class, 'home'])->name('home');

@@ -297,6 +297,9 @@ class AnggotaController extends Controller
         $id_wilayah = request('id_wilayah');
         $is_gudep = request('gudep');
         $query = Anggota::query();
+        $query->whereHas('user', function($query) use ($id_wilayah) {
+            $query->where('role','!=', 'admin');
+        });
         if($is_gudep == 1){
             $query->whereNotNull('gudep');
             if(Auth::user()->role=='gudep'){

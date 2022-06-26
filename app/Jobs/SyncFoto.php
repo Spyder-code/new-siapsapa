@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class SyncFoto implements ShouldQueue
 {
@@ -41,13 +42,16 @@ class SyncFoto implements ShouldQueue
                 $new_path = public_path('berkas/foto/'.$item->provinsi.'/'.$item->kabupaten.'/'.$item->kecamatan.'/'.$item->gudep);
             }
             $filename = $item->foto;
+            // Storage::move_uploaded_file($old_path.'/'.$filename, $new_path.'/'.$filename);
             if (! File::exists($new_path)) {
-                File::makeDirectory($new_path);
+                File::makeDirectory($new_path,  0755, true, true);
             }
-            File::copy(
-                $old_path.'/'.$filename,
-                $new_path.'/'.$filename
-            );
+            if (File::exists($old_path.'/'.$filename)) {
+                File::copy(
+                    $old_path.'/'.$filename,
+                    $new_path.'/'.$filename
+                );
+            }
         }
     }
 }

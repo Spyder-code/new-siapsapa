@@ -175,6 +175,11 @@
             <div class="card my-3 p-3">
                 <div id="dewasa"></div>
             </div>
+            <div class="card my-3 p-3">
+                <h4 class="card-title mb-0">List Admin</h4>
+                <hr>
+                <ol class="list-group list-group-numbered" id="list-admin"></ol>
+            </div>
         </div>
     </div>
 </div>
@@ -211,5 +216,59 @@
         $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel, .buttons-collection ")
         .addClass("btn btn-primary");
         $(".buttons-collection ").addClass("btn btn-info m-1");
+
+        let list_admin = () =>{
+                $.ajax({
+                    url: {!! json_encode(url('api/get-admin')) !!}+'/'+{!! json_encode($id_wilayah) !!},
+                    type: 'GET',
+                    success: function(data) {
+                        var data = data.data;
+                        $('#list-admin').html('');
+                        $.each(data, function(index, value) {
+                            $('#list-admin').append(
+                                `<li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div div class="ms-2 me-auto">
+                                        <div class="fw-bold">${value.nama}</div>
+                                        ${value.email}
+                                    </div>
+                                    <button onclick="deleteAdmin(${value.id})" class="btn btn-sm btn-outline-danger rounded-pill"><i class="fas fa-trash-alt"></i></button>
+                                </li>`
+                            );
+                        });
+                    }
+                });
+        }
+
+        let deleteAdmin = (anggota_id) => {
+            $.ajax({
+                url: {!! json_encode(url('api/delete-admin')) !!},
+                type: 'PUT',
+                data: {
+                    anggota_id: anggota_id,
+                },
+                success: function(data) {
+                    list_admin();
+                    total_anggota();
+                    table.ajax.reload();
+                }
+            });
+        }
+
+        let addAdmin = (anggota_id) => {
+            $.ajax({
+                url: {!! json_encode(url('api/add-admin')) !!},
+                type: 'POST',
+                data: {
+                    id_wilayah: {!! json_encode($id_wilayah) !!},
+                    anggota_id: anggota_id,
+                },
+                success: function(data) {
+                    list_admin();
+                    total_anggota();
+                    table.ajax.reload();
+                }
+            });
+        }
+        list_admin();
     </script>
 @endsection
