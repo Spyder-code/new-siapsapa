@@ -36,6 +36,9 @@ class DocumentService {
     {
         $data = Document::all()->where('user_id', $user_id)->where('status',1)->max('document_type_id');
         Anggota::where('user_id', $user_id)->update(['tingkat' => $data]);
+        if($data>=13){
+            Anggota::where('user_id', $user_id)->update(['pramuka' => 6]);
+        }
         return $data;
     }
 }

@@ -218,14 +218,14 @@
                         width: '100%',
                     },
                     title: {
-                        text: 'Statistik',
+                        text: 'Statistik Anggota',
                         align: 'left'
                     },
                     series:[{
                         data: statistik_value
                     }],
                     xaxis: {
-                        categories: ['Anggota Putra', 'Anggota Putri', 'Anggota Aktif', 'Anggota non Aktif', 'Anggota Gudep', 'Anggota non Gudep']
+                        categories: ['Putra', 'Putri', 'Aktif', 'non Aktif', 'Gudep', 'non Gudep']
                     },
                 }
 
