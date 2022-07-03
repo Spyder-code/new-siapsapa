@@ -218,34 +218,34 @@
 @section('script')
     @include('components.dashboard',['id_wilayah' => $id_wilayah, 'gudep' => 0])
     <script>
-        // var table = $(".file-export").DataTable({
-        //     processing: true,
-        //     serverSide: true,
-        //     scrollY: '300px',
-        //     ajax: {
-        //     url: '{!! route('datatable.kwartir.anggota') !!}',
-        //     type: 'GET',
-        //     data: {
-        //             id_wilayah: {!! json_encode($id_wilayah) !!},
-        //         },
-        //     },
-        //     columns: [
-        //         {data: 'nama', name: 'nama'},
-        //         {data: 'email', name: 'email'},
-        //         {data: 'action', name: 'action', searchable: false, orderable: false},
-        //     ],
-        //     dom: "Bfrtip",
-        //     lengthMenu: [
-        //         [ 10, 25, 50, -1 ],
-        //         [ '10 rows', '25 rows', '50 rows', 'Show all' ]
-        //     ],
-        //     buttons: ["pageLength","copy", "csv", "excel", "pdf", "print"],
-        //     "bLengthChange": true,
-        // });
+        var table = $(".file-export").DataTable({
+            processing: true,
+            serverSide: true,
+            scrollY: '300px',
+            ajax: {
+            url: '{!! route('datatable.kwartir.anggota') !!}',
+            type: 'GET',
+            data: {
+                    id_wilayah: {!! json_encode($id_wilayah) !!},
+                },
+            },
+            columns: [
+                {data: 'nama', name: 'nama'},
+                {data: 'email', name: 'email'},
+                {data: 'action', name: 'action', searchable: false, orderable: false},
+            ],
+            dom: "Bfrtip",
+            lengthMenu: [
+                [ 10, 25, 50, -1 ],
+                [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+            ],
+            buttons: ["pageLength","copy", "csv", "excel", "pdf", "print"],
+            "bLengthChange": true,
+        });
 
-        // $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel, .buttons-collection ")
-        // .addClass("btn btn-primary");
-        // $(".buttons-collection ").addClass("btn btn-info m-1");
+        $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel, .buttons-collection ")
+        .addClass("btn btn-primary");
+        $(".buttons-collection ").addClass("btn btn-info m-1");
 
         let list_admin = () =>{
                 $.ajax({
