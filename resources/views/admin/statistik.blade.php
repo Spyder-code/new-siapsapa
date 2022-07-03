@@ -162,18 +162,48 @@
         <div class="col-4">
             <div class="card my-3 p-3">
                 <div id="siaga"></div>
+                <div class="card-footer">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">Laki-laki: <strong id="total-siaga-lk">-</strong></li>
+                        <li class="list-group-item">Perempuan: <strong id="total-siaga-pr">-</strong></li>
+                    </ul>
+                </div>
             </div>
             <div class="card my-3 p-3">
                 <div id="penggalang"></div>
+                <div class="card-footer">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">Laki-laki: <strong id="total-penggalang-lk">-</strong></li>
+                        <li class="list-group-item">Perempuan: <strong id="total-penggalang-pr">-</strong></li>
+                    </ul>
+                </div>
             </div>
             <div class="card my-3 p-3">
                 <div id="penegak"></div>
+                <div class="card-footer">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">Laki-laki: <strong id="total-penegak-lk">-</strong></li>
+                        <li class="list-group-item">Perempuan: <strong id="total-penegak-pr">-</strong></li>
+                    </ul>
+                </div>
             </div>
             <div class="card my-3 p-3">
                 <div id="pandega"></div>
+                <div class="card-footer">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">Laki-laki: <strong id="total-pandega-lk">-</strong></li>
+                        <li class="list-group-item">Perempuan: <strong id="total-pandega-pr">-</strong></li>
+                    </ul>
+                </div>
             </div>
             <div class="card my-3 p-3">
                 <div id="dewasa"></div>
+                <div class="card-footer">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">Laki-laki: <strong id="total-dewasa-lk">-</strong></li>
+                        <li class="list-group-item">Perempuan: <strong id="total-dewasa-pr">-</strong></li>
+                    </ul>
+                </div>
             </div>
             <div class="card my-3 p-3">
                 <h4 class="card-title mb-0">List Admin</h4>
@@ -186,36 +216,36 @@
 @endsection
 
 @section('script')
-    @include('components.dashboard',['id_wilayah' => $id_wilayah])
+    @include('components.dashboard',['id_wilayah' => $id_wilayah, 'gudep' => 0])
     <script>
-        var table = $(".file-export").DataTable({
-            processing: true,
-            serverSide: true,
-            scrollY: '300px',
-            ajax: {
-            url: '{!! route('datatable.kwartir.anggota') !!}',
-            type: 'GET',
-            data: {
-                    id_wilayah: {!! json_encode($id_wilayah) !!},
-                },
-            },
-            columns: [
-                {data: 'nama', name: 'nama'},
-                {data: 'email', name: 'email'},
-                {data: 'action', name: 'action', searchable: false, orderable: false},
-            ],
-            dom: "Bfrtip",
-            lengthMenu: [
-                [ 10, 25, 50, -1 ],
-                [ '10 rows', '25 rows', '50 rows', 'Show all' ]
-            ],
-            buttons: ["pageLength","copy", "csv", "excel", "pdf", "print"],
-            "bLengthChange": true,
-        });
+        // var table = $(".file-export").DataTable({
+        //     processing: true,
+        //     serverSide: true,
+        //     scrollY: '300px',
+        //     ajax: {
+        //     url: '{!! route('datatable.kwartir.anggota') !!}',
+        //     type: 'GET',
+        //     data: {
+        //             id_wilayah: {!! json_encode($id_wilayah) !!},
+        //         },
+        //     },
+        //     columns: [
+        //         {data: 'nama', name: 'nama'},
+        //         {data: 'email', name: 'email'},
+        //         {data: 'action', name: 'action', searchable: false, orderable: false},
+        //     ],
+        //     dom: "Bfrtip",
+        //     lengthMenu: [
+        //         [ 10, 25, 50, -1 ],
+        //         [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+        //     ],
+        //     buttons: ["pageLength","copy", "csv", "excel", "pdf", "print"],
+        //     "bLengthChange": true,
+        // });
 
-        $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel, .buttons-collection ")
-        .addClass("btn btn-primary");
-        $(".buttons-collection ").addClass("btn btn-info m-1");
+        // $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel, .buttons-collection ")
+        // .addClass("btn btn-primary");
+        // $(".buttons-collection ").addClass("btn btn-info m-1");
 
         let list_admin = () =>{
                 $.ajax({

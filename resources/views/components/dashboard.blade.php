@@ -1,17 +1,31 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         var id_wilayah = @json($id_wilayah);
-        var url = @json(url('api/dashboard'))+'/'+id_wilayah;
+        var gudep = @json($gudep);
+        if(gudep>0){
+            var url = @json(url('api/dashboard'))+'/'+id_wilayah+'?gudep='+gudep;
+        }else{
+            var url = @json(url('api/dashboard'))+'/'+id_wilayah;
+        }
 
         $.ajax({
             url: url,
             type: 'GET',
             success: function(data) {
-                console.log(data);
                 var tingkat = data.tingkat;
+                console.log(tingkat);
                 var jumlah = data.statistik;
-                var statistik_value = [data.gender.male,data.gender.female,data.active.active,data.active.unactive,data.gudep.gudep,data.gudep.non_gudep];
-
+                var statistik_value = [data.gender.total_male,data.gender.total_female,data.active.active,data.active.unactive,data.gudep.gudep,data.gudep.non_gudep];
+                $('#total-siaga-lk').html(data.gender.siaga.male);
+                $('#total-siaga-pr').html(data.gender.siaga.female);
+                $('#total-penggalang-lk').html(data.gender.penggalang.male);
+                $('#total-penggalang-pr').html(data.gender.penggalang.female);
+                $('#total-penegak-lk').html(data.gender.penegak.male);
+                $('#total-penegak-pr').html(data.gender.penegak.female);
+                $('#total-pandega-lk').html(data.gender.pandega.male);
+                $('#total-pandega-pr').html(data.gender.pandega.female);
+                $('#total-dewasa-lk').html(data.gender.dewasa.male);
+                $('#total-dewasa-pr').html(data.gender.dewasa.female);
                 var siaga = {
                     title: {
                         text: 'Detail Anggota Siaga',
