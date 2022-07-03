@@ -225,7 +225,7 @@
                         data: statistik_value
                     }],
                     xaxis: {
-                        categories: ['Anggota Laki-laki', 'Anggota Perempuan', 'Anggota Aktif', 'Anggota non Aktif', 'Anggota Gudep', 'Anggota non Gudep']
+                        categories: ['Anggota Putra', 'Anggota Putri', 'Anggota Aktif', 'Anggota non Aktif', 'Anggota Gudep', 'Anggota non Gudep']
                     },
                 }
 

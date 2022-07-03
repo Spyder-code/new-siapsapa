@@ -164,8 +164,8 @@
                 <div id="siaga"></div>
                 <div class="card-footer">
                     <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item">Laki-laki: <strong id="total-siaga-lk">-</strong></li>
-                        <li class="list-group-item">Perempuan: <strong id="total-siaga-pr">-</strong></li>
+                        <li class="list-group-item">Putra: <strong id="total-siaga-lk">-</strong></li>
+                        <li class="list-group-item">Putri: <strong id="total-siaga-pr">-</strong></li>
                     </ul>
                 </div>
             </div>
@@ -173,8 +173,8 @@
                 <div id="penggalang"></div>
                 <div class="card-footer">
                     <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item">Laki-laki: <strong id="total-penggalang-lk">-</strong></li>
-                        <li class="list-group-item">Perempuan: <strong id="total-penggalang-pr">-</strong></li>
+                        <li class="list-group-item">Putra: <strong id="total-penggalang-lk">-</strong></li>
+                        <li class="list-group-item">Putri: <strong id="total-penggalang-pr">-</strong></li>
                     </ul>
                 </div>
             </div>
@@ -182,8 +182,8 @@
                 <div id="penegak"></div>
                 <div class="card-footer">
                     <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item">Laki-laki: <strong id="total-penegak-lk">-</strong></li>
-                        <li class="list-group-item">Perempuan: <strong id="total-penegak-pr">-</strong></li>
+                        <li class="list-group-item">Putra: <strong id="total-penegak-lk">-</strong></li>
+                        <li class="list-group-item">Putri: <strong id="total-penegak-pr">-</strong></li>
                     </ul>
                 </div>
             </div>
@@ -191,8 +191,8 @@
                 <div id="pandega"></div>
                 <div class="card-footer">
                     <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item">Laki-laki: <strong id="total-pandega-lk">-</strong></li>
-                        <li class="list-group-item">Perempuan: <strong id="total-pandega-pr">-</strong></li>
+                        <li class="list-group-item">Putra: <strong id="total-pandega-lk">-</strong></li>
+                        <li class="list-group-item">Putri: <strong id="total-pandega-pr">-</strong></li>
                     </ul>
                 </div>
             </div>
@@ -200,8 +200,8 @@
                 <div id="dewasa"></div>
                 <div class="card-footer">
                     <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item">Laki-laki: <strong id="total-dewasa-lk">-</strong></li>
-                        <li class="list-group-item">Perempuan: <strong id="total-dewasa-pr">-</strong></li>
+                        <li class="list-group-item">Putra: <strong id="total-dewasa-lk">-</strong></li>
+                        <li class="list-group-item">Putri: <strong id="total-dewasa-pr">-</strong></li>
                     </ul>
                 </div>
             </div>
