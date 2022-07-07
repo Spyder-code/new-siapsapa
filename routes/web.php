@@ -7,6 +7,7 @@ use App\Http\Controllers\CartProductController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GudepController;
+use App\Http\Controllers\KtaController;
 use App\Http\Controllers\KwartirController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
@@ -75,6 +76,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::resource('kwartir', KwartirController::class)->except(['show','create','store']);
         Route::resource('gudep', GudepController::class);
         Route::resource('product',ProductController::class);
+        Route::resource('kta',KtaController::class);
         Route::resource('cartproduct',CartProductController::class);
         Route::resource('anggota', AnggotaController::class)->except(['edit','show']);
         Route::put('anggota/update/status/{anggota}', [AnggotaController::class,'updateStatus'])->name('anggota.update.status');

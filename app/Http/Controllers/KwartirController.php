@@ -178,7 +178,7 @@ class KwartirController extends Controller
                 }
                 return $html;
             })
-            ->addColumn('tools', function ($data) use ($type) {
+            ->addColumn('tools', function ($data) use ($type, $len) {
                 if($type==4){
                     $html = '<a class="dropdown-item" href="'.route('gudep.edit',$data->id).'">
                                 <i class="fa fa-pencil-alt me-1"></i> Edit Gudep
@@ -189,6 +189,11 @@ class KwartirController extends Controller
                 }else{
                     $html = '<a class="dropdown-item" href="'.route('kwartir.edit',$data->id).'">
                                 <i class="fa fa-pencil-alt me-1"></i> Edit Wilayah
+                            </a>';
+                }
+                if ($len==2&&Auth::user()->role=='admin') {
+                    $html .= '<a class="dropdown-item" href="'.route('kta.index',['id_wilayah'=>$data->id]).'">
+                                <i class="fa fa-image me-1"></i> Management KTA
                             </a>';
                 }
                 return '<div class="dropdown">
