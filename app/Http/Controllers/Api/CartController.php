@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CartResource;
 use App\Models\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
@@ -53,5 +54,12 @@ class CartController extends Controller
         }
         $cart->delete();
         return response()->json('Cart deleted successfully');
+    }
+
+    public function numberOfCart()
+    {
+        $user_id = request('user_id');
+        $cart = Cart::all()->where('user_id', $user_id)->count();
+        return response()->json($cart);
     }
 }

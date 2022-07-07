@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AgendaController;
 use App\Http\Controllers\Api\AnggotaController;
 use App\Http\Controllers\Api\AuthApi;
+use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\GudepController;
 use App\Http\Controllers\Api\KwartirController;
@@ -26,8 +27,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// cart
+Route::post('get-number-of-cart', [CartController::class, 'numberOfCart']);
+
+
 // statistik
-Route::get('get-number-of-member/{id_wilayah}', [StatistikController::class, 'getNumberOfMemberAndAdmin']);
 Route::get('dashboard/{id_wilayah}', [StatistikController::class, 'dashboard']);
 Route::get('get-number-of-pramuka/{id_wilayah}', [StatistikController::class, 'getNumberOfPramuka']);
 

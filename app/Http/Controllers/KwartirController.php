@@ -120,6 +120,7 @@ class KwartirController extends Controller
                 });
             }]);
             $type = 1;
+            $len = 1;
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {

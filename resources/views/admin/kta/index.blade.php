@@ -26,7 +26,7 @@
                 <input type="hidden" name="kabupaten" value="{{ $kabupaten->id }}">
                 @include('admin.kta.form',['harga'=>$kabupaten->harga,'kta'=>$kta])
                 <div class="mb-3 btn-group">
-                    <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">Kembali</a>
+                    <a href="{{ route('kwartir.index',['id_wilayah'=>$kabupaten->province_id]) }}" class="btn btn-outline-secondary">Kembali</a>
                     <button type="submit" class="btn btn-outline-primary">Simpan</button>
                 </div>
             </form>

@@ -140,10 +140,10 @@
                         <!-- ============================================================== -->
                         <!-- Messages -->
                         <!-- ============================================================== -->
-                        {{-- <li class="nav-item dropdown">
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope"></i>
-                                <div class="notify">
+                                <i class="fas fa-cart-plus"></i>
+                                <div class="notify" id="notify-cart">
                                     <span class="heartbit"></span> <span class="point"></span>
                                 </div>
                             </a>
@@ -151,19 +151,19 @@
                                 <ul class="list-style-none">
                                     <li>
                                         <div class="border-bottom rounded-top py-3 px-4">
-                                            <div class="mb-0 font-weight-medium fs-4">
-                                                You have 4 new messages
+                                            <div class="mb-0 font-weight-medium fs-4 text-center">
+                                                <span id="total-cart">-</span> Item dalam keranjang
                                             </div>
                                         </div>
                                     </li>
                                     <li>
-                                        <a class="nav-link border-top text-center text-dark pt-3" href="javascript:void(0);">
-                                            <b>See all e-Mails</b> <i class="fa fa-angle-right"></i>
+                                        <a class="nav-link border-top text-center text-dark pt-3" href="{{ route('cart.index') }}">
+                                            <b>Lihat Keranjang</b> <i class="fa fa-angle-right"></i>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
-                        </li> --}}
+                        </li>
                         <!-- ============================================================== -->
                         <!-- End Messages -->
                         <!-- ============================================================== -->
@@ -360,6 +360,23 @@
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
+
+        // ajax
+        $('#notify-cart').hide();
+        var url = @json(url('api/get-number-of-cart'));
+        $.ajax({
+            url: url,
+            method: 'post',
+            data:{
+                user_id: {{ Auth::user()->id }}
+            },
+            success: function(response) {
+                if(response>0){
+                    $('#notify-cart').show();
+                }
+                $('#total-cart').html(response);
+            }
+        });
     </script>
     @yield('script')
 </body>

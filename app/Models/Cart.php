@@ -10,6 +10,7 @@ class Cart extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
+        'kta_id',
         'anggota_id',
         'harga',
         'golongan',
@@ -17,6 +18,16 @@ class Cart extends Model
 
     public function anggota()
     {
-        return $this->belongsTo(Anggota::class, 'kta_id');
+        return $this->belongsTo(Anggota::class, 'anggota_id');
+    }
+
+    public function pramuka()
+    {
+        return $this->belongsTo(Pramuka::class, 'golongan');
+    }
+
+    public function kta()
+    {
+        return $this->belongsTo(Kta::class, 'kta_id');
     }
 }

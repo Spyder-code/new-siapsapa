@@ -65,69 +65,78 @@ class KtaController extends Controller
             'kabupaten' => $request->kabupaten,
         ];
 
-        $data_siaga = $data;
-        $data_siaga['pramuka_id'] = 1;
-        $data_siaga['depan'] = $request->siaga[0];
-        $data_siaga['belakang'] = $request->siaga[1];
-
-        $data_penggalang = $data;
-        $data_penggalang['pramuka_id'] = 2;
-        $data_penggalang['depan'] = $request->penggalang[0];
-        $data_penggalang['belakang'] = $request->penggalang[1];
-
-        $data_penegak = $data;
-        $data_penegak['pramuka_id'] = 3;
-        $data_penegak['depan'] = $request->penegak[0];
-        $data_penegak['belakang'] = $request->penegak[1];
-
-        $data_pandega = $data;
-        $data_pandega['pramuka_id'] = 4;
-        $data_pandega['depan'] = $request->pandega[0];
-        $data_pandega['belakang'] = $request->pandega[1];
-
-        $data_dewasa = $data;
-        $data_dewasa['pramuka_id'] = 5;
-        $data_dewasa['depan'] = $request->dewasa[0];
-        $data_dewasa['belakang'] = $request->dewasa[1];
-
-        if($siaga==null){
-            $service = new KtaService();
-            $service->insertData($data_siaga);
-        }else{
-            $service = new KtaService();
-            $service->updateData($data_siaga, $siaga);
+        if($request->siaga){
+            $request->validate([
+                'siaga' => 'array',
+                'siaga.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            $data_siaga = $data;
+            $data_siaga['pramuka_id'] = 1;
+            $data_siaga['depan'] = $request->siaga[0];
+            $data_siaga['belakang'] = $request->siaga[1];
+            if($siaga==null){
+                $service = new KtaService();
+                $service->insertData($data_siaga);
+            }else{
+                $service = new KtaService();
+                $service->updateData($data_siaga, $siaga);
+            }
         }
 
-        if($penggalang==null){
-            $service = new KtaService();
-            $service->insertData($data_penggalang);
-        }else{
-            $service = new KtaService();
-            $service->updateData($data_penggalang, $siaga);
+        if($request->penggalang){
+            $data_penggalang = $data;
+            $data_penggalang['pramuka_id'] = 2;
+            $data_penggalang['depan'] = $request->penggalang[0];
+            $data_penggalang['belakang'] = $request->penggalang[1];
+            if($penggalang==null){
+                $service = new KtaService();
+                $service->insertData($data_penggalang);
+            }else{
+                $service = new KtaService();
+                $service->updateData($data_penggalang, $penggalang);
+            }
         }
 
-        if($penegak==null){
-            $service = new KtaService();
-            $service->insertData($data_penegak);
-        }else{
-            $service = new KtaService();
-            $service->updateData($data_penegak, $siaga);
+        if($request->penegak){
+            $data_penegak = $data;
+            $data_penegak['pramuka_id'] = 3;
+            $data_penegak['depan'] = $request->penegak[0];
+            $data_penegak['belakang'] = $request->penegak[1];
+            if($penegak==null){
+                $service = new KtaService();
+                $service->insertData($data_penegak);
+            }else{
+                $service = new KtaService();
+                $service->updateData($data_penegak, $penegak);
+            }
         }
 
-        if($pandega==null){
-            $service = new KtaService();
-            $service->insertData($data_pandega);
-        }else{
-            $service = new KtaService();
-            $service->updateData($data_pandega, $siaga);
+        if($request->pandega){
+            $data_pandega = $data;
+            $data_pandega['pramuka_id'] = 4;
+            $data_pandega['depan'] = $request->pandega[0];
+            $data_pandega['belakang'] = $request->pandega[1];
+            if($pandega==null){
+                $service = new KtaService();
+                $service->insertData($data_pandega);
+            }else{
+                $service = new KtaService();
+                $service->updateData($data_pandega, $pandega);
+            }
         }
 
-        if($dewasa==null){
-            $service = new KtaService();
-            $service->insertData($data_dewasa);
-        }else{
-            $service = new KtaService();
-            $service->updateData($data_dewasa, $siaga);
+        if($request->dewasa){
+            $data_dewasa = $data;
+            $data_dewasa['pramuka_id'] = 5;
+            $data_dewasa['depan'] = $request->dewasa[0];
+            $data_dewasa['belakang'] = $request->dewasa[1];
+            if($dewasa==null){
+                $service = new KtaService();
+                $service->insertData($data_dewasa);
+            }else{
+                $service = new KtaService();
+                $service->updateData($data_dewasa, $dewasa);
+            }
         }
 
         return back()->with('success', 'Data berhasil disimpan');
