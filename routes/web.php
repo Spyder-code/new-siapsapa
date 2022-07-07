@@ -35,25 +35,50 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
-    $item = Anggota::first();
-            $old_path = public_path('berkas/anggota');
-            if($item->gudep==null){
-                $new_path = public_path('berkas/foto/'.$item->provinsi.'/'.$item->kabupaten.'/'.$item->kecamatan);
+    $id_wilayah = 51;
+        if($id_wilayah=='all'){
+            $query = Anggota::where('status',1)->get('id');
+        }else{
+            $len = strlen($id_wilayah);
+            if ($len==2) {
+                $query = Anggota::where('status',1)->where('provinsi',$id_wilayah)->get(['id','tingkat']);
+            }elseif($len==4){
+                $query =  Anggota::where('status',1)->where('kabupaten',$id_wilayah)->get(['id','tingkat']);
             }else{
-                $new_path = public_path('berkas/foto/'.$item->provinsi.'/'.$item->kabupaten.'/'.$item->kecamatan.'/'.$item->gudep);
+                $query =  Anggota::where('status',1)->where('kecamatan',$id_wilayah)->get(['id','tingkat']);
             }
-            // dd($new_path);
-            $filename = $item->foto;
-            // Storage::move_uploaded_file($old_path.'/'.$filename, $new_path.'/'.$filename);
-            if (! File::exists($new_path)) {
-                File::makeDirectory($new_path,  0755, true, true);
+        }
+
+        $count = array();
+        $label = array();
+        $documents = DocumentType::get(['id','pramuka_id','name'])->groupBy('pramuka_id');
+        foreach ($documents as $idx => $pramuka ) {
+            $count[$idx] = array();
+            $label[$idx] = array();
+            foreach ($pramuka as $document ) {
+                $counts = $query->where('tingkat',$document->id)->count();
+                $counts = $counts == 0 ? 0 : $counts;
+                $name = $document->name;
+                array_push($label[$idx],$name);
+                array_push($count[$idx],$counts);
             }
-            // if (File::exists($old_path.'/'.$filename)) {
-            //     File::copy(
-            //         $old_path.'/'.$filename,
-            //         $new_path.'/'.$filename
-            //     );
-            // }
+        }
+
+        $new = array();
+        foreach($count AS $key => $value) {
+            $new[$key] = [
+                'label' => $label[$key],
+                'value' => $value
+            ];
+        }
+
+        return [
+            'siaga' => $new[1],
+            'penggalang' => $new[2],
+            'penegak' => $new[3],
+            'pandega' => $new[4],
+            'dewasa' => $new[5],
+        ];
 });
 
 Route::get('/', [PageController::class, 'home'])->name('home');

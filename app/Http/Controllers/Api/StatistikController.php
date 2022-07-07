@@ -64,7 +64,11 @@ class StatistikController extends Controller
 
     public function dashboard($id_wilayah)
     {
-        $statistik = new StatistikService($id_wilayah);
+        if(request('gudep')){
+            $statistik = new StatistikService($id_wilayah, request('gudep'));
+        }else{
+            $statistik = new StatistikService($id_wilayah);
+        }
         $data = $statistik->dashboard();
         return response()->json($data);
     }

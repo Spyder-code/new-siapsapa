@@ -215,16 +215,61 @@
             <hr>
             <ol class="list-group list-group-numbered" id="list-admin"></ol>
         </div>
+        <div class="card my-3 p-3">
+            <div id="siaga"></div>
+            <div class="card-footer">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item">Putra: <strong id="total-siaga-lk">-</strong></li>
+                    <li class="list-group-item">Putri: <strong id="total-siaga-pr">-</strong></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card my-3 p-3">
+            <div id="penggalang"></div>
+            <div class="card-footer">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item">Putra: <strong id="total-penggalang-lk">-</strong></li>
+                    <li class="list-group-item">Putri: <strong id="total-penggalang-pr">-</strong></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card my-3 p-3">
+            <div id="penegak"></div>
+            <div class="card-footer">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item">Putra: <strong id="total-penegak-lk">-</strong></li>
+                    <li class="list-group-item">Putri: <strong id="total-penegak-pr">-</strong></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card my-3 p-3">
+            <div id="pandega"></div>
+            <div class="card-footer">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item">Putra: <strong id="total-pandega-lk">-</strong></li>
+                    <li class="list-group-item">Putri: <strong id="total-pandega-pr">-</strong></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card my-3 p-3">
+            <div id="dewasa"></div>
+            <div class="card-footer">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item">Putra: <strong id="total-dewasa-lk">-</strong></li>
+                    <li class="list-group-item">Putri: <strong id="total-dewasa-pr">-</strong></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
 
 @section('script')
+@include('components.dashboard',['id_wilayah' => $id_wilayah, 'gudep' => $gudep->id])
 <script>
     var table = $(".file-export").DataTable({
         processing: true,
         serverSide: true,
-        scrollY: '200px',
         ajax: {
             url: '{!! route('datatable.gudep.anggota') !!}',
             type: 'GET',
