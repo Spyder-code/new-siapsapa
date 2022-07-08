@@ -58,6 +58,6 @@ class CartController extends Controller
         // return view('print', compact('carts'));
         $pdf = Pdf::loadView('print', compact('carts'));
         $file_name = date('d-m-H-i').'.pdf';
-        return $pdf->download($file_name);
+        return $pdf->download('cetak.pdf');
     }
 }
