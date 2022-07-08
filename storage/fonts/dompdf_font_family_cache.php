@@ -80,6 +80,7 @@ return array (
   ),
   'roboto slab' => array(
     '300' => $fontDir . '/roboto_slab_300_838f09317d641b6c83f18229555c0000',
+    'normal' => $fontDir . '/roboto_slab_normal_679fe4211cf81314fd6c72af255493db',
   ),
 );
 }; ?>

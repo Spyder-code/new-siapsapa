@@ -1,0 +1,85 @@
+body{
+    background-color: #f5f5f5;
+}
+.watermark{
+    width: 85.60mm;
+    height: 53.98mm;
+    position: absolute;
+    left: 0px;
+    opacity: 0.5;
+}
+main {
+    /* margin: auto; */
+    width: 400px;
+    padding: 10px;
+    color: white;
+}
+/* image responsive */
+.img-kta {
+    max-width: 100%;
+    border-radius: 18px;
+    width: 85.60mm;
+    height: 53.98mm;
+}
+
+/* border black */
+.kta{
+    position: absolute;
+    /* border: black 2pt solid; */
+    width: inherit;
+    border-radius: 18px;
+}
+
+#data-kta{
+    position: absolute;
+    top: 63px;
+}
+
+table{
+    width: 85.60mm;
+}
+td{
+    font-size: 0.5rem;
+}
+
+#gambar{
+    margin-left: 17.3px;
+    margin-top: -6px;
+}
+
+.button{
+    position: relative;
+    top: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    gap: 10px;
+}
+
+.btn-download{
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
+    border-radius: 18px;
+    padding: 15px 20px;
+}
+
+@media print {
+    main{
+        color: rgb(255, 255, 255) !important;
+    }
+    tr{
+        position: relative !important;
+    }
+    .i-nta{
+        position: relative !important;
+        top: -3px !important;
+    }
+    .pagebreak { page-break-before: always; } /* page-break-after works, as well */
+}
+
+
+
