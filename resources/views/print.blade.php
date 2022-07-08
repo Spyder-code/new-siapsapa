@@ -8,22 +8,22 @@
 
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/kta4.css') }}">
-    {{-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap" rel="stylesheet"> --}}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
     <title>Print</title>
     <style>
-        @font-face {
+        /* @font-face {
             font-family: 'Roboto Slab';
             src: url({{ storage_path('fonts/roboto_slab/RobotoSlab-VariableFont_wght.ttf') }});
-        }
+        } */
         /* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap'); */
         /* @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap'); */
         body{
             font-family: 'Roboto Slab', sans-serif;
         }
         table tr td{
-            font-size: 6.5pt;
+            font-size: 5.6pt;
         }
         *{
             margin: 0;
@@ -126,11 +126,11 @@
             </div>
             <div style="height:58mm;width:91mm;display:inline-block;margin:0;padding:0;position: relative;">
                 <img style="width:91mm" src="{{ asset('berkas/kta/'.$cart->kta->depan) }}" class="img-kta">
-                <div style="height:108px;position: absolute;top:74px;left:31.3px;">
-                    <img  style="position: absolute;top:0; width:55px; height:62px;" src="{{ asset('berkas/anggota/'.$cart->anggota->foto) }}" id="pasfoto-kta" class="img rounded">
+                <div style="height:108px;position: absolute;top:65px;left:31.3px;">
+                    <img  style="position: absolute;top:0; width:55px; height:62px;" src="{{ asset('berkas/anggota/foto.jpg') }}" id="pasfoto-kta" class="img rounded">
                     <img  style="position: absolute;bottom:-10px; width:55px; height:55px;" src="data:image/png;base64,{{DNS2D::getBarcodePNG($cart->anggota->nik, 'QRCODE')}}" class="img">
                 </div>
-                <p style="font-size: 5pt; position: absolute !important; top:205px !important; left:28px !important; color:white;">Masa berlaku s/d {{ date('Y') + 3 }}</p>
+                <p style="font-size: 5pt; position: absolute !important; top:191px !important; left:28px !important; color:white;">Masa berlaku s/d {{ date('Y') + 3 }}</p>
                 <table style="position: absolute;top:65px;left:100px; color:white;font-size: 0.6rem;width:70%;"id="data-kta" cellspacing="0" cellpadding="0">
                     <tr >
                         <td width="50px">NTA</td>

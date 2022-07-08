@@ -55,7 +55,7 @@ class CartController extends Controller
     public function print()
     {
         $carts = Cart::where('user_id', Auth::id())->with('anggota')->get();
-        return view('print', compact('carts'));
+        // return view('print', compact('carts'));
         $pdf = Pdf::loadView('print', compact('carts'));
         $file_name = date('d-m-H-i').'.pdf';
         return $pdf->download('cetak.pdf');
