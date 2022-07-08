@@ -127,7 +127,7 @@
             <div style="height:58mm;width:91mm;display:inline-block;margin:0;padding:0;position: relative;">
                 <img style="width:91mm" src="{{ asset('berkas/kta/'.$cart->kta->depan) }}" class="img-kta">
                 <div style="height:108px;position: absolute;top:65px;left:31.3px;">
-                    <img  style="position: absolute;top:0; width:55px; height:62px;" src="{{ asset('berkas/anggota/foto.jpg') }}" id="pasfoto-kta" class="img rounded">
+                    <img  style="position: absolute;top:0; width:55px; height:62px;" src="{{ asset('berkas/anggota/'. $cart->anggota->foto) }}" id="pasfoto-kta" class="img rounded">
                     <img  style="position: absolute;bottom:-10px; width:55px; height:55px;" src="data:image/png;base64,{{DNS2D::getBarcodePNG($cart->anggota->nik, 'QRCODE')}}" class="img">
                 </div>
                 <p style="font-size: 5pt; position: absolute !important; top:191px !important; left:28px !important; color:white;">Masa berlaku s/d {{ date('Y') + 3 }}</p>
