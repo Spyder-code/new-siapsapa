@@ -100,6 +100,10 @@ class AnggotaService{
         if(!empty($data['foto'])){
             $data['foto'] = $this->uploadImage($data['foto']);
         }
+        $kta = Kta::where('kabupaten', $data['kabupaten'])->where('pramuka_id', $data['pramuka'])->first();
+        if($kta){
+            $data['kta_id'] = $kta->id;
+        }
         $anggota->update($data);
         $user = User::find($anggota->user_id)->update($user_data);
 
