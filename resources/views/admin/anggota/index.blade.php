@@ -137,28 +137,26 @@
             },
             columns: [
                 {
-                    data: function ( row, type, set ) {
-                            if ( type === 'display' ) {
-                                return '';
-                            }
-                        }
+                    render: function (data, type, row, meta) {
+                        return '';
                     },
-                {data: 'foto', name: 'foto'},
+                },
+                {data: 'foto', name: 'foto', searchable: false, orderable: false},
                 {data: 'nik', name: 'nik', visible: false},
                 {data: 'kode', name: 'kode'},
                 {data: 'nama', name: 'nama'},
                 {data: 'tgl_lahir', name: 'tgl_lahir', searchable: false, orderable: false},
-                {data: 'jk', name: 'jk'},
+                {data: 'jk', name: 'jk', orderable: false},
                 {data: 'kabupaten', name: 'kabupaten', searchable: false, orderable: false},
                 {data: 'kecamatan', name: 'kecamatan', searchable: false, orderable: false},
-                {data: 'status', name: 'status'},
+                {data: 'status', name: 'status', searchable: false, orderable: false},
                 {data: 'action', name: 'action', searchable: false, orderable: false},
             ],
             columnDefs: [ {
-                orderable: false,
                 className: 'select-checkbox',
-                targets:   0
-
+                targets:   0,
+                searchable: false,
+                orderable: false,
             } ],
             select: {
                 style:    'os',
