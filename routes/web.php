@@ -8,6 +8,7 @@ use App\Http\Controllers\CartProductController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GudepController;
+use App\Http\Controllers\InitController;
 use App\Http\Controllers\KtaController;
 use App\Http\Controllers\KwartirController;
 use App\Http\Controllers\PageController;
@@ -35,52 +36,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('test', function () {
-    $id_wilayah = 51;
-        if($id_wilayah=='all'){
-            $query = Anggota::where('status',1)->get('id');
-        }else{
-            $len = strlen($id_wilayah);
-            if ($len==2) {
-                $query = Anggota::where('status',1)->where('provinsi',$id_wilayah)->get(['id','tingkat']);
-            }elseif($len==4){
-                $query =  Anggota::where('status',1)->where('kabupaten',$id_wilayah)->get(['id','tingkat']);
-            }else{
-                $query =  Anggota::where('status',1)->where('kecamatan',$id_wilayah)->get(['id','tingkat']);
-            }
-        }
+// Init
+Route::get('init/add-to-cart', [InitController::class, 'addToCart']);
 
-        $count = array();
-        $label = array();
-        $documents = DocumentType::get(['id','pramuka_id','name'])->groupBy('pramuka_id');
-        foreach ($documents as $idx => $pramuka ) {
-            $count[$idx] = array();
-            $label[$idx] = array();
-            foreach ($pramuka as $document ) {
-                $counts = $query->where('tingkat',$document->id)->count();
-                $counts = $counts == 0 ? 0 : $counts;
-                $name = $document->name;
-                array_push($label[$idx],$name);
-                array_push($count[$idx],$counts);
-            }
-        }
-
-        $new = array();
-        foreach($count AS $key => $value) {
-            $new[$key] = [
-                'label' => $label[$key],
-                'value' => $value
-            ];
-        }
-
-        return [
-            'siaga' => $new[1],
-            'penggalang' => $new[2],
-            'penegak' => $new[3],
-            'pandega' => $new[4],
-            'dewasa' => $new[5],
-        ];
-});
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/profile', [PageController::class, 'profile'])->name('page.profile');
