@@ -10,7 +10,7 @@
     {{-- <link rel="stylesheet" href="{{ asset('css/kta4.css') }}"> --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@800&display=swap" rel="stylesheet">
     {{-- cdn print js --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <title>Print</title>
@@ -106,6 +106,7 @@ table tr td{
     *{
         margin: 0;
         padding: 0;
+        color: white;
     }
     .pagebreak { page-break-before: always; }
 }
@@ -133,9 +134,11 @@ table tr td{
         <div class="item" style="position: relative; left:-23px;">
             <div style="height:58mm;width:7.7mm;display:inline-block;margin:0;padding:0;background-color:white;position: relative;">
                 <img style="width:8.9cm;opacity:0;" src="{{ asset('berkas/kta/'. $cart->kta->depan) }}" class="img-kta">
+                {{-- <img style="width:8.9cm;opacity:0;" src="{{ asset('berkas/kta/ex-depan.png') }}" class="img-kta"> --}}
                 <div class="lingkaran-kanan"></div>
             </div>
             <div style="height:58mm;width:8.9cm;display:inline-block;margin:0;padding:0;position: relative;">
+                {{-- <img style="width:8.9cm" src="{{ asset('berkas/kta/ex-depan.png') }}" class="img-kta"> --}}
                 <img style="width:8.9cm" src="{{ asset('berkas/kta/'.$cart->kta->depan) }}" class="img-kta">
                 <div style="height:108px;position: absolute;top:71px;left:30px;">
                     <img  style="position: absolute;top:0; width:55px; height:62px;" src="{{ asset('berkas/anggota/'. $cart->anggota->foto) }}" id="pasfoto-kta" class="img rounded">
@@ -145,7 +148,7 @@ table tr td{
                 <table style="position: absolute;top:65px;left:100px; color:white;font-size: 0.6rem;width:70%;"id="data-kta" cellspacing="0" cellpadding="0">
                     <tr >
                         <td width="50px">NTA</td>
-                        <td><b> {{ $cart->anggota->kode }}</b></td>
+                        <td style="font-weight: 900 !important; font-size:.51rem !important">{{ $cart->anggota->kode }}</td>
                     </tr>
                     <tr>
                         <td >Nama</td>
@@ -184,6 +187,7 @@ table tr td{
                 </table>
             </div>
             <div style="height:58mm;width:8mm;display:inline-block;margin:0;padding:0;background-color:white;position: relative;">
+                {{-- <img style="width:8.9cm;opacity:0;" src="{{ asset('berkas/kta/ex-belakang.png') }}" class="img-kta"> --}}
                 <img style="width:8.9cm;opacity:0;" src="{{ asset('berkas/kta/'.$cart->kta->belakang) }}" class="img-kta">
                 <div class="lingkaran-kiri"></div>
                 <div class="garis" style="height:100%;position: absolute;bottom:0;right:3.9mm;top:0"></div>
@@ -191,6 +195,7 @@ table tr td{
                 <div class="lingkaran-kiri" style="position: relative; left:10cm; top:-35px"></div>
             </div>
             <div style="height:58mm;width:8.9cm;display:inline-block;margin:0;padding:0;">
+                {{-- <img style="width:8.9cm" src="{{ asset('berkas/kta/ex-belakang.png') }}" class="img-kta"> --}}
                 <img style="width:8.9cm" src="{{ asset('berkas/kta/'.$cart->kta->belakang) }}" class="img-kta">
             </div>
             {{-- <div style="height:58mm;width:7.7mm;display:inline-block;margin:0;padding:0;background-color:white;position: relative;">
@@ -211,7 +216,7 @@ table tr td{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        window.print();
+        // window.print();
     </script>
 </body>
 </html>
