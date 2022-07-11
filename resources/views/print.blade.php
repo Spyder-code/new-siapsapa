@@ -132,11 +132,11 @@ table tr td{
         @foreach ($carts as $cart)
         <div class="item" style="position: relative; left:-23px;">
             <div style="height:58mm;width:7.7mm;display:inline-block;margin:0;padding:0;background-color:white;position: relative;">
-                <img style="width:8.9cm;opacity:0;" src="{{ asset('berkas/kta/'. $cart->kta->belakang) }}" class="img-kta">
+                <img style="width:8.9cm;opacity:0;" src="{{ asset('berkas/kta/'. $cart->kta->depan) }}" class="img-kta">
                 <div class="lingkaran-kanan"></div>
             </div>
             <div style="height:58mm;width:8.9cm;display:inline-block;margin:0;padding:0;position: relative;">
-                <img style="width:8.9cm" src="{{ asset('berkas/kta/'.$cart->kta->belakang) }}" class="img-kta">
+                <img style="width:8.9cm" src="{{ asset('berkas/kta/'.$cart->kta->depan) }}" class="img-kta">
                 <div style="height:108px;position: absolute;top:71px;left:30px;">
                     <img  style="position: absolute;top:0; width:55px; height:62px;" src="{{ asset('berkas/anggota/'. $cart->anggota->foto) }}" id="pasfoto-kta" class="img rounded">
                     <img  style="position: absolute;bottom:-10px; width:55px; height:55px;" src="data:image/png;base64,{{DNS2D::getBarcodePNG($cart->anggota->nik, 'QRCODE')}}" class="img">
