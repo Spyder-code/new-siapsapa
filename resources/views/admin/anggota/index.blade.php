@@ -137,6 +137,10 @@
             },
             columns: [
                 {
+                    orderable: false,
+                    searchable: false,
+                    data: 'id',
+                    name: 'id',
                     render: function (data, type, row, meta) {
                         return '';
                     },
@@ -146,7 +150,7 @@
                 {data: 'kode', name: 'kode'},
                 {data: 'nama', name: 'nama'},
                 {data: 'tgl_lahir', name: 'tgl_lahir', searchable: false, orderable: false},
-                {data: 'jk', name: 'jk', orderable: false},
+                {data: 'jk', name: 'jk', searchable: false, orderable: false},
                 {data: 'kabupaten', name: 'kabupaten', searchable: false, orderable: false},
                 {data: 'kecamatan', name: 'kecamatan', searchable: false, orderable: false},
                 {data: 'status', name: 'status', searchable: false, orderable: false},
@@ -170,6 +174,8 @@
             buttons: ["pageLength","copy", "csv", "excel", "pdf", "print"],
             "bLengthChange": true,
         });
+
+        $.fn.dataTable.ext.errMode = 'throw';
 
         var selected = [];
 
