@@ -54,14 +54,17 @@ class InitController extends Controller
         $data = Anggota::whereIn('nik',$nik)->select('id','pramuka','kta_id','nik')->get();
         foreach ($data as $item ) {
             try {
-                Cart::create([
-                    'user_id' => 1,
-                    'anggota_id' => $item->id,
-                    'golongan' => $item->pramuka,
-                    'harga' => 10000,
-                    'kta_id' => $item->kta_id
-                ]);
-                $success++;
+                $cart = Cart::where('anggota_id',$item->id)->first();
+                if($cart==null){
+                    Cart::create([
+                        'user_id' => 1,
+                        'anggota_id' => $item->id,
+                        'golongan' => $item->pramuka,
+                        'harga' => 10000,
+                        'kta_id' => $item->kta_id
+                    ]);
+                    $success++;
+                }
             } catch (\Throwable $th) {
                 $fail++;
                 array_push($arrFail,$item->nik);
