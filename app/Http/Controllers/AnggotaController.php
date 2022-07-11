@@ -429,6 +429,8 @@ class AnggotaController extends Controller
                     $warna = '<span class="badge bg-pandega">Pandega</span>';
                 }elseif($data->pramuka==5){
                     $warna = '<span class="badge bg-dewasa">Dewasa</span>';
+                }else{
+                    $warna = '<span class="badge bg-white text-dark">Pelatih</span>';
                 }
                 return '
                     <div class="justify-content-center text-center">
@@ -476,6 +478,8 @@ class AnggotaController extends Controller
             return '<span class="badge badge-secondary">Tidak Pramuka</span>';
         }elseif($pramuka==5){
             return '<span class="badge badge-primary">Pramuka</span>';
+        }else{
+            return '<span class="badge bg-white text-dark">Pelatih</span>';
         }
     }
 }
