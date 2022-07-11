@@ -342,6 +342,8 @@ class AnggotaController extends Controller
                     $warna = '<span class="badge bg-pandega">Pandega</span>';
                 }elseif($data->pramuka==5){
                     $warna = '<span class="badge bg-dewasa">Dewasa</span>';
+                }else{
+                    $warna = '<span class="badge bg-white text-dark">Unknown</span>';
                 }
                 return '
                     <div class="justify-content-center text-center">
