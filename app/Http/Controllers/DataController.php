@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Anggota;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
@@ -32,7 +33,31 @@ class DataController extends Controller
 
         $anggota = Anggota::whereIn('id', $request->id)->get();
         foreach ($anggota as $key => $item) {
-            $item->tgl_lahir = Carbon::createFromFormat('d/m/Y', $request->tgl_lahir[$key])->format('Y-m-d');;
+            $item->tgl_lahir = Carbon::createFromFormat('d/m/Y', $request->tgl_lahir[$key])->format('Y-m-d');
+            if($item->tingkat >= 13 ){
+                $golongan = 6;
+            }else{
+                if($item->kawin==1){
+                    $golongan = 5;
+                }else{
+                    $tgl = new DateTime($item->tgl_lahir);
+                    $now = new DateTime();
+                    $difference = $tgl->diff($now);
+                    $usia   = $difference->y; //hitung tahun
+                    if ($usia < 10) {
+                        $golongan = 1;
+                    } else if ($usia >= 10 && $usia <= 15) {
+                        $golongan = 2;
+                    } else if ($usia >= 16 && $usia <= 20) {
+                        $golongan = 3;
+                    } else if ($usia >= 21 && $usia < 25) {
+                        $golongan = 4;
+                    } else if ($usia >= 25) {
+                        $golongan = 5;
+                    }
+                }
+            }
+            $item->pramuka = $golongan;
             $item->save();
         }
         return back()->with('success', 'Berhasil mengubah tanggal lahir');
