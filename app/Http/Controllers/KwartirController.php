@@ -148,7 +148,7 @@ class KwartirController extends Controller
                 }]);
                 $type = 3;
             }else{
-                $data = Gudep::where('kecamatan',$id_wilayah)->select('id','nama_sekolah as name','npsn as code')->withCount(['anggota as admin' => function($q){
+                $data = Gudep::where('kecamatan',$id_wilayah)->select('id','nama_sekolah','npsn')->withCount(['anggota as admin' => function($q){
                     $q->whereHas('user', function($q){
                         $q->where('role', 'gudep');
                     });

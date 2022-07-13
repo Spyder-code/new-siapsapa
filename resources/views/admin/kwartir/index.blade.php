@@ -93,6 +93,26 @@
         var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
             keyboard: false
         })
+        var column;
+        if(@json($len>4)){
+            column = [
+                {data: 'npsn', name: 'npsn'},
+                {data: 'nama_sekolah', name: 'nama_sekolah'},
+                {data: 'admin', name: 'admin', searchable: false,},
+                {data: 'anggota', name: 'anggota', searchable: false,},
+                {data: 'action', name: 'action', searchable: false, orderable: false},
+                {data: 'tools', name: 'tools', searchable: false, orderable: false},
+            ]
+        }else{
+            column = [
+                {data: 'code', name: 'code', searchable: false,},
+                {data: 'name', name: 'name'},
+                {data: 'admin', name: 'admin', searchable: false,},
+                {data: 'anggota', name: 'anggota', searchable: false,},
+                {data: 'action', name: 'action', searchable: false, orderable: false},
+                {data: 'tools', name: 'tools', searchable: false, orderable: false},
+            ]
+        }
         var table = $(".file-export").DataTable({
             processing: true,
             serverSide: true,
@@ -103,14 +123,7 @@
                     id_wilayah: {!! json_encode($id_wilayah) !!},
                 },
             },
-            columns: [
-                {data: 'code', name: 'code', searchable: false,},
-                {data: 'name', name: 'name'},
-                {data: 'admin', name: 'admin', searchable: false,},
-                {data: 'anggota', name: 'anggota', searchable: false,},
-                {data: 'action', name: 'action', searchable: false, orderable: false},
-                {data: 'tools', name: 'tools', searchable: false, orderable: false},
-            ],
+            columns: column,
             dom: "Bfrtip",
             lengthMenu: [
                 [ 10, 25, 50, -1 ],
