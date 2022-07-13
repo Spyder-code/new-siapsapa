@@ -29,6 +29,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // cart
 Route::post('get-number-of-cart', [CartController::class, 'numberOfCart']);
+Route::get('cart/{id}', [CartController::class, 'getCartByUserId']);
+Route::post('/cart', [CartController::class,'store']);
+Route::delete('/cart/delete/{id}', [CartController::class,'destroy']);
 
 
 // statistik
@@ -54,6 +57,8 @@ Route::get('get-gudep/{id}', [WilayahController::class, 'getGudepByIdKecamatan']
 Route::put('anggota-validate', [AnggotaController::class, 'anggotaValidate']);
 Route::put('anggota-reject', [AnggotaController::class, 'anggotaReject']);
 Route::delete('anggota-delete', [AnggotaController::class, 'deleteAnggota']);
+Route::get('anggota/{id}', [AnggotaController::class, 'getAnggotaById']);
+Route::get('admin/anggota/{id}', [AnggotaController::class, 'getAnggotaByAdminLogin']);
 
 // document
 Route::get('get-document/{id}', [DocumentController::class, 'getDocumentTypeByPramukaId']);
@@ -73,14 +78,14 @@ Route::post('register',[AuthApi::class,'register']);
 Route::post('login',[AuthApi::class,'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('logout', [AuthApi::class, 'logout']);
-    Route::get('user', [AuthApi::class, 'user']);
-    Route::post('/tokens/create', [AuthApi::class, 'createToken']);
-    Route::get('/anggota/{id}', [AnggotaController::class,'getAnggotaById']);
-    Route::get('/admin/anggota/{id}', [AnggotaController::class,'getAnggotaByAdminLogin']);
-    Route::get('/cart/{id}', [CartController::class,'getCartByUserId']);
-    Route::delete('/cart/delete/{id}', [CartController::class,'destroy']);
-    Route::post('/cart', [CartController::class,'store']);
+    // Route::post('logout', [AuthApi::class, 'logout']);
+    // Route::get('user', [AuthApi::class, 'user']);
+    // Route::post('/tokens/create', [AuthApi::class, 'createToken']);
+    // Route::get('/anggota/{id}', [AnggotaController::class,'getAnggotaById']);
+    // Route::get('/admin/anggota/{id}', [AnggotaController::class,'getAnggotaByAdminLogin']);
+    // Route::get('/cart/{id}', [CartController::class,'getCartByUserId']);
+    // Route::delete('/cart/delete/{id}', [CartController::class,'destroy']);
+    // Route::post('/cart', [CartController::class,'store']);
     // Route::get('get-wilayah/{id_wilayah}', [WilayahController::class, 'getData']);
     // Route::get('get-provinsi', [WilayahController::class, 'getProvince']);
     // Route::get('get-kabupaten/{id}', [WilayahController::class, 'getKabupatenByIdProvinsi']);
