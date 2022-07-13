@@ -16,9 +16,11 @@ class CartResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'kta_id' => $this->kta_id,
             'user_id' => $this->user_id,
             'anggota_id' => $this->anggota_id,
-            'harga' => $this->harga
+            'harga' => $this->harga,
+            'golongan' => $this->golongan
         ];
     }
 }

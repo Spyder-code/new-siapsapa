@@ -62,10 +62,14 @@ class AgendaController extends Controller
 
     public function getAgenda()
     {
-        $agenda = Agenda::all();
+        if(request('status')){
+            $agenda = Agenda::all()->where('is_finish', request('status'));
+        }else{
+            $agenda = Agenda::all();
+        }
         if (!$agenda || $agenda->isEmpty()) {
             return response()->json([
-                'message' => 'Cart not found'
+                'message' => 'Agenda not found'
             ], 404);
         }
         return AgendaResource::collection($agenda);

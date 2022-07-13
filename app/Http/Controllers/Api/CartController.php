@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CartResource;
+use App\Models\Anggota;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,18 +28,21 @@ class CartController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'user_id' => 'required',
-            'kta_id' => 'required',
-            'harga' => 'required'
+            'anggota_id' => 'required',
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());
         }
 
+        $anggota = Anggota::find($request->anggota_id);
+        $harga = $anggota->city->harga;
         $cart = Cart::create([
             'user_id' => $request->user_id,
-            'kta_id' => $request->kta_id,
-            'harga' => $request->harga
+            'anggota_id' => $request->anggota_id,
+            'kta_id' => $anggota->kta_id,
+            'harga' => $harga,
+            'golongan' => $anggota->pramuka
         ]);
 
         return response()->json(['Cart created successfully.', new CartResource($cart)]);
