@@ -109,15 +109,13 @@ class KwartirController extends Controller
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
             $data = Provinsi::select('id', 'name', 'no_prov as code', 'id as prev')->withCount(['anggota as admin' => function($q){
+                $q->where('status', 1);
                 $q->whereHas('user', function($q){
                     $q->where('role', 'kwarda');
                 });
             },
             'anggota as anggota' => function($q){
                 $q->where('status', 1);
-                $q->whereHas('user', function($q){
-                    $q->where('role', 'anggota');
-                });
             }]);
             $type = 1;
             $len = 1;
@@ -125,38 +123,35 @@ class KwartirController extends Controller
             $len = strlen($id_wilayah);
             if ($len==2) {
                 $data = City::where('province_id',$id_wilayah)->select('id','name','no_kab as code')->withCount(['anggota as admin' => function($q){
+                    $q->where('status', 1);
                     $q->whereHas('user', function($q){
                         $q->where('role', 'kwarcab');
                     });
                 },
                 'anggota as anggota' => function($q){
-                    $q->whereHas('user', function($q){
-                        $q->where('role', 'anggota');
-                    });
+                    $q->where('status', 1);
                 }]);
                 $type = 2;
             }elseif($len==4){
                 $data =  Distrik::where('regency_id',$id_wilayah)->select('id','name','no_kec as code')->withCount(['anggota as admin' => function($q){
+                    $q->where('status', 1);
                     $q->whereHas('user', function($q){
                         $q->where('role', 'kwaran');
                     });
                 },
                 'anggota as anggota' => function($q){
-                    $q->whereHas('user', function($q){
-                        $q->where('role', 'anggota');
-                    });
+                    $q->where('status', 1);
                 }]);
                 $type = 3;
             }else{
                 $data = Gudep::where('kecamatan',$id_wilayah)->select('id','nama_sekolah','npsn')->withCount(['anggota as admin' => function($q){
+                    $q->where('status', 1);
                     $q->whereHas('user', function($q){
                         $q->where('role', 'gudep');
                     });
                 },
                 'anggota as anggota' => function($q){
-                    $q->whereHas('user', function($q){
-                        $q->where('role', 'anggota');
-                    });
+                    $q->where('status', 1);
                 }]);
                 $type = 4;
             }
