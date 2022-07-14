@@ -1,7 +1,7 @@
 <div class="col-{{ $col ?? '12'}} mb-3">
     <label>{{ $label ?? '' }}</label>
     @if ($type=='text'|| $type=='password'||$type=='email'||$type=='number' || $type=='file' || $type=='date')
-        <input type="{{ $type }}" name="{{ $name }}" value="{{ $value ?? old($name) }}" id="{{ $id ?? $name }}" class="form-control" {{ !empty($attr)?implode(' ', $attr) : '' }}>
+        <input type="{{ $type }}" name="{{ $name??'' }}" value="{{ $value ?? old($name) }}" id="{{ $id ?? $name }}" class="form-control" {{ !empty($attr)?implode(' ', $attr) : '' }}>
     @elseif($type=='select')
     @php
         $value = $value ?? old($name);

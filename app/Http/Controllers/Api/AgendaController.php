@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AgendaResource;
 use App\Models\Agenda;
+use App\Models\Anggota;
 use App\Models\Kegiatan;
+use App\Models\PendaftaranAgenda;
 use Illuminate\Http\Request;
 
 class AgendaController extends Controller
@@ -73,5 +75,62 @@ class AgendaController extends Controller
             ], 404);
         }
         return AgendaResource::collection($agenda);
+    }
+
+    public function addPeserta()
+    {
+        $agenda_id = request('agenda_id');
+        $nik = request('nik');
+        $anggota = Anggota::where('nik',$nik)->orWhere('email',$nik)->first();
+        if($anggota == null){
+            return response()->json([
+                'status' => 0,
+                'message' => 'Anggota Tidak ditemukan!'
+            ]);
+        }else{
+            $anggota_id = $anggota->id;
+            $cek = PendaftaranAgenda::where('agenda_id', $agenda_id)->where('anggota_id',$anggota_id)->first();
+            if($cek==null){
+                $pendaftar = PendaftaranAgenda::where('agenda_id', $agenda_id)->max('order');
+                $order = $pendaftar + 1;
+                try {
+                    $data = PendaftaranAgenda::create([
+                        'nodaf' => 'PA.'.sprintf('%03d',$agenda_id).'.'.sprintf('%03d',$order),
+                        'agenda_id' => $agenda_id,
+                        'anggota_id' => $anggota_id,
+                        'status' => 1,
+                        'order' => $order,
+                    ]);
+                    return response()->json([
+                        'status' => 1,
+                        'data' => $data,
+                        'message' => 'Peserta berhasil didaftarkan!'
+                    ]);
+                } catch (\Throwable $th) {
+                    return response()->json([
+                        'status' => 0,
+                        'message' => 'Server Bermasalah',
+                        'error' => $th
+                    ], 404);
+                }
+            }else{
+                return response()->json([
+                    'status' => 0,
+                    'message' => 'Anggota sudah terdaftar!'
+                ]);
+            }
+        }
+
+    }
+
+    public function deletePeserta()
+    {
+        $id = request('id');
+        $data = PendaftaranAgenda::destroy($id);
+
+        return response()->json([
+            'data' => $data,
+            'message' => 'Pendaftar deleted successfully'
+        ]);
     }
 }

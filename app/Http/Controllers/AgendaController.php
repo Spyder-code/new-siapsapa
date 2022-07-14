@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agenda;
 use App\Models\Kegiatan;
+use App\Models\PendaftaranAgenda;
 use App\Models\Provinsi;
 use App\Repositories\WilayahService;
 use Illuminate\Http\Request;
@@ -27,6 +28,12 @@ class AgendaController extends Controller
     {
         $provinsi = Provinsi::pluck('name', 'id');
         return view('admin.agenda.edit', compact('provinsi','agenda'));
+    }
+
+    public function peserta(Agenda $agenda)
+    {
+        $anggota = PendaftaranAgenda::all()->where('agenda_id', $agenda->id);
+        return view('admin.agenda.peserta', compact('agenda','anggota'));
     }
 
     public function show(Agenda $agenda)

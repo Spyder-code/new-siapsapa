@@ -70,7 +70,7 @@
         'text' => 'Agenda',
         'href' => route('agenda.index'),
         'icon' => 'calendar',
-        'access' => ['alls'],
+        'access' => ['all'],
     ],[
         'text' => 'Produk',
         'href' => 'laporan-keluar',

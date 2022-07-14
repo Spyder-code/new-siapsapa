@@ -10,5 +10,9 @@ class PendaftaranAgenda extends Model
     use HasFactory;
 
     protected $table = 'pendaftaran_agenda';
-    protected $fillable = ['agenda_id', 'anggota_id', 'status'];
+    protected $fillable = ['nodaf', 'agenda_id', 'anggota_id', 'status', 'order'];
+    public function anggota()
+    {
+        return $this->belongsTo(Anggota::class,'anggota_id');
+    }
 }

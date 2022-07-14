@@ -82,6 +82,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::get('anggota/{anggotum}', [AnggotaController::class,'show'])->name('anggota.show');
         Route::resource('dokumen', DocumentController::class);
         Route::resource('agenda', AgendaController::class);
+        Route::get('agenda/{agenda}/peserta', [AgendaController::class,'peserta'])->name('agenda.peserta');
         Route::resource('user', UserController::class)->except(['update']);
     });
 });

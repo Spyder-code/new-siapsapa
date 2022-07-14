@@ -37,6 +37,7 @@ Route::delete('/cart/delete/{id}', [CartController::class,'destroy']);
 // statistik
 Route::get('dashboard/{id_wilayah}', [StatistikController::class, 'dashboard']);
 Route::get('get-number-of-pramuka/{id_wilayah}', [StatistikController::class, 'getNumberOfPramuka']);
+Route::get('get-number-of-member/{id_wilayah}', [StatistikController::class, 'getNumberOfMemberAndAdmin']);
 
 // gudep
 Route::get('get-admin-gudep/{gudep_id}', [GudepController::class, 'getAdmin']);
@@ -67,7 +68,9 @@ Route::delete('delete-document', [DocumentController::class, 'deleteDocument']);
 // agenda
 Route::delete('delete-agenda/{agenda}', [AgendaController::class, 'destroy']);
 Route::post('add-kegiatan', [AgendaController::class, 'addKegiatan']);
+Route::post('add-peserta', [AgendaController::class, 'addPeserta']);
 Route::delete('delete-kegiatan', [AgendaController::class, 'deleteKegiatan']);
+Route::delete('delete-peserta', [AgendaController::class, 'deletePeserta']);
 Route::put('update-kegiatan', [AgendaController::class, 'updateKegiatan']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('get-agenda', [AgendaController::class, 'getAgenda']);
