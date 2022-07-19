@@ -16,12 +16,8 @@
                         <div class="fw-bold">Tanggal selesai: {{ date('d/m/Y', strtotime($item->tanggal_selesai)) }}</div>
                     </li>
                     <li class="list-group-item d-flex btn-group">
-                        <a href="{{ route('agenda.show', $item) }}" class="btn btn-sm btn-primary">Detail</a>
-                        <a href="{{ route('agenda.peserta', $item) }}" class="btn btn-sm btn-success">Peserta</a>
-                        @if (Auth::id() == $item->created_by || Auth::user()->role=='admin')
-                            <a href="{{ route('agenda.edit', $item) }}" class="btn btn-sm btn-warning">Edit</a>
-                            <button type="button" onclick="deleteAgenda({{ $item->id }})" class="btn btn-sm btn-danger">Hapus</button>
-                        @endif
+                        <a href="{{ route('page.agenda.show', $item) }}" class="btn btn-sm btn-primary">Detail</a>
+                        <a href="{{ route('page.agenda.peserta', $item) }}" class="btn btn-sm btn-success">Peserta</a>
                     </li>
                 </ul>
             </div>

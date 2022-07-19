@@ -68,18 +68,27 @@
                 <td>Golongan</td>
                 <td> {{ ucwords(strtolower($anggota->golongan->name)) }} <span style="position: relative; left:20px">Gol.Darah: {{ $anggota->gol_darah }}</span></td>
             </tr>
-            <tr style="top:-21px">
-                <td>Kwaran</td>
-                <td> {{ ucwords(strtolower($anggota->district->name)) }}</td>
-            </tr>
-            <tr style="top:-24px">
-                <td>Kwarcab</td>
-                <td> {{ ucwords(strtolower($anggota->city->name)) }}</td>
-            </tr>
             @if ($anggota->gudep != null)
-                <tr style="top:-27px">
+                <tr style="top:-21px">
                     <td>Pangkalan</td>
                     <td> {{ strtoupper(strtolower($anggota->gudepInfo->nama_sekolah)) }}</td>
+                </tr>
+                <tr style="top:-24px">
+                    <td>Kwaran</td>
+                    <td> {{ ucwords(strtolower($anggota->district->name)) }}</td>
+                </tr>
+                <tr style="top:-27px">
+                    <td>Kwarcab</td>
+                    <td> {{ ucwords(strtolower($anggota->city->name)) }}</td>
+                </tr>
+            @else
+                <tr style="top:-21px">
+                    <td>Kwaran</td>
+                    <td> {{ ucwords(strtolower($anggota->district->name)) }}</td>
+                </tr>
+                <tr style="top:-24px">
+                    <td>Kwarcab</td>
+                    <td> {{ ucwords(strtolower($anggota->city->name)) }}</td>
                 </tr>
             @endif
         </table>

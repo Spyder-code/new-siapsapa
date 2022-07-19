@@ -19,16 +19,8 @@ use Milon\Barcode\DNS2D;
 
 class AnggotaController extends Controller
 {
-    public function index()
+    public function index($type)
     {
-        $is_gudep = false;
-        $is_active = request('active');
-        if ($is_active==null) {
-            $is_active = 'all';
-        }
-        if(request('gudep')){
-            $is_gudep = true;
-        }
         if(request('id_wilayah')){
             $id_wilayah = request('id_wilayah');
         }else{
@@ -48,11 +40,21 @@ class AnggotaController extends Controller
             }
         }
 
+        if($type=='non-active'){
+            $url = route('datatable.anggota.non-active');
+        }else if($type=='non-gudep'){
+            $url = route('datatable.anggota.non-gudep');
+        }else if($type=='is-gudep'){
+            $url = route('datatable.anggota.is-gudep');
+        }else{
+            $url = route('datatable.anggota.active');
+        }
+
         $wilayah = new WilayahService($id_wilayah);
         $data = $wilayah->getData();
         $kwartir = $data[1];
         $title = $data[0]->name ?? 'Nasional';
-        return view('admin.anggota.index', compact('is_gudep','is_active','data','id_wilayah','kwartir','title'));
+        return view('admin.anggota.index', compact('url','data','id_wilayah','kwartir','title'));
     }
 
     public function non_validate()
@@ -292,40 +294,268 @@ class AnggotaController extends Controller
         return back()->with('success', 'Data berhasil diubah');
     }
 
-    public function data_table()
+    public function data_table_active()
     {
         $id_wilayah = request('id_wilayah');
-        $is_gudep = request('gudep');
-        $query = Anggota::query();
-        $query->whereHas('user', function($query) use ($id_wilayah) {
-            $query->where('role','!=', 'admin');
-        });
-        if($is_gudep == 1){
-            $query->whereNotNull('gudep');
-            if(Auth::user()->role=='gudep'){
-                $query->where('gudep', Auth::user()->anggota->gudep);
-            }
-        }elseif($is_gudep == 0){
-            $query->whereNull('gudep');
-        }
-
-        if(request('active')=='all'){
-            $query->where('status', '>',-1);
-        }else{
-            $status = (int)request('active');
-            $query->where('status', $status);
-        }
-
         if($id_wilayah=='all'){
-            $data = $query->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+            $data = Anggota::where('status',1)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->get();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = $query->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data = Anggota::where('status',1)->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
             }elseif($len==4){
-                $data =  $query->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data =  Anggota::where('status',1)->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
             }else{
-                $data = $query->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data = Anggota::where('status',1)->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+            }
+
+        }
+
+        return DataTables::of($data)
+            ->addColumn('foto', function($data){
+                if($data->pramuka==1){
+                    $warna = '<span class="badge bg-siaga">Siaga</span>';
+                }elseif($data->pramuka==2){
+                    $warna = '<span class="badge bg-penggalang">Penggalang</span>';
+                }elseif($data->pramuka==3){
+                    $warna = '<span class="badge bg-penegak">Penegak</span>';
+                }elseif($data->pramuka==4){
+                    $warna = '<span class="badge bg-pandega">Pandega</span>';
+                }elseif($data->pramuka==5){
+                    $warna = '<span class="badge bg-dewasa">Dewasa</span>';
+                }else{
+                    $warna = '<span class="badge bg-white text-dark">Pelatih</span>';
+                }
+                return '
+                    <div class="justify-content-center text-center">
+                    <img src="'.asset('berkas/anggota/'.$data->foto).'" class="img-thumbnail mx-auto d-block" height="80px" width="80px">
+                        '.$warna.'
+                    </div>
+                ';
+            })
+            ->addColumn('status', function($data){
+                $name = $data->status == 0 ? 'Tidak Aktif' : 'Aktif';
+                $value = $data->status == 0 ? 1 : 0;
+                $is_check = $data->status== 0 ? '' : 'checked';
+                $html = '<form action="' . route('anggota.update.status', $data) . '" method="post">
+                                <input type="hidden" name="_method" value="PUT">
+                                <input type="hidden" name="_token" value="' . csrf_token() . '">
+                                <input type="hidden" value="' . $value . '" name="status">
+                                <div class="form-check form-switch">
+                                    <input '.$is_check.' class="form-check-input" type="checkbox" onchange="submit()" id="flexSwitchCheckChecked">
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">' . $name . '</label>
+                                </div>
+                                </button>
+                            </form>';
+
+                return $html;
+            })
+            ->addColumn('action', function ($data) {
+                $btn = '';
+                $status = $data->status;
+                if($status==2){
+                    $btn = '
+                        <button type="button" onclick="validasi('.$data->id.')" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Validasi</button>
+                        <button type="button" onclick="tolak('.$data->id.')" class="btn btn-secondary btn-sm"><i class="fa fa-crosshairs"></i> Tolak</button>
+                    ';
+                }
+                $html = '<div class="btn-group">
+                            <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
+                            '.$btn.'
+                            <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
+                        </div>';
+                return $html;
+            })
+            ->addColumn('kabupaten', function ($data) {
+                return $data->city->name;
+            })
+            ->addColumn('kecamatan', function ($data) {
+                return $data->district->name;
+            })
+            ->rawColumns(['action','foto','status'])
+            ->make(true);
+    }
+
+    public function data_table_is_gudep()
+    {
+        $id_wilayah = request('id_wilayah');
+        if($id_wilayah=='all'){
+            $data = Anggota::where('status',1)->whereNotNull('gudep')->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->get();
+        }else{
+            $len = strlen($id_wilayah);
+            if ($len==2) {
+                $data = Anggota::where('status',1)->whereNotNull('gudep')->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+            }elseif($len==4){
+                $data =  Anggota::where('status',1)->whereNotNull('gudep')->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+            }else{
+                $data = Anggota::where('status',1)->whereNotNull('gudep')->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+            }
+
+        }
+
+        return DataTables::of($data)
+            ->addColumn('foto', function($data){
+                if($data->pramuka==1){
+                    $warna = '<span class="badge bg-siaga">Siaga</span>';
+                }elseif($data->pramuka==2){
+                    $warna = '<span class="badge bg-penggalang">Penggalang</span>';
+                }elseif($data->pramuka==3){
+                    $warna = '<span class="badge bg-penegak">Penegak</span>';
+                }elseif($data->pramuka==4){
+                    $warna = '<span class="badge bg-pandega">Pandega</span>';
+                }elseif($data->pramuka==5){
+                    $warna = '<span class="badge bg-dewasa">Dewasa</span>';
+                }else{
+                    $warna = '<span class="badge bg-white text-dark">Pelatih</span>';
+                }
+                return '
+                    <div class="justify-content-center text-center">
+                    <img src="'.asset('berkas/anggota/'.$data->foto).'" class="img-thumbnail mx-auto d-block" height="80px" width="80px">
+                        '.$warna.'
+                    </div>
+                ';
+            })
+            ->addColumn('status', function($data){
+                $name = $data->status == 0 ? 'Tidak Aktif' : 'Aktif';
+                $value = $data->status == 0 ? 1 : 0;
+                $is_check = $data->status== 0 ? '' : 'checked';
+                $html = '<form action="' . route('anggota.update.status', $data) . '" method="post">
+                                <input type="hidden" name="_method" value="PUT">
+                                <input type="hidden" name="_token" value="' . csrf_token() . '">
+                                <input type="hidden" value="' . $value . '" name="status">
+                                <div class="form-check form-switch">
+                                    <input '.$is_check.' class="form-check-input" type="checkbox" onchange="submit()" id="flexSwitchCheckChecked">
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">' . $name . '</label>
+                                </div>
+                                </button>
+                            </form>';
+
+                return $html;
+            })
+            ->addColumn('action', function ($data) {
+                $btn = '';
+                $status = $data->status;
+                if($status==2){
+                    $btn = '
+                        <button type="button" onclick="validasi('.$data->id.')" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Validasi</button>
+                        <button type="button" onclick="tolak('.$data->id.')" class="btn btn-secondary btn-sm"><i class="fa fa-crosshairs"></i> Tolak</button>
+                    ';
+                }
+                $html = '<div class="btn-group">
+                            <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
+                            '.$btn.'
+                            <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
+                        </div>';
+                return $html;
+            })
+            ->addColumn('kabupaten', function ($data) {
+                return $data->city->name;
+            })
+            ->addColumn('kecamatan', function ($data) {
+                return $data->district->name;
+            })
+            ->rawColumns(['action','foto','status'])
+            ->make(true);
+    }
+
+    public function data_table_non_gudep()
+    {
+        $id_wilayah = request('id_wilayah');
+        if($id_wilayah=='all'){
+            $data = Anggota::where('status',1)->whereNull('gudep')->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->get();
+        }else{
+            $len = strlen($id_wilayah);
+            if ($len==2) {
+                $data = Anggota::where('status',1)->whereNull('gudep')->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+            }elseif($len==4){
+                $data =  Anggota::where('status',1)->whereNull('gudep')->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+            }else{
+                $data = Anggota::where('status',1)->whereNull('gudep')->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+            }
+
+        }
+
+        return DataTables::of($data)
+            ->addColumn('foto', function($data){
+                if($data->pramuka==1){
+                    $warna = '<span class="badge bg-siaga">Siaga</span>';
+                }elseif($data->pramuka==2){
+                    $warna = '<span class="badge bg-penggalang">Penggalang</span>';
+                }elseif($data->pramuka==3){
+                    $warna = '<span class="badge bg-penegak">Penegak</span>';
+                }elseif($data->pramuka==4){
+                    $warna = '<span class="badge bg-pandega">Pandega</span>';
+                }elseif($data->pramuka==5){
+                    $warna = '<span class="badge bg-dewasa">Dewasa</span>';
+                }else{
+                    $warna = '<span class="badge bg-white text-dark">Pelatih</span>';
+                }
+                return '
+                    <div class="justify-content-center text-center">
+                    <img src="'.asset('berkas/anggota/'.$data->foto).'" class="img-thumbnail mx-auto d-block" height="80px" width="80px">
+                        '.$warna.'
+                    </div>
+                ';
+            })
+            ->addColumn('status', function($data){
+                $name = $data->status == 0 ? 'Tidak Aktif' : 'Aktif';
+                $value = $data->status == 0 ? 1 : 0;
+                $is_check = $data->status== 0 ? '' : 'checked';
+                $html = '<form action="' . route('anggota.update.status', $data) . '" method="post">
+                                <input type="hidden" name="_method" value="PUT">
+                                <input type="hidden" name="_token" value="' . csrf_token() . '">
+                                <input type="hidden" value="' . $value . '" name="status">
+                                <div class="form-check form-switch">
+                                    <input '.$is_check.' class="form-check-input" type="checkbox" onchange="submit()" id="flexSwitchCheckChecked">
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">' . $name . '</label>
+                                </div>
+                                </button>
+                            </form>';
+
+                return $html;
+            })
+            ->addColumn('action', function ($data) {
+                $btn = '';
+                $status = $data->status;
+                if($status==2){
+                    $btn = '
+                        <button type="button" onclick="validasi('.$data->id.')" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Validasi</button>
+                        <button type="button" onclick="tolak('.$data->id.')" class="btn btn-secondary btn-sm"><i class="fa fa-crosshairs"></i> Tolak</button>
+                    ';
+                }
+                $html = '<div class="btn-group">
+                            <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
+                            '.$btn.'
+                            <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
+                        </div>';
+                return $html;
+            })
+            ->addColumn('kabupaten', function ($data) {
+                return $data->city->name;
+            })
+            ->addColumn('kecamatan', function ($data) {
+                return $data->district->name;
+            })
+            ->rawColumns(['action','foto','status'])
+            ->make(true);
+    }
+
+    public function data_table_non_active()
+    {
+        $id_wilayah = request('id_wilayah');
+        if($id_wilayah=='all'){
+            $data = Anggota::where('status',0)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->get();
+        }else{
+            $len = strlen($id_wilayah);
+            if ($len==2) {
+                $data = Anggota::where('status',0)->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+            }elseif($len==4){
+                $data =  Anggota::where('status',0)->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+            }else{
+                $data = Anggota::where('status',0)->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
             }
 
         }

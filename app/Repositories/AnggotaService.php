@@ -72,7 +72,9 @@ class AnggotaService{
         }
         $data['user_id'] = $user->id;
         $data['pramuka'] = $this->getPramuka($data['tgl_lahir'], $data['kawin']);
-        $data['kode'] = $this->generateCode($data['kecamatan'], $data['gudep'], $data['jk']);
+        if(empty($data['kode'])){
+            $data['kode'] = $this->generateCode($data['kecamatan'], $data['gudep'], $data['jk']);
+        }
         if($ulpoad_foto){
             $data['foto'] = $this->uploadImage($data['foto']);
         }else{

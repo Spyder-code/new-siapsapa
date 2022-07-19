@@ -79,6 +79,7 @@
             </div>
         </div>
     </div>
+    @if (Auth::id()==$agenda->created_by)
     <div class="col-12 col-md-4 mt-2">
         <div class="card">
             <div class="border-bottom title-part-padding">
@@ -95,6 +96,7 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 @endsection
 

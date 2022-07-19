@@ -136,8 +136,8 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="{{ url('/') }}" class="nav-item nav-link">Beranda</a>
+                <a href="{{ route('page.agenda') }}" class="nav-item nav-link">Agenda</a>
                 <a href="#" class="nav-item nav-link">Berita</a>
-                <a href="#" class="nav-item nav-link">Agenda</a>
                 <a href="#" class="nav-item nav-link">Penggumuman</a>
                 <a href="#" class="nav-item nav-link">Tentang Kami</a>
                 <a href="#" class="nav-item nav-link">Scan QR <i class="fas fa-qrcode"></i></a>

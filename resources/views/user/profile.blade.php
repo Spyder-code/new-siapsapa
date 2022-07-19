@@ -39,6 +39,42 @@
 @section('script-user')
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
+        $('.max-two').keyup(function (e) {
+            var val = $(this).val();
+            if (val.length > 2) {
+                $(this).val(val.substring(0, 2));
+            }
+        });
+        $('.max-three').keyup(function (e) {
+            var val = $(this).val();
+            if (val.length > 3) {
+                $(this).val(val.substring(0, 3));
+            }
+        });
+        $('.max-six').keyup(function (e) {
+            var val = $(this).val();
+            if (val.length > 6) {
+                $(this).val(val.substring(0, 6));
+            }
+        });
+        $('.no-kta').keyup(function (e) {
+            var one = $('#one').val();
+            var two = $('#two').val();
+            var three = $('#three').val();
+            var four = $('#four').val();
+            var five = $('#five').val();
+            var output = one+"."+two+"."+three+"."+four+"."+five;
+            $('#output').val(output);
+        });
+        $('#kode-input').hide();
+        $('select[name="status_anggota"]').change(function (e) {
+            var val = $(this).val();
+            if(val=='Anggota Baru'){
+                $('#kode-input').hide();
+            }else{
+                $('#kode-input').show();
+            }
+        });
         $('select[name="provinsi"]').change(function(){
             var provinsi = $(this).val();
             $.ajax({

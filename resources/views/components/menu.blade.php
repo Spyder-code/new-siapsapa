@@ -50,9 +50,9 @@
         'icon' => 'users',
         'access' => ['admin','kwarda','kwarcab','kwaran'],
         'sub' => [
-            ['text' => 'Anggota non Gudep','href' => route('anggota.index'),'icon' => 'fa-users'],
-            ['text' => 'Anggota Gudep','href' => route('anggota.index',['gudep'=>true]),'icon' => 'fa-users',],
-            ['text' => 'Anggota tidak aktif','href' => route('anggota.index',['active' => '0']),'icon' => 'fa-users',],
+            ['text' => 'Anggota non Gudep','href' => route('anggota.index','non-gudep'),'icon' => 'fa-users'],
+            ['text' => 'Anggota Gudep','href' => route('anggota.index','is-gudep'),'icon' => 'fa-users',],
+            ['text' => 'Anggota tidak aktif','href' => route('anggota.index','non-active'),'icon' => 'fa-users',],
             ['text' => 'Registrasi Anggota','href' => route('anggota.create'),'icon' => 'fa-user-plus',],
         ]
     ],[

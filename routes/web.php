@@ -42,6 +42,9 @@ Route::get('init/add-to-cart', [InitController::class, 'addToCart']);
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/profile', [PageController::class, 'profile'])->name('page.profile');
+Route::get('/agenda', [PageController::class, 'agenda'])->name('page.agenda');
+Route::get('/agenda/{agenda}', [PageController::class, 'show_agenda'])->name('page.agenda.show');
+Route::get('/agenda/{agenda}/peserta', [PageController::class, 'peserta_agenda'])->name('page.agenda.peserta');
 Route::get('/ubah-password', [PageController::class, 'change_password'])->name('page.change_password');
 Route::put('/ubah-password/{user}', [UserController::class, 'update'])->name('user.update');
 Route::post('/anggota', [AnggotaController::class, 'handleUpdateOrStore'])->name('page.profile.store');
@@ -64,7 +67,8 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::resource('kta',KtaController::class);
         Route::resource('cart',CartController::class);
         Route::resource('cartproduct',CartProductController::class);
-        Route::resource('anggota', AnggotaController::class)->except(['edit','show']);
+        Route::resource('anggota', AnggotaController::class)->except(['edit','show','index']);
+        Route::get('get-anggota/{type}', [AnggotaController::class,'index'])->name('anggota.index');
         Route::put('anggota/update/status/{anggota}', [AnggotaController::class,'updateStatus'])->name('anggota.update.status');
         Route::get('anggota/non-validate', [AnggotaController::class,'non_validate'])->name('anggota.non_validate');
         Route::get('anggota/gudep/{gudep}', [GudepController::class,'anggota'])->name('gudep.anggota');
@@ -90,7 +94,10 @@ Route::middleware(['auth','admin'])->group(function () {
 // datatable prefix
 Route::prefix('datatable')->group(function(){
     Route::get('gudep', [GudepController::class, 'data_table'])->name('datatable.gudep');
-    Route::get('anggota', [AnggotaController::class, 'data_table'])->name('datatable.anggota');
+    Route::get('anggota/non-active', [AnggotaController::class, 'data_table_non_active'])->name('datatable.anggota.non-active');
+    Route::get('anggota/non-gudep', [AnggotaController::class, 'data_table_non_gudep'])->name('datatable.anggota.non-gudep');
+    Route::get('anggota/is-gudep', [AnggotaController::class, 'data_table_is_gudep'])->name('datatable.anggota.is-gudep');
+    Route::get('anggota/active', [AnggotaController::class, 'data_table_active'])->name('datatable.anggota.active');
     Route::get('anggota/non-validate', [AnggotaController::class, 'data_table_non_validate'])->name('datatable.anggota.non_validate');
     Route::get('gudep/anggota', [GudepController::class, 'data_table_anggota'])->name('datatable.gudep.anggota');
     Route::get('kwartir', [KwartirController::class, 'data_table'])->name('datatable.kwartir');

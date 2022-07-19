@@ -49,7 +49,7 @@
     <div class="col-12">
         <div class="card">
             <div class="border-bottom title-part-padding">
-                <h4 class="card-title mb-0">List Anggota {{ !$is_gudep?'non Gudep':'' }}</h4>
+                <h4 class="card-title mb-0">List Anggota</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -110,13 +110,6 @@
     <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
     <script>
         $('#cart').hide();
-        var gudep = @json($is_gudep);
-        var active = @json($is_active);
-        if(gudep){
-            gudep = 1;
-        }else{
-            gudep = 0;
-        }
 
         var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
             keyboard: false
@@ -127,12 +120,10 @@
             select:true,
             scrollY: '500px',
             ajax: {
-            url: '{!! route('datatable.anggota') !!}',
+            url: @json($url),
             type: 'GET',
             data: {
                     id_wilayah: {!! json_encode($id_wilayah) !!},
-                    gudep: gudep,
-                    active: active,
                 },
             },
             columns: [
@@ -204,9 +195,9 @@
         });
 
         // hide coulmn datatable
-        if(active==2){
-            table.column(7).visible(false);
-        }
+        // if(active==2){
+        //     table.column(7).visible(false);
+        // }
 
 
         $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel, .buttons-collection ")
