@@ -39,6 +39,9 @@ class PageController extends Controller
 
     public function show_agenda(Agenda $agenda)
     {
+        if(!Auth::check()){
+            return redirect()->route('login');
+        }
         $kegiatan = Kegiatan::where('agenda_id', $agenda->id)->orderBy('jam', 'asc')->get();
         return view('user.agenda.show',compact('agenda','kegiatan'));
     }
