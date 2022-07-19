@@ -45,6 +45,9 @@ class PageController extends Controller
 
     public function peserta_agenda(Agenda $agenda)
     {
+        if(!Auth::check()){
+            return redirect()->route('login');
+        }
         $anggota = PendaftaranAgenda::all()->where('agenda_id', $agenda->id);
         $cek = PendaftaranAgenda::where('agenda_id', $agenda->id)->where('anggota_id',Auth::user()->anggota->id)->first();
         return view('user.agenda.peserta', compact('agenda','anggota','cek'));
