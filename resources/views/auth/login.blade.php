@@ -10,6 +10,22 @@
     <!-- Form -->
     <div class="row">
         <div class="col-12">
+            {{-- success message--}}
+            @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+            @if (session('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+            @endif
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
             {{-- error validation --}}
             @if (count($errors) > 0)
                 <div class="alert alert-danger">
@@ -68,11 +84,12 @@
     </div>
     <div class="row mt-3">
     <!-- Form -->
-        <form class="col-12 form-material" action="index.html">
+        <form class="col-12 form-material" method="POST" action="{{ route('password.email') }}">
+            @csrf
             <!-- email -->
             <div class="form-group row">
                 <div class="col-12">
-                    <input class="form-control" type="email" required="" placeholder="Username" />
+                    <input class="form-control" type="email" name="email" placeholder="Email" />
                 </div>
             </div>
             <!-- pwd -->
