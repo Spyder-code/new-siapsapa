@@ -104,7 +104,7 @@
 
 @push('scripts')
 <script>
-    var role = @json($anggota->user->role);
+    var role = @json(Auth::user()->role);
     var provinsi = @json($anggota->province->no_prov);
     var kabupaten = @json($anggota->city->no_kab);
     var kecamatan = @json($anggota->district->no_kec);
