@@ -63,6 +63,22 @@
         <input type="hidden" name="gudep" value="{{ Auth::user()->anggota->gudep }}">
     @endif
     <x-input :value="$anggota->status_anggota??''" :name="'status_anggota'" :col="6" :label="'Status Anggota'" :type="'select'" :attr="['required']" :options="['Anggota Baru'=>'Anggota Baru','Anggota Lama'=>'Anggota Lama']" />
+    @if (!empty($anggota))
+    <div class="mb-3" id="kode-input">
+        <div class="d-flex justify-content-between">
+            <span class="text-sm">Nomor Anggota <small>(Contoh: 22.02.02.123.123456)</small></span>
+            <span class="text-sm">Hasil</span>
+        </div>
+        <div class="d-flex gap-2">
+            <input type="text" minlength="2" style="width: 10%" id="one" class="form-control no-kta text-center max-two">
+            <input type="text" minlength="2" style="width: 10%" id="two" class="form-control no-kta text-center max-two">
+            <input type="text" minlength="2" style="width: 10%" id="three" class="form-control no-kta text-center max-two">
+            <input type="text" minlength="3" style="width: 15%" id="four" class="form-control no-kta text-center max-three">
+            <input type="text" minlength="6" style="width: 20%" id="five" class="form-control no-kta text-center max-six">
+            <input type="text" name="kode" style="width: 35%" id="output" class="form-control text-center" readonly>
+        </div>
+    </div>
+    @endif
     <p class="font-weight-bold text-primary fs-5">2. Data Akun.</p>
     <hr>
     <x-input :value="$anggota->email??''" :type="'email'" :name="'email'" :label="'Email'" :col="6" :attr="['required']"/>
@@ -72,3 +88,86 @@
         <img src="{{ !empty($anggota)?asset('berkas/anggota/'.$anggota->foto):'https://via.placeholder.com/150' }}" class="img-fluid" id="img-preview" style="width:150px; height:180px">
     </div>
 </div>
+@php
+    $is_gudep = $anggota->gudep;
+    $gender = $anggota->jk;
+    if($is_gudep!=null){
+        if($gender=='Perempuan'){
+            $gudep = $anggota->gudepInfo->no_putri;
+        }else{
+            $gudep = $anggota->gudepInfo->no_putra;
+        }
+    }else{
+        $gudep = '000';
+    }
+@endphp
+
+@push('scripts')
+<script>
+    var role = @json($anggota->user->role);
+    var provinsi = @json($anggota->province->no_prov);
+    var kabupaten = @json($anggota->city->no_kab);
+    var kecamatan = @json($anggota->district->no_kec);
+    var gudep = @json($gudep);
+
+
+    if (role=='gudep') {
+        $('#one').val(provinsi).attr('readonly',true);
+        $('#two').val(kabupaten).attr('readonly',true);
+        $('#three').val(kecamatan).attr('readonly',true);
+        $('#four').val(gudep).attr('readonly',true);
+    } else if(role=='kwaran') {
+        $('#one').val(provinsi).attr('readonly',true);
+        $('#two').val(kabupaten).attr('readonly',true);
+        $('#three').val(kecamatan).attr('readonly',true);
+    }else if(role=='kwarcab'){
+        $('#one').val(provinsi).attr('readonly',true);
+        $('#two').val(kabupaten).attr('readonly',true);
+    }else if(role=='kwarda'){
+        $('#one').val(provinsi).attr('readonly',true);
+    }else{
+        $('#one').val('').attr('readonly',true);
+        $('#two').val('').attr('readonly',true);
+        $('#three').val('').attr('readonly',true);
+        $('#four').val('').attr('readonly',true);
+        $('#five').val('').attr('readonly',true);
+        $('#kode').val(@json($anggota->kode)).attr('readonly',true);
+    }
+    $('.max-two').keyup(function (e) {
+            var val = $(this).val();
+            if (val.length > 2) {
+                $(this).val(val.substring(0, 2));
+            }
+        });
+        $('.max-three').keyup(function (e) {
+            var val = $(this).val();
+            if (val.length > 3) {
+                $(this).val(val.substring(0, 3));
+            }
+        });
+        $('.max-six').keyup(function (e) {
+            var val = $(this).val();
+            if (val.length > 6) {
+                $(this).val(val.substring(0, 6));
+            }
+        });
+        $('.no-kta').keyup(function (e) {
+            var one = $('#one').val();
+            var two = $('#two').val();
+            var three = $('#three').val();
+            var four = $('#four').val();
+            var five = $('#five').val();
+            var output = one+"."+two+"."+three+"."+four+"."+five;
+            $('#output').val(output);
+        });
+        $('#kode-input').hide();
+        $('select[name="status_anggota"]').change(function (e) {
+            var val = $(this).val();
+            if(val=='Anggota Baru'){
+                $('#kode-input').hide();
+            }else{
+                $('#kode-input').show();
+            }
+        });
+</script>
+@endpush
