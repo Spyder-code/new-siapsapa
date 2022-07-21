@@ -36,11 +36,11 @@
             <span class="text-sm">Hasil</span>
         </div>
         <div class="d-flex gap-2">
-            <input type="text" minlength="2" style="width: 10%" id="one" class="form-control no-kta text-center max-two">
-            <input type="text" minlength="2" style="width: 10%" id="two" class="form-control no-kta text-center max-two">
-            <input type="text" minlength="2" style="width: 10%" id="three" class="form-control no-kta text-center max-two">
-            <input type="text" minlength="3" style="width: 15%" id="four" class="form-control no-kta text-center max-three">
-            <input type="text" minlength="6" style="width: 20%" id="five" class="form-control no-kta text-center max-six">
+            <input type="text" minlength="2" readonly style="width: 10%" id="one" class="form-control no-kta text-center max-two">
+            <input type="text" minlength="2" readonly style="width: 10%" id="two" class="form-control no-kta text-center max-two">
+            <input type="text" minlength="2" readonly style="width: 10%" id="three" class="form-control no-kta text-center max-two">
+            <input type="text" minlength="3" readonly style="width: 15%" id="four" class="form-control no-kta text-center max-three">
+            <input type="text" minlength="6" readonly style="width: 20%" id="five" class="form-control no-kta text-center max-six">
             <input type="text" name="kode" style="width: 35%" id="output" class="form-control text-center" readonly>
         </div>
     </div>
