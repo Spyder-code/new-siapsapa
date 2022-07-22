@@ -89,25 +89,38 @@
     </div>
 </div>
 @php
-    $is_gudep = $anggota->gudep;
-    $gender = $anggota->jk;
-    if($is_gudep!=null){
-        if($gender=='Perempuan'){
-            $gudep = $anggota->gudepInfo->no_putri;
+    if(!empty($anggota)){
+        $is_gudep = $anggota->gudep;
+        $gender = $anggota->jk;
+        if($is_gudep!=null){
+            if($gender=='Perempuan'){
+                $gudep = $anggota->gudepInfo->no_putri;
+            }else{
+                $gudep = $anggota->gudepInfo->no_putra;
+            }
         }else{
-            $gudep = $anggota->gudepInfo->no_putra;
+            $gudep = '000';
         }
+        $role = Auth::user()->role;
+        $provinsi = $anggota->province->no_prov;
+        $kabupaten = $anggota->city->no_kab;
+        $kecamatan = $anggota->district->no_kec;
     }else{
+        $is_gudep = null;
         $gudep = '000';
+        $role = '';
+        $provinsi = '00';
+        $kabupaten = '00';
+        $kecamatan = '00';
     }
 @endphp
 
 @push('scripts')
 <script>
-    var role = @json(Auth::user()->role);
-    var provinsi = @json($anggota->province->no_prov);
-    var kabupaten = @json($anggota->city->no_kab);
-    var kecamatan = @json($anggota->district->no_kec);
+    var role = @json($role);
+    var provinsi = @json($provinsi);
+    var kabupaten = @json($kabupaten);
+    var kecamatan = @json($kecamatan);
     var gudep = @json($gudep);
 
 
@@ -131,7 +144,7 @@
         $('#three').val('').attr('readonly',true);
         $('#four').val('').attr('readonly',true);
         $('#five').val('').attr('readonly',true);
-        $('#kode').val(@json($anggota->kode)).attr('readonly',true);
+        $('#kode').val('').attr('readonly',true);
     }
     $('.max-two').keyup(function (e) {
             var val = $(this).val();
