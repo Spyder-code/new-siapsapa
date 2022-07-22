@@ -3,8 +3,8 @@
 <div class="row">
     <x-breadcrumb_left
         :links="[
-            ['name' => 'Dashboard', 'url' => 'da'],
-            ['name' => 'TRansaksi', 'url' => '#'],
+            ['name' => 'Dashboard', 'url' => '#'],
+            ['name' => 'Transaksi', 'url' => '#'],
         ]"
 
         :title="'Transaksi'"

@@ -56,9 +56,10 @@ class TransactionController extends Controller
     }
 
 
-    public function show(Transaction $transaction)
+    public function show(TransactionDetail $transaction)
     {
-        //
+        $transactions = $transaction->transactions;
+        return view('admin.transaction.show', compact('transactions', 'transaction'));
     }
 
 

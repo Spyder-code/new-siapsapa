@@ -63,7 +63,6 @@
         <input type="hidden" name="gudep" value="{{ Auth::user()->anggota->gudep }}">
     @endif
     <x-input :value="$anggota->status_anggota??''" :name="'status_anggota'" :col="6" :label="'Status Anggota'" :type="'select'" :attr="['required']" :options="['Anggota Baru'=>'Anggota Baru','Anggota Lama'=>'Anggota Lama']" />
-    @if (!empty($anggota))
     <div class="mb-3" id="kode-input">
         <div class="d-flex justify-content-between">
             <span class="text-sm">Nomor Anggota <small>(Contoh: 22.02.02.123.123456)</small></span>
@@ -78,7 +77,6 @@
             <input type="text" name="kode" style="width: 35%" id="output" class="form-control text-center" readonly>
         </div>
     </div>
-    @endif
     <p class="font-weight-bold text-primary fs-5">2. Data Akun.</p>
     <hr>
     <x-input :value="$anggota->email??''" :type="'email'" :name="'email'" :label="'Email'" :col="6" :attr="['required']"/>
