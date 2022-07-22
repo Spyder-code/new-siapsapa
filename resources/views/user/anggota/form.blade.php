@@ -30,7 +30,7 @@
     <x-input :value="$anggota->kecamatan??''" :name="'kecamatan'" :col="4" :label="'Kecamatan'" :type="'select'" :attr="['required']" :options="$options2" />
     <x-input :value="$anggota->gudep??''" :name="'gudep'" :col="6" :label="'Gudep'" :type="'select'" :options="$options3" />
     <x-input :value="$anggota->status_anggota??''" :name="'status_anggota'" :col="6" :label="'Status Anggota'" :type="'select'" :attr="['required']" :options="['Anggota Baru'=>'Anggota Baru','Anggota Lama'=>'Anggota Lama']" />
-    <div class="mb-3" id="kode-input">
+    {{-- <div class="mb-3" id="kode-input">
         <div class="d-flex justify-content-between">
             <span class="text-sm">Nomor Anggota <small>(Contoh: 22.02.02.123.123456)</small></span>
             <span class="text-sm">Hasil</span>
@@ -43,7 +43,7 @@
             <input type="text" minlength="6" readonly style="width: 20%" id="five" class="form-control no-kta text-center max-six">
             <input type="text" name="kode" style="width: 35%" id="output" class="form-control text-center" readonly>
         </div>
-    </div>
+    </div> --}}
     <p class="font-weight-bold text-primary fs-5">2. Data Akun.</p>
     <hr>
     <x-input :value="Auth::user()->email" :type="'email'" :name="'email'" :label="'Email'" :col="6" :attr="['required','readonly']"/>
