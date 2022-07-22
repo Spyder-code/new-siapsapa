@@ -71,7 +71,7 @@ class MidtransService extends Repository
         }
     }
 
-     public function notification()
+    public function notification()
     {
         $notif = new \Midtrans\Notification();
 
@@ -79,30 +79,27 @@ class MidtransService extends Repository
         $type = $notif->payment_type;
         $order_id = $notif->order_id;
         $fraud = $notif->fraud_status;
-        $transaksi = Transaction::where('invoice', $order_id)->first();
-        $booking = $transaksi->booking;
+        $transaksi = TransactionDetail::where('code', $order_id)->first();
         if ($transaction == 'capture') {
             // For credit card transaction, we need to check whether transaction is challenge by FDS or not
             $transaksi->update([
-                'transaction_status_id' => 2,
-                'is_paid' => 0,
+                'payment_status' => 2,
             ]);
             if ($type == 'credit_card'){
                 if($fraud == 'challenge'){
                     // TODO set payment status in merchant's database to 'Challenge by FDS'
                     // TODO merchant should decide whether this transaction is authorized or not in MAP
                     $transaksi->update([
-                        'transaction_status_id' => 11,
-                        'is_paid' => 0,
+                        'payment_status' => 11,
                     ]);
                     return response( "Transaction order_id: " . $order_id ." is challenged by FDS");
                 }
                 else {
                     $transaksi->update([
-                        'transaction_status_id' => 3,
-                        'is_paid' => 1,
+                        'payment_status' => 3,
+                        'status' => 2,
                     ]);
-                    $this->booked($booking, $transaksi);
+                    // $this->booked($booking, $transaksi);
                     // TODO set payment status in merchant's database to 'Success'
                     return response( "Transaction order_id: " . $order_id ." successfully captured using " . $type);
                 }
@@ -110,34 +107,31 @@ class MidtransService extends Repository
         }
         else if ($transaction == 'settlement'){
             $transaksi->update([
-                'transaction_status_id' => 3,
-                'is_paid' => 1,
+                'payment_status' => 3,
+                'status' => 2,
             ]);
-            $this->booked($booking, $transaksi);
+            // $this->booked($booking, $transaksi);
             // TODO set payment status in merchant's database to 'Settlement'
             return response( "Transaction order_id: " . $order_id ." successfully transfered using " . $type);
         }
         else if($transaction == 'pending'){
             // TODO set payment status in merchant's database to 'Pending'
             $transaksi->update([
-                'transaction_status_id' => 4,
-                'is_paid' => 0,
+                'payment_status' => 4,
             ]);
             return response( "Waiting customer to finish transaction order_id: " . $order_id . " using " . $type);
         }
         else if ($transaction == 'deny') {
             // TODO set payment status in merchant's database to 'Denied'
             $transaksi->update([
-                'transaction_status_id' => 5,
-                'is_paid' => 0,
+                'payment_status' => 5,
             ]);
             return response( "Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.");
         }
         else if ($transaction == 'expire') {
             // TODO set payment status in merchant's database to 'expire'
             $transaksi->update([
-                'transaction_status_id' => 7,
-                'is_paid' => 0,
+                'payment_status' => 7,
             ]);
 
             // $this->newSnapUrl($order_id);
@@ -146,8 +140,7 @@ class MidtransService extends Repository
         else if ($transaction == 'cancel') {
             // TODO set payment status in merchant's database to 'Denied'
             $transaksi->update([
-                'transaction_status_id' => 6,
-                'is_paid' => 0,
+                'payment_status' => 6,
             ]);
 
             // $this->newSnapUrl($order_id);

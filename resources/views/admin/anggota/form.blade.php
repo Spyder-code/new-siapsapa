@@ -89,30 +89,22 @@
     </div>
 </div>
 @php
-    if(!empty($anggota)){
-        $is_gudep = $anggota->gudep;
-        $gender = $anggota->jk;
+    $anggotaAdmin = Auth::user()->anggota;
+        $is_gudep = $anggotaAdmin->gudep;
+        $gender = $anggotaAdmin->jk;
         if($is_gudep!=null){
             if($gender=='Perempuan'){
-                $gudep = $anggota->gudepInfo->no_putri;
+                $gudep = $anggotaAdmin->gudepInfo->no_putri;
             }else{
-                $gudep = $anggota->gudepInfo->no_putra;
+                $gudep = $anggotaAdmin->gudepInfo->no_putra;
             }
         }else{
             $gudep = '000';
         }
         $role = Auth::user()->role;
-        $provinsi = $anggota->province->no_prov;
-        $kabupaten = $anggota->city->no_kab;
-        $kecamatan = $anggota->district->no_kec;
-    }else{
-        $is_gudep = null;
-        $gudep = '000';
-        $role = '';
-        $provinsi = '00';
-        $kabupaten = '00';
-        $kecamatan = '00';
-    }
+        $provinsi = $anggotaAdmin->province->no_prov;
+        $kabupaten = $anggotaAdmin->city->no_kab;
+        $kecamatan = $anggotaAdmin->district->no_kec;
 @endphp
 
 @push('scripts')
@@ -138,6 +130,13 @@
         $('#two').val(kabupaten).attr('readonly',true);
     }else if(role=='kwarda'){
         $('#one').val(provinsi).attr('readonly',true);
+    }else if(role=='admin'){
+        $('#one').val('');
+        $('#two').val('');
+        $('#three').val('');
+        $('#four').val('');
+        $('#five').val('');
+        $('#kode').val('');
     }else{
         $('#one').val('').attr('readonly',true);
         $('#two').val('').attr('readonly',true);

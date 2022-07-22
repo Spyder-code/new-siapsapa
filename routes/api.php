@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\GudepController;
 use App\Http\Controllers\Api\KwartirController;
 use App\Http\Controllers\Api\StatistikController;
 use App\Http\Controllers\Api\WilayahController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -79,6 +80,9 @@ Route::middleware('auth:sanctum')->group(function () {
 // Auth
 Route::post('register',[AuthApi::class,'register']);
 Route::post('login',[AuthApi::class,'login']);
+
+// Midtrans
+Route::post('notification/handling', [TransactionController::class, 'notificationHandling']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // Route::post('logout', [AuthApi::class, 'logout']);

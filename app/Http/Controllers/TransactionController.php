@@ -85,4 +85,10 @@ class TransactionController extends Controller
         $paymentUrl = $midtransService->pay($transactionDetail);
         return redirect($paymentUrl);
     }
+
+    public function notificationHandling()
+    {
+        $midtransService = new MidtransService();
+        return $midtransService->notification();
+    }
 }
