@@ -164,6 +164,20 @@
                                 </ul>
                             </div>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-truck"></i>
+                            </a>
+                            <div class=" dropdown-menu mailbox dropdown-menu-start dropdown-menu-animate-up" aria-labelledby="2">
+                                <ul class="list-style-none">
+                                    <li>
+                                        <a class="nav-link border-top text-center text-dark pt-3" href="{{ route('transaction.index') }}">
+                                            <b>Lihat Pesanan Saya</b> <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                         <!-- ============================================================== -->
                         <!-- End Messages -->
                         <!-- ============================================================== -->

@@ -16,10 +16,15 @@
 <div class="row mt-4">
     <div class="col-12">
         <div class="card">
-            <div class="border-bottom title-part-padding">
+            <div class="border-bottom title-part-padding d-flex justify-content-between">
                 <h4 class="card-title mb-0">List Item</h4>
+                <div class="d-flex gap-3">
+                    <p>Jumlah KTA ({{ $carts->count() }})</p>
+                    <p>Total: <b>Rp. {{ number_format($carts->sum('harga')) }}</b></p>
+                    <a href="{{ route('transaction.create') }}" class="btn btn-success pos-relative right-0"><i class="fas fa-print"></i> Buat Transaksi</a>
+                </div>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive p-4">
                 <table class="table table-bordered table-striped file-export" style="width: 100%">
                     <thead>
                         <tr>

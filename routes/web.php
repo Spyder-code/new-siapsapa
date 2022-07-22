@@ -15,6 +15,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\SyncController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Models\Anggota;
 use App\Models\DocumentType;
@@ -66,8 +67,10 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::resource('product',ProductController::class);
         Route::resource('kta',KtaController::class);
         Route::resource('cart',CartController::class);
+        Route::resource('transaction',TransactionController::class);
         Route::resource('cartproduct',CartProductController::class);
         Route::resource('anggota', AnggotaController::class)->except(['edit','show','index']);
+        Route::post('pay/{transactionDetail}',[TransactionController::class,'pay'])->name('transaction.pay');
         Route::get('get-anggota/{type}', [AnggotaController::class,'index'])->name('anggota.index');
         Route::put('anggota/update/status/{anggota}', [AnggotaController::class,'updateStatus'])->name('anggota.update.status');
         Route::get('anggota/non-validate', [AnggotaController::class,'non_validate'])->name('anggota.non_validate');

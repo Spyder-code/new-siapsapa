@@ -29,4 +29,19 @@ class TransactionDetail extends Model
     {
         return $this->belongsTo(TransactionStatus::class, 'status');
     }
+
+    public function paymentInfo()
+    {
+        return $this->belongsTo(PaymentStatus::class, 'payment_status');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class,'transaction_detail_id');
+    }
 }
