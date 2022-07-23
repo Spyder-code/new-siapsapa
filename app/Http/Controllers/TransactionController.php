@@ -95,4 +95,14 @@ class TransactionController extends Controller
         $midtransService = new MidtransService();
         return $midtransService->notification();
     }
+
+    public function paymentSuccess()
+    {
+        if (request('status_code')==200) {
+            $transactionDetail = TransactionDetail::where('code', request('order_id'))->first();
+            return view('successPayment', compact('transactionDetail'));
+        }else{
+            abort(404);
+        }
+    }
 }

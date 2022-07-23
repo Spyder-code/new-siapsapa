@@ -70,6 +70,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::resource('transaction',TransactionController::class);
         Route::resource('cartproduct',CartProductController::class);
         Route::resource('anggota', AnggotaController::class)->except(['edit','show','index']);
+        Route::get('invoice',[TransactionController::class,'paymentSuccess']);
         Route::post('pay/{transactionDetail}',[TransactionController::class,'pay'])->name('transaction.pay');
         Route::get('get-anggota/{type}', [AnggotaController::class,'index'])->name('anggota.index');
         Route::put('anggota/update/status/{anggota}', [AnggotaController::class,'updateStatus'])->name('anggota.update.status');

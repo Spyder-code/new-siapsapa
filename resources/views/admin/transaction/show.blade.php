@@ -29,6 +29,9 @@
             <li class="list-group-item d-flex justify-content-between"><span style="width:100px">Total Pembayaran</span> Rp. {{ number_format($transaction->total) }}</li>
             <li class="list-group-item d-flex justify-content-between"><span style="width:100px">Status Pesanan:</span> {{ $transaction->statusInfo->name }}</li>
             <li class="list-group-item d-flex justify-content-between"><span style="width:100px">Status Pembayaran:</span> {{ $transaction->paymentInfo->name }}</li>
+            @if ($transaction->payment_status <= 3)
+            <li class="list-group-item d-flex justify-content-between"><span style="width:100px">INVOICE:</span> {{ $transaction->code }}</li>
+            @endif
         </ul>
     </div>
     <div class="col-12 mt-5">

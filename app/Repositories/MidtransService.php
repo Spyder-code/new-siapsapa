@@ -22,7 +22,7 @@ class MidtransService extends Repository
     public function pay(TransactionDetail $transactionDetail)
     {
         $customer = $transactionDetail->user;
-        $date = date('ymdH:i');
+        $date = date('ymdHi');
         $item_price = $transactionDetail->total;
         $item_details = array();
         $orderId = 'KTA/'.$date.'/'.sprintf('%03d',$transactionDetail->id);
