@@ -154,7 +154,7 @@
                 orderable: false,
             } ],
             select: {
-                style:    'os',
+                style: 'multi',
                 selector: 'td:first-child'
             },
             dom: "Bfrtip",
@@ -192,6 +192,10 @@
                 }
             }, 500);
             // console.log(data);
+        });
+
+        $('.file-export tbody').on( 'click', 'tr', function () {
+            console.log( table.row( this ).data() );
         });
 
         // hide coulmn datatable
