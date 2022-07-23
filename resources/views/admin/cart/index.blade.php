@@ -21,7 +21,9 @@
                 <div class="d-flex gap-3">
                     <p>Jumlah KTA ({{ $carts->count() }})</p>
                     <p>Total: <b>Rp. {{ number_format($carts->sum('harga')) }}</b></p>
+                    @if ($carts->count() > 0)
                     <a href="{{ route('transaction.create') }}" class="btn btn-success pos-relative right-0"><i class="fas fa-print"></i> Buat Transaksi</a>
+                    @endif
                 </div>
             </div>
             <div class="table-responsive p-4">

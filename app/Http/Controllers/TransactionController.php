@@ -29,6 +29,9 @@ class TransactionController extends Controller
     {
         $data = $request->all();
         $carts = Cart::all()->where('user_id', Auth::id());
+        if ($carts->count() <= 0) {
+            return redirect()->back()->with('error', 'Tidak ada produk yang ditambahkan');
+        }
         $data['user_id'] = Auth::id();
         $data['item_price'] = $carts->sum('harga');
         $data['ekpedisi_price'] = 0;
