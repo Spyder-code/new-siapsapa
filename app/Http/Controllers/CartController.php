@@ -32,7 +32,7 @@ class CartController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Berhasil menambahkan ke keranjang');
+        return redirect()->route('cart.index')->with('success', 'Berhasil menambahkan ke keranjang');
     }
 
     public function update(Cart $cart, Request $request)

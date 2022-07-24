@@ -1,4 +1,12 @@
 @extends('layouts.admin')
+@section('style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+    <style>
+        tr.selected{
+            background-color: #34ff89ab;
+        }
+    </style>
+@endsection
 @section('breadcrumb')
 <div class="row">
     <x-breadcrumb_left
@@ -30,9 +38,10 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped file-export" style="width: 100%">
+                    <table class="table table-bordered file-export" style="width: 100%">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>Foto</th>
                                 <th>nik</th>
                                 <th>Nomor Anggota</th>
@@ -54,6 +63,15 @@
     </div>
 </div>
 
+<form action="{{ route('cart.store') }}" method="post" id="cart" class="position fixed-bottom">
+    @csrf
+    <input type="hidden" name="anggota_id" id="anggota_id">
+    <div class="bg-light-primary px-5 py-2 text-center justify-content-center">
+        <p class="fw-bold"><span id="cart-item">10</span> Item dipilih</p>
+        <button class="btn btn-primary" type="submit"><i class="fas fa-shopping-bag"></i> Masukan ke keranjang</button>
+    </div>
+</form>
+
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -74,7 +92,9 @@
 @endsection
 
 @section('script')
+<script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
     <script>
+        $('#cart').hide();
         var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
             keyboard: false
         })
@@ -91,6 +111,15 @@
                 },
             },
             columns: [
+                {
+                    orderable: false,
+                    searchable: false,
+                    data: 'id',
+                    name: 'id',
+                    render: function (data, type, row, meta) {
+                        return '';
+                    },
+                },
                 {data: 'foto', name: 'foto'},
                 {data: 'nik', name: 'nik', visible: false},
                 {data: 'kode', name: 'kode'},
@@ -102,6 +131,16 @@
                 {data: 'status', name: 'status'},
                 {data: 'action', name: 'action', searchable: false, orderable: false},
             ],
+            columnDefs: [ {
+                className: 'select-checkbox',
+                targets:   0,
+                searchable: false,
+                orderable: false,
+            } ],
+            select: {
+                style: 'multi',
+                selector: 'td:first-child'
+            },
             dom: "Bfrtip",
             lengthMenu: [
                 [ 10, 25, 50, -1 ],
@@ -109,6 +148,32 @@
             ],
             buttons: ["pageLength","copy", "csv", "excel", "pdf", "print"],
             "bLengthChange": true,
+        });
+
+        var selected = [];
+
+        function handleSelected(){
+            var data = table.rows('.selected').data().toArray();
+            selected = [];
+            $.each(data, function(index, value){
+                selected.push(value.id);
+            });
+            console.log(selected);
+        }
+
+        table.on('click', function () {
+            setTimeout(() => {
+                handleSelected()
+                var total = selected.length;
+                if(total>0){
+                    $('#cart-item').html(total);
+                    $('#anggota_id').val(selected);
+                    $('#cart').show('slow');
+                }else{
+                    $('#cart').hide('slow');
+                }
+            }, 500);
+            // console.log(data);
         });
 
         $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel, .buttons-collection ")

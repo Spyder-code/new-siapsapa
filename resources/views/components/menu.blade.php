@@ -30,20 +30,19 @@
             ['text'=>'Registrasi Gudep','href'=>route('gudep.create'),'icon'=>'fa-plus'],
         ]
     ],[
-        'text' => 'Data Anggota',
-        'href' => route('gudep.anggota', Auth::user()->anggota->gudep ?? 0),
-        'icon' => 'users',
-        'access' => ['gudep'],
-    ],[
-        'text' => 'Anggota non Aktif',
-        'href' => route('gudep.anggota', ['gudep'=>Auth::user()->anggota->gudep ?? 0, 'active'=>0]),
-        'icon' => 'users',
-        'access' => ['gudep'],
-    ],[
         'text' => 'Transfer Anggota',
         'href' => route('gudep.transfer'),
         'icon' => 'external-link',
         'access' => ['gudep'],
+    ],[
+        'text' => 'Data Anggota',
+        'href' => '#',
+        'icon' => 'users',
+        'access' => ['gudep'],
+        'sub' => [
+            ['text' => 'Anggota Aktif','href' => route('gudep.anggota', Auth::user()->anggota->gudep ?? 0),'icon' => 'fa-users'],
+            ['text' => 'Anggota tidak aktif','href' => route('gudep.anggota', ['gudep'=>Auth::user()->anggota->gudep ?? 0, 'active'=>0]),'icon' => 'fa-users',],
+        ]
     ],[
         'text' => 'Data Anggota',
         'href' => '#',
