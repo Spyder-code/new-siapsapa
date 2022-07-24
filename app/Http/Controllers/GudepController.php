@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GudepRequest;
 use App\Models\Anggota;
+use App\Models\City;
+use App\Models\Distrik;
 use App\Models\Gudep;
 use App\Models\Provinsi;
 use App\Repositories\GudepService;
@@ -139,6 +141,7 @@ class GudepController extends Controller
                 return back()->with('error', 'Password salah');
             }else{
                 $anggota->gudep = $request->gudep;
+                $anggota->kode = $this->generateCode($anggota->kecamatan, $request->gudep, $anggota->jk);
                 $anggota->save();
                 return back()->with('success', $anggota->nama.' berhasil di transfer ke gudep');
             }
@@ -308,5 +311,27 @@ class GudepController extends Controller
             })
             ->rawColumns(['action','foto','status'])
             ->make(true);
+    }
+
+    public function generateCode($kecamatan, $gudep = null, $jk = null)
+    {
+        $kec = Distrik::find($kecamatan);
+        $kab = City::find($kec->regency_id);
+        $prov = Provinsi::find($kab->province_id);
+        $kode_wil = $prov->no_prov .'.'. $kab->no_kab .'.'. $kec->no_kec .'.';
+        if ($gudep == null) {
+            $kode_gudep = '000';
+        }else{
+            $gud = Gudep::find($gudep);
+            if($jk=='Perempuan'){
+                $kode_gudep = $gud->no_putri;
+            }else{
+                $kode_gudep = $gud->no_putra;
+            }
+        }
+
+        $rand = rand(99999, 999999);
+        $kode = $kode_wil . $kode_gudep .'.'. $rand;
+        return $kode;
     }
 }
