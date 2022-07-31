@@ -6,6 +6,8 @@ use App\Models\Anggota;
 use App\Models\Cart;
 use App\Models\Kta;
 use App\Models\Pramuka;
+use App\Models\Transaction;
+use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -52,11 +54,15 @@ class CartController extends Controller
         return back()->with('success', 'Berhasil menghapus data');
     }
 
-    public function print()
+    public function print(TransactionDetail $transactionDetail)
     {
-        $carts = Cart::where('user_id', Auth::id())->with('anggota')->get();
-        return view('print', compact('carts'));
-        $pdf = Pdf::loadView('print', compact('carts'));
+        $carts = Transaction::where('transaction_detail_id', $transactionDetail->id)->with('anggota')->get();
+        $data = array();
+        foreach ($carts->chunk(5) as $idx => $cart) {
+            $data[$idx] = $cart;
+        }
+        return view('new-print', compact('data'));
+        $pdf = Pdf::loadView('new-print', compact('data'));
         $file_name = date('d-m-H-i').'.pdf';
         return $pdf->download('cetak.pdf');
     }

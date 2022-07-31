@@ -240,7 +240,7 @@ class AnggotaController extends Controller
         $validator = $request->validate([
             'nik'    => 'required|array',
             'nik.*'  => 'required|string|unique:tb_anggota,nik',
-            'nama'    => 'required|array|min:3',
+            'nama'    => 'required|array',
             'nama.*'  => 'required|string',
             'tgl_lahir'    => 'required|array',
             'tgl_lahir.*'  => 'required|date_format:d/m/Y',

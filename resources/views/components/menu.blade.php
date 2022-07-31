@@ -71,16 +71,27 @@
         'icon' => 'calendar',
         'access' => ['all'],
     ],[
-        'text' => 'Produk',
-        'href' => 'laporan-keluar',
+        'text' => 'Transaksi',
+        'href' => '#',
         'icon' => 'archive',
-        'access' => ['alls'],
+        'access' => ['admin'],
         // 'twoColumn' => true,
         'sub' => [
-            ['text' => 'Pesan KTA','href' => '#','icon' => 'fa-lock'],
-            ['text' => 'Produk Saya','href' => route('product.index'),'icon' => 'fa-heart'],
+            ['text' => 'Transaksi Masuk','href' => route('transaction.index', ['status'=>1]),'icon' => 'fa-list'],
+            ['text' => 'Transaksi Keluar','href' => route('transaction.index', ['status'=>2]),'icon' => 'fa-list'],
         ]
     ]
+    // ,[
+    //     'text' => 'Percetakan',
+    //     'href' => '#',
+    //     'icon' => 'printer',
+    //     'access' => ['admin'],
+    //     // 'twoColumn' => true,
+    //     'sub' => [
+    //         ['text' => 'Pending Cetak','href' => route('percetakan.index', ['status'=>0]),'icon' => 'fa-list'],
+    //         ['text' => 'Sudah Cetak','href' => route('percetakan.index', ['status'=>1]),'icon' => 'fa-list'],
+    //     ]
+    // ]
 ];
 @endphp
 <aside class="left-sidebar">

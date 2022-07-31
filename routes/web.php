@@ -12,6 +12,7 @@ use App\Http\Controllers\InitController;
 use App\Http\Controllers\KtaController;
 use App\Http\Controllers\KwartirController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PercetakanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\SyncController;
@@ -61,7 +62,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::put('data/wrong-date', [DataController::class, 'update_tgl_lahir'])->name('data.update.date');
         Route::get('data/wrong-image', [DataController::class, 'view_image'])->name('data.view.image');
         Route::get('statistik', [StatistikController::class, 'index'])->name('statistik.index');
-        Route::post('print-kta', [CartController::class, 'print'])->name('cart.print');
+        Route::post('print-kta/{transactionDetail}', [CartController::class, 'print'])->name('cart.print');
         Route::resource('kwartir', KwartirController::class)->except(['show','create','store']);
         Route::resource('gudep', GudepController::class);
         Route::resource('product',ProductController::class);
@@ -92,6 +93,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::resource('agenda', AgendaController::class);
         Route::get('agenda/{agenda}/peserta', [AgendaController::class,'peserta'])->name('agenda.peserta');
         Route::resource('user', UserController::class)->except(['update']);
+        Route::get('percetakan', [PercetakanController::class,'index'])->name('percetakan.index');
     });
 });
 

@@ -8,7 +8,7 @@
         ]"
 
         :title="'Transaksi'"
-        :description="'Daftar Transaksi Pesanan Saya'"
+        :description="'Daftar Transaksi'"
     />
 </div>
 @endsection
@@ -46,7 +46,7 @@
                                         {{ $item->paymentInfo->name }}
                                     </div>
                                 </td>
-                                <td>
+                                <td class="btn-group">
                                     <a href="{{ route('transaction.show',$item) }}" class="btn btn-sm btn-info">
                                         Detail
                                     </a>
@@ -56,6 +56,11 @@
                                         <button type="submit" class="btn btn-sm btn-success">
                                             Bayar
                                         </button>
+                                    </form>
+                                    @else
+                                    <form action="{{ route('cart.print', $item) }}" method="post">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-success">Cetak</button>
                                     </form>
                                     @endif
                                 </td>

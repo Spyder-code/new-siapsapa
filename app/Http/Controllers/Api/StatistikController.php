@@ -33,6 +33,12 @@ class StatistikController extends Controller
         }
         return response()->json($data);
     }
+    public function getNumberOfPramukaGudep($gudep)
+    {
+        $statistik = new StatistikService();
+        $data = $statistik->getNumberOfPramukaGudep($gudep);
+        return response()->json($data);
+    }
 
     public function getGender($id_wilayah)
     {

@@ -14,7 +14,19 @@ class TransactionController extends Controller
 
     public function index()
     {
-        $transactions = TransactionDetail::all()->where('user_id',Auth::id());
+        $role = Auth::user()->role;
+        $query = TransactionDetail::query();
+        if($role=='admin'){
+            if(request()->has('status')){
+                $query->where('status',request('status'));
+            }
+            $transactions = $query->get();
+        }else{
+            if(request()->has('status')){
+                $query->where('status',request('status'));
+            }
+            $transactions = $query->where('user_id',Auth::user()->id)->get();
+        }
         return view('admin.transaction.index', compact('transactions'));
     }
 

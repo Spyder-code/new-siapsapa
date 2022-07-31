@@ -95,6 +95,7 @@ class AnggotaService{
         $user_data = [
             'name' => $data['nama'],
             'email' => $data['email'],
+            'user_id' => $data['nik'],
             'id_wilayah' => $data['kecamatan'],
         ];
 

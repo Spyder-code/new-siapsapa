@@ -297,9 +297,8 @@
     $(".buttons-collection ").addClass("btn btn-info m-1");
 
     $.ajax({
-        url: {!! json_encode(url('api/get-number-of-pramuka')) !!}+'/'+{!! json_encode($id_wilayah) !!},
+        url: {!! json_encode(url('api/get-number-of-pramuka-gudep')) !!}+'/'+{!! json_encode($gudep->id) !!},
         type: 'GET',
-        data:{gudep:@json($gudep->id)},
         success: function(data) {
             $('#total-siaga').html(data.siaga);
             $('#total-penggalang').html(data.penggalang);

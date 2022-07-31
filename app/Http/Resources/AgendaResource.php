@@ -28,6 +28,7 @@ class AgendaResource extends JsonResource
             'kategori' => $this->kategori,
             'foto' => asset('berkas/agenda/'.$this->foto),
             'jenis' => $this->jenis,
+            'is_finish' => $this->is_finish,
             'user_created' => $this->user_created,
         ];
     }

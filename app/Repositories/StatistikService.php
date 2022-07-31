@@ -11,7 +11,7 @@ class StatistikService {
 
     private $id_wilayah;
     private $gudep;
-    public function __construct($id_wilayah, $gudep = null)
+    public function __construct($id_wilayah = null, $gudep = null)
     {
         $this->gudep = $gudep;
         $this->id_wilayah = $id_wilayah;
@@ -178,6 +178,26 @@ class StatistikService {
             }
         }
 
+        return [
+            'siaga' => $siaga,
+            'penggalang' => $penggalang,
+            'penegak' => $penegak,
+            'pandega' => $pandega,
+            'dewasa' => $dewasa,
+            'pelatih' => $pelatih,
+            'total' => $siaga+$penggalang+$penegak+$pandega+$dewasa+$pelatih
+        ];
+    }
+
+    public function getNumberOfPramukaGudep($gudep)
+    {
+        $anggota = Anggota::where('status',1)->where('gudep',$gudep)->get();
+        $siaga = $anggota->where('pramuka',1)->count();
+        $penggalang = $anggota->where('pramuka',2)->count();
+        $penegak = $anggota->where('pramuka',3)->count();
+        $pandega = $anggota->where('pramuka',4)->count();
+        $dewasa = $anggota->where('pramuka',5)->count();
+        $pelatih = $anggota->where('pramuka',6)->count();
         return [
             'siaga' => $siaga,
             'penggalang' => $penggalang,

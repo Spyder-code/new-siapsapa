@@ -38,6 +38,7 @@ Route::delete('/cart/delete/{id}', [CartController::class,'destroy']);
 // statistik
 Route::get('dashboard/{id_wilayah}', [StatistikController::class, 'dashboard']);
 Route::get('get-number-of-pramuka/{id_wilayah}', [StatistikController::class, 'getNumberOfPramuka']);
+Route::get('get-number-of-pramuka-gudep/{gudep}', [StatistikController::class, 'getNumberOfPramukaGudep']);
 Route::get('get-number-of-member/{id_wilayah}', [StatistikController::class, 'getNumberOfMemberAndAdmin']);
 
 // gudep

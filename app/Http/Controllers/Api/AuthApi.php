@@ -16,6 +16,7 @@ class AuthApi extends Controller
 
         return response()->json([
             'user'=>$user,
+            'anggota_id'=>$user->anggota->id,
             'token'=>$token,
             'token_type'=>'Bearer'
         ]);
