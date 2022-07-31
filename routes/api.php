@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\GudepController;
 use App\Http\Controllers\Api\KwartirController;
 use App\Http\Controllers\Api\StatistikController;
+use App\Http\Controllers\Api\TransactionController as ApiTransactionController;
 use App\Http\Controllers\Api\WilayahController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
@@ -76,7 +77,16 @@ Route::delete('delete-peserta', [AgendaController::class, 'deletePeserta']);
 Route::put('update-kegiatan', [AgendaController::class, 'updateKegiatan']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('get-agenda', [AgendaController::class, 'getAgenda']);
+    Route::get('peserta-agenda/{agenda}', [AgendaController::class, 'getPesertaAgenda']);
 });
+
+// Transaction
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('transaction', [ApiTransactionController::class, 'index']);
+    Route::get('transaction/{transactionDetail}', [ApiTransactionController::class, 'show']);
+});
+Route::post('transaction', [ApiTransactionController::class, 'store']);
+Route::post('pay-transaction/{transactionDetail}', [ApiTransactionController::class, 'pay']);
 
 // Auth
 Route::post('register',[AuthApi::class,'register']);

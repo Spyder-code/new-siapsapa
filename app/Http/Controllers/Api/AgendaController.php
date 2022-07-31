@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AgendaResource;
+use App\Http\Resources\PesertaAgendaResource;
 use App\Models\Agenda;
 use App\Models\Anggota;
 use App\Models\Kegiatan;
@@ -121,6 +122,17 @@ class AgendaController extends Controller
             }
         }
 
+    }
+
+    public function getPesertaAgenda(Agenda $agenda)
+    {
+        $peserta = PendaftaranAgenda::where('agenda_id', $agenda->id)->get();
+        if (!$peserta || $peserta->isEmpty()) {
+            return response()->json([
+                'message' => 'Peserta not found'
+            ], 404);
+        }
+        return PesertaAgendaResource::collection($peserta);
     }
 
     public function deletePeserta()

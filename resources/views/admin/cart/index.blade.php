@@ -71,18 +71,6 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            @if (Auth::user()->role == 'admin')
-                            <td colspan="5">
-                                <form action="{{ route('cart.print') }}" method="post">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success"><i class="fas fa-print"></i> Cetak Langsung</button>
-                                </form>
-                            </td>
-                            @endif
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
