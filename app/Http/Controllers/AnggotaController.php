@@ -272,7 +272,7 @@ class AnggotaController extends Controller
         if($user->role=='gudep'){
             return redirect()->route('gudep.anggota', $user->anggota->gudep ?? 0)->with('success', 'Data berhasil ditambah');
         }
-        return redirect()->route('anggota.index')->with('success', 'Data berhasil ditambahkan');
+        return back()->with('success', 'Data berhasil ditambahkan');
     }
 
     public function update(AnggotaRequest $request, Anggota $anggotum)
@@ -284,7 +284,7 @@ class AnggotaController extends Controller
         if($user->role=='gudep'){
             return redirect()->route('gudep.anggota', $user->anggota->gudep ?? 0)->with('success', 'Data berhasil ditambah');
         }
-        return redirect()->route('anggota.index')->with('success', 'Data berhasil diubah');
+        return back()->with('success', 'Data berhasil diubah');
     }
 
     public function updateStatus(Request $request, Anggota $anggota)
