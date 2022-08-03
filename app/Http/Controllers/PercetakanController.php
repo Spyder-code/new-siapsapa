@@ -78,7 +78,7 @@ class PercetakanController extends Controller
                 }
                 return '
                     <div class="justify-content-center text-center">
-                    <img src="'.asset('berkas/anggota/'.$data->foto).'" class="img-thumbnail mx-auto d-block" height="80px" width="80px">
+                    <img src="'.asset('berkas/anggota/'.$data->anggota->foto).'" class="img-thumbnail mx-auto d-block" height="80px" width="80px">
                         '.$warna.'
                     </div>
                 ';
