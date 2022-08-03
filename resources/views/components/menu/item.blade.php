@@ -3,7 +3,7 @@
     $role = Auth::user()->role;
 @endphp
 
-@if (in_array($role,$access) || $access == ['all'])
+@if (in_array($role,$access) || ($access == ['all'] && $role != 'percetakan'))
 <li class="sidebar-item">
     <a @class([
     'sidebar-link',

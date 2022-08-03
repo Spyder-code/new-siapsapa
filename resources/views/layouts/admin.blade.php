@@ -140,6 +140,7 @@
                         <!-- ============================================================== -->
                         <!-- Messages -->
                         <!-- ============================================================== -->
+                        @if (Auth::user()->anggota)
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-cart-plus"></i>
@@ -178,6 +179,7 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
                         <!-- ============================================================== -->
                         <!-- End Messages -->
                         <!-- ============================================================== -->
@@ -201,12 +203,12 @@
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ Auth::user()->anggota->foto != null ? asset('berkas/anggota/'.Auth::user()->anggota->foto ) : asset('images/logo.png') }}" alt="user" width="30" class="profile-pic rounded-circle"/>
+                                <img src="{{ Auth::user()->anggota ? asset('berkas/anggota/'.Auth::user()->anggota->foto ) : asset('images/logo.png') }}" alt="user" width="30" class="profile-pic rounded-circle"/>
                             </a>
                             <div class=" dropdown-menu dropdown-menu-end user-dd animated flipInY">
                                 <div class=" d-flex no-block align-items-center p-3 bg-info text-white mb-2">
                                     <div class="">
-                                        <img src="{{ Auth::user()->anggota->foto != null ? asset('berkas/anggota/'.Auth::user()->anggota->foto ) : asset('images/logo.png') }}" alt="user" class="rounded-circle" width="60" />
+                                        <img src="{{ Auth::user()->anggota ? asset('berkas/anggota/'.Auth::user()->anggota->foto ) : asset('images/logo.png') }}" alt="user" class="rounded-circle" width="60" />
                                     </div>
                                     <div class="ms-2">
                                         <h4 class="mb-0 text-white">{{ Auth::user()->name }}</h4>
@@ -214,10 +216,12 @@
                                     </div>
                                 </div>
                                 <div class="dropdown-divider"></div>
+                                @if (Auth::user()->anggota)
                                 <a class="dropdown-item" href="{{ route('anggota.show', Auth::user()->anggota) }}" >
                                     <i data-feather="user" class="feather-sm text-info me-1 ms-1" ></i>
                                     Profile Anggota
                                 </a>
+                                @endif
                                 <a class="dropdown-item" href="{{ route('user.edit', Auth::user()) }}" >
                                     <i data-feather="settings" class="feather-sm text-warning me-1 ms-1" ></i>
                                     Ganti Password

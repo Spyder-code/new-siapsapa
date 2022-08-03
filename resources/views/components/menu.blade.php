@@ -91,9 +91,29 @@
             // ['text' => 'Transaksi Pending','href' => route('transaction.index', ['status'=>1]),'icon' => 'fa-list'],
             ['text' => 'List Percetakan','href' => route('percetakan.batch'),'icon' => 'fa-list'],
             ['text' => 'Belum Cetak','href' => route('percetakan.index',['status'=>0]),'icon' => 'fa-list'],
-            ['text' => 'Proses Cetak','href' => route('percetakan.index', ['status'=>1]),'icon' => 'fa-list'],
-            ['text' => 'Sudah Cetak','href' => route('percetakan.index', ['status'=>2]),'icon' => 'fa-list'],
+            ['text' => 'Siap Cetak','href' => route('percetakan.index', ['status'=>1]),'icon' => 'fa-list'],
+            ['text' => 'Selesai Cetak','href' => route('percetakan.index', ['status'=>2]),'icon' => 'fa-list'],
         ]
+    ],[
+        'text' => 'List Percetakan',
+        'href' => route('percetakan.batch'),
+        'icon' => 'calendar',
+        'access' => ['percetakan'],
+    ],[
+        'text' => 'Belum Cetak',
+        'href' => route('percetakan.index',['status'=>0]),
+        'icon' => 'calendar',
+        'access' => ['percetakan'],
+    ],[
+        'text' => 'Siap Cetak',
+        'href' => route('percetakan.index',['status'=>1]),
+        'icon' => 'calendar',
+        'access' => ['percetakan'],
+    ],[
+        'text' => 'Selesai Cetak',
+        'href' => route('percetakan.index',['status'=>2]),
+        'icon' => 'calendar',
+        'access' => ['percetakan'],
     ]
     // ,[
     //     'text' => 'Percetakan',
