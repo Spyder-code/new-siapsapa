@@ -209,23 +209,15 @@ class KwartirController extends Controller
     {
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Anggota::select('id','nama','email','foto')->whereHas('user', function($q){
-                $q->where('role','anggota');
-            });
+            $data = Anggota::where('status',1)->select('id','nama','email','foto');
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = Anggota::where('provinsi',$id_wilayah)->select('id','nama','email','foto')->whereHas('user', function($q){
-                    $q->where('role','anggota');
-                });
+                $data = Anggota::where('status',1)->where('provinsi',$id_wilayah)->select('id','nama','email','foto');
             }elseif($len==4){
-                $data =  Anggota::where('kabupaten',$id_wilayah)->select('id','nama','email','foto')->whereHas('user', function($q){
-                    $q->where('role','anggota');
-                });
+                $data =  Anggota::where('status',1)->where('kabupaten',$id_wilayah)->select('id','nama','email','foto');
             }else{
-                $data = Anggota::where('kecamatan',$id_wilayah)->select('id','nama','email','foto')->whereHas('user', function($q){
-                    $q->where('role','anggota');
-                });
+                $data = Anggota::where('status',1)->where('kecamatan',$id_wilayah)->select('id','nama','email','foto');
             }
         }
 
