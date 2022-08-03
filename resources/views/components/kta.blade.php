@@ -13,6 +13,13 @@
     table#data-kta tr{
         position: relative;
     }
+    .watermark{
+        width: inherit;
+        height: inherit;
+        position: absolute;
+        left: 0;
+        opacity: 0.5;
+    }
 </style>
 
 @php
@@ -36,14 +43,15 @@
 @endphp
 <div class="item">
     <div style="height:53.98mm;width:85.60mm;display:inline-block;margin-right:20px;position: relative; margin-top:10px">
+        {{-- <img style="width:85.60mm" src="{{ asset('berkas/kta/depan.png') }}" class="img-kta"> --}}
         <img style="width:85.60mm" src="{{ asset('berkas/kta/'. $anggota->kta->depan) }}" class="img-kta">
-        {{-- <img src="{{ asset('front/img/logosiap.png') }}" class="watermark"> --}}
+        <img src="{{ asset('images/logosiap.png') }}" class="watermark">
         <div style="height:108px;position: absolute;top:65px;left:28px;">
             <img  style="position: absolute;top:0; width:55px; height:62px;" src="{{ asset('berkas/anggota/'.$anggota->foto) }}" id="pasfoto-kta" class="img rounded">
             <img  style="position: absolute;bottom:-10px; width:55px; height:55px;" src="data:image/png;base64,{{DNS2D::getBarcodePNG($anggota->nik, 'QRCODE')}}" class="img">
         </div>
         <p style="font-size: 5.3pt; position: absolute !important; top:193px !important; left:20px !important; color:white;">Masa berlaku s/d {{ date('Y') + 3 }}</p>
-        <table style="position: absolute;top:65px;left:100px; color:white;font-size: 0.6rem;width:60%; opacity:0.9"id="data-kta" cellspacing="0" cellpadding="0">
+        <table style="position: absolute;top:65px;left:100px; color:white;font-size: 0.6rem;width:60%; opacity:0.9; z-index:99999"id="data-kta" cellspacing="0" cellpadding="0">
             <tr style="top:-3px">
                 <td>NTA</td>
                 <td> <b>{{ $anggota->kode }}</b></td>

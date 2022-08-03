@@ -171,6 +171,8 @@ class GudepController extends Controller
     public function data_table()
     {
         $id_wilayah = request('id_wilayah');
+        $limit = request('length');
+        $start = request('start') * request('length');
         if($id_wilayah=='all'){
             $data = Gudep::select('id', 'nama_sekolah', 'npsn')->withCount(['anggota as admin' => function($q){
                 $q->whereHas('user', function($q){
@@ -181,7 +183,8 @@ class GudepController extends Controller
                 $q->whereHas('user', function($q){
                     $q->where('role', 'anggota');
                 });
-            }]);
+            }])->offset($start)->limit($limit);
+            $count = Gudep::select('id')->count();
             $type = 1;
         }else{
             $len = strlen($id_wilayah);
@@ -190,21 +193,24 @@ class GudepController extends Controller
                     $q->whereHas('user', function($q){
                         $q->where('role', 'gudep');
                     });
-                },'anggota as anggota']);
+                },'anggota as anggota'])->offset($start)->limit($limit);
+                $count = Gudep::where('provinsi',$id_wilayah)->select('id')->count();
                 $type = 2;
             }elseif($len==4){
                 $data =  Gudep::where('kabupaten',$id_wilayah)->select('id', 'nama_sekolah', 'npsn')->withCount(['anggota as admin' => function($q){
                     $q->whereHas('user', function($q){
                         $q->where('role', 'gudep');
                     });
-                },'anggota as anggota']);
+                },'anggota as anggota'])->offset($start)->limit($limit);
+                $count = Gudep::where('kabupaten',$id_wilayah)->select('id')->count();
                 $type = 3;
             }else{
                 $data = Gudep::where('kecamatan',$id_wilayah)->select('id', 'nama_sekolah', 'npsn')->withCount(['anggota as admin' => function($q){
                     $q->whereHas('user', function($q){
                         $q->where('role', 'gudep');
                     });
-                },'anggota as anggota']);
+                },'anggota as anggota'])->offset($start)->limit($limit);
+                $count = Gudep::where('kecamatan',$id_wilayah)->select('id')->count();
                 $type = 4;
             }
         }
@@ -233,18 +239,23 @@ class GudepController extends Controller
                             </div>
                         </div>';
             })
+            ->setFilteredRecords($count)
             ->rawColumns(['action','tools','statistik'])
             ->make(true);
     }
 
     public function data_table_anggota()
     {
+        $limit = request('length');
+        $start = request('start') * request('length');
         $gudep = request('gudep');
         $active = request('active');
         if($active=='all'){
-            $data = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',1)->select('id','nik','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->orderBy('id','desc')->with('user:id,role');
+            $data = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',1)->select('id','nik','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->orderBy('id','desc')->with('user:id,role')->offset($start)->limit($limit);
+            $count = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',1)->count();
         }else{
-            $data = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',$active)->select('id','nik','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->orderBy('id','desc')->with('user:id,role');
+            $data = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',$active)->select('id','nik','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->orderBy('id','desc')->with('user:id,role')->offset($start)->limit($limit);
+            $count = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',$active)->count();
         }
 
         return DataTables::of($data)
@@ -309,6 +320,7 @@ class GudepController extends Controller
                     </div>
                 </div>';
             })
+            ->setFilteredRecords($count)
             ->rawColumns(['action','foto','status'])
             ->make(true);
     }

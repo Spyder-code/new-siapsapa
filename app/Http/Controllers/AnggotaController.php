@@ -296,17 +296,23 @@ class AnggotaController extends Controller
 
     public function data_table_active()
     {
+        $limit = request('length');
+        $start = request('start') * request('length');
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Anggota::where('status',1)->where('user_id','!=',1)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->get();
+            $data = Anggota::where('status',1)->where('user_id','!=',1)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+            $count = Anggota::where('status',1)->where('user_id','!=',1)->select('id')->count();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = Anggota::where('status',1)->where('user_id','!=',1)->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data = Anggota::where('status',1)->where('user_id','!=',1)->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $count = Anggota::where('status',1)->where('user_id','!=',1)->where('provinsi',$id_wilayah)->select('id')->count();
             }elseif($len==4){
-                $data =  Anggota::where('status',1)->where('user_id','!=',1)->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data =  Anggota::where('status',1)->where('user_id','!=',1)->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $count = Anggota::where('status',1)->where('user_id','!=',1)->where('kabupaten',$id_wilayah)->select('id')->count();
             }else{
-                $data = Anggota::where('status',1)->where('user_id','!=',1)->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data = Anggota::where('status',1)->where('user_id','!=',1)->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $count = Anggota::where('status',1)->where('user_id','!=',1)->where('kecamatan',$id_wilayah)->select('id')->count();
             }
 
         }
@@ -373,23 +379,30 @@ class AnggotaController extends Controller
             ->addColumn('kecamatan', function ($data) {
                 return $data->district->name;
             })
+            ->setFilteredRecords($count)
             ->rawColumns(['action','foto','status'])
             ->make(true);
     }
 
     public function data_table_is_gudep()
     {
+        $limit = request('length');
+        $start = request('start') * request('length');
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->get();
+            $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+            $count =  Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->select('id')->count();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $count = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('provinsi',$id_wilayah)->select('id')->count();
             }elseif($len==4){
-                $data =  Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data =  Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $count = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('kabupaten',$id_wilayah)->select('id')->count();
             }else{
-                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $count = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('kecamatan',$id_wilayah)->select('id')->count();
             }
 
         }
@@ -456,23 +469,30 @@ class AnggotaController extends Controller
             ->addColumn('kecamatan', function ($data) {
                 return $data->district->name;
             })
+            ->setFilteredRecords($count)
             ->rawColumns(['action','foto','status'])
-            ->make(true);
+            ->toJson();
     }
 
     public function data_table_non_gudep()
     {
+        $limit = request('length');
+        $start = request('start') * request('length');
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->get();
+            $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+            $count = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->select('id')->count();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $count = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('provinsi',$id_wilayah)->select('id')->count();
             }elseif($len==4){
-                $data =  Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data =  Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $count = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('kabupaten',$id_wilayah)->select('id')->count();
             }else{
-                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $count = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('kecamatan',$id_wilayah)->select('id')->count();
             }
 
         }
@@ -539,23 +559,30 @@ class AnggotaController extends Controller
             ->addColumn('kecamatan', function ($data) {
                 return $data->district->name;
             })
+            ->setFilteredRecords($count)
             ->rawColumns(['action','foto','status'])
             ->make(true);
     }
 
     public function data_table_non_active()
     {
+        $limit = request('length');
+        $start = request('start') * request('length');
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Anggota::where('status',0)->where('user_id','!=',1)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->get();
+            $data = Anggota::where('status',0)->where('user_id','!=',1)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+            $count = Anggota::where('status',0)->where('user_id','!=',1)->select('id')->count();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = Anggota::where('status',0)->where('user_id','!=',1)->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data = Anggota::where('status',0)->where('user_id','!=',1)->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+                $count = Anggota::where('status',0)->where('user_id','!=',1)->where('provinsi',$id_wilayah)->select('id')->count();
             }elseif($len==4){
-                $data =  Anggota::where('status',0)->where('user_id','!=',1)->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data =  Anggota::where('status',0)->where('user_id','!=',1)->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+                $count = Anggota::where('status',0)->where('user_id','!=',1)->where('kabupaten',$id_wilayah)->select('id')->count();
             }else{
-                $data = Anggota::where('status',0)->where('user_id','!=',1)->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data = Anggota::where('status',0)->where('user_id','!=',1)->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+                $count = Anggota::where('status',0)->where('user_id','!=',1)->where('kecamatan',$id_wilayah)->select('id')->count();
             }
 
         }
@@ -622,23 +649,30 @@ class AnggotaController extends Controller
             ->addColumn('kecamatan', function ($data) {
                 return $data->district->name;
             })
+            ->setFilteredRecords($count)
             ->rawColumns(['action','foto','status'])
             ->make(true);
     }
 
     public function data_table_non_validate()
     {
+        $limit = request('length');
+        $start = request('start') * request('length');
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Anggota::where('status',2)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+            $data = Anggota::where('status',2)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+            $count = Anggota::where('status',2)->select('id')->count();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = Anggota::where('status',2)->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data = Anggota::where('status',2)->where('provinsi',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+                $count = Anggota::where('status',2)->where('provinsi',$id_wilayah)->select('id')->count();
             }elseif($len==4){
-                $data =  Anggota::where('status',2)->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data =  Anggota::where('status',2)->where('kabupaten',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+                $count = Anggota::where('status',2)->where('kabupaten',$id_wilayah)->select('id')->count();
             }else{
-                $data = Anggota::where('status',2)->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+                $data = Anggota::where('status',2)->where('kecamatan',$id_wilayah)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+                $count = Anggota::where('status',2)->where('kecamatan',$id_wilayah)->select('id')->count();
             }
 
         }
@@ -692,6 +726,7 @@ class AnggotaController extends Controller
             ->addColumn('kecamatan', function ($data) {
                 return $data->district->name;
             })
+            ->setFilteredRecords($count)
             ->rawColumns(['action','foto','status'])
             ->make(true);
     }

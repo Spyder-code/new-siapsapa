@@ -36,6 +36,15 @@ class TransactionController extends Controller
         return view('admin.transaction.create', compact('total'));
     }
 
+    public function complete(TransactionDetail $transaction)
+    {
+        $transaction->update([
+            'status' => 4
+        ]);
+
+        return back()->with('success', 'Pesanan Complete');
+    }
+
 
     public function store(Request $request)
     {

@@ -94,11 +94,18 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::get('agenda/{agenda}/peserta', [AgendaController::class,'peserta'])->name('agenda.peserta');
         Route::resource('user', UserController::class)->except(['update']);
         Route::get('percetakan', [PercetakanController::class,'index'])->name('percetakan.index');
+        Route::get('percetakan/batch', [PercetakanController::class,'batch'])->name('percetakan.batch');
+        Route::post('percetakan/update/status', [PercetakanController::class,'updateStatus'])->name('percetakan.update.status');
+        Route::get('percetakan/batch/{transaction}', [PercetakanController::class,'batchShow'])->name('percetakan.batch.show');
+        Route::post('percetakan/print', [PercetakanController::class,'print'])->name('percetakan.print');
+        Route::post('percetakan/complete/{transaction}', [PercetakanController::class,'complete'])->name('percetakan.complete');
+        Route::post('transaction/complete/{transaction}', [TransactionController::class,'complete'])->name('transaction.complete');
     });
 });
 
 // datatable prefix
 Route::prefix('datatable')->group(function(){
+    Route::get('percetakan', [PercetakanController::class, 'data_table'])->name('datatable.percetakan');
     Route::get('gudep', [GudepController::class, 'data_table'])->name('datatable.gudep');
     Route::get('anggota/non-active', [AnggotaController::class, 'data_table_non_active'])->name('datatable.anggota.non-active');
     Route::get('anggota/non-gudep', [AnggotaController::class, 'data_table_non_gudep'])->name('datatable.anggota.non-gudep');

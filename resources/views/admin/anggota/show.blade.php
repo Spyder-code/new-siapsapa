@@ -55,6 +55,7 @@
                         Mohon maaf KTA masih belum tersedia untuk anggota ini.
                     </div>
                 @else
+                    {{-- <img src="{{ asset('images/logosiap.png') }}" alt="siapsapa" style=""> --}}
                     <x-kta :anggota="$anggota" />
                 @endif
                 <div class="card-body row">

@@ -36,6 +36,11 @@ class CartController extends Controller
         }
 
         $anggota = Anggota::find($request->anggota_id);
+        if(!$anggota || $anggota->kta_id == null){
+            return response()->json([
+                'message' => 'KTA tidak aktif. Harap hubungi admin untuk mengaktifkan KTA anda.'
+            ], 404);
+        }
         $harga = $anggota->city->harga;
         $cart = Cart::create([
             'user_id' => $request->user_id,

@@ -100,9 +100,9 @@
             $gudep = '000';
         }
         $role = Auth::user()->role;
-        $provinsi = $anggotaAdmin->province->no_prov;
-        $kabupaten = $anggotaAdmin->city->no_kab;
-        $kecamatan = $anggotaAdmin->district->no_kec;
+        $provinsi = $anggotaAdmin->province->no_prov ?? '';
+        $kabupaten = $anggotaAdmin->city->no_kab ?? '';
+        $kecamatan = $anggotaAdmin->district->no_kec ?? '';
 @endphp
 
 @push('scripts')

@@ -118,6 +118,7 @@
             processing: true,
             serverSide: true,
             select:true,
+            // pagingType: "simple",
             scrollY: '500px',
             ajax: {
             url: @json($url),
@@ -164,6 +165,12 @@
             ],
             buttons: ["pageLength","copy", "csv", "excel", "pdf", "print"],
             "bLengthChange": true,
+            language: {
+                paginate: {
+                    previous: '<i class="fas fa-angle-left"></i>',
+                    next: '<i class="fas fa-angle-right"></i>'
+                }
+            }
         });
 
         $.fn.dataTable.ext.errMode = 'throw';

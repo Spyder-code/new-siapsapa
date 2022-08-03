@@ -5,7 +5,19 @@
         'href' => route('statistik.index'),
         'icon' => 'home',
         'access' => ['all'],
-    ], [
+    ],[
+        'text' => 'Pesanan KTA',
+        'href' => '#',
+        'icon' => 'dollar-sign',
+        'access' => ['admin'],
+        // 'twoColumn' => true,
+        'sub' => [
+            ['text' => 'Pending','href' => route('transaction.index', ['status'=>1]),'icon' => 'fa-list'],
+            ['text' => 'Dicetak ','href' => route('transaction.index', ['status'=>2]),'icon' => 'fa-list'],
+            ['text' => 'Selesai Cetak','href' => route('transaction.index', ['status'=>3]),'icon' => 'fa-list'],
+            ['text' => 'Diterima','href' => route('transaction.index', ['status'=>4]),'icon' => 'fa-list'],
+        ]
+    ],[
         'text' => 'Perbaikan Data',
         'href' => route('statistik.index'),
         'icon' => 'database',
@@ -64,21 +76,23 @@
         'href' => route('dokumen.index'),
         'icon' => 'file-text',
         'access' => ['all'],
-    ]
-    ,[
+    ],[
         'text' => 'Agenda',
         'href' => route('agenda.index'),
         'icon' => 'calendar',
         'access' => ['all'],
     ],[
-        'text' => 'Transaksi',
+        'text' => 'Percetakan',
         'href' => '#',
         'icon' => 'archive',
         'access' => ['admin'],
         // 'twoColumn' => true,
         'sub' => [
-            ['text' => 'Transaksi Masuk','href' => route('transaction.index', ['status'=>1]),'icon' => 'fa-list'],
-            ['text' => 'Transaksi Keluar','href' => route('transaction.index', ['status'=>2]),'icon' => 'fa-list'],
+            // ['text' => 'Transaksi Pending','href' => route('transaction.index', ['status'=>1]),'icon' => 'fa-list'],
+            ['text' => 'List Percetakan','href' => route('percetakan.batch'),'icon' => 'fa-list'],
+            ['text' => 'Belum Cetak','href' => route('percetakan.index',['status'=>0]),'icon' => 'fa-list'],
+            ['text' => 'Proses Cetak','href' => route('percetakan.index', ['status'=>1]),'icon' => 'fa-list'],
+            ['text' => 'Sudah Cetak','href' => route('percetakan.index', ['status'=>2]),'icon' => 'fa-list'],
         ]
     ]
     // ,[

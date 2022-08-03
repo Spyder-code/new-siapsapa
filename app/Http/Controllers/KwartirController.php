@@ -107,6 +107,8 @@ class KwartirController extends Controller
     public function data_table()
     {
         $id_wilayah = request('id_wilayah');
+        $limit = request('length');
+        $start = request('start') * request('length');
         if($id_wilayah=='all'){
             $data = Provinsi::select('id', 'name', 'no_prov as code', 'id as prev')->withCount(['anggota as admin' => function($q){
                 $q->where('status', 1);
@@ -116,7 +118,8 @@ class KwartirController extends Controller
             },
             'anggota as anggota' => function($q){
                 $q->where('status', 1);
-            }]);
+            }])->offset($start)->limit($limit);
+            $count =  Provinsi::select('id')->count();
             $type = 1;
             $len = 1;
         }else{
@@ -130,7 +133,8 @@ class KwartirController extends Controller
                 },
                 'anggota as anggota' => function($q){
                     $q->where('status', 1);
-                }]);
+                }])->offset($start)->limit($limit);
+                $count = City::where('province_id',$id_wilayah)->select('id')->count();
                 $type = 2;
             }elseif($len==4){
                 $data =  Distrik::where('regency_id',$id_wilayah)->select('id','name','no_kec as code')->withCount(['anggota as admin' => function($q){
@@ -141,7 +145,8 @@ class KwartirController extends Controller
                 },
                 'anggota as anggota' => function($q){
                     $q->where('status', 1);
-                }]);
+                }])->offset($start)->limit($limit);
+                $count = Distrik::where('regency_id',$id_wilayah)->select('id')->count();
                 $type = 3;
             }else{
                 $data = Gudep::where('kecamatan',$id_wilayah)->select('id','nama_sekolah','npsn')->withCount(['anggota as admin' => function($q){
@@ -152,7 +157,8 @@ class KwartirController extends Controller
                 },
                 'anggota as anggota' => function($q){
                     $q->where('status', 1);
-                }]);
+                }])->offset($start)->limit($limit);
+                $count = Gudep::where('kecamatan',$id_wilayah)->select('id')->count();
                 $type = 4;
             }
         }
@@ -201,23 +207,30 @@ class KwartirController extends Controller
                             </div>
                         </div>';
             })
+            ->setFilteredRecords($count)
             ->rawColumns(['action','tools'])
             ->make(true);
     }
 
     public function data_table_anggota()
     {
+        $limit = request('length');
+        $start = request('start') * request('length');
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Anggota::where('status',1)->select('id','nama','email','foto');
+            $data = Anggota::where('status',1)->select('id','nama','email','foto')->offset($start)->limit($limit);
+            $count = Anggota::where('status',1)->select('id')->count();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = Anggota::where('status',1)->where('provinsi',$id_wilayah)->select('id','nama','email','foto');
+                $data = Anggota::where('status',1)->where('provinsi',$id_wilayah)->select('id','nama','email','foto')->offset($start)->limit($limit);
+                $count = Anggota::where('status',1)->where('provinsi',$id_wilayah)->select('id')->count();
             }elseif($len==4){
-                $data =  Anggota::where('status',1)->where('kabupaten',$id_wilayah)->select('id','nama','email','foto');
+                $data =  Anggota::where('status',1)->where('kabupaten',$id_wilayah)->select('id','nama','email','foto')->offset($start)->limit($limit);
+                $count = Anggota::where('status',1)->where('kabupaten',$id_wilayah)->select('id')->count();
             }else{
-                $data = Anggota::where('status',1)->where('kecamatan',$id_wilayah)->select('id','nama','email','foto');
+                $data = Anggota::where('status',1)->where('kecamatan',$id_wilayah)->select('id','nama','email','foto')->offset($start)->limit($limit);
+                $count = Anggota::where('status',1)->where('kecamatan',$id_wilayah)->select('id')->count();
             }
         }
 
@@ -229,6 +242,7 @@ class KwartirController extends Controller
                         </div>';
                 return $html;
             })
+            ->setFilteredRecords($count)
             ->rawColumns(['action','foto'])
             ->make(true);
     }

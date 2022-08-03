@@ -57,10 +57,17 @@
                                             Bayar
                                         </button>
                                     </form>
-                                    @else
+                                    @endif
+                                    @if ($item->status==2)
                                     <form action="{{ route('cart.print', $item) }}" method="post">
                                         @csrf
                                         <button type="submit" class="btn btn-sm btn-success">Cetak</button>
+                                    </form>
+                                    @endif
+                                    @if ($item->status==3)
+                                    <form action="{{ route('transaction.complete', $item) }}" method="post">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('are you sure?')">Tandai Pesanan Sudah diterima Customer</button>
                                     </form>
                                     @endif
                                 </td>
