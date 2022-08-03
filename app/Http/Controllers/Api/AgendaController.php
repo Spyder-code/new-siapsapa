@@ -99,7 +99,7 @@ class AgendaController extends Controller
                         'nodaf' => 'PA.'.sprintf('%03d',$agenda_id).'.'.sprintf('%03d',$order),
                         'agenda_id' => $agenda_id,
                         'anggota_id' => $anggota_id,
-                        'status' => 1,
+                        'status' => 0,
                         'order' => $order,
                     ]);
                     return response()->json([
@@ -143,6 +143,37 @@ class AgendaController extends Controller
         return response()->json([
             'data' => $data,
             'message' => 'Pendaftar deleted successfully'
+        ]);
+    }
+
+    public function daftarUlang()
+    {
+        $nik = request('nik');
+        $agenda_id = request('agenda_id');
+        $anggota = Anggota::where('nik',$nik)->first();
+        if(!$anggota){
+            return response()->json([
+                'status' => 0,
+                'message' => 'QR Tidak ditemukan!'
+            ]);
+        }
+
+        $pendaftar = PendaftaranAgenda::where('agenda_id', $agenda_id)->where('anggota_id',$anggota->id)->first();
+
+        if (!$pendaftar) {
+            return response()->json([
+                'status' => 0,
+                'message' => 'Pendaftaran Tidak ditemukan!. Anda tidak terdaftar dari agenda ini!'
+            ], 404);
+        }
+
+        $pendaftar->update([
+            'status' => 1
+        ]);
+
+        return response()->json([
+            'status' => 1,
+            'message' => 'Daftar ulang berhasil!'
         ]);
     }
 }

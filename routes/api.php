@@ -72,6 +72,7 @@ Route::delete('delete-document', [DocumentController::class, 'deleteDocument']);
 Route::delete('delete-agenda/{agenda}', [AgendaController::class, 'destroy']);
 Route::post('add-kegiatan', [AgendaController::class, 'addKegiatan']);
 Route::post('add-peserta', [AgendaController::class, 'addPeserta']);
+Route::post('daftar-ulang', [AgendaController::class, 'daftarUlang']);
 Route::delete('delete-kegiatan', [AgendaController::class, 'deleteKegiatan']);
 Route::delete('delete-peserta', [AgendaController::class, 'deletePeserta']);
 Route::put('update-kegiatan', [AgendaController::class, 'updateKegiatan']);
