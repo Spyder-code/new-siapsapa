@@ -42,7 +42,7 @@ class AnggotaRequest extends FormRequest
             'foto' => 'nullable',
             'kawin' => 'required',
             'status' => 'nullable',
-            'kode' => 'nullable',
+            'kode' => 'required|size:19',
         ];
     }
 }

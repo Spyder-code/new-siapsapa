@@ -74,7 +74,7 @@
             <input type="text" minlength="2" style="width: 10%" id="three" class="form-control no-kta text-center max-two">
             <input type="text" minlength="3" style="width: 15%" id="four" class="form-control no-kta text-center max-three">
             <input type="text" minlength="6" style="width: 20%" id="five" class="form-control no-kta text-center max-six">
-            <input type="text" name="kode" style="width: 35%" id="output" class="form-control text-center" readonly>
+            <input type="text" name="kode" style="width: 35%" id="output" class="form-control text-center" readonly value="{{ $anggota->kode ?? '' }}">
         </div>
     </div>
     <p class="font-weight-bold text-primary fs-5">2. Data Akun.</p>
