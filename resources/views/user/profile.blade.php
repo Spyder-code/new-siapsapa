@@ -28,6 +28,7 @@
                     <button type="submit" name="type" class="btn btn-primary" value="create">SImpan Data</button>
                     @else
                     <input type="hidden" name="anggota_id" value="{{ $anggota->id }}">
+                    <input type="hidden" name="kode" value="{{ $anggota->kode }}">
                     <button type="submit" name="type" class="btn btn-primary" value="update">Ubah Data</button>
                     @endif
                 </div>

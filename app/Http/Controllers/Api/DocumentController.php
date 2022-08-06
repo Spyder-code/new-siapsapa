@@ -22,7 +22,7 @@ class DocumentController extends Controller
         $user_id = request('user_id');
         Document::destroy($document_id);
         $data = Document::where('user_id', $user_id)->get();
-        if($data>0){
+        if($data->count() > 0){
             $tingkat = $data->max('document_type_id');
             Anggota::where('user_id', $user_id)->update(['tingkat'=>$tingkat]);
         }else{

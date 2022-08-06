@@ -34,11 +34,9 @@ class DocumentService {
 
     public function checkStatus($user_id)
     {
-        $data = Document::all()->where('user_id', $user_id)->where('status',1)->max('document_type_id');
-        Anggota::where('user_id', $user_id)->update(['tingkat' => $data]);
-        if($data>=13){
-            Anggota::where('user_id', $user_id)->update(['pramuka' => 6]);
-        }
-        return $data;
+        $tingkat = Document::all()->where('user_id', $user_id)->where('status',1)->max('document_type_id');
+        $pramuka = Document::all()->where('user_id', $user_id)->where('status',1)->max('pramuka');
+        Anggota::where('user_id', $user_id)->update(['tingkat' => $tingkat, 'pramuka' => $pramuka]);
+        return 'success';
     }
 }

@@ -45,6 +45,8 @@ Route::get('init/add-to-cart', [InitController::class, 'addToCart']);
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/profile', [PageController::class, 'profile'])->name('page.profile');
 Route::get('/agenda', [PageController::class, 'agenda'])->name('page.agenda');
+Route::get('/agenda-saya', [PageController::class, 'my_agenda'])->name('page.my_agenda');
+Route::get('/dokumen-saya', [PageController::class, 'document'])->name('page.document');
 Route::get('/agenda/{agenda}', [PageController::class, 'show_agenda'])->name('page.agenda.show');
 Route::get('/agenda/{agenda}/peserta', [PageController::class, 'peserta_agenda'])->name('page.agenda.peserta');
 Route::get('/ubah-password', [PageController::class, 'change_password'])->name('page.change_password');

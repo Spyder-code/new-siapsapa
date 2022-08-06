@@ -3,15 +3,21 @@
     @yield('style-user')
 @endsection
 @section('content')
+    @php
+        if (empty($anggota)) {
+            $anggota = Auth::user()->anggota;
+        }
+    @endphp
     <div class="container mt-5">
         <div class="row">
-            <div class="col-4">
-                <div class="card">
+            <div class="col-12 col-md-4 mt-2">
+                <x-single-card :anggota="$anggota" />
+                <div class="card mt-3">
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
-                            <a class="list-group-item text-center">
+                            {{-- <a class="list-group-item text-center">
                                 <img src="{{ empty($anggota)?asset('images/logosiap.png'):asset('berkas/anggota/'. $anggota->foto) }}" alt="siapsapa" class="img-fluid" style="height: 150px">
-                            </a>
+                            </a> --}}
                             @if (!empty($anggota)&&Auth::user()->role != 'anggota')
                             <a href="{{ route('statistik.index') }}" class="list-group-item">
                                 <i style="margin-right: 20px" class="fas fa-chart-line"></i> Dashboard Admin
@@ -23,15 +29,15 @@
                             <a href="{{ route('page.change_password') }}" class="list-group-item">
                                 <i style="margin-right: 20px" class="fas fa-key"></i> Ubah Password
                             </a>
-                            <a href="#" class="list-group-item">
+                            <a href="{{ route('page.my_agenda') }}" class="list-group-item">
                                 <i style="margin-right: 20px" class="fas fa-calendar"></i>
-                                Agenda Saya <small class="text-secondar" style="margin-left: 10px; font-size:.7rem">(Coming Soon)</small>
+                                Agenda Saya
+                            </a>
+                            <a href="{{ route('page.document') }}" class="list-group-item">
+                                <i style="margin-right: 20px" class="fas fa-book"></i> Unggah Dokumen
                             </a>
                             <a href="#" class="list-group-item">
                                 <i style="margin-right: 20px" class="fas fa-heart"></i> Pesanan Saya <small class="text-secondar" style="margin-left: 10px; font-size:.7rem">(Coming Soon)</small>
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i style="margin-right: 20px" class="fas fa-book"></i> Unggah Dokumen <small class="text-secondar" style="margin-left: 10px; font-size:.7rem">(Coming Soon)</small>
                             </a>
                             <a href="#" class="list-group-item">
                                 <i style="margin-right: 20px" class="fas fa-pencil-alt"></i> Tulis Artikel <small class="text-secondar" style="margin-left: 10px; font-size:.7rem">(Coming Soon)</small>
@@ -40,7 +46,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-8">
+            <div class="col-12 col-md-8 mt-2">
                 {{-- error validation --}}
                 @if (count($errors) > 0)
                     <div class="alert alert-danger">

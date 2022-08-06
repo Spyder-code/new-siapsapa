@@ -12,7 +12,7 @@ class DocumentController extends Controller
 {
     public function index()
     {
-        $pramuka = Pramuka::where('id','!=',6)->pluck('name','id');
+        $pramuka = Pramuka::where('id','!=',5)->pluck('name','id');
         $mydocument = Document::all()->where('user_id', Auth::id())->groupBy('pramuka');
         $data = Document::where('status',0)->with('user', function($q){
             $q->with('anggota', function($qu){
@@ -25,7 +25,7 @@ class DocumentController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'file' => 'required|mimes:jpg,jpeg,png',
+            'file' => 'required|mimes:jpg,jpeg,png|max:2048',
             'document_type_id' => 'required',
             'pramuka' => 'required',
         ]);

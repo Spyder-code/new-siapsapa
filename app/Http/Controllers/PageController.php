@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agenda;
+use App\Models\Document;
 use App\Models\Kegiatan;
 use App\Models\PendaftaranAgenda;
+use App\Models\Pramuka;
 use App\Models\Provinsi;
 use App\Repositories\StatistikService;
 use Illuminate\Http\Request;
@@ -46,6 +48,13 @@ class PageController extends Controller
         return view('user.agenda.show',compact('agenda','kegiatan'));
     }
 
+    public function my_agenda()
+    {
+        $anggota = Auth::user()->anggota;
+        $agenda = PendaftaranAgenda::where('anggota_id', $anggota->id)->get();
+        return view('user.agenda.my', compact('agenda'));
+    }
+
     public function peserta_agenda(Agenda $agenda)
     {
         if(!Auth::check()){
@@ -61,5 +70,12 @@ class PageController extends Controller
         $user = Auth::user();
         $anggota = $user->anggota;
         return view('user.change_password', compact('user','anggota'));
+    }
+
+    public function document()
+    {
+        $pramuka = Pramuka::where('id','!=',5)->pluck('name','id');
+        $data = Document::all()->where('user_id', Auth::id())->groupBy('pramuka');
+        return view('user.document.index', compact('data','pramuka'));
     }
 }

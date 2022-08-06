@@ -161,7 +161,20 @@ class AnggotaController extends Controller
         $type = $request->type;
         $data = $request->all();
         $data['password'] = Auth::user()->password;
+        if(!empty($request->foto)){
+            $request->validate([
+                'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
+            ],
+            [
+                'foto.image' => 'Foto harus berupa gambar',
+                'foto.mimes' => 'Foto harus berupa gambar',
+                'foto.max' => 'Foto tidak boleh lebih dari 2MB',
+            ]);
+        }
         if($type=='update'){
+            $request->validate([
+                'kode' => 'required|size:19'
+            ]);
             $anggota = Anggota::find($request->anggota_id);
             $service = new AnggotaService();
             $service->updateUser($data, $anggota);
@@ -265,6 +278,19 @@ class AnggotaController extends Controller
 
     public function store(AnggotaRequest $request)
     {
+        // $request->validate([
+        //     'kode' => 'required|size:19'
+        // ]);
+        if(!empty($request->foto)){
+            $request->validate([
+                'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
+            ],
+            [
+                'foto.image' => 'Foto harus berupa gambar',
+                'foto.mimes' => 'Foto harus berupa gambar',
+                'foto.max' => 'Foto tidak boleh lebih dari 2MB',
+            ]);
+        }
         $data = $request->validated();
         $service = new AnggotaService();
         $anggota = $service->createUser($data);
@@ -277,6 +303,16 @@ class AnggotaController extends Controller
 
     public function update(AnggotaRequest $request, Anggota $anggotum)
     {
+        if(!empty($request->foto)){
+            $request->validate([
+                'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
+            ],
+            [
+                'foto.image' => 'Foto harus berupa gambar',
+                'foto.mimes' => 'Foto harus berupa gambar',
+                'foto.max' => 'Foto tidak boleh lebih dari 2MB',
+            ]);
+        }
         $data = $request->validated();
         $service = new AnggotaService();
         $anggota = $service->updateUser($data, $anggotum);
