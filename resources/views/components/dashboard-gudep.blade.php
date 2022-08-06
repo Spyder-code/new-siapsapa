@@ -1,16 +1,13 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         var id_wilayah = @json($id_wilayah);
-        var gudep = @json($gudep);
-        if(gudep>0){
-            var url = @json(url('api/dashboard'))+'/'+id_wilayah+'?gudep='+gudep;
-        }else{
-            var url = @json(url('api/dashboard'))+'/'+id_wilayah;
-        }
-
         const number = (num) =>{return num.toLocaleString('en-US')};
         $.ajax({
-            url: @json(url('api/get-number-of-gender'))+'/'+id_wilayah+'?golongan=1',
+            url: @json(url('api/get-number-of-gender'))+'/'+id_wilayah,
+            data:{
+                golongan:true,
+                gudep:@json($gudep)
+            },
             type: 'GET',
             success: function(data) {
                 $('#total-siaga-lk').html(number(data.siaga.male));
@@ -33,6 +30,9 @@
         $.ajax({
             url: @json(url('api/get-statistik-tingkat'))+'/'+id_wilayah,
             type: 'GET',
+            data:{
+                gudep:@json($gudep)
+            },
             success: function(data) {
                 var tingkat = data.tingkat;
                 var siaga = {
@@ -251,6 +251,9 @@
         $.ajax({
             url: {!! json_encode(url('api/get-number-of-member')) !!}+'/'+{!! json_encode($id_wilayah) !!},
             type: 'GET',
+            data:{
+                gudep:@json($gudep)
+            },
             success: function(data) {
                 $('#total-anggota').html(data.anggota);
                 $('#total-admin').html(data.admin);
@@ -260,6 +263,9 @@
         $.ajax({
             url: {!! json_encode(url('api/get-number-of-pramuka')) !!}+'/'+{!! json_encode($id_wilayah) !!},
             type: 'GET',
+            data:{
+                gudep:@json($gudep)
+            },
             success: function(data) {
                 $('#total-siaga').html(number(data.siaga));
                 $('#total-penggalang').html(number(data.penggalang));
@@ -275,8 +281,11 @@
             $.ajax({
                 url: @json(url('api/get-statistik-anggota'))+'/'+id_wilayah,
                 type: 'GET',
+                data:{
+                    gudep:@json($gudep)
+                },
                 success: function(data) {
-                    var statistik_value = [data.gender.male,data.gender.female,data.active.active,data.active.unactive,data.gudep.gudep,data.gudep.non_gudep];
+                    var statistik_value = [data.gender.male,data.gender.female,data.active.active,data.active.unactive];
                     var statistik = {
                         chart: {
                             type: 'bar',
@@ -287,7 +296,7 @@
                             data: statistik_value
                         }],
                         xaxis: {
-                            categories: ['Putra', 'Putri', 'Aktif', 'non Aktif', 'Gudep', 'non Gudep']
+                            categories: ['Putra', 'Putri', 'Aktif', 'non Aktif']
                         },
                     }
                     var chart = new ApexCharts(document.querySelector("#total-laporan"), statistik);
@@ -300,6 +309,9 @@
             $.ajax({
                 url: @json(url('api/get-jumlah-anggota'))+'/'+id_wilayah,
                 type: 'GET',
+                data:{
+                    gudep:@json($gudep)
+                },
                 success: function(data) {
                     var jumlah = data.statistik;
                     var anggota = {
@@ -340,8 +352,11 @@
             $.ajax({
                 url: @json(url('api/get-statistik-darah'))+'/'+id_wilayah,
                 type: 'GET',
+                data:{
+                    gudep:@json($gudep)
+                },
                 success: function(data) {
-                    var statistik_value = [data.darah.A,data.darah.B,data.darah.AB,data.darah.O,data.none];
+                    var statistik_value = [data.darah.A,data.darah.B,data.darah.AB,data.darah.O,data.darah.none];
                     var statistik = {
                         chart: {
                             type: 'bar',
@@ -365,6 +380,9 @@
             $.ajax({
                 url: @json(url('api/get-statistik-agama'))+'/'+id_wilayah,
                 type: 'GET',
+                data:{
+                    gudep:@json($gudep)
+                },
                 success: function(data) {
                     var statistik_value = [data.agama.islam, data.agama.kristen, data.agama.katolik, data.agama.hindu, data.agama.budha, data.agama.konghucu];
                     var statistik = {

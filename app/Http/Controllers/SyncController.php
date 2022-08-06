@@ -9,6 +9,7 @@ use App\Jobs\SyncStatusAnggota;
 use App\Models\Anggota;
 use App\Models\Document;
 use App\Models\Kta;
+use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -116,6 +117,22 @@ class SyncController extends Controller
 
         return response()->json([
             'message' => 'Berhasil mengupdate '.$i.' data'
+        ], 200);
+    }
+
+    public function golonganDocument()
+    {
+        $document = Document::all()->where('status',1);
+        foreach ($document as $item ) {
+            $item->update(['pramuka'=>$item->documentType->pramuka_id]);
+            $anggota = User::find($item->user_id)->anggota;
+            $anggota->update([
+                'pramuka'=>$item->pramuka
+            ]);
+        };
+
+        return response()->json([
+            'message' => 'Berhasil mengupdate data'
         ], 200);
     }
 }

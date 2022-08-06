@@ -90,10 +90,10 @@
             </div>
         </div>
     </div>
-
 </div>
+
 <div class="row">
-    <div class="col-12 col-md-8">
+    <div class="col-8">
         <div class="card">
             <div class="card-body">
                 <h4>Anggota Muda</h4>
@@ -154,7 +154,36 @@
                 </div>
             </div>
         </div>
-        <div class="card my-3">
+        <div class="card p-3 my-3">
+            <div class="card-header d-flex justify-content-between">
+                Statistik Anggota
+                <button type="button" class="btn btn-sm btn-info" onclick="statistikAnggota()"><i class="fas fa-redo"></i> Load Data</button>
+            </div>
+            <div id="total-laporan">
+            </div>
+        </div>
+        <div class="card p-3 my-3">
+            <div class="card-header d-flex justify-content-between">
+                Jumlah Anggota
+                <button type="button" class="btn btn-sm btn-info" onclick="jumlahAnggota()"><i class="fas fa-redo"></i> Load Data</button>
+            </div>
+            <div id="insert-data"></div>
+        </div>
+        <div class="card p-3 my-3">
+            <div class="card-header d-flex justify-content-between">
+                Statistik Golongan Darah
+                <button type="button" class="btn btn-sm btn-info" onclick="statistikDarah()"><i class="fas fa-redo"></i> Load Data</button>
+            </div>
+            <div id="total-darah"></div>
+        </div>
+        <div class="card p-3 my-3">
+            <div class="card-header d-flex justify-content-between">
+                Statistik Agama
+                <button type="button" class="btn btn-sm btn-info" onclick="statistikAgama()"><i class="fas fa-redo"></i> Load Data</button>
+            </div>
+            <div id="total-agama"></div>
+        </div>
+        <div class="card p-3 my-3">
             <div class="border-bottom title-part-padding">
                 <h4 class="card-title mb-0">List Anggota</h4>
             </div>
@@ -163,8 +192,8 @@
                     <table class="table table-bordered table-striped file-export" style="width: 100%">
                         <thead>
                             <tr>
-                                <th>Foto</th>
                                 <th>Nama Lengkap</th>
+                                <th>Email</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -175,7 +204,7 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-4">
+    <div class="col-4">
         <div class="card">
             <div class="card-body">
                 <h4>Anggota Dewasa</h4>
@@ -184,21 +213,8 @@
                     <div class="col">
                         <div class="card shadow">
                         <div class="card-header" style="background-color: #804000;">
-                            <div class="text-white text-center"><strong id="total-dewasa">-</strong>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <p>DEWASA</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow">
-                        <div class="card-header" style="background-color: #9900ff;">
                             <div class="text-white text-center"><strong id="total-pelatih">-</strong>
-                            </div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="text-center">
@@ -207,15 +223,39 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col">
+                        <div class="card shadow">
+                        <div class="card-header" style="background-color: #9900ff;">
+                            <div class="text-white text-center"><strong id="total-pembina">-</strong>
+                            </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <p>PEMBINA</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card shadow">
+                        <div class="card-header" style="background-color: #2fb7cf;">
+                            <div class="text-white text-center"><strong id="total-dewasa">-</strong>
+                            </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <p>PEMBANTU</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="card p-3">
-            <h4 class="card-title mb-0">List Pengelola</h4>
-            <hr>
-            <ol class="list-group list-group-numbered" id="list-admin"></ol>
-        </div>
         <div class="card my-3 p-3">
+            <div class="card-header">
+                Siaga
+            </div>
             <div id="siaga"></div>
             <div class="card-footer">
                 <ul class="list-group list-group-horizontal">
@@ -225,6 +265,9 @@
             </div>
         </div>
         <div class="card my-3 p-3">
+            <div class="card-header">
+                Penggalang
+            </div>
             <div id="penggalang"></div>
             <div class="card-footer">
                 <ul class="list-group list-group-horizontal">
@@ -234,6 +277,9 @@
             </div>
         </div>
         <div class="card my-3 p-3">
+            <div class="card-header">
+                Penegak
+            </div>
             <div id="penegak"></div>
             <div class="card-footer">
                 <ul class="list-group list-group-horizontal">
@@ -243,6 +289,9 @@
             </div>
         </div>
         <div class="card my-3 p-3">
+            <div class="card-header">
+                Pandega
+            </div>
             <div id="pandega"></div>
             <div class="card-footer">
                 <ul class="list-group list-group-horizontal">
@@ -252,20 +301,40 @@
             </div>
         </div>
         <div class="card my-3 p-3">
-            <div id="dewasa"></div>
+            <div class="card-header">
+                Pelatih
+            </div>
+            <div id="pelatih"></div>
             <div class="card-footer">
                 <ul class="list-group list-group-horizontal">
-                    <li class="list-group-item">Putra: <strong id="total-dewasa-lk">-</strong></li>
-                    <li class="list-group-item">Putri: <strong id="total-dewasa-pr">-</strong></li>
+                    <li class="list-group-item">Putra: <strong id="total-pelatih-lk">-</strong></li>
+                    <li class="list-group-item">Putri: <strong id="total-pelatih-pr">-</strong></li>
                 </ul>
             </div>
+        </div>
+        <div class="card my-3 p-3">
+            <div class="card-header">
+                Pembina
+            </div>
+            <div id="pembina"></div>
+            <div class="card-footer">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item">Putra: <strong id="total-pembina-lk">-</strong></li>
+                    <li class="list-group-item">Putri: <strong id="total-pembina-pr">-</strong></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card my-3 p-3">
+            <h4 class="card-title mb-0">List Admin</h4>
+            <hr>
+            <ol class="list-group list-group-numbered" id="list-admin"></ol>
         </div>
     </div>
 </div>
 @endsection
 
 @section('script')
-@include('components.dashboard',['id_wilayah' => $id_wilayah, 'gudep' => $gudep->id])
+@include('components.dashboard-gudep',['id_wilayah' => $id_wilayah, 'gudep' => $gudep->id])
 <script>
     var table = $(".file-export").DataTable({
         processing: true,

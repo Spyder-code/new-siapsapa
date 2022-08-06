@@ -41,6 +41,12 @@ Route::get('dashboard/{id_wilayah}', [StatistikController::class, 'dashboard']);
 Route::get('get-number-of-pramuka/{id_wilayah}', [StatistikController::class, 'getNumberOfPramuka']);
 Route::get('get-number-of-pramuka-gudep/{gudep}', [StatistikController::class, 'getNumberOfPramukaGudep']);
 Route::get('get-number-of-member/{id_wilayah}', [StatistikController::class, 'getNumberOfMemberAndAdmin']);
+Route::get('get-number-of-gender/{id_wilayah}', [StatistikController::class, 'getGender']);
+Route::get('get-statistik-anggota/{id_wilayah}', [StatistikController::class, 'statistikAnggota']);
+Route::get('get-jumlah-anggota/{id_wilayah}', [StatistikController::class, 'jumlahAnggota']);
+Route::get('get-statistik-darah/{id_wilayah}', [StatistikController::class, 'statistikDarah']);
+Route::get('get-statistik-agama/{id_wilayah}', [StatistikController::class, 'statistikAgama']);
+Route::get('get-statistik-tingkat/{id_wilayah}', [StatistikController::class, 'statistikTingkat']);
 
 // gudep
 Route::get('get-admin-gudep/{gudep_id}', [GudepController::class, 'getAdmin']);

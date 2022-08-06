@@ -29,114 +29,97 @@
 </div>
 @endsection
 @section('content')
-<div class="row">
-    <div class="col-12 col-md-8">
-        <div class="card">
-            <div class="card-body">
-                <h4>Anggota Muda</h4>
-                <hr>
-                <div class="row row-cols-1 row-cols-md-4 row-cols-xl-4">
-                    <div class="col">
-                        <div class="card shadow">
-                            <div class="card-header bg-success">
-                                <div class="rounded-circle mx-auto bg-light-light text-success text-white text-center"><strong id="total-siaga">-</strong>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <p>SIAGA</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow">
-                            <div class="card-header bg-danger">
-                                <div class="text-white text-center"><strong id="total-penggalang">-</strong>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <p>PENGGALANG</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow">
-                            <div class="card-header bg-warning">
-                                <div class="text-white text-center"><strong id="total-penegak">-</strong>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <p>PENEGAK</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow">
-                            <div class="card-header" style="background-color: #e67300;">
-                                <div class="text-white text-center"><strong id="total-pandega">-</strong>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <p>PANDEGA</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h4>Anggota Dewasa</h4>
-                <hr>
-                <div class="row">
-                    <div class="col">
-                        <div class="card shadow">
-                        <div class="card-header" style="background-color: #804000;">
-                            <div class="text-white text-center"><strong id="total-dewasa">-</strong>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <p>DEWASA</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow">
-                        <div class="card-header" style="background-color: #9900ff;">
-                            <div class="text-white text-center"><strong id="total-pelatih">-</strong>
-                            </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <p>PELATIH</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="cards">
     <div class="row">
         <div class="col-8">
-            <div class="card p-3 my-3">
-                <div id="total-laporan" style="height: 300px"></div>
+            <div class="card">
+                <div class="card-body">
+                    <h4>Anggota Muda</h4>
+                    <hr>
+                    <div class="row row-cols-1 row-cols-md-4 row-cols-xl-4">
+                        <div class="col">
+                            <div class="card shadow">
+                                <div class="card-header bg-success">
+                                    <div class="rounded-circle mx-auto bg-light-light text-success text-white text-center"><strong id="total-siaga">-</strong>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <p>SIAGA</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow">
+                                <div class="card-header bg-danger">
+                                    <div class="text-white text-center"><strong id="total-penggalang">-</strong>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <p>PENGGALANG</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow">
+                                <div class="card-header bg-warning">
+                                    <div class="text-white text-center"><strong id="total-penegak">-</strong>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <p>PENEGAK</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow">
+                                <div class="card-header" style="background-color: #e67300;">
+                                    <div class="text-white text-center"><strong id="total-pandega">-</strong>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <p>PANDEGA</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="card p-3 my-3">
-                <div id="insert-data" style="height: 300px"></div>
+                <div class="card-header d-flex justify-content-between">
+                    Statistik Anggota
+                    <button type="button" class="btn btn-sm btn-info" onclick="statistikAnggota()"><i class="fas fa-redo"></i> Load Data</button>
+                </div>
+                <div id="total-laporan">
+                </div>
+            </div>
+            <div class="card p-3 my-3">
+                <div class="card-header d-flex justify-content-between">
+                    Jumlah Anggota
+                    <button type="button" class="btn btn-sm btn-info" onclick="jumlahAnggota()"><i class="fas fa-redo"></i> Load Data</button>
+                </div>
+                <div id="insert-data"></div>
+            </div>
+            <div class="card p-3 my-3">
+                <div class="card-header d-flex justify-content-between">
+                    Statistik Golongan Darah
+                    <button type="button" class="btn btn-sm btn-info" onclick="statistikDarah()"><i class="fas fa-redo"></i> Load Data</button>
+                </div>
+                <div id="total-darah"></div>
+            </div>
+            <div class="card p-3 my-3">
+                <div class="card-header d-flex justify-content-between">
+                    Statistik Agama
+                    <button type="button" class="btn btn-sm btn-info" onclick="statistikAgama()"><i class="fas fa-redo"></i> Load Data</button>
+                </div>
+                <div id="total-agama"></div>
             </div>
             <div class="card p-3 my-3">
                 <div class="border-bottom title-part-padding">
@@ -160,7 +143,57 @@
             </div>
         </div>
         <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Anggota Dewasa</h4>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card shadow">
+                            <div class="card-header" style="background-color: #804000;">
+                                <div class="text-white text-center"><strong id="total-pelatih">-</strong>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <p>PELATIH</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow">
+                            <div class="card-header" style="background-color: #9900ff;">
+                                <div class="text-white text-center"><strong id="total-pembina">-</strong>
+                                </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <p>PEMBINA</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow">
+                            <div class="card-header" style="background-color: #2fb7cf;">
+                                <div class="text-white text-center"><strong id="total-dewasa">-</strong>
+                                </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <p>PEMBANTU</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card my-3 p-3">
+                <div class="card-header">
+                    Siaga
+                </div>
                 <div id="siaga"></div>
                 <div class="card-footer">
                     <ul class="list-group list-group-horizontal">
@@ -170,6 +203,9 @@
                 </div>
             </div>
             <div class="card my-3 p-3">
+                <div class="card-header">
+                    Penggalang
+                </div>
                 <div id="penggalang"></div>
                 <div class="card-footer">
                     <ul class="list-group list-group-horizontal">
@@ -179,6 +215,9 @@
                 </div>
             </div>
             <div class="card my-3 p-3">
+                <div class="card-header">
+                    Penegak
+                </div>
                 <div id="penegak"></div>
                 <div class="card-footer">
                     <ul class="list-group list-group-horizontal">
@@ -188,6 +227,9 @@
                 </div>
             </div>
             <div class="card my-3 p-3">
+                <div class="card-header">
+                    Pandega
+                </div>
                 <div id="pandega"></div>
                 <div class="card-footer">
                     <ul class="list-group list-group-horizontal">
@@ -197,11 +239,26 @@
                 </div>
             </div>
             <div class="card my-3 p-3">
-                <div id="dewasa"></div>
+                <div class="card-header">
+                    Pelatih
+                </div>
+                <div id="pelatih"></div>
                 <div class="card-footer">
                     <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item">Putra: <strong id="total-dewasa-lk">-</strong></li>
-                        <li class="list-group-item">Putri: <strong id="total-dewasa-pr">-</strong></li>
+                        <li class="list-group-item">Putra: <strong id="total-pelatih-lk">-</strong></li>
+                        <li class="list-group-item">Putri: <strong id="total-pelatih-pr">-</strong></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card my-3 p-3">
+                <div class="card-header">
+                    Pembina
+                </div>
+                <div id="pembina"></div>
+                <div class="card-footer">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">Putra: <strong id="total-pembina-lk">-</strong></li>
+                        <li class="list-group-item">Putri: <strong id="total-pembina-pr">-</strong></li>
                     </ul>
                 </div>
             </div>

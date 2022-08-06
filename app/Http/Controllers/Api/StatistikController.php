@@ -42,8 +42,16 @@ class StatistikController extends Controller
 
     public function getGender($id_wilayah)
     {
-        $statistik = new StatistikService($id_wilayah);
-        $data = $statistik->getGender();
+        if(request('gudep')){
+            $statistik = new StatistikService($id_wilayah, request('gudep'));
+        }else{
+            $statistik = new StatistikService($id_wilayah);
+        }
+        if(request('golongan')){
+            $data = $statistik->getGender(true);
+        }else{
+            $data = $statistik->getGender();
+        }
         return response()->json($data);
     }
 
@@ -76,6 +84,61 @@ class StatistikController extends Controller
             $statistik = new StatistikService($id_wilayah);
         }
         $data = $statistik->dashboard();
+        return response()->json($data);
+    }
+
+    public function statistikAnggota($id_wilayah)
+    {
+        if(request('gudep')){
+            $statistik = new StatistikService($id_wilayah, request('gudep'));
+        }else{
+            $statistik = new StatistikService($id_wilayah);
+        }
+        $data = $statistik->statistikAnggota();
+        return response()->json($data);
+    }
+
+    public function statistikDarah($id_wilayah)
+    {
+        if(request('gudep')){
+            $statistik = new StatistikService($id_wilayah, request('gudep'));
+        }else{
+            $statistik = new StatistikService($id_wilayah);
+        }
+        $data = $statistik->statistikDarah();
+        return response()->json($data);
+    }
+
+    public function statistikAgama($id_wilayah)
+    {
+        if(request('gudep')){
+            $statistik = new StatistikService($id_wilayah, request('gudep'));
+        }else{
+            $statistik = new StatistikService($id_wilayah);
+        }
+        $data = $statistik->statistikAgama();
+        return response()->json($data);
+    }
+
+    public function statistikTingkat($id_wilayah)
+    {
+        if(request('gudep')){
+            $statistik = new StatistikService($id_wilayah, request('gudep'));
+        }else{
+            $statistik = new StatistikService($id_wilayah);
+        }
+        $data = $statistik->statistikTingkat();
+        return response()->json($data);
+    }
+
+    public function jumlahAnggota($id_wilayah)
+    {
+        if(request('gudep')){
+            $statistik = new StatistikService($id_wilayah, request('gudep'));
+        }else{
+            $statistik = new StatistikService($id_wilayah);
+        }
+        $data = $statistik->jumlahAnggota();
         return response()->json($data);
     }
 }

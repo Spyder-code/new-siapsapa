@@ -63,12 +63,22 @@ class StatistikService {
                 'male' => $male->where('pramuka',5)->count(),
                 'female' => $female->where('pramuka',5)->count(),
             ];
+            $pelatih = [
+                'male' => $male->where('pramuka',6)->count(),
+                'female' => $female->where('pramuka',6)->count(),
+            ];
+            $pembina = [
+                'male' => $male->where('pramuka',7)->count(),
+                'female' => $female->where('pramuka',7)->count(),
+            ];
             return [
                 'siaga' => $siaga,
                 'penggalang' => $penggalang,
                 'penegak' => $penegak,
                 'pandega' => $pandega,
                 'dewasa' => $dewasa,
+                'pelatih' => $pelatih,
+                'pembina' => $pembina,
                 'total_male' => $male->count(),
                 'total_female' => $female->count(),
             ];
@@ -151,6 +161,7 @@ class StatistikService {
             $pandega = $anggota->where('pramuka',4)->count();
             $dewasa = $anggota->where('pramuka',5)->count();
             $pelatih = $anggota->where('pramuka',6)->count();
+            $pembina = $anggota->where('pramuka',7)->count();
         }else{
             if($id_wilayah=='all'){
                 $siaga = Anggota::where('status',1)->where('pramuka',1)->count();
@@ -159,6 +170,7 @@ class StatistikService {
                 $pandega = Anggota::where('status',1)->where('pramuka',4)->count();
                 $dewasa = Anggota::where('status',1)->where('pramuka',5)->count();
                 $pelatih = Anggota::where('status',1)->where('pramuka',6)->count();
+                $pembina = Anggota::where('status',1)->where('pramuka',7)->count();
             }else{
                 $len = strlen($id_wilayah);
                 if ($len==2) {
@@ -175,6 +187,7 @@ class StatistikService {
                 $pandega = $query->where('pramuka',4)->count();
                 $dewasa = $query->where('pramuka',5)->count();
                 $pelatih = $query->where('pramuka',6)->count();
+                $pembina = $query->where('pramuka',7)->count();
             }
         }
 
@@ -185,7 +198,8 @@ class StatistikService {
             'pandega' => $pandega,
             'dewasa' => $dewasa,
             'pelatih' => $pelatih,
-            'total' => $siaga+$penggalang+$penegak+$pandega+$dewasa+$pelatih
+            'pembina' => $pembina,
+            'total' => $siaga+$penggalang+$penegak+$pandega+$dewasa+$pelatih+$pembina
         ];
     }
 
@@ -198,6 +212,7 @@ class StatistikService {
         $pandega = $anggota->where('pramuka',4)->count();
         $dewasa = $anggota->where('pramuka',5)->count();
         $pelatih = $anggota->where('pramuka',6)->count();
+        $pembina = $anggota->where('pramuka',7)->count();
         return [
             'siaga' => $siaga,
             'penggalang' => $penggalang,
@@ -205,7 +220,8 @@ class StatistikService {
             'pandega' => $pandega,
             'dewasa' => $dewasa,
             'pelatih' => $pelatih,
-            'total' => $siaga+$penggalang+$penegak+$pandega+$dewasa+$pelatih
+            'pembina' => $pembina,
+            'total' => $siaga+$penggalang+$penegak+$pandega+$dewasa+$pelatih+$pembina
         ];
     }
 
@@ -352,7 +368,160 @@ class StatistikService {
             'penggalang' => $new[2],
             'penegak' => $new[3],
             'pandega' => $new[4],
-            'dewasa' => $new[5],
+            // 'dewasa' => $new[5],
+            'pelatih' => $new[6],
+            'pembina' => $new[7],
+        ];
+    }
+
+    public function getDarah()
+    {
+        $id_wilayah = $this->id_wilayah;
+        if($this->gudep==null){
+            if($id_wilayah=='all'){
+                $A = Anggota::where('status',1)->where('gol_darah','A')->count();
+                $AB = Anggota::where('status',1)->where('gol_darah','AB')->count();
+                $B = Anggota::where('status',1)->where('gol_darah','B')->count();
+                $O = Anggota::where('status',1)->where('gol_darah','O')->count();
+                $none = Anggota::where('status',1)->where('gol_darah','-')->count();
+            }else{
+                $len = strlen($id_wilayah);
+                if ($len==2) {
+                    $A = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('gol_darah','A')->count();
+                    $AB = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('gol_darah','AB')->count();
+                    $B = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('gol_darah','B')->count();
+                    $O = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('gol_darah','O')->count();
+                    $none = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('gol_darah','-')->count();
+                }elseif($len==4){
+                    $A = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('gol_darah','A')->count();
+                    $AB = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('gol_darah','AB')->count();
+                    $B = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('gol_darah','B')->count();
+                    $O = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('gol_darah','O')->count();
+                    $none = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('gol_darah','-')->count();
+                }else{
+                    $A = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('gol_darah','A')->count();
+                    $AB = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('gol_darah','AB')->count();
+                    $B = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('gol_darah','B')->count();
+                    $O = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('gol_darah','O')->count();
+                    $none = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('gol_darah','-')->count();
+                }
+            }
+        }else{
+            $A = Anggota::where('gudep',$this->gudep)->where('status',1)->where('gol_darah','A')->count();
+            $AB = Anggota::where('gudep',$this->gudep)->where('status',1)->where('gol_darah','AB')->count();
+            $B = Anggota::where('gudep',$this->gudep)->where('status',1)->where('gol_darah','B')->count();
+            $O = Anggota::where('gudep',$this->gudep)->where('status',1)->where('gol_darah','O')->count();
+            $none = Anggota::where('gudep',$this->gudep)->where('status',1)->where('gol_darah','-')->count();
+        }
+
+        return [
+            'A' => $A,
+            'AB' => $AB,
+            'B' => $B,
+            'O' => $O,
+            'none' => $none,
+        ];
+    }
+
+    public function getAgama()
+    {
+        $id_wilayah = $this->id_wilayah;
+        if($this->gudep==null){
+            if($id_wilayah=='all'){
+                $islam = Anggota::where('status',1)->where('agama','Islam')->count();
+                $protestan = Anggota::where('status',1)->where('agama','Protestan')->count();
+                $katolik = Anggota::where('status',1)->where('agama','Katolik')->count();
+                $hindu = Anggota::where('status',1)->where('agama','Hindu')->count();
+                $budha = Anggota::where('status',1)->where('agama','Budha')->count();
+                $khonghucu = Anggota::where('status',1)->where('agama','Khonghucu')->count();
+            }else{
+                $len = strlen($id_wilayah);
+                if ($len==2) {
+                    $islam = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('agama','Islam')->count();
+                    $protestan = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('agama','Protestan')->count();
+                    $katolik = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('agama','Katolik')->count();
+                    $hindu = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('agama','Hindu')->count();
+                    $budha = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('agama','Budha')->count();
+                    $khonghucu = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('agama','Khonghucu')->count();
+                }elseif($len==4){
+                    $islam = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('agama','Islam')->count();
+                    $protestan = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('agama','Protestan')->count();
+                    $katolik = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('agama','Katolik')->count();
+                    $hindu = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('agama','Hindu')->count();
+                    $budha = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('agama','Budha')->count();
+                    $khonghucu = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('agama','Khonghucu')->count();
+                }else{
+                    $islam = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('agama','Islam')->count();
+                    $protestan = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('agama','Protestan')->count();
+                    $katolik = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('agama','Katolik')->count();
+                    $hindu = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('agama','Hindu')->count();
+                    $budha = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('agama','Budha')->count();
+                    $khonghucu = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('agama','Khonghucu')->count();
+                }
+            }
+        }else{
+            $islam = Anggota::where('gudep',$this->gudep)->where('status',1)->where('agama','Islam')->count();
+            $protestan = Anggota::where('gudep',$this->gudep)->where('status',1)->where('agama','Protestan')->count();
+            $katolik = Anggota::where('gudep',$this->gudep)->where('status',1)->where('agama','Katolik')->count();
+            $hindu = Anggota::where('gudep',$this->gudep)->where('status',1)->where('agama','Hindu')->count();
+            $budha = Anggota::where('gudep',$this->gudep)->where('status',1)->where('agama','Budha')->count();
+            $khonghucu = Anggota::where('gudep',$this->gudep)->where('status',1)->where('agama','Khonghucu')->count();
+        }
+
+        return [
+            'islam' => $islam,
+            'protestan' => $protestan,
+            'katolik' => $katolik,
+            'hindu' => $hindu,
+            'budha' => $budha,
+            'khonghucu' => $khonghucu,
+        ];
+    }
+
+    public function statistikAnggota()
+    {
+        $gender = $this->getGender();
+        $active = $this->getAnggotaActiveAndUnactive();
+        $gudep = $this->getAnggotaGudepAndNonGudep();
+
+        return [
+            'gender' => $gender,
+            'active' => $active,
+            'gudep' => $gudep
+        ];
+    }
+
+    public function statistikAgama()
+    {
+        $agama = $this->getAgama();
+
+        return [
+            'agama' => $agama
+        ];
+    }
+
+    public function statistikDarah()
+    {
+        $darah = $this->getDarah();
+
+        return [
+            'darah' => $darah
+        ];
+    }
+
+    public function jumlahAnggota()
+    {
+        $statistik = $this->getNumberOfAnggotaInYear();
+        return [
+            'statistik' => $statistik,
+        ];
+    }
+
+    public function statistikTingkat()
+    {
+        $tingkat = $this->getNumberOfTitle();
+        return [
+            'tingkat' => $tingkat,
         ];
     }
 
@@ -366,8 +535,8 @@ class StatistikService {
         $tingkat = $this->getNumberOfTitle();
 
         return [
-            'pramuka' => $pramuka,
-            'gender' => $gender,
+            // 'pramuka' => $pramuka,
+            // 'gender' => $gender,
             'active' => $active,
             'gudep' => $gudep,
             'statistik' => $statistik,
