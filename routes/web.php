@@ -122,6 +122,8 @@ Route::prefix('datatable')->group(function(){
 });
 
 Route::controller(SyncController::class)->prefix('sync')->group(function(){
+    Route::get('kode', 'kodeNull')->name('sync.kode');
+    Route::get('transaksi', 'transaction')->name('sync.transaction');
     Route::get('document', 'document')->name('sync.document');
     Route::get('anggota-kta', 'anggotaKta')->name('sync.kta.anggota');
     Route::get('kta', 'kta')->name('sync.kta');

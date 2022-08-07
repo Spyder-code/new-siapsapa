@@ -7,8 +7,13 @@ use App\Jobs\SyncFoto;
 use App\Jobs\SyncGolongan;
 use App\Jobs\SyncStatusAnggota;
 use App\Models\Anggota;
+use App\Models\City;
+use App\Models\Distrik;
 use App\Models\Document;
+use App\Models\Gudep;
 use App\Models\Kta;
+use App\Models\Provinsi;
+use App\Models\Transaction;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
@@ -55,6 +60,39 @@ class SyncController extends Controller
                 $j++;
             }
         }
+    }
+
+    public function kodeNull()
+    {
+        $data = Anggota::all()->whereNull('kode');
+        $i = 0;
+        foreach ($data as $item ) {
+            $i++;
+            $kecamatan = $item->kecamatan;
+            $gudep = $item->gudep;
+            $jk = $item->jk;
+            $kec = Distrik::find($kecamatan);
+            $kab = City::find($kec->regency_id);
+            $prov = Provinsi::find($kab->province_id);
+            $kode_wil = $prov->no_prov .'.'. $kab->no_kab .'.'. $kec->no_kec .'.';
+            if ($gudep == null) {
+                $kode_gudep = '000';
+            }else{
+                $gud = Gudep::find($gudep);
+                if($jk=='Perempuan'){
+                    $kode_gudep = $gud->no_putri;
+                }else{
+                    $kode_gudep = $gud->no_putra;
+                }
+            }
+
+            $rand = rand(99999, 999999);
+            $kode = $kode_wil . $kode_gudep .'.'. $rand;
+            $item->kode = $kode;
+            $item->save();
+        }
+
+        return $i.' Data berhasil diupdate';
     }
 
     public function anggotaKta()
@@ -133,6 +171,22 @@ class SyncController extends Controller
 
         return response()->json([
             'message' => 'Berhasil mengupdate data'
+        ], 200);
+    }
+
+    public function transaction()
+    {
+        $transaction = Transaction::all();
+        $i = 0;
+        foreach ($transaction as $item ) {
+            $item->update([
+                'golongan'=>$item->anggota->pramuka,
+                'kta_id'=>$item->anggota->kta_id,
+            ]);
+            $i++;
+        };
+        return response()->json([
+            'message' => $i.' Berhasil terupdate'
         ], 200);
     }
 }
