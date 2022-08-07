@@ -11,7 +11,9 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-12 col-md-4 mt-2">
-                <x-single-card :anggota="$anggota" />
+                @if ($anggota->kta_id !=null)
+                    <x-single-card :anggota="$anggota" />
+                @endif
                 <div class="card mt-3">
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
