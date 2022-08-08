@@ -61,11 +61,11 @@ page[size="A4"]::before{
 }
 .card{
     width: 50%;
-    height:58mm;
-    width:8.9cm;
+    height:60mm;
+    width:91mm;
     /* border: 1px solid black; */
     position: relative;
-    margin: 5px auto;
+    margin: 0 auto;
     box-sizing: border-box;
     border-radius: 20px;
 }
@@ -112,7 +112,7 @@ page[size="A4"]::before{
 table{
     display: block;
     position: absolute;
-    left: 30%;
+    left: 27%;
     top: 30%;
     font-size: .57rem;
     color: white;
@@ -120,24 +120,24 @@ table{
 .img-left{
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
     position: relative;
-    top: 32%;
-    left: 8%;
+    top: 30.5%;
+    left: 5.4%;
 }
 .foto{
-    height: 65px;
-    width: 58px;
+    height: 67px;
+    width: 62px;
     border-radius: 5px;
 }
 .exp{
-    margin-top: 5.5px;
+    /* margin-top: 2px; */
     font-size: .35rem;
-    color : white;
+    /* color : white; */
 }
 .qr{
-    height: 58px;
-    width: 58px;
+    height: 60px;
+    width: 62px;
 }
 * {
     -webkit-print-color-adjust: exact !important;   /* Chrome, Safari, Edge */
