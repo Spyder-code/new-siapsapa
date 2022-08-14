@@ -11,7 +11,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-12 col-md-4 mt-2">
-                @if ($anggota->kta_id !=null)
+                @if (!empty($anggota) && $anggota->kta_id !=null)
                     <x-single-card :anggota="$anggota" />
                 @endif
                 <div class="card mt-3">
