@@ -176,4 +176,35 @@ class AgendaController extends Controller
             'message' => 'Daftar ulang berhasil!'
         ]);
     }
+
+    public function cancel()
+    {
+        $nik = request('nik');
+        $agenda_id = request('agenda_id');
+        $anggota = Anggota::where('nik',$nik)->first();
+        if(!$anggota){
+            return response()->json([
+                'status' => 0,
+                'message' => 'QR Tidak ditemukan!'
+            ]);
+        }
+
+        $pendaftar = PendaftaranAgenda::where('agenda_id', $agenda_id)->where('anggota_id',$anggota->id)->first();
+
+        if (!$pendaftar) {
+            return response()->json([
+                'status' => 0,
+                'message' => 'Pendaftaran Tidak ditemukan!. Anda tidak terdaftar dari agenda ini!'
+            ], 404);
+        }
+
+        $pendaftar->update([
+            'status' => 0
+        ]);
+
+        return response()->json([
+            'status' => 1,
+            'message' => 'Batalkan daftar ulang berhasil!'
+        ]);
+    }
 }
