@@ -43,8 +43,8 @@
 @endphp
 <div class="item">
     <div style="height:53.98mm;width:85.60mm;display:inline-block;margin-right:20px;position: relative; margin-top:10px">
-        <img style="width:85.60mm" src="{{ asset('berkas/kta/depan.png') }}" class="img-kta">
-        {{-- <img style="width:85.60mm" src="{{ asset('berkas/kta/'. $anggota->kta->depan) }}" class="img-kta"> --}}
+        {{-- <img style="width:85.60mm" src="{{ asset('berkas/kta/depan.png') }}" class="img-kta"> --}}
+        <img style="width:85.60mm" src="{{ asset('berkas/kta/'. $anggota->kta->depan) }}" class="img-kta">
         <img src="{{ asset('images/logosiap.png') }}" class="watermark">
         <div style="height:108px;position: absolute;top:65px;left:28px;">
             <img  style="position: absolute;top:0; width:55px; height:62px;" src="{{ asset('berkas/anggota/'.$anggota->foto) }}" id="pasfoto-kta" class="img rounded">

@@ -14,12 +14,8 @@
                                 <p>Harap hubungi admin untuk mendaftar lomba</p>
                             </div>
                         @else
-                            @if ($cek==null)
+                            @if ($cek==null && $agenda->is_finish==0)
                             <button type="button" id="daftar" class="btn btn-success">Daftar</button>
-                            @else
-                            <div class="alert alert-info">
-                                <p>Anda sudah terdaftar</p>
-                            </div>
                             @endif
                         @endif
                     </div>

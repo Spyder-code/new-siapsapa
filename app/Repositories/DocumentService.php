@@ -24,12 +24,12 @@ class DocumentService {
         if($check){
             $check->update($data);
         }else{
-            Document::create($data);
+            $check = Document::create($data);
         }
 
         $this->checkStatus($user->id);
 
-        return 'success';
+        return $check;
     }
 
     public function checkStatus($user_id)

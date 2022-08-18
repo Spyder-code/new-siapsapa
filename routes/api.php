@@ -72,6 +72,11 @@ Route::get('admin/anggota/{id}', [AnggotaController::class, 'getAnggotaByAdminLo
 
 // document
 Route::get('get-document/{id}', [DocumentController::class, 'getDocumentTypeByPramukaId']);
+Route::get('get-golongan', [DocumentController::class, 'getPramuka']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('document', [DocumentController::class, 'getDocumentByUserId']);
+    Route::post('document', [DocumentController::class, 'store']);
+});
 Route::delete('delete-document', [DocumentController::class, 'deleteDocument']);
 
 // agenda

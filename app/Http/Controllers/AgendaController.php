@@ -15,6 +15,16 @@ class AgendaController extends Controller
     public function index()
     {
         $data = Agenda::all();
+        foreach ($data as $item ) {
+            $time = strtotime($item->tanggal_selesai);
+            $now = strtotime(date('Y-m-d'));
+            if ($time > $now) {
+                $item->is_finish = 0;
+            } else {
+                $item->is_finish = 1;
+            }
+            $item->save();
+        }
         return view('admin.agenda.index', compact('data'));
     }
 

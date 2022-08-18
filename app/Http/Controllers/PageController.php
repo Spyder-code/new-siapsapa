@@ -36,6 +36,16 @@ class PageController extends Controller
     public function agenda()
     {
         $agenda = Agenda::all();
+        foreach ($agenda as $item ) {
+            $time = strtotime($item->tanggal_selesai);
+            $now = strtotime(date('Y-m-d'));
+            if ($time > $now) {
+                $item->is_finish = 0;
+            } else {
+                $item->is_finish = 1;
+            }
+            $item->save();
+        }
         return view('user.agenda.index', compact('agenda'));
     }
 
