@@ -15,6 +15,14 @@
     <link href="{{ asset('dashboard') }}/dist/css/style.min.css" rel="stylesheet" />
     {{-- laravel token meta --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        /* media print */
+        @media print {
+            .left-sidebar {
+                display: none;
+            }
+        }
+    </style>
     @yield('style')
 </head>
 
