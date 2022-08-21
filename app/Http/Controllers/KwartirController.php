@@ -34,7 +34,7 @@ class KwartirController extends Controller
         // dd($role);
 
         $data = $this->getData($id_wilayah);
-        $title = $data[0]->name ?? 'Nasional';
+        $title = $data[0]->name ?? 'Kwartir Nasional';
         $kwartir = $data[1];
         return view('admin.kwartir.index', compact('id_wilayah', 'title', 'kwartir'));
     }
@@ -92,13 +92,13 @@ class KwartirController extends Controller
         $len = strlen($id_wilayah);
         if ($len==2) {
             $data = Provinsi::find($id_wilayah, ['name', 'id', 'no_prov as code', 'id as prev']);
-            $kwartir = 'Provinsi';
+            $kwartir = 'Kwartir Daerah';
         }elseif($len==4){
             $data = City::find($id_wilayah, ['name', 'id', 'no_kab as code', 'province_id as prev']);
-            $kwartir = 'Kabupaten';
+            $kwartir = 'Kwartir Cabang';
         }else{
             $data = Distrik::find($id_wilayah, ['name', 'id', 'no_kec as code', 'regency_id as prev']);
-            $kwartir = 'Kecamatan';
+            $kwartir = 'Kwartir Ranting';
         }
 
         return [$data, $kwartir];

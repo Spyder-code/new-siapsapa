@@ -53,7 +53,7 @@ class AnggotaController extends Controller
         $wilayah = new WilayahService($id_wilayah);
         $data = $wilayah->getData();
         $kwartir = $data[1];
-        $title = $data[0]->name ?? 'Nasional';
+        $title = $data[0]->name ?? 'Kwartir Nasional';
         return view('admin.anggota.index', compact('url','data','id_wilayah','kwartir','title'));
     }
 

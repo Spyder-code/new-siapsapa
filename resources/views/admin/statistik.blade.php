@@ -10,8 +10,8 @@
             ['name' => 'Kwartir', 'url' => route('kwartir.index', ['id_wilayah'=>$id_wilayah])],
         ]"
 
-        :title="'Wilayah '.$kwartir.' '.ucfirst(strtolower($title))"
-        :description="'Data statistik wilayah '.$kwartir.' '. ucfirst(strtolower($title))"
+        :title="$kwartir.' '.ucfirst(strtolower($title))"
+        :description="'Data statistik'.$kwartir.' '. ucfirst($title)"
     />
     <div class="col-md-7 justify-content-end align-self-center d-none d-md-flex">
         <ul class="list-group list-group-horizontal">

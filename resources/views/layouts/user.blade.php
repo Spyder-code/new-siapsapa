@@ -173,7 +173,6 @@
             <div class="row g-5">
                 <div class="col-lg-8 col-md-6">
                     <h4 class="text-light mb-4">SIAPSAPA</h4>
-                    <p class="mb-2">Satuan organisasi yang mengelola Gerakan Pramuka tingkat nasional.</p>
                     <p>”Gerakan Pramuka Wadah Utama Pembentukan Kader Pemimpin Bangsa"</p>
                 </div>
                 <div class="col-lg-4 col-md-6">

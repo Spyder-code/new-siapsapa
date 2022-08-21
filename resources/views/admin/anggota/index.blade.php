@@ -21,7 +21,7 @@
             ['name' => 'Anggota', 'url' => '#'],
         ]"
 
-        :title="$title"
+        :title="ucfirst($title)"
         :description="'Daftar Anggota '.$title"
     />
     <div class="col-md-7 justify-content-end align-self-center d-none d-md-flex">
