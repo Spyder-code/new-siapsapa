@@ -1,5 +1,5 @@
 @php
-    $role = $data[1];
+    $role = $data[2];
     if ($role=='Provinsi') {
         $options = $data[0]->regency->pluck('name','id')->toArray();
         $options1 = [];

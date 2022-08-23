@@ -25,14 +25,17 @@ class WilayahService {
         if ($len==2) {
             $data = Provinsi::find($id_wilayah);
             $kwartir = 'Kwartir Daerah';
+            $type = 'Provinsi';
         }elseif($len==4){
             $data = City::find($id_wilayah);
             $kwartir = 'Kwartir Cabang';
+            $type = 'Kabupaten';
         }else{
             $data = Distrik::find($id_wilayah);
             $kwartir = 'Kwartir Ranting';
+            $type = 'Kecamatan';
         }
 
-        return [$data, $kwartir];
+        return [$data, $kwartir, $type];
     }
 }
