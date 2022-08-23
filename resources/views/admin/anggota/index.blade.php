@@ -36,7 +36,7 @@
                     <li><a class="dropdown-item" href="#">April 2021</a></li>
                 </ul>
             </div> --}}
-            <a href="{{ route('anggota.create') }}" class="btn btn-success">
+            <a href="{{ route('anggota.create',['type'=>$type]) }}" class="btn btn-success">
                 <i data-feather="plus" class="fill-white feather-sm"></i>
                 Tambah Data
             </a>

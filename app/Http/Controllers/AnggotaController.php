@@ -41,12 +41,16 @@ class AnggotaController extends Controller
         }
 
         if($type=='non-active'){
+            $type = 'non-active';
             $url = route('datatable.anggota.non-active');
         }else if($type=='non-gudep'){
+            $type = 'non-gudep';
             $url = route('datatable.anggota.non-gudep');
         }else if($type=='is-gudep'){
+            $type = 'gudep';
             $url = route('datatable.anggota.is-gudep');
         }else{
+            $type = 'active';
             $url = route('datatable.anggota.active');
         }
 
@@ -54,7 +58,7 @@ class AnggotaController extends Controller
         $data = $wilayah->getData();
         $kwartir = $data[1];
         $title = $data[0]->name ?? 'Kwartir Nasional';
-        return view('admin.anggota.index', compact('url','data','id_wilayah','kwartir','title'));
+        return view('admin.anggota.index', compact('url','data','id_wilayah','kwartir','title','type'));
     }
 
     public function non_validate()
@@ -108,7 +112,9 @@ class AnggotaController extends Controller
             $data[0] = Provinsi::pluck('name', 'id');
         }
 
-        return view('admin.anggota.create', compact('data'));
+        $type = request('type');
+
+        return view('admin.anggota.create', compact('data','type'));
     }
 
     public function edit(Anggota $anggotum)

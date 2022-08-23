@@ -6,19 +6,21 @@
         if (!empty($anggota)) {
             $options1 = $anggota->city->district->pluck('name','id');
         }
+        $options3 = [];
     }elseif($role=='Kabupaten'){
         $options = $data[0]->district->pluck('name','id')->toArray();
+        $options3 = [];
     }else{
         $options = $data[0];
         $options1 = [];
         $options2 = [];
+        $options3 = App\Models\Gudep::where('kecamatan',Auth::user()->anggota->kecamatan)->pluck('nama_sekolah','id');
         if (!empty($anggota)) {
             $options1 = $anggota->province->regency->pluck('name','id');
             $options2 = $anggota->city->district->pluck('name','id');
         }
     }
 
-    $options3 = [];
     if (!empty($anggota)) {
         if($anggota->gudep!=null){
             $options3 = $anggota->gudepInfo->pluck('nama_sekolah','id');
@@ -57,7 +59,7 @@
         <x-input :value="$anggota->kabupaten??''" :name="'kabupaten'" :col="4" :label="'Kabupaten'" :type="'select'" :attr="['required']" :options="$options1"/>
         <x-input :value="$anggota->kecamatan??''" :name="'kecamatan'" :col="4" :label="'Kecamatan'" :type="'select'" :attr="['required']" :options="$options2" />
     @endif
-    @if (Auth::user()->role != 'gudep')
+    @if (Auth::user()->role != 'gudep' && $type!='non-gudep')
     <x-input :value="$anggota->gudep??''" :name="'gudep'" :col="6" :label="'Gudep'" :type="'select'" :options="$options3" />
     @else
         <input type="hidden" name="gudep" value="{{ Auth::user()->anggota->gudep }}">
