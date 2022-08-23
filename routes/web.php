@@ -38,6 +38,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('test', function(){
+    return view('social.index');
+});
+
 // Init
 Route::get('init/add-to-cart', [InitController::class, 'addToCart']);
 
