@@ -50,6 +50,7 @@ Route::get('get-statistik-tingkat/{id_wilayah}', [StatistikController::class, 's
 
 // gudep
 Route::get('get-admin-gudep/{gudep_id}', [GudepController::class, 'getAdmin']);
+Route::get('get-gudep/{gudep_id}', [GudepController::class, 'getGudep']);
 Route::post('add-admin-gudep', [GudepController::class, 'addAdmin']);
 
 // kwartir

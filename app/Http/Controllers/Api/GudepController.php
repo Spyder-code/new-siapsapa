@@ -31,6 +31,15 @@ class GudepController extends Controller
         ]);
     }
 
+    public function getGudep($gudep_id)
+    {
+        $gudep = Gudep::find($gudep_id);
+        if ($gudep) {
+            return response($gudep);
+        }
+        return response()->json('Gudep not found');
+    }
+
     public function deleteGudep()
     {
         $gudep_id = request()->gudep;

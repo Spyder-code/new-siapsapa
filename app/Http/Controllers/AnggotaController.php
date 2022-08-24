@@ -148,7 +148,9 @@ class AnggotaController extends Controller
             $data[0] = Provinsi::pluck('name', 'id');
         }
 
-        return view('admin.anggota.edit', compact('data','anggota'));
+        $type = request('type');
+
+        return view('admin.anggota.edit', compact('data','anggota','type'));
     }
 
     public function show(Anggota $anggotum)

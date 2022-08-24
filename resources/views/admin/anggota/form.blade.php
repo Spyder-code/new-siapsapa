@@ -1,5 +1,5 @@
 @php
-    $role = $data[2];
+    $role = $data[2] ?? 'Admin';
     if ($role=='Provinsi') {
         $options = $data[0]->regency->pluck('name','id')->toArray();
         $options1 = [];
@@ -62,7 +62,7 @@
     @if (Auth::user()->role != 'gudep' && $type!='non-gudep')
     <x-input :value="$anggota->gudep??''" :name="'gudep'" :col="6" :label="'Gudep'" :type="'select'" :options="$options3" />
     @else
-        <input type="hidden" name="gudep" value="{{ Auth::user()->anggota->gudep }}">
+        <input type="hidden" id="gudep" name="gudep" value="{{ Auth::user()->anggota->gudep }}">
     @endif
     <x-input :value="$anggota->status_anggota??''" :name="'status_anggota'" :col="6" :label="'Status Anggota'" :type="'select'" :attr="['required']" :options="['Anggota Baru'=>'Anggota Baru','Anggota Lama'=>'Anggota Lama']" />
     <div class="mb-3" id="kode-input">
@@ -179,6 +179,42 @@
                 $('#kode-input').hide();
             }else{
                 $('#kode-input').show();
+            }
+        });
+        $('#gudep').change(function (e) {
+            var val = $(this).val();
+            var jk = $('#jk').val();
+            if(jk){
+                $.ajax({
+                    type: "get",
+                    url: @json(url('api/get-gudep'))+'/'+val,
+                    success: function (response) {
+                        if(jk=='Perempuan'){
+                            var no = response.no_putri;
+                        }else{
+                            var no = response.no_putra;
+                        }
+                        $('#four').val(no);
+                    }
+                });
+            }
+        });
+        $('#jk').change(function (e) {
+            var val = $(this).val();
+            var gudep_id = $('#gudep').val();
+            if(gudep_id){
+                $.ajax({
+                type: "get",
+                url: @json(url('api/get-gudep'))+'/'+gudep_id,
+                success: function (response) {
+                    if(val=='Perempuan'){
+                        var no = response.no_putri;
+                    }else{
+                        var no = response.no_putra;
+                    }
+                    $('#four').val(no);
+                }
+            });
             }
         });
 </script>
