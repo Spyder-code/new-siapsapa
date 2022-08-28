@@ -19,27 +19,28 @@ class StatistikService {
 
     public function getGender($golongan = false)
     {
-        $id_wilayah = $this->id_wilayah;
+        try {
+            $id_wilayah = $this->id_wilayah;
         if($this->gudep==null){
             if($id_wilayah=='all'){
-                $male = Anggota::where('status',1)->where('jk','Laki-Laki')->get();
-                $female = Anggota::where('status',1)->where('jk','Perempuan')->get();
+                $male = Anggota::where('status',1)->where('jk','L')->get();
+                $female = Anggota::where('status',1)->where('jk','P')->get();
             }else{
                 $len = strlen($id_wilayah);
                 if ($len==2) {
-                    $male = Anggota::where('status',1)->where('provinsi',$id_wilayah)->where('jk','Laki-Laki')->get();
-                    $female = Anggota::where('status',1)->where('provinsi',$id_wilayah)->where('jk','Perempuan')->get();
+                    $male = Anggota::where('status',1)->where('provinsi',$id_wilayah)->where('jk','L')->get();
+                    $female = Anggota::where('status',1)->where('provinsi',$id_wilayah)->where('jk','P')->get();
                 }elseif($len==4){
-                    $male =  Anggota::where('status',1)->where('kabupaten',$id_wilayah)->where('jk','Laki-Laki')->get();
-                    $female =  Anggota::where('status',1)->where('kabupaten',$id_wilayah)->where('jk','Perempuan')->get();
+                    $male =  Anggota::where('status',1)->where('kabupaten',$id_wilayah)->where('jk','L')->get();
+                    $female =  Anggota::where('status',1)->where('kabupaten',$id_wilayah)->where('jk','P')->get();
                 }else{
-                    $male =  Anggota::where('status',1)->where('kecamatan',$id_wilayah)->where('jk','Laki-Laki')->get();
-                    $female =  Anggota::where('status',1)->where('kecamatan',$id_wilayah)->where('jk','Perempuan')->get();
+                    $male =  Anggota::where('status',1)->where('kecamatan',$id_wilayah)->where('jk','L')->get();
+                    $female =  Anggota::where('status',1)->where('kecamatan',$id_wilayah)->where('jk','P')->get();
                 }
             }
         }else{
-            $male =  Anggota::where('gudep', $this->gudep)->where('status',1)->where('jk','Laki-Laki')->get();
-            $female =  Anggota::where('gudep', $this->gudep)->where('status',1)->where('jk','Perempuan')->get();
+            $male =  Anggota::where('gudep', $this->gudep)->where('status',1)->where('jk','L')->get();
+            $female =  Anggota::where('gudep', $this->gudep)->where('status',1)->where('jk','P')->get();
         }
 
         if ($golongan) {
@@ -89,6 +90,9 @@ class StatistikService {
                 'male' => $male,
                 'female' => $female
             ];
+        }
+        } catch (\Throwable $th) {
+            return $th;
         }
 
     }
