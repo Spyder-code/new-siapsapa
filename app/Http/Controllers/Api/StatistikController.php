@@ -42,17 +42,21 @@ class StatistikController extends Controller
 
     public function getGender($id_wilayah)
     {
-        if(request('gudep')){
-            $statistik = new StatistikService($id_wilayah, request('gudep'));
-        }else{
-            $statistik = new StatistikService($id_wilayah);
+        try {
+            if(request('gudep')){
+                $statistik = new StatistikService($id_wilayah, request('gudep'));
+            }else{
+                $statistik = new StatistikService($id_wilayah);
+            }
+            if(request('golongan')){
+                $data = $statistik->getGender(true);
+            }else{
+                $data = $statistik->getGender();
+            }
+            return response()->json($data);
+        } catch (\Throwable $th) {
+            return response($th);
         }
-        if(request('golongan')){
-            $data = $statistik->getGender(true);
-        }else{
-            $data = $statistik->getGender();
-        }
-        return response()->json($data);
     }
 
     public function getAnggotaActiveAndUnactive($id_wilayah)

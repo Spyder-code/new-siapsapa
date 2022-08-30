@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SyncAnggotaKta;
 use App\Jobs\SyncFoto;
+use App\Jobs\SyncGender;
 use App\Jobs\SyncGolongan;
 use App\Jobs\SyncStatusAnggota;
 use App\Models\Anggota;
@@ -108,6 +109,20 @@ class SyncController extends Controller
             //     }
             // }
             dispatch(new SyncAnggotaKta($anggota))->delay(now()->addMinutes(1));
+            $i++;
+        }
+
+        return response()->json([
+            'message' => 'Berhasil mengupdate data '. $i .' data'
+        ], 200);
+    }
+
+    public function gender()
+    {
+        $data = Anggota::all();
+        $i = 0;
+        foreach ($data->chunk(500) as $anggota) {
+            dispatch(new SyncGender($anggota))->delay(now()->addMinutes(1));
             $i++;
         }
 
