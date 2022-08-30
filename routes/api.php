@@ -105,6 +105,7 @@ Route::post('pay-transaction/{transactionDetail}', [ApiTransactionController::cl
 // Auth
 Route::post('register',[AuthApi::class,'register']);
 Route::post('login',[AuthApi::class,'login']);
+Route::post('reset-password',[AuthApi::class,'resetPassword']);
 
 // Midtrans
 Route::post('notification/handling', [TransactionController::class, 'notificationHandling']);

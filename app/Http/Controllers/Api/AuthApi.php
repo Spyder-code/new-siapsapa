@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class AuthApi extends Controller
 {
@@ -72,5 +73,19 @@ class AuthApi extends Controller
 
     public function user (Request $request){
         return $request->user();
+    }
+
+    public function resetPassword()
+    {
+        $email = request('email');
+        $user = User::where('email',$email)->first();
+        if($user){
+            $user->update([
+                'password' => Hash::make('pramuka')
+            ]);
+            return response('Password success updated');
+        }else{
+            return response('Email tidak ditemukan');
+        }
     }
 }

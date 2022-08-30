@@ -37,4 +37,9 @@ class UserController extends Controller
         }
         return back()->with('success', 'Data berhasil diubah');
     }
+
+    public function reset_password()
+    {
+        return view('admin.user.reset_password');
+    }
 }

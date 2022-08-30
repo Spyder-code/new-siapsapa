@@ -95,6 +95,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::get('kwartir/anggota/{id_wilayah}', [KwartirController::class, 'anggota'])->name('kwartir.anggota');
         Route::get('anggota/{anggotum}/edit', [AnggotaController::class,'edit'])->name('anggota.edit');
         Route::get('anggota/{anggotum}', [AnggotaController::class,'show'])->name('anggota.show');
+        Route::get('user/reset-password', [UserController::class,'reset_password'])->name('user.reset-password');
         Route::resource('dokumen', DocumentController::class);
         Route::resource('agenda', AgendaController::class);
         Route::get('agenda/{agenda}/peserta', [AgendaController::class,'peserta'])->name('agenda.peserta');

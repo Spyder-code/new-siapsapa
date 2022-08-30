@@ -230,9 +230,15 @@
                                     Profile Anggota
                                 </a>
                                 @endif
-                                <a class="dropdown-item" href="{{ route('user.edit', Auth::user()) }}" >
-                                    <i data-feather="settings" class="feather-sm text-warning me-1 ms-1" ></i>
-                                    Ganti Password
+                                @if (Auth::user()->role=='admin')
+                                <a class="dropdown-item" href="{{ route('user.reset-password') }}" >
+                                    <i data-feather="settings" class="feather-sm text-secondary me-1 ms-1" ></i>
+                                    Reset Password Anggota
+                                </a>
+                                @endif
+                                <a class="dropdown-item" href="{{ route('user.edit',Auth::id()) }}" >
+                                    <i data-feather="key" class="feather-sm text-warning me-1 ms-1" ></i>
+                                    Update Password
                                 </a>
                                 <a class="dropdown-item" href="{{ route('page.profile') }}" >
                                     <i data-feather="award" class="feather-sm text-success me-1 ms-1" ></i>
