@@ -46,7 +46,7 @@
     </div> --}}
     <p class="font-weight-bold text-primary fs-5">2. Data Akun.</p>
     <hr>
-    <x-input :value="Auth::user()->email" :type="'email'" :name="'email'" :label="'Email'" :col="6" :attr="['required','readonly']"/>
+    <x-input :value="Auth::user()->email" :type="'email'" :name="'email'" :label="'Email'" :col="6" :attr="['required']"/>
     <x-input :value="$anggota->nik??''" :type="'text'" :name="'nik'" :label="'NIK'" :col="6" :attr="['required']"/>
     <x-input :type="'file'" :name="'foto'" :label="'Foto'" :col="6"/>
     <div class="col-6">
