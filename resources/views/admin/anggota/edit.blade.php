@@ -84,16 +84,18 @@
         $('select[name="kecamatan"]').change(function(){
             var kecamatan = $(this).val();
             $.ajax({
-                url: "{{ url('/api/get-gudep') }}"+'/'+kecamatan,
+                url: "{{ url('/api/get-gudep-wilayah') }}"+'/'+kecamatan,
                 type: "GET",
                 success: function(data){
-                    console.log(data);
+                    // console.log(data);
                     $('select[name="gudep"]').empty();
-                    var html = '<option value="">Pilih Gudep</option>';
-                    $.each(data, function (idx, item) {
-                        html += '<option value="'+item.id+'">'+item.nama_sekolah+'</option>';
-                    });
-                    $('select[name="gudep"]').html(html);
+                    if(data != 'Gudep not found'){
+                        var html = '<option value="">Pilih Gudep</option>';
+                        $.each(data, function (idx, item) {
+                            html += '<option value="'+item.id+'">'+item.nama_sekolah+'</option>';
+                        });
+                        $('select[name="gudep"]').html(html);
+                    }
                 }
             });
         });
