@@ -118,14 +118,14 @@
                 <div class="sidebar-menu-wrap">
                     <div class="mCustomScrollbar" data-mcs-theme="dark" data-mcs-axis="y">
                         <ul class="side-menu">
-                            <li><a href="newsfeed.html" class="menu-link" data-toggle="tooltip" data-placement="right" title=" NEWSFEED"><i class="icofont-newspaper"></i></a></li>
-                            <li><a href="user-timeline.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="MEMBERS TIMELINE"><i class="icofont-list"></i></a></li>
-                            <li><a href="user-groups.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="GROUPS"><i class="icofont-users-alt-2"></i></a></li>
-                            <li><a href="user-friends.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="MEMBERS FRIENDS"><i class="icofont-users-alt-4"></i></a></li>
+                            <li><a href="newsfeed.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="BERITA"><i class="icofont-newspaper"></i></a></li>
+                            <li><a href="user-timeline.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="AGENDA"><i class="icofont-list"></i></a></li>
+                            <li><a href="user-groups.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="PENGGUMUMAN"><i class="icofont-users-alt-2"></i></a></li>
+                            {{-- <li><a href="user-friends.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="MEMBERS FRIENDS"><i class="icofont-users-alt-4"></i></a></li> --}}
                             <li><a href="user-photo.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="GALLERY"><i class="icofont-photobucket"></i></a></li>
                             <li><a href="user-video.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="VIDEOS"><i class="icofont-play-alt-1"></i></a></li>
-                            <li><a href="#" class="menu-link" data-toggle="tooltip" data-placement="right" title="EVENT SCHEDULE"><i class="icofont-calendar"></i></a></li>
-                            <li><a href="forums-timeline.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="FORUM"><i class="icofont-ui-text-chat"></i></a></li>
+                            {{-- <li><a href="#" class="menu-link" data-toggle="tooltip" data-placement="right" title="EVENT SCHEDULE"><i class="icofont-calendar"></i></a></li> --}}
+                            {{-- <li><a href="forums-timeline.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="FORUM"><i class="icofont-ui-text-chat"></i></a></li> --}}
                             <li><a href="shop.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="SHOP"><i class="icofont-shopping-cart"></i></a></li>
                         </ul>
                     </div>

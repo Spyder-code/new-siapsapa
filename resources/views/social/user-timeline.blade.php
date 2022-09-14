@@ -7,8 +7,8 @@
                 <img src="https://radiustheme.com/demo/html/cirkle/media/banner/user_1.jpg" alt="User">
             </div>
             <div class="media-body">
-                <h3 class="item-title">Rebeca Powel</h3>
-                <div class="item-subtitle">United State of America</div>
+                <h3 class="item-title">{{ $anggota->nama }}l</h3>
+                <div class="item-subtitle">Kwartir Ranting {{ ucfirst($anggota->district->name )}}</div>
                 <ul class="item-social">
                     <li><a href="user-timeline.html#" class="bg-fb"><i class="icofont-facebook"></i></a></li>
                     <li><a href="user-timeline.html#" class="bg-twitter"><i class="icofont-twitter"></i></a></li>

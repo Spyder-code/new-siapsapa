@@ -14,6 +14,7 @@ use App\Http\Controllers\KwartirController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PercetakanController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SocialController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\SyncController;
 use App\Http\Controllers\TransactionController;
@@ -39,7 +40,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function(){
-    return view('social.feed');
+    return view('social.user-timeline');
 });
 
 // Init
@@ -47,6 +48,7 @@ Route::get('init/add-to-cart', [InitController::class, 'addToCart']);
 
 
 Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/anggota/{id}', [SocialController::class, 'profile'])->name('social.profile');
 Route::get('/statistik', [PageController::class, 'statistik'])->name('page.statistik');
 Route::get('/profile', [PageController::class, 'profile'])->name('page.profile');
 Route::get('/agenda', [PageController::class, 'agenda'])->name('page.agenda');

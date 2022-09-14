@@ -109,7 +109,7 @@
         $('select[name="kecamatan"]').change(function(){
             var kecamatan = $(this).val();
             $.ajax({
-                url: "{{ url('/api/get-gudep') }}"+'/'+kecamatan,
+                url: "{{ url('/api/get-gudep-wilayah') }}"+'/'+kecamatan,
                 type: "GET",
                 success: function(data){
                     $('select[name="gudep"]').empty();
