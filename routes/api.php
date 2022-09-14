@@ -62,7 +62,7 @@ Route::delete('delete-gudep', [GudepController::class, 'deleteGudep']);
 // wilayah
 Route::get('get-kabupaten/{id}', [WilayahController::class, 'getKabupatenByIdProvinsi']);
 Route::get('get-kecamatan/{id}', [WilayahController::class, 'getKecamatanByIdKabupaten']);
-Route::get('get-gudep/{id}', [WilayahController::class, 'getGudepByIdKecamatan']);
+Route::get('get-gudep-wilayah/{id}', [WilayahController::class, 'getGudepByIdKecamatan']);
 
 // anggota
 Route::put('anggota-validate', [AnggotaController::class, 'anggotaValidate']);
