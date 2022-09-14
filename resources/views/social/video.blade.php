@@ -1,30 +1,5 @@
 @extends('layouts.social')
 @section('content')
-<div class="banner-user">
-    <div class="banner-content">
-        <div class="media">
-            <div class="item-img">
-                <img src="https://radiustheme.com/demo/html/cirkle/media/banner/user_1.jpg" alt="User">
-            </div>
-            <div class="media-body">
-                <h3 class="item-title">Rebeca Powel</h3>
-                <div class="item-subtitle">United State of America</div>
-                <ul class="item-social">
-                    <li><a href="user-video.html#" class="bg-fb"><i class="icofont-facebook"></i></a></li>
-                    <li><a href="user-video.html#" class="bg-twitter"><i class="icofont-twitter"></i></a></li>
-                    <li><a href="user-video.html#" class="bg-dribble"><i class="icofont-dribbble"></i></a></li>
-                    <li><a href="user-video.html#" class="bg-youtube"><i class="icofont-brand-youtube"></i></a></li>
-                    <li><a href="user-video.html#" class="bg-behance"><i class="icofont-behance"></i></a></li>
-                </ul>
-                <ul class="user-meta">
-                    <li>Posts: <span>30</span></li>
-                    <li>Comments: <span>12</span></li>
-                    <li>Views: <span>1.2k</span></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="block-box user-top-header">
     <ul class="menu-list">
         <li class="active"><a href="user-video.html#">Timeline</a></li>

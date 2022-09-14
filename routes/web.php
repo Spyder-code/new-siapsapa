@@ -40,22 +40,32 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function(){
-    return view('social.user-timeline');
+    return view('social.user-video');
 });
 
 // Init
 Route::get('init/add-to-cart', [InitController::class, 'addToCart']);
 
-
+// Global
 Route::get('/', [PageController::class, 'home'])->name('home');
-Route::get('/anggota/{id}', [SocialController::class, 'profile'])->name('social.profile');
 Route::get('/statistik', [PageController::class, 'statistik'])->name('page.statistik');
+Route::get('/i/agenda', [PageController::class, 'agenda'])->name('page.agenda');
+Route::get('/i/agenda/{agenda}', [PageController::class, 'show_agenda'])->name('page.agenda.show');
+Route::get('/i/agenda/{agenda}/peserta', [PageController::class, 'peserta_agenda'])->name('page.agenda.peserta');
+
+// Social
+Route::get('/anggota/{anggota_id}', [SocialController::class, 'userFeed'])->name('social.userFeed');
+Route::get('/anggota/{anggota_id}/sertifikat', [SocialController::class, 'userSertification'])->name('social.userSertification');
+Route::get('/anggota/{anggota_id}/teman', [SocialController::class, 'userFriend'])->name('social.userFriend');
+Route::get('/anggota/{anggota_id}/profile', [SocialController::class, 'userAccount'])->name('social.userAccount');
+Route::get('/berita', [SocialController::class, 'news'])->name('social.news');
+Route::get('/agenda', [SocialController::class, 'event'])->name('social.event');
+Route::get('/photo', [SocialController::class, 'photo'])->name('social.photo');
+Route::get('/video', [SocialController::class, 'video'])->name('social.video');
+
 Route::get('/profile', [PageController::class, 'profile'])->name('page.profile');
-Route::get('/agenda', [PageController::class, 'agenda'])->name('page.agenda');
 Route::get('/agenda-saya', [PageController::class, 'my_agenda'])->name('page.my_agenda');
 Route::get('/dokumen-saya', [PageController::class, 'document'])->name('page.document');
-Route::get('/agenda/{agenda}', [PageController::class, 'show_agenda'])->name('page.agenda.show');
-Route::get('/agenda/{agenda}/peserta', [PageController::class, 'peserta_agenda'])->name('page.agenda.peserta');
 Route::get('/ubah-password', [PageController::class, 'change_password'])->name('page.change_password');
 Route::put('/ubah-password/{user}', [UserController::class, 'update'])->name('user.update');
 Route::post('/anggota', [AnggotaController::class, 'handleUpdateOrStore'])->name('page.profile.store');
