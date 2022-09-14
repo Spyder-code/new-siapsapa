@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card-body">
                 <h5 class="card-title">{{ $item->nama }}</h5>
-                <p class="card-text">{{ $item->deskripsi }}</p>
+                <p class="card-text">{{ \Str::words($item->deskripsi, 20, '...') }}</p>
                 <p style="text-transform: capitalize; font-size: .8rem">{{ Str::lower($item->kecamatan->name) }}, {{ Str::lower($item->kabupaten->name) }}, Provinsi {{ Str::lower($item->provinsi->name) }}</p>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between align-items-start">

@@ -1,88 +1,97 @@
-@extends('layouts.user')
+@extends('layouts.newuser')
 @section('content')
-    <div class="mt-3 container">
-        <div class="row">
-            <div class="col-12 col-md-12 mt-2">
-                <div class="cards">
-                    <div class="title-part-padding">
-                        <h4 class="card-title text-center">List Peserta {{ $agenda->nama }}</h4>
-                        <div class="alert alert-danger" id="message-danger">
-                            <p id="message"></p>
-                        </div>
-                        @if ($agenda->kepesertaan=='kelompok')
-                            <div class="alert alert-info">
-                                <p>Harap hubungi admin untuk mendaftar lomba</p>
+    <section class="hero-banner">
+        <div class="container text-center">
+            <h1 class="text-white">{{ $agenda->nama }}</h1>
+            <h3>{{ $agenda->kepesertaan }}</h3>
+        </div>
+    </section>
+    <section class="why-choose-us mb-5">
+        <div class="mt-3 container">
+            <div class="row">
+                <div class="col-12 col-md-12 mt-2">
+                    <div class="cards">
+                        <div class="title-part-padding">
+                            <h4 class="card-title text-center">List Peserta {{ $agenda->nama }}</h4>
+                            <div class="alert alert-danger" id="message-danger">
+                                <p id="message"></p>
                             </div>
-                        @else
-                            @if ($cek==null && $agenda->is_finish==0)
-                            <button type="button" id="daftar" class="btn btn-success">Daftar</button>
+                            @if ($agenda->kepesertaan=='kelompok')
+                                <div class="alert alert-info">
+                                    <p>Harap hubungi admin untuk mendaftar lomba</p>
+                                </div>
+                            @else
+                                @if ($cek==null && $agenda->is_finish==0)
+                                <button type="button" id="daftar" class="btn btn-success">Daftar</button>
+                                @endif
                             @endif
-                        @endif
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped file-export" style="width: 100%">
-                                <thead>
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Foto</th>
-                                        <th>Nomor Daftar</th>
-                                        <th>Nama</th>
-                                        <th>Kwarda</th>
-                                        <th>Kwarcab</th>
-                                        <th>Kwaran</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($anggota as $item)
-                                    @php
-                                        if($item->anggota->pramuka==1){
-                                            $warna = '<span class="badge bg-siaga">Siaga</span>';
-                                        }elseif($item->anggota->pramuka==2){
-                                            $warna = '<span class="badge bg-penggalang">Penggalang</span>';
-                                        }elseif($item->anggota->pramuka==3){
-                                            $warna = '<span class="badge bg-penegak">Penegak</span>';
-                                        }elseif($item->anggota->pramuka==4){
-                                            $warna = '<span class="badge bg-pandega">Pandega</span>';
-                                        }elseif($item->anggota->pramuka==5){
-                                            $warna = '<span class="badge bg-dewasa">Dewasa</span>';
-                                        }else{
-                                            $warna = '<span class="badge bg-white text-dark">Pelatih</span>';
-                                        }
-                                    @endphp
-                                    <tr class="{{ Auth::user()->anggota->id == $item->anggota_id ?'bg-info':'' }}">
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>
-                                            <div class="justify-content-center text-center">
-                                                <img src="{{ asset('berkas/anggota/'.$item->anggota->foto) }}" class="img-thumbnail mx-auto d-block" height="80px" width="80px">
-                                                {!! $warna !!}
-                                            </div>
-                                        </td>
-                                        <td>{{ $item->nodaf }}</td>
-                                        <td>{{ $item->anggota->nama }}</td>
-                                        <td>{{ $item->anggota->province->name }}</td>
-                                        <td>{{ $item->anggota->city->name }}</td>
-                                        <td>{{ $item->anggota->district->name }}</td>
-                                        <td>
-                                            @if (Auth::user()->anggota->id == $item->anggota_id)
-                                            <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $item->id }})"><i class="fas fa-trash-alt"></i> Batal Daftar</button>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped file-export" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Foto</th>
+                                            <th>Nomor Daftar</th>
+                                            <th>Nama</th>
+                                            <th>Kwarda</th>
+                                            <th>Kwarcab</th>
+                                            <th>Kwaran</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($anggota as $item)
+                                        @php
+                                            if($item->anggota->pramuka==1){
+                                                $warna = '<span class="badge bg-siaga">Siaga</span>';
+                                            }elseif($item->anggota->pramuka==2){
+                                                $warna = '<span class="badge bg-penggalang">Penggalang</span>';
+                                            }elseif($item->anggota->pramuka==3){
+                                                $warna = '<span class="badge bg-penegak">Penegak</span>';
+                                            }elseif($item->anggota->pramuka==4){
+                                                $warna = '<span class="badge bg-pandega">Pandega</span>';
+                                            }elseif($item->anggota->pramuka==5){
+                                                $warna = '<span class="badge bg-dewasa">Dewasa</span>';
+                                            }else{
+                                                $warna = '<span class="badge bg-white text-dark">Pelatih</span>';
+                                            }
+                                        @endphp
+                                        <tr class="{{ Auth::user()->anggota->id == $item->anggota_id ?'bg-info':'' }}">
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                <div class="justify-content-center text-center">
+                                                    <img src="{{ asset('berkas/anggota/'.$item->anggota->foto) }}" class="img-thumbnail mx-auto d-block" height="80px" width="80px">
+                                                    {!! $warna !!}
+                                                </div>
+                                            </td>
+                                            <td>{{ $item->nodaf }}</td>
+                                            <td>{{ $item->anggota->nama }}</td>
+                                            <td>{{ $item->anggota->province->name }}</td>
+                                            <td>{{ $item->anggota->city->name }}</td>
+                                            <td>{{ $item->anggota->district->name }}</td>
+                                            <td>
+                                                @if (Auth::user()->anggota->id == $item->anggota_id)
+                                                <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $item->id }})"><i class="fas fa-trash-alt"></i> Batal Daftar</button>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @endsection
 
 @section('script')
     <script>
+        $('.table').dataTable();
         $('#message-danger').hide();
         $('#daftar').click(function (e) {
             if(confirm('Apa anda yakin?')){

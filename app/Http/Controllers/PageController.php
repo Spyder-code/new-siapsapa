@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agenda;
+use App\Models\City;
+use App\Models\Distrik;
 use App\Models\Document;
 use App\Models\Kegiatan;
 use App\Models\PendaftaranAgenda;
@@ -23,7 +25,7 @@ class PageController extends Controller
             $count = $statistik->getNumberOfPramuka();
             return $count;
         });
-        return view('user.home', compact('data'));
+        return view('social.index', compact('data'));
     }
 
     public function profile()
@@ -47,6 +49,39 @@ class PageController extends Controller
             $item->save();
         }
         return view('user.agenda.index', compact('agenda'));
+    }
+
+    public function statistik()
+    {
+        if (request('id_wilayah')) {
+            $id_wilayah = request('id_wilayah');
+        }else{
+            $id_wilayah = 'all';
+        }
+        $data = $this->getData($id_wilayah);
+        $title = $data[0]->name ?? 'Kwartir Nasional';
+        $kwartir = $data[1];
+        return view('user.statistik', compact('id_wilayah', 'title', 'kwartir'));
+    }
+
+    public function getData($id_wilayah)
+    {
+        if ($id_wilayah=='all') {
+            return [null,null];
+        }
+        $len = strlen($id_wilayah);
+        if ($len==2) {
+            $data = Provinsi::find($id_wilayah, ['name', 'id', 'no_prov as code', 'id as prev']);
+            $kwartir = 'Kwartir Daerah';
+        }elseif($len==4){
+            $data = City::find($id_wilayah, ['name', 'id', 'no_kab as code', 'province_id as prev']);
+            $kwartir = 'Kwartir Cabang';
+        }else{
+            $data = Distrik::find($id_wilayah, ['name', 'id', 'no_kec as code', 'regency_id as prev']);
+            $kwartir = 'Kwartir Ranting';
+        }
+
+        return [$data, $kwartir];
     }
 
     public function show_agenda(Agenda $agenda)

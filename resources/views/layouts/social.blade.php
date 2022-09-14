@@ -49,83 +49,13 @@
                         <nav id="dropdown" class="template-main-menu">
                             <ul class="menu-content">
                                 <li class="header-nav-item">
-                                    <a href="index.html" class="menu-link active">Home</a>
-                                </li>
-                                <li class="header-nav-item">
-                                    <a href="#" class="menu-link have-sub">Community</a>
-                                    <ul class="mega-menu mega-menu-col-2">
-                                        <li>
-                                            <ul class="sub-menu">
-                                                <li>
-                                                    <a href="newsfeed.html">NewsFeed</a>
-                                                </li>
-                                                <li>
-                                                    <a href="user-timeline.html">Profile Timeline</a>
-                                                </li>
-                                                <li>
-                                                    <a href="user-about.html">Profile About</a>
-                                                </li>
-                                                <li>
-                                                    <a href="user-friends.html">Profile Friends</a>
-                                                </li>
-                                                <li>
-                                                    <a href="user-groups.html">Profile Group</a>
-                                                </li>
-                                                <li>
-                                                    <a href="user-photo.html">Profile Photo</a>
-                                                </li>
-                                                <li>
-                                                    <a href="user-video.html">Profile Video</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <ul class="sub-menu">
-                                                <li>
-                                                    <a href="user-badges.html">Profile Badges</a>
-                                                </li>
-                                                <li>
-                                                    <a href="forums.html">Forums</a>
-                                                </li>
-                                                <li>
-                                                    <a href="forums-forum.html">Forums Topic</a>
-                                                </li>
-                                                <li>
-                                                    <a href="forums-timeline.html">Forums Timeline</a>
-                                                </li>
-                                                <li>
-                                                    <a href="forums-info.html">Forums Info</a>
-                                                </li>
-                                                <li>
-                                                    <a href="forums-members.html">Forums Members</a>
-                                                </li>
-                                                <li>
-                                                    <a href="forums-media.html">Forums Media</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="header-nav-item">
-                                    <a href="#" class="menu-link have-sub">Pages</a>
+                                    <a href="#" class="menu-link have-sub">Halaman</a>
                                     <ul class="sub-menu">
                                         <li>
-                                            <a href="about-us.html">About</a>
+                                            <a href="about-us.html">Global Area</a>
                                         </li>
                                         <li>
-                                            <a href="user-blog.html">Blog</a>
-                                        </li>
-                                        <li>
-                                            <a href="shop.html">Shop</a>
-                                        </li>
-                                        <li>
-                                            <a href="single-blog.html">Blog Details</a>
-                                        </li>
-                                        <li>
-                                            <a href="single-shop.html">Shop Details</a>
-                                        </li>
-                                        <li>
-                                            <a href="contact.html">Contact Us</a>
+                                            <a href="user-blog.html">Admin Area</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -142,219 +72,11 @@
                             </div>
                         </div>
                         <div class="inline-item d-flex align-items-center">
-                            <div class="dropdown dropdown-cart">
-                                <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="icofont-shopping-cart"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <div class="item-heading">
-                                        <h6 class="heading-title">Shopping Cart: <span>3</span></h6>
-                                    </div>
-                                    <div class="item-body">
-                                        <div class="media">
-                                            <div class="item-img">
-                                                <img src="{{ asset('social') }}/media/figure/cart_1.jpg" alt="Product">
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="item-title"><a href="#">Black Coffee Mug</a></h6>
-                                                <div class="item-category">COFFEE MUGS</div>
-                                                <div class="item-price">$29 x 1</div>
-                                                <div class="btn-area">
-                                                    <a href="#" class="close-btn"><i class="icofont-ui-close"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="media">
-                                            <div class="item-img">
-                                                <img src="{{ asset('social') }}/media/figure/cart_2.jpg" alt="Product">
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="item-title"><a href="#">Head Phone</a></h6>
-                                                <div class="item-category">Assets</div>
-                                                <div class="item-price">$15 x 1</div>
-                                                <div class="btn-area">
-                                                    <a href="#" class="close-btn"><i class="icofont-ui-close"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="media">
-                                            <div class="item-img">
-                                                <img src="{{ asset('social') }}/media/figure/cart_3.jpg" alt="Product">
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="item-title"><a href="#">Black Watch</a></h6>
-                                                <div class="item-category">Watch</div>
-                                                <div class="item-price">$59 x 1</div>
-                                                <div class="btn-area">
-                                                    <a href="#" class="close-btn"><i class="icofont-ui-close"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="item-footer">
-                                        <a href="#" class="view-btn">View All Product</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dropdown dropdown-friend">
-                                <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="icofont-users-alt-4"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <div class="item-heading">
-                                        <h6 class="heading-title">Friend Requests</h6>
-                                        <div class="heading-btn">
-                                            <a href="#">Settings</a>
-                                            <a href="#">Mark all as Read</a>
-                                        </div>
-                                    </div>
-                                    <div class="item-body">
-                                        <div class="media">
-                                            <div class="item-img">
-                                                <img src="{{ asset('social') }}/media/figure/chat_5.jpg" alt="Notify">
-                                                <span class="chat-status offline"></span>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="item-title"><a href="#">Lily Zaman</a></h6>
-                                                <p>4 in mutual friends</p>
-                                                <div class="btn-area">
-                                                    <a href="#" class="item-btn"><i class="icofont-plus"></i></a>
-                                                    <a href="#" class="item-btn"><i class="icofont-minus"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="media">
-                                            <div class="item-img">
-                                                <img src="{{ asset('social') }}/media/figure/chat_1.jpg" alt="Notify">
-                                                <span class="chat-status online"></span>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="item-title"><a href="#">Ketty Rose</a></h6>
-                                                <p>3 in mutual friends</p>
-                                                <div class="btn-area">
-                                                    <a href="#" class="item-btn"><i class="icofont-plus"></i></a>
-                                                    <a href="#" class="item-btn"><i class="icofont-minus"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="media">
-                                            <div class="item-img">
-                                                <img src="{{ asset('social') }}/media/figure/chat_8.jpg" alt="Notify">
-                                                <span class="chat-status online"></span>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="item-title"><a href="#">Rustom vai</a></h6>
-                                                <p>6 in mutual friends</p>
-                                                <div class="btn-area">
-                                                    <a href="#" class="item-btn"><i class="icofont-plus"></i></a>
-                                                    <a href="#" class="item-btn"><i class="icofont-minus"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="item-footer">
-                                        <a href="#" class="view-btn">View All Friend Request</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dropdown dropdown-message">
-                                <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="icofont-speech-comments"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <div class="item-heading">
-                                        <h6 class="heading-title">Message</h6>
-                                        <div class="heading-btn">
-                                            <a href="#">Settings</a>
-                                            <a href="#">Mark all as Read</a>
-                                        </div>
-                                    </div>
-                                    <div class="item-body">
-                                        <a href="#" class="media">
-                                            <div class="item-img">
-                                                <img src="{{ asset('social') }}/media/figure/notifiy_1.png" alt="Notify">
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="item-title">Diana Jameson</h6>
-                                                <div class="item-time">15 mins ago</div>
-                                                <p>when are nknowen printer took galley of types ...</p>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="media">
-                                            <div class="item-img">
-                                                <img src="{{ asset('social') }}/media/figure/notifiy_2.png" alt="Notify">
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="item-title">Quirty</h6>
-                                                <div class="item-time">15 mins ago</div>
-                                                <p>when are nknowen printer took galley of types ...</p>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="media">
-                                            <div class="item-img">
-                                                <img src="{{ asset('social') }}/media/figure/notifiy_3.png" alt="Notify">
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="item-title">Zinia Jessy</h6>
-                                                <div class="item-time">15 mins ago</div>
-                                                <p>when are nknowen printer took galley of types ...</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="item-footer">
-                                        <a href="#" class="view-btn">View All Messages</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dropdown dropdown-notification">
-                                <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="icofont-notification"></i><span class="notify-count">3</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <div class="item-heading">
-                                        <h6 class="heading-title">Notifications</h6>
-                                        <div class="heading-btn">
-                                            <a href="#">Settings</a>
-                                            <a href="#">Mark all as Read</a>
-                                        </div>
-                                    </div>
-                                    <div class="item-body">
-                                        <a href="#" class="media">
-                                            <div class="item-img">
-                                                <img src="{{ asset('social') }}/media/figure/notifiy_1.png" alt="Notify">
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="item-title">Diana Jameson</h6>
-                                                <div class="item-time">15 mins ago</div>
-                                                <p>when are nknowen printer took galley of types ...</p>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="media">
-                                            <div class="item-img">
-                                                <img src="{{ asset('social') }}/media/figure/notifiy_2.png" alt="Notify">
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="item-title">Quirty</h6>
-                                                <div class="item-time">15 mins ago</div>
-                                                <p>when are nknowen printer took galley of types ...</p>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="media">
-                                            <div class="item-img">
-                                                <img src="{{ asset('social') }}/media/figure/notifiy_3.png" alt="Notify">
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="item-title">Zinia Jessy</h6>
-                                                <div class="item-time">15 mins ago</div>
-                                                <p>when are nknowen printer took galley of types ...</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="item-footer">
-                                        <a href="#" class="view-btn">View All Notification</a>
-                                    </div>
-                                </div>
-                            </div>
+                            {{-- @include('layouts.social-component.cart')
+                            @include('layouts.social-component.friend')
+                            @include('layouts.social-component.message')
+                            @include('layouts.social-component.notification') --}}
+                            <a href="index.html#header-search" title="Search"><i class="icofont-qr-code text-white"></i></a>
                         </div>
                         <div class="inline-item">
                             <div class="dropdown dropdown-admin">
@@ -372,11 +94,8 @@
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <ul class="admin-options">
                                         <li><a href="#">Profile Settings</a></li>
-                                        <li><a href="user-groups.html">Groups</a></li>
-                                        <li><a href="forums.html">Forums</a></li>
-                                        <li><a href="#">Settings</a></li>
-                                        <li><a href="#">Terms and Conditions</a></li>
-                                        <li><a href="contact.html">Contact</a></li>
+                                        <li><a href="user-groups.html">Admin Area</a></li>
+                                        <li><a href="user-groups.html">Global Area</a></li>
                                         <li><a href="login.html">Log Out</a></li>
                                     </ul>
                                 </div>
@@ -426,57 +145,23 @@
                 <div class="sidebar-menu-wrap">
                     <div class="mCustomScrollbar" data-mcs-theme="dark" data-mcs-axis="y">
                         <ul class="side-menu">
-                            <li><a href="newsfeed.html" class="menu-link"><i class="icofont-newspaper"></i><span class="menu-title">Newsfeed</span></a></li>
-                            <li><a href="user-timeline.html" class="menu-link"><i class="icofont-list"></i><span class="menu-title">Members Timeline</span></a></li>
-                            <li><a href="user-groups.html" class="menu-link"><i class="icofont-users-alt-2"></i><span class="menu-title">Groups</span></a></li>
-                            <li><a href="user-friends.html" class="menu-link"><i class="icofont-users-alt-4"></i><span class="menu-title">Members Friends</span></a></li>
+                            <li><a href="newsfeed.html" class="menu-link"><i class="icofont-newspaper"></i><span class="menu-title">Berita</span></a></li>
+                            <li><a href="user-timeline.html" class="menu-link"><i class="icofont-list"></i><span class="menu-title">Agenda</span></a></li>
+                            <li><a href="user-groups.html" class="menu-link"><i class="icofont-users-alt-2"></i><span class="menu-title">Penggumuman</span></a></li>
+                            {{-- <li><a href="user-friends.html" class="menu-link"><i class="icofont-users-alt-4"></i><span class="menu-title">Members Friends</span></a></li> --}}
                             <li><a href="user-photo.html" class="menu-link"><i class="icofont-photobucket"></i><span class="menu-title">Gallery</span></a></li>
                             <li><a href="user-video.html" class="menu-link"><i class="icofont-play-alt-1"></i><span class="menu-title">Videos</span></a></li>
-                            <li><a href="#" class="menu-link"><i class="icofont-calendar"></i><span class="menu-title">Event Schedule</span></a></li>
-                            <li><a href="forums-timeline.html" class="menu-link"><i class="icofont-ui-text-chat"></i><span class="menu-title">Forum</span></a></li>
+                            {{-- <li><a href="#" class="menu-link"><i class="icofont-calendar"></i><span class="menu-title">Event Schedule</span></a></li> --}}
+                            {{-- <li><a href="forums-timeline.html" class="menu-link"><i class="icofont-ui-text-chat"></i><span class="menu-title">Forum</span></a></li> --}}
                             <li><a href="shop.html" class="menu-link"><i class="icofont-shopping-cart"></i><span class="menu-title">Shop</span></a></li>
                         </ul>
                         <ul class="top-menu-mobile">
-                            <li class="menu-label">Community</li>
+                            <li class="menu-label">Halaman</li>
                             <li>
-                                <a href="user-about.html" class="menu-link">Profile About</a>
+                                <a href="about-us.html" class="menu-link">Global Area</a>
                             </li>
                             <li>
-                                <a href="user-badges.html" class="menu-link">Profile Badges</a>
-                            </li>
-                            <li>
-                                <a href="forums.html" class="menu-link">Forums</a>
-                            </li>
-                            <li>
-                                <a href="forums-forum.html" class="menu-link">Forums Topic</a>
-                            </li>
-                            <li>
-                                <a href="forums-info.html" class="menu-link">Forums Info</a>
-                            </li>
-                            <li>
-                                <a href="forums-members.html" class="menu-link">Forums Members</a>
-                            </li>
-                            <li>
-                                <a href="forums-media.html" class="menu-link">Forums Media</a>
-                            </li>
-                            <li class="menu-label">Pages</li>
-                            <li>
-                                <a href="about-us.html" class="menu-link">About</a>
-                            </li>
-                            <li>
-                                <a href="user-blog.html" class="menu-link">Blog</a>
-                            </li>
-                            <li>
-                                <a href="shop.html" class="menu-link">Shop</a>
-                            </li>
-                            <li>
-                                <a href="single-blog.html" class="menu-link">Blog Details</a>
-                            </li>
-                            <li>
-                                <a href="single-shop.html" class="menu-link">Shop Details</a>
-                            </li>
-                            <li>
-                                <a href="contact.html" class="menu-link">Contact Us</a>
+                                <a href="user-blog.html" class="menu-link">Admin Area</a>
                             </li>
                         </ul>
                     </div>
@@ -484,7 +169,7 @@
             </div>
         </div>
         <!-- Sidebar Right -->
-        <div class="fixed-sidebar right">
+        {{-- <div class="fixed-sidebar right">
             <div class="fixed-sidebar-right small-sidebar">
                 <div class="sidebar-toggle" id="chat-head-toggle">
                     <button class="chat-icon">
@@ -558,7 +243,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Page Content -->
         <div class="page-content">
 
@@ -578,38 +263,23 @@
                             <div class="col">
                                 <div class="footer-box">
                                     <div class="footer-logo">
-                                        <a href="index.html"><img src="{{ asset('social') }}/media/logo_dark.png" alt="Logo"></a>
+                                        <a href="https://radiustheme.com/demo/html/cirkle/index.html"><img src="{{ asset('images/logosiap.png') }}" alt="SIAPSAPA" style="width: 200px"></a>
                                     </div>
-                                    <p>Dorem ipsum dolor sit amet consec adipisicing elit sed do eiusmod por incidiut labore et loreLorem ipsum kelly amieo dolorey.</p>
+                                    <p>Gerakan Pramuka Wadah Utama Pembentukan Kader Pemimpin Bangsa.</p>
                                 </div>
                             </div>
                             <div class="col d-flex justify-content-lg-center">
                                 <div class="footer-box">
                                     <h3 class="footer-title">
-                                        Important Links
+                                        Menu
                                     </h3>
                                     <div class="footer-link">
                                         <ul>
-                                            <li><a href="index.html">Home</a></li>
-                                            <li><a href="about-us.html">About us</a></li>
-                                            <li><a href="shop.html">Shop</a></li>
-                                            <li><a href="contact.html">Contacts</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col d-flex justify-content-lg-center">
-                                <div class="footer-box">
-                                    <h3 class="footer-title">
-                                        Community
-                                    </h3>
-                                    <div class="footer-link">
-                                        <ul>
-                                            <li><a href="newsfeed.html">NewsFeed</a></li>
-                                            <li><a href="user-timeline.html">Profile</a></li>
-                                            <li><a href="user-friends.html">Friends</a></li>
-                                            <li><a href="user-groups.html">Groups</a></li>
-                                            <li><a href="forums.html">Forums</a></li>
+                                            <li><a href="https://radiustheme.com/https://radiustheme.com/demo/html/cirkle/media/logo_dark.pngdemo/html/cirkle/index.html">Beranda</a></li>
+                                            <li><a href="https://radiustheme.com/demo/html/cirkle/about-us.html">Statistik</a></li>
+                                            <li><a href="https://radiustheme.com/demo/html/cirkle/about-us.html">Artikel</a></li>
+                                            <li><a href="https://radiustheme.com/demo/html/cirkle/about-us.html">Penggumuman</a></li>
+                                            <li><a href="https://radiustheme.com/demo/html/cirkle/shop.html">Kontak Kami</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -629,11 +299,40 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col d-flex justify-content-lg-center">
+                                <div class="footer-box">
+                                    <h3 class="footer-title">
+                                        Download Apps
+                                    </h3>
+                                    <a href="#" class="border border-primary px-3 py-2 rounded my-2">
+                                        <div class="d-flex" style="gap: 20px">
+                                            <div style="font-size: 30pt">
+                                                <i class="icofont-brand-android-robot"></i>
+                                            </div>
+                                            <div class="d-flex flex-column">
+                                                Google Play
+                                                <span>Coming Soon</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="border border-primary px-3 py-2 rounded my-2">
+                                        <div class="d-flex" style="gap: 20px">
+                                            <div style="font-size: 30pt">
+                                                <i class="icofont-brand-apple"></i>
+                                            </div>
+                                            <div class="d-flex flex-column">
+                                                App Store
+                                                <span>Coming Soon</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="footer-bottom">
-                    <div class="footer-copyright">Copy© cirkle 2021. All Rights Reserved</div>
+                    <div class="footer-copyright">Copy© siapsapa 2021. All Rights Reserved</div>
                 </div>
             </footer>
 

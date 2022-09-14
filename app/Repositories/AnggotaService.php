@@ -27,7 +27,7 @@ class AnggotaService{
             $data_arr[$key]['tempat_lahir'] =  $data['tempat_lahir'][$key];
             $data_arr[$key]['nohp'] =  $data['nohp'][$key];
             $data_arr[$key]['agama'] =  $data['agama'][$key];
-            $data_arr[$key]['jk'] =  $data['jk'][$key];
+            $data_arr[$key]['jk'] =  strtoupper($data['jk'][$key][0]);
             $data_arr[$key]['gol_darah'] =  $data['gol_darah'][$key];
             $data_arr[$key]['nik'] =  $value;
             $data_arr[$key]['tgl_lahir'] = Carbon::createFromFormat('d/m/Y', $data['tgl_lahir'][$key])->format('Y-m-d');

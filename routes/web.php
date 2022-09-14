@@ -39,7 +39,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function(){
-    return view('social.index');
+    return view('social.feed');
 });
 
 // Init
@@ -47,6 +47,7 @@ Route::get('init/add-to-cart', [InitController::class, 'addToCart']);
 
 
 Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/statistik', [PageController::class, 'statistik'])->name('page.statistik');
 Route::get('/profile', [PageController::class, 'profile'])->name('page.profile');
 Route::get('/agenda', [PageController::class, 'agenda'])->name('page.agenda');
 Route::get('/agenda-saya', [PageController::class, 'my_agenda'])->name('page.my_agenda');
@@ -110,21 +111,6 @@ Route::middleware(['auth','admin'])->group(function () {
     });
 });
 
-// datatable prefix
-Route::prefix('datatable')->group(function(){
-    Route::get('percetakan', [PercetakanController::class, 'data_table'])->name('datatable.percetakan');
-    Route::get('gudep', [GudepController::class, 'data_table'])->name('datatable.gudep');
-    Route::get('anggota/non-active', [AnggotaController::class, 'data_table_non_active'])->name('datatable.anggota.non-active');
-    Route::get('anggota/non-gudep', [AnggotaController::class, 'data_table_non_gudep'])->name('datatable.anggota.non-gudep');
-    Route::get('anggota/is-gudep', [AnggotaController::class, 'data_table_is_gudep'])->name('datatable.anggota.is-gudep');
-    Route::get('anggota/active', [AnggotaController::class, 'data_table_active'])->name('datatable.anggota.active');
-    Route::get('anggota/non-validate', [AnggotaController::class, 'data_table_non_validate'])->name('datatable.anggota.non_validate');
-    Route::get('gudep/anggota', [GudepController::class, 'data_table_anggota'])->name('datatable.gudep.anggota');
-    Route::get('kwartir', [KwartirController::class, 'data_table'])->name('datatable.kwartir');
-    Route::get('wrong-date', [DataController::class, 'wrong_date'])->name('datatable.data.wrong.date');
-    Route::get('wrong-image', [DataController::class, 'wrong_image'])->name('datatable.data.wrong.image');
-    Route::get('kwartir/anggota', [KwartirController::class, 'data_table_anggota'])->name('datatable.kwartir.anggota');
-});
 
 Route::controller(SyncController::class)->prefix('sync')->group(function(){
     Route::get('kode', 'kodeNull')->name('sync.kode');

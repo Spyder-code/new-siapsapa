@@ -45,4 +45,11 @@ class AnggotaRequest extends FormRequest
             'kode' => 'nullable',
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        return [
+            'jk' => strtoupper($this->jk[0])
+        ];
+    }
 }
