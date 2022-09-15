@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="{{ asset('social') }}/assets/css/app.css">
     <!-- Google Web Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+    @yield('style')
 </head>
 
 <body class="bg-link-water">
@@ -48,6 +49,12 @@
                     <div class="nav-item nav-top-menu">
                         <nav id="dropdown" class="template-main-menu">
                             <ul class="menu-content">
+                                <li class="header-nav-item">
+                                    <a href="#" class="menu-link">Home</a>
+                                </li>
+                                <li class="header-nav-item">
+                                    <a href="{{ route('social.userFeed',Auth::user()->anggota->id) }}" class="menu-link">Profile</a>
+                                </li>
                                 <li class="header-nav-item">
                                     <a href="#" class="menu-link have-sub">Halaman</a>
                                     <ul class="sub-menu">
@@ -93,7 +100,7 @@
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <ul class="admin-options">
-                                        <li><a href="{{ route('social.userAccount', Auth::user()->anggota->id) }}">Profile</a></li>
+                                        <li><a href="{{ route('social.profile') }}">Profile</a></li>
                                         <li><a href="user-groups.html">Admin Area</a></li>
                                         <li><a href="user-groups.html">Global Area</a></li>
                                         <li><a href="{{ route('logout') }}">Log Out</a></li>
@@ -120,13 +127,13 @@
                         <ul class="side-menu">
                             <li><a href="{{ route('social.news') }}" class="menu-link" data-toggle="tooltip" data-placement="right" title="BERITA"><i class="icofont-newspaper"></i></a></li>
                             <li><a href="{{ route('social.event') }}" class="menu-link" data-toggle="tooltip" data-placement="right" title="AGENDA"><i class="icofont-list"></i></a></li>
-                            <li><a href="user-groups.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="PENGGUMUMAN"><i class="icofont-users-alt-2"></i></a></li>
+                            <li><a href="{{ route('social.announcement') }}" class="menu-link" data-toggle="tooltip" data-placement="right" title="PENGGUMUMAN"><i class="icofont-users-alt-2"></i></a></li>
                             {{-- <li><a href="user-friends.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="MEMBERS FRIENDS"><i class="icofont-users-alt-4"></i></a></li> --}}
                             <li><a href="{{ route('social.photo') }}" class="menu-link" data-toggle="tooltip" data-placement="right" title="FOTO"><i class="icofont-photobucket"></i></a></li>
                             <li><a href="{{ route('social.video') }}" class="menu-link" data-toggle="tooltip" data-placement="right" title="VIDEOS"><i class="icofont-play-alt-1"></i></a></li>
                             {{-- <li><a href="#" class="menu-link" data-toggle="tooltip" data-placement="right" title="EVENT SCHEDULE"><i class="icofont-calendar"></i></a></li> --}}
                             {{-- <li><a href="forums-timeline.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="FORUM"><i class="icofont-ui-text-chat"></i></a></li> --}}
-                            <li><a href="shop.html" class="menu-link" data-toggle="tooltip" data-placement="right" title="SHOP"><i class="icofont-shopping-cart"></i></a></li>
+                            <li><a href="{{ route('social.shop') }}" class="menu-link" data-toggle="tooltip" data-placement="right" title="SHOP"><i class="icofont-shopping-cart"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -407,6 +414,8 @@
 
     <!-- Site Scripts -->
     <script src="{{ asset('social') }}/assets/js/app.js"></script>
+    @yield('script')
+    @stack('scripts')
 </body>
 
 </html>

@@ -54,14 +54,17 @@ Route::get('/i/agenda/{agenda}', [PageController::class, 'show_agenda'])->name('
 Route::get('/i/agenda/{agenda}/peserta', [PageController::class, 'peserta_agenda'])->name('page.agenda.peserta');
 
 // Social
-Route::get('/anggota/{anggota_id}', [SocialController::class, 'userFeed'])->name('social.userFeed');
+Route::get('/anggota/{anggota_id}/feed', [SocialController::class, 'userFeed'])->name('social.userFeed');
 Route::get('/anggota/{anggota_id}/sertifikat', [SocialController::class, 'userSertification'])->name('social.userSertification');
 Route::get('/anggota/{anggota_id}/teman', [SocialController::class, 'userFriend'])->name('social.userFriend');
-Route::get('/anggota/{anggota_id}/profile', [SocialController::class, 'userAccount'])->name('social.userAccount');
+Route::get('/anggota/{anggota_id}/galeri', [SocialController::class, 'userGallery'])->name('social.userGallery');
 Route::get('/berita', [SocialController::class, 'news'])->name('social.news');
 Route::get('/agenda', [SocialController::class, 'event'])->name('social.event');
 Route::get('/photo', [SocialController::class, 'photo'])->name('social.photo');
 Route::get('/video', [SocialController::class, 'video'])->name('social.video');
+Route::get('/belanja', [SocialController::class, 'shop'])->name('social.shop');
+Route::get('/penggumuman', [SocialController::class, 'announcement'])->name('social.announcement');
+Route::get('/account', [SocialController::class, 'profile'])->name('social.profile');
 
 Route::get('/profile', [PageController::class, 'profile'])->name('page.profile');
 Route::get('/agenda-saya', [PageController::class, 'my_agenda'])->name('page.my_agenda');
@@ -72,7 +75,7 @@ Route::post('/anggota', [AnggotaController::class, 'handleUpdateOrStore'])->name
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/logout', [LoginController::class, 'logout']);
 
 Route::middleware(['auth','admin'])->group(function () {

@@ -11,8 +11,10 @@
     }
 @endphp
 <div class="row">
-    <p class="font-weight-bold text-primary fs-5">1. Data Personal.</p>
-    <hr>
+    <div class="col-12">
+        <p class="font-weight-bold text-primary fs-5">1. Data Personal.</p>
+        <hr>
+    </div>
     <x-input :type="'text'" :name="'nama'" :value="$anggota->nama ?? ''" :label="'Nama Lengkap'" :col="6" :attr="['required']"/>
     <x-input :type="'text'" :name="'tgl_lahir'" :value="$anggota->tgl_lahir ?? ''" :label="'Tanggal Lahir'" :col="6" :attr="['required']"/>
     <x-input :type="'text'" :name="'tempat_lahir'" :value="$anggota->tempat_lahir ?? ''" :label="'Tempat Lahir'" :col="6" :attr="['required']"/>
@@ -23,11 +25,13 @@
     <x-input :type="'text'" :name="'nohp'" :label="'No. Handphone'" :value="$anggota->nohp ?? ''" :col="6" :attr="['required']"/>
     <x-input :type="'textarea'" :name="'alamat'" :label="'Alamat'" :value="$anggota->alamat ?? ''" :col="12" :attr="['required']"/>
 
-    <p class="font-weight-bold text-primary fs-5">2. Data Gugus.</p>
-    <hr>
-    <x-input :value="$anggota->provinsi??''" :name="'provinsi'" :col="4" :label="'Provinsi'" :type="'select'" :attr="['required']" :options="$options"/>
-    <x-input :value="$anggota->kabupaten??''" :name="'kabupaten'" :col="4" :label="'Kabupaten'" :type="'select'" :attr="['required']" :options="$options1"/>
-    <x-input :value="$anggota->kecamatan??''" :name="'kecamatan'" :col="4" :label="'Kecamatan'" :type="'select'" :attr="['required']" :options="$options2" />
+    <div class="col-12">
+        <p class="font-weight-bold text-primary fs-5">2. Data Gugus.</p>
+        <hr>
+    </div>
+    <x-input :value="$anggota->provinsi??''" :name="'provinsi'" :col="12" :label="'Provinsi'" :type="'select'" :attr="['required']" :options="$options"/>
+    <x-input :value="$anggota->kabupaten??''" :name="'kabupaten'" :col="6" :label="'Kabupaten'" :type="'select'" :attr="['required']" :options="$options1"/>
+    <x-input :value="$anggota->kecamatan??''" :name="'kecamatan'" :col="6" :label="'Kecamatan'" :type="'select'" :attr="['required']" :options="$options2" />
     <x-input :value="$anggota->gudep??''" :name="'gudep'" :col="6" :label="'Gudep'" :type="'select'" :options="$options3" />
     <x-input :value="$anggota->status_anggota??''" :name="'status_anggota'" :col="6" :label="'Status Anggota'" :type="'select'" :attr="['required']" :options="['Anggota Baru'=>'Anggota Baru','Anggota Lama'=>'Anggota Lama']" />
     {{-- <div class="mb-3" id="kode-input">
@@ -44,8 +48,10 @@
             <input type="text" name="kode" style="width: 35%" id="output" class="form-control text-center" readonly>
         </div>
     </div> --}}
-    <p class="font-weight-bold text-primary fs-5">2. Data Akun.</p>
-    <hr>
+    <div class="col-12">
+        <p class="font-weight-bold text-primary fs-5">2. Data Akun.</p>
+        <hr>
+    </div>
     <x-input :value="Auth::user()->email" :type="'email'" :name="'email'" :label="'Email'" :col="6" :attr="['required']"/>
     <x-input :value="$anggota->nik??''" :type="'text'" :name="'nik'" :label="'NIK'" :col="6" :attr="['required']"/>
     <x-input :type="'file'" :name="'foto'" :label="'Foto'" :col="6"/>

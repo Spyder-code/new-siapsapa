@@ -27,10 +27,10 @@
 </div>
 <div class="block-box user-top-header">
     <ul class="menu-list">
-        <li><a href="{{ route('social.userFeed', $anggota->id) }}">Feed</a></li>
-        <li><a href="{{ route('social.userSertification', $anggota->id) }}">Sertifikat</a></li>
-        <li><a href="{{ route('social.userFriend', $anggota->id) }}">Teman</a></li>
-        <li><a href="{{ route('social.userAccount', $anggota->id) }}">Profile</a></li>
+        <li class="{{ request()->is('anggota/*/feed') ? 'active' : '' }}"><a href="{{ route('social.userFeed', $anggota->id) }}">Feed</a></li>
+        <li class="{{ request()->is('anggota/*/sertifikat') ? 'active' : '' }}"><a href="{{ route('social.userSertification', $anggota->id) }}">Sertifikat</a></li>
+        <li class="{{ request()->is('anggota/*/teman') ? 'active' : '' }}"><a href="{{ route('social.userFriend', $anggota->id) }}">Teman</a></li>
+        <li class="{{ request()->is('anggota/*/galeri') ? 'active' : '' }}"><a href="{{ route('social.userGallery', $anggota->id) }}">Galeri</a></li>
         {{-- <li>
             <div class="dropdown">
                 <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
