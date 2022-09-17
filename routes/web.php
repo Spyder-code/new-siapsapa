@@ -17,6 +17,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\SyncController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransferAnggotaController;
 use App\Http\Controllers\UserController;
 use App\Models\Anggota;
 use App\Models\DocumentType;
@@ -107,6 +108,9 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::post('percetakan/print', [PercetakanController::class,'print'])->name('percetakan.print');
         Route::post('percetakan/complete/{transaction}', [PercetakanController::class,'complete'])->name('percetakan.complete');
         Route::post('transaction/complete/{transaction}', [TransactionController::class,'complete'])->name('transaction.complete');
+        Route::post('transfer-anggota/cancel/{transfer_anggota}', [TransferAnggotaController::class,'cancel'])->name('transfer.anggota.cancel');
+        Route::post('transfer-anggota/reject/{transfer_anggota}', [TransferAnggotaController::class,'reject'])->name('transfer.anggota.reject');
+        Route::post('transfer-anggota/approve/{transfer_anggota}', [TransferAnggotaController::class,'approve'])->name('transfer.anggota.approve');
     });
 });
 

@@ -110,6 +110,9 @@ class KwartirController extends Controller
         $limit = request('length');
         $start = request('start') * request('length');
         if($id_wilayah=='all'){
+            if($limit==-1){
+                $limit = Provinsi::count();
+            }
             $data = Provinsi::select('id', 'name', 'no_prov as code', 'id as prev')->withCount(['anggota as admin' => function($q){
                 $q->where('status', 1);
                 $q->whereHas('user', function($q){
@@ -125,6 +128,9 @@ class KwartirController extends Controller
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
+                if($limit==-1){
+                    $limit = City::where('province_id', $id_wilayah)->count();
+                }
                 $data = City::where('province_id',$id_wilayah)->select('id','name','no_kab as code')->withCount(['anggota as admin' => function($q){
                     $q->where('status', 1);
                     $q->whereHas('user', function($q){
@@ -137,6 +143,9 @@ class KwartirController extends Controller
                 $count = City::where('province_id',$id_wilayah)->select('id')->count();
                 $type = 2;
             }elseif($len==4){
+                if($limit==-1){
+                    $limit = Distrik::where('regency_id', $id_wilayah)->count();
+                }
                 $data =  Distrik::where('regency_id',$id_wilayah)->select('id','name','no_kec as code')->withCount(['anggota as admin' => function($q){
                     $q->where('status', 1);
                     $q->whereHas('user', function($q){
@@ -149,6 +158,9 @@ class KwartirController extends Controller
                 $count = Distrik::where('regency_id',$id_wilayah)->select('id')->count();
                 $type = 3;
             }else{
+                if($limit==-1){
+                    $limit = Gudep::where('kecamatan', $id_wilayah)->count();
+                }
                 $data = Gudep::where('kecamatan',$id_wilayah)->select('id','nama_sekolah','npsn')->withCount(['anggota as admin' => function($q){
                     $q->where('status', 1);
                     $q->whereHas('user', function($q){
