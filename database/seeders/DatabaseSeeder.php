@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Post;
+use App\Models\PostMedia;
+use App\Models\PostTag;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -21,9 +24,15 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        Post::factory(30)->create();
+        PostTag::factory(50)->create();
+        PostMedia::factory(100)->create();
+
         $this->call([
             // AnggotaStatusSeeder::class
-            UserSeeder::class
+            // UserSeeder::class
+            // PostCategorySeeder::class,
+            // TagSeeder::class
         ]);
     }
 }
