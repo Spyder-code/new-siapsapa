@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostCategory extends Model
 {
-    use HasFactory;
-    protected $fillable = [
-        'name'
-    ];
+   use HasFactory;
+
+   protected $table = "post_categories";
+   protected $fillable = [
+      'name'
+   ];
 }
