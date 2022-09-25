@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('documents', function (Blueprint $table) {
-            // $table->foreignId('pramuka')->after('document_type_id')->constrained('pramuka');
-            $table->date('active_on')->nullable()->after('file');
-            $table->date('unactive_on')->nullable()->after('active_on');
+        Schema::create('organizations', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('organizations');
     }
 };

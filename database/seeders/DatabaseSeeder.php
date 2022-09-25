@@ -23,7 +23,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             // AnggotaStatusSeeder::class
-            UserSeeder::class
+            // UserSeeder::class
+            DocumentTypeSeeder::class,
+            OrganizationSeeder::class
         ]);
     }
 }

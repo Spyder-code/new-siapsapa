@@ -11,6 +11,7 @@ use App\Http\Controllers\GudepController;
 use App\Http\Controllers\InitController;
 use App\Http\Controllers\KtaController;
 use App\Http\Controllers\KwartirController;
+use App\Http\Controllers\OrganizationUserController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PercetakanController;
 use App\Http\Controllers\ProductController;
@@ -77,6 +78,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::resource('cart',CartController::class);
         Route::resource('transaction',TransactionController::class);
         Route::resource('cartproduct',CartProductController::class);
+        Route::resource('organization_user',OrganizationUserController::class);
         Route::resource('anggota', AnggotaController::class)->except(['edit','show','index']);
         Route::get('invoice',[TransactionController::class,'paymentSuccess']);
         Route::post('pay/{transactionDetail}',[TransactionController::class,'pay'])->name('transaction.pay');

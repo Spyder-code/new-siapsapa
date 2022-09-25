@@ -10,7 +10,8 @@ class DocumentType extends Model
     use HasFactory;
     protected $fillable = [
         'pramuka_id',
-        'name'
+        'name',
+        'id'
     ];
 
     public function pramuka()

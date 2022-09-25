@@ -33,6 +33,11 @@
         'icon' => 'map',
         'access' => ['admin','kwarda','kwarcab','kwaran'],
     ],[
+        'text' => 'Fungsionaris Organisasi',
+        'href' => route('organization_user.index'),
+        'icon' => 'star',
+        'access' => ['kwarda','kwarcab','kwaran'],
+    ],[
         'text' => 'Data Gudep',
         'href' => '#',
         'icon' => 'bookmark',

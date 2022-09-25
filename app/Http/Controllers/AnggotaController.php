@@ -7,6 +7,7 @@ use App\Imports\AnggotaImport;
 use App\Models\Anggota;
 use App\Models\City;
 use App\Models\Distrik;
+use App\Models\Organizations;
 use App\Models\Provinsi;
 use App\Repositories\AnggotaService;
 use App\Repositories\WilayahService;
@@ -58,7 +59,8 @@ class AnggotaController extends Controller
         $data = $wilayah->getData();
         $kwartir = $data[1];
         $title = $data[0]->name ?? 'Kwartir Nasional';
-        return view('admin.anggota.index', compact('url','data','id_wilayah','kwartir','title','type'));
+        $organizations = Organizations::pluck('name','id');
+        return view('admin.anggota.index', compact('url','data','id_wilayah','kwartir','title','type','organizations'));
     }
 
     public function non_validate()
@@ -362,6 +364,14 @@ class AnggotaController extends Controller
         }
 
         return DataTables::of($data)
+            ->addColumn('nama', function($data){
+                return $data->nama.' ('.$data->kode.')';
+            })
+            ->addColumn('jk', function($data){
+                $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
+                $date = date('d/m/Y', strtotime($data->tgl_lahir));
+                return $nama.' ('.$date.')';
+            })
             ->addColumn('foto', function($data){
                 if($data->pramuka==1){
                     $warna = '<span class="badge bg-siaga">Siaga</span>';
@@ -413,6 +423,7 @@ class AnggotaController extends Controller
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             '.$btn.'
+                            <button type="button" onclick="promoteAnggota('.$data->id.')" class="btn btn-sm btn-success"><i class="fas fa-star"></i>  Promosikan</button>
                             <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
                         </div>';
                 return $html;
@@ -452,6 +463,14 @@ class AnggotaController extends Controller
         }
 
         return DataTables::of($data)
+            ->addColumn('nama', function($data){
+                return $data->nama.' ('.$data->kode.')';
+            })
+            ->addColumn('jk', function($data){
+                $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
+                $date = date('d/m/Y', strtotime($data->tgl_lahir));
+                return $nama.' ('.$date.')';
+            })
             ->addColumn('foto', function($data){
                 if($data->pramuka==1){
                     $warna = '<span class="badge bg-siaga">Siaga</span>';
@@ -503,6 +522,7 @@ class AnggotaController extends Controller
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             '.$btn.'
+                            <button type="button" onclick="promoteAnggota('.$data->id.')" class="btn btn-sm btn-success"><i class="fas fa-star"></i>  Promosikan</button>
                             <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
                         </div>';
                 return $html;
@@ -542,6 +562,14 @@ class AnggotaController extends Controller
         }
 
         return DataTables::of($data)
+            ->addColumn('nama', function($data){
+                return $data->nama.' ('.$data->kode.')';
+            })
+            ->addColumn('jk', function($data){
+                $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
+                $date = date('d/m/Y', strtotime($data->tgl_lahir));
+                return $nama.' ('.$date.')';
+            })
             ->addColumn('foto', function($data){
                 if($data->pramuka==1){
                     $warna = '<span class="badge bg-siaga">Siaga</span>';
@@ -593,6 +621,7 @@ class AnggotaController extends Controller
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             '.$btn.'
+                            <button type="button" onclick="promoteAnggota('.$data->id.')" class="btn btn-sm btn-success"><i class="fas fa-star"></i>  Promosikan</button>
                             <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
                         </div>';
                 return $html;
@@ -632,6 +661,14 @@ class AnggotaController extends Controller
         }
 
         return DataTables::of($data)
+            ->addColumn('nama', function($data){
+                return $data->nama.' ('.$data->kode.')';
+            })
+            ->addColumn('jk', function($data){
+                $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
+                $date = date('d/m/Y', strtotime($data->tgl_lahir));
+                return $nama.' ('.$date.')';
+            })
             ->addColumn('foto', function($data){
                 if($data->pramuka==1){
                     $warna = '<span class="badge bg-siaga">Siaga</span>';
@@ -683,6 +720,7 @@ class AnggotaController extends Controller
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             '.$btn.'
+                            <button type="button" onclick="promoteAnggota('.$data->id.')" class="btn btn-sm btn-success"><i class="fas fa-star"></i>  Promosikan</button>
                             <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
                         </div>';
                 return $html;
@@ -726,6 +764,14 @@ class AnggotaController extends Controller
         }
 
         return DataTables::of($data)
+            ->addColumn('nama', function($data){
+                return $data->nama.' ('.$data->kode.')';
+            })
+            ->addColumn('jk', function($data){
+                $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
+                $date = date('d/m/Y', strtotime($data->tgl_lahir));
+                return $nama.' ('.$date.')';
+            })
             ->addColumn('foto', function($data){
                 if($data->pramuka==1){
                     $warna = '<span class="badge bg-siaga">Siaga</span>';
@@ -760,6 +806,7 @@ class AnggotaController extends Controller
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             '.$btn.'
+                            <button type="button" onclick="promoteAnggota('.$data->id.')" class="btn btn-sm btn-success"><i class="fas fa-star"></i>  Promosikan</button>
                             <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
                         </div>';
                 return $html;
