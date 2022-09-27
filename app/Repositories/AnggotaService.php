@@ -42,7 +42,12 @@ class AnggotaService{
         }
 
         foreach ($data_arr as $item) {
-            $this->createUser($item, false);
+            $anggota = Anggota::where('nik',$item['nik'])->first();
+            if ($anggota) {
+                $this->updateUser($item,$anggota,false);
+            }else{
+                $this->createUser($item, false);
+            }
         }
 
         return 'success';
@@ -90,7 +95,7 @@ class AnggotaService{
         return $anggota;
     }
 
-    public function updateUser($data, $anggota)
+    public function updateUser($data, $anggota, $ulpoad_foto = true)
     {
         $user_data = [
             'name' => $data['nama'],
@@ -99,9 +104,15 @@ class AnggotaService{
             'id_wilayah' => $data['kecamatan'],
         ];
 
-        $data['pramuka'] = $this->getPramuka($data['tgl_lahir'],$data['kawin']);
-        if(!empty($data['foto'])){
-            $data['foto'] = $this->uploadImage($data['foto']);
+
+        if($ulpoad_foto){
+            $data['pramuka'] = $this->getPramuka($data['tgl_lahir'],$data['kawin']);
+            if(!empty($data['foto'])){
+                $data['foto'] = $this->uploadImage($data['foto']);
+            }
+        }else{
+            $data['pramuka'] = $this->getPramuka($data['tgl_lahir']);
+            File::move(public_path('berkas\\import\\foto\\'.$data['foto']), public_path('berkas\\anggota\\'.$data['foto']));
         }
         $kta = Kta::where('kabupaten', $data['kabupaten'])->where('pramuka_id', $data['pramuka'])->first();
         if($kta){

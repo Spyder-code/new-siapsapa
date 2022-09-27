@@ -45,7 +45,7 @@
         <div class="card">
             <div class="border-bottom title-part-padding d-flex justify-content-between">
                 <h4 class="card-title mb-0">Import Anggota</h4>
-                <a href="{{ asset('berkas/data_anggota.xlsx') }}" class="btn btn-success btn-sm">Download Template Excel</a>
+                <a download="{{ asset('berkas/data_anggota.xlsx') }}" href="{{ asset('berkas/data_anggota.xlsx') }}" class="btn btn-success btn-sm">Download Template Excel</a>
             </div>
             <form action="{{ route('anggota.import.confirm') }}" method="post" enctype="multipart/form-data" class="card-body needs-validation" novalidate>
                 @csrf

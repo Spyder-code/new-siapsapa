@@ -13,6 +13,7 @@ use App\Repositories\AnggotaService;
 use App\Repositories\WilayahService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
@@ -245,6 +246,13 @@ class AnggotaController extends Controller
         $data = json_decode($request->data);
         $foto = json_decode($request->foto);
         $data = $data[0];
+        if(count($data)!=count($foto)){
+            foreach ($foto as $item ) {
+                $name = 'berkas/import/foto/'.$item->name;
+                File::delete($name);
+            }
+            return back()->with('danger','Jumlah foto dan data excel tidak sesuai');
+        }
         foreach ($foto as $idx => $item) {
             $data[$idx]->foto = $item->name;
         }
@@ -262,7 +270,7 @@ class AnggotaController extends Controller
     {
         $validator = $request->validate([
             'nik'    => 'required|array',
-            'nik.*'  => 'required|string|unique:tb_anggota,nik',
+            'nik.*'  => 'required|string',
             'nama'    => 'required|array',
             'nama.*'  => 'required|string',
             'tgl_lahir'    => 'required|array',
@@ -271,7 +279,6 @@ class AnggotaController extends Controller
             'alamat.*'  => 'required|max:64',
         ], [
             'nik.*.required' => 'NIK tidak boleh kosong',
-            'nik.*.unique' => 'NIK sudah terdaftar',
             'nama.*.required' => 'Nama tidak boleh kosong',
             'tgl_lahir.*.required' => 'Tanggal lahir tidak boleh kosong',
             'tgl_lahir.*.date_format' => 'Format tanggal lahir salah',
