@@ -16,8 +16,20 @@
    padding: 3px 12px;
    cursor: pointer;
 }
+
+.select2-selection--multiple {
+   overflow: hidden !important;
+   height: auto !important;
+}
 </style>
 @endsection
+
+@section('custom-head')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+@endsection
+
+
 @section('content-user')
 <div class="row">
    <div class="col-lg-8">
@@ -47,7 +59,11 @@
          </div>
          @endif
 
-
+         @if (session('success'))
+         <div class="alert alert-success mx-4 mt-4" role="alert">
+            {{ session('success') }}
+         </div>
+         @endif
 
          <form action="{{ route('social.post.store') }}" method="post" enctype="multipart/form-data">
             @csrf
@@ -71,8 +87,17 @@
                <label class="font-weight-bold">Isi Konten</label>
                <textarea class="form-control border-opacity-0" placeholder="Masukan isi konten" cols="30" rows="6"
                   name="content" required></textarea>
-
             </div>
+
+            <div class="mx-4 py-3">
+               <label class="font-weight-bold">Pilih Tags</label>
+               <select class="js-example-basic-multiple" name="tag_id[]" style="width: 100%;" multiple required>
+                  @foreach ($tags as $item)
+                  <option value={{$item->id}}>{{$item->name}}</option>
+                  @endforeach
+               </select>
+            </div>
+
             <div class="mx-4 py-3">
                <div class="row">
 
@@ -82,27 +107,22 @@
                      </label>
                      <input id="file-upload-1" type="file" name="cover_image" accept="image/*" required>
                   </div>
-                  <div class="col-lg-4 col-md-4">
+                  <div class="col-lg-3 col-md-3">
                      <label for="file-upload-2" class="custom-file-upload">
                         <i class="icofont-file-alt"></i> Post Media
                      </label>
                      <input id="file-upload-2" type="file" name="post_media[]" accept="video/*, image/*" multiple>
                   </div>
-                  <!-- <div class="col-lg-3 col-md-3">
-                     <select class="form-select" required>
-                        <option selected disabled>- pilih tag -</option>
-                        @foreach ($tags as $item)
-                        <option value={{$item->id}}>{{$item->name}}</option>
-                        @endforeach
-                     </select>
-                  </div> -->
-                  <div class="col-lg-2 col-md-2">
-                     <input class="btn btn-primary" type="submit" value="Submit">
-                  </div>
 
+                  <div class="col-lg-6 col-md-6">
+                     <input class="btn btn-primary" type="submit" value="Submit" style="float: right;">
+                  </div>
 
                </div>
             </div>
+
+
+
          </form>
 
 
@@ -823,10 +843,10 @@
 @section('script')
 <script>
 $(document).ready(function() {
-   // const files = $("#file-upload-2")[0].files;
-   // if files {
-   //    alert('ada')
-   // }
+   $('.js-example-basic-multiple').select2({
+      width: 'resolve'
+   });
+
 
 });
 </script>

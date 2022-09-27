@@ -27,11 +27,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 
 /* |-------------------------------------------------------------------------- | Web Routes |-------------------------------------------------------------------------- | | Here is where you can register web routes for your application. These | routes are loaded by the RouteServiceProvider within a group which | contains the "web" middleware group. Now create something great! | */
 
 Route::get('test', function () {
-   return view('social.user-video');
+   return view('social.single-blog');
 });
 
 // Init
@@ -56,7 +57,8 @@ Route::get('/video', [SocialController::class , 'video'])->name('social.video');
 Route::get('/belanja', [SocialController::class , 'shop'])->name('social.shop');
 Route::get('/penggumuman', [SocialController::class , 'announcement'])->name('social.announcement');
 Route::get('/account', [SocialController::class , 'profile'])->name('social.profile');
-Route::post('/post/store', [SocialController::class , 'storePost'])->name('social.post.store');
+Route::post('/post/store', [PostController::class , 'store'])->name('social.post.store');
+Route::get('/agenda/{id}', [SocialController::class , 'agendaDetail'])->name('agenda.detail');
 
 
 Route::get('/profile', [PageController::class , 'profile'])->name('page.profile');
@@ -118,6 +120,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
          Route::post('transaction/complete/{transaction}', [TransactionController::class , 'complete'])->name('transaction.complete');
       }
       );
+
+
+
+
+
 
    
 });
