@@ -33,7 +33,7 @@ class StatistikController extends Controller
         $data = $this->getData($id_wilayah);
         $title = $data[0]->name ?? 'Kwartir Nasional';
         $kwartir = $data[1];
-        $data = Pramuka::where('id','<=',5)->get();
+        $data = Pramuka::whereIn('id',[1,2,3,4,6,7])->get();
         return view('admin.new-statistik', compact('id_wilayah','title','kwartir','data'));
     }
 

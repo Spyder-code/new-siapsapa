@@ -119,7 +119,7 @@ class SyncController extends Controller
 
     public function gender()
     {
-        $data = Anggota::all();
+        $data = Anggota::whereRaw('LENGTH(jk) > 1')->get();
         $i = 0;
         foreach ($data->chunk(500) as $anggota) {
             dispatch(new SyncGender($anggota))->delay(now()->addMinutes(1));

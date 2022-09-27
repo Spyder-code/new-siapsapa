@@ -30,11 +30,32 @@
 @endsection
 @section('content')
 <style>
-    .bg-pembina{
-        background-color: #804000;
+    td.table-pembina{
+        background-color: #7f440860;
+        vertical-align: middle;
     }
-    .bg-pembantu{
-        background-color: #2fb7cf;
+    td.table-pelatih{
+        background-color: #2fb7cfab;
+        vertical-align: middle;
+    }
+    td.table-siaga{
+        background-color: #2fd94852;
+        vertical-align: middle;
+    }
+    td.table-penggalang{
+        background-color: #e21a1a8b;
+        vertical-align: middle;
+    }
+    td.table-penegak{
+        background-color: #e28b1a8b;
+        vertical-align: middle;
+    }
+    td.table-pandega{
+        background-color: #dbe21a8b;
+        vertical-align: middle;
+    }
+    tr.td,tr{
+        background-color: white;
     }
 </style>
 <div class="cards">
@@ -113,54 +134,64 @@
                     </h4>
 
                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <table class="table text-center table-striped">
+                        <div class="accordion-body table-responsive bg-white">
+                            <table class="table text-center table-bordered text-dark" id="tableData">
                                 <thead>
                                     <tr>
-                                        <th scope="col" colspan="2">Golongan</th>
-                                        <th scope="col">Laki-laki</th>
-                                        <th scope="col">Perempuan</th>
-                                        <th scope="col">Jumlah</th>
-                                        <th scope="col">Aksi</th>
+                                        <th class="table-secondary" scope="col" colspan="2">Golongan</th>
+                                        <th class="table-secondary" scope="col">Laki-laki</th>
+                                        <th class="table-secondary" scope="col">Perempuan</th>
+                                        <th class="table-secondary" scope="col">Jumlah</th>
+                                        <th class="table-secondary" scope="col">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th class="table-success" scope="row" style="vertical-align: middle" rowspan="5">SIAGA</th>
-                                        <td>Mula</td>
-                                        <td>12</td>
-                                        <td>13</td>
-                                        <td>25</td>
-                                        <td><a href="" class="btn btn-sm btn-info">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Bantu</td>
-                                        <td>12</td>
-                                        <td>13</td>
-                                        <td>25</td>
-                                        <td><a href="" class="btn btn-sm btn-info">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tata</td>
-                                        <td>12</td>
-                                        <td>13</td>
-                                        <td>25</td>
-                                        <td><a href="" class="btn btn-sm btn-info">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Garuda</td>
-                                        <td>12</td>
-                                        <td>13</td>
-                                        <td>25</td>
-                                        <td><a href="" class="btn btn-sm btn-info">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold">TOTAL</td>
-                                        <td class="fw-bold">12</td>
-                                        <td class="fw-bold">13</td>
-                                        <td class="fw-bold">25</td>
-                                        <td class="fw-bold"><a href="" class="btn btn-sm btn-info">Detail</a></td>
-                                    </tr>
+                                    @foreach ($data as $pramuka)
+                                        @foreach ($pramuka->documentTypes as $item)
+                                        <tr>
+                                            @if ($loop->iteration==1)
+                                            @php
+                                                $lkk = $pramuka->anggotas()->where('jk','L')->count();
+                                                $prr = $pramuka->anggotas()->where('jk','P')->count();
+                                                $lk_count = 0;
+                                                $pr_count = 0;
+                                            @endphp
+                                            <td scope="row" class="table-{{ strtolower($pramuka->name) }}" rowspan="{{ $pramuka->documentTypes->count() + 1 }}">
+                                                {{ $pramuka->name }} <br><br>
+                                                <span class="fw-normal" style="font-size: .7rem">L: {{ $lkk }}</span><br>
+                                                <span class="fw-normal" style="font-size: .7rem">P: {{ $prr }}</span><br>
+                                                <span class="fw-normal" style="font-size: .7rem">J: {{ $prr+$lkk }}</span>
+                                            </td>
+                                            @endif
+                                            <td>{{ $item->name }}</td>
+                                                @php
+                                                    $lk = $item->documents()->whereHas('user', function($q){
+                                                        $q->whereHas('anggota', function($q){
+                                                            $q->where('jk', 'L');
+                                                        });
+                                                    })->count();
+                                                    $pr = $item->documents()->whereHas('user', function($q){
+                                                        $q->whereHas('anggota', function($q){
+                                                            $q->where('jk', 'P');
+                                                        });
+                                                    })->count();
+                                                    $lk_count += $lk;
+                                                    $pr_count += $pr;
+                                                @endphp
+                                            <td>{{ $lk }}</td>
+                                            <td>{{ $pr }}</td>
+                                            <td>{{ $item->documents->count() }}</td>
+                                            <td><a href="" class="btn btn-sm btn-info">Detail</a></td>
+                                        </tr>
+                                        @endforeach
+                                        <tr>
+                                            <td class="fw-bold">TOTAL</td>
+                                            <td class="fw-bold">{{ $lk_count }}</td>
+                                            <td class="fw-bold">{{ $pr_count }}</td>
+                                            <td class="fw-bold">{{ $lk_count + $pr_count }}</td>
+                                            <td class="fw-bold">#</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             {{-- Siaga --}}
@@ -1071,7 +1102,12 @@
 
 @section('script')
     {{-- @include('components.dashboard',['id_wilayah' => $id_wilayah, 'gudep' => 0]) --}}
+    <script src="{{ asset('js/excelexportjs.js') }}"></script>
     <script>
+        // $("#tableData").excelexportjs({
+        //     containerid: "tableData",
+        //     datatype: 'table'
+        // });
         var table = $(".file-export").DataTable({
             processing: true,
             serverSide: true,

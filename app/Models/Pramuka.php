@@ -19,4 +19,9 @@ class Pramuka extends Model
     {
         return $this->hasMany(DocumentType::class,'pramuka_id');
     }
+
+    public function anggotas()
+    {
+        return $this->hasMany(Anggota::class,'pramuka');
+    }
 }

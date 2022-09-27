@@ -18,4 +18,9 @@ class DocumentType extends Model
     {
         return $this->belongsTo(Pramuka::class, 'pramuka_id');
     }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
 }
