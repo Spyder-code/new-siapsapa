@@ -70,6 +70,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::put('data/wrong-date', [DataController::class, 'update_tgl_lahir'])->name('data.update.date');
         Route::get('data/wrong-image', [DataController::class, 'view_image'])->name('data.view.image');
         Route::get('statistik', [StatistikController::class, 'index'])->name('statistik.index');
+        Route::get('new-statistik', [StatistikController::class, 'new'])->name('statistik.new');
         Route::post('print-kta/{transactionDetail}', [CartController::class, 'print'])->name('cart.print');
         Route::resource('kwartir', KwartirController::class)->except(['show','create','store']);
         Route::resource('gudep', GudepController::class);

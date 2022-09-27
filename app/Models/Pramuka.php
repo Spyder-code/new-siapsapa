@@ -14,4 +14,9 @@ class Pramuka extends Model
         'name',
         'count'
     ];
+
+    public function documentTypes()
+    {
+        return $this->hasMany(DocumentType::class,'pramuka_id');
+    }
 }
