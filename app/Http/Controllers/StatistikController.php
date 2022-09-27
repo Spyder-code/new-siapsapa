@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\Distrik;
+use App\Models\DocumentType;
+use App\Models\Organizations;
 use App\Models\Pramuka;
 use App\Models\Provinsi;
 use Illuminate\Http\Request;
@@ -34,7 +36,9 @@ class StatistikController extends Controller
         $title = $data[0]->name ?? 'Kwartir Nasional';
         $kwartir = $data[1];
         $data = Pramuka::whereIn('id',[1,2,3,4,6,7])->get();
-        return view('admin.new-statistik', compact('id_wilayah','title','kwartir','data'));
+        $saka = DocumentType::where('pramuka_id',8)->get();
+        $organizations = Organizations::all();
+        return view('admin.new-statistik', compact('id_wilayah','title','kwartir','data','saka','organizations'));
     }
 
     public function index()
