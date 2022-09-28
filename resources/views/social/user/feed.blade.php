@@ -100,7 +100,6 @@
 
             <div class="mx-4 py-3">
                <div class="row">
-
                   <div class="col-lg-3 col-md-3">
                      <label for="file-upload-1" class="custom-file-upload">
                         <i class="icofont-image"></i> Cover Gambar
@@ -113,20 +112,14 @@
                      </label>
                      <input id="file-upload-2" type="file" name="post_media[]" accept="video/*, image/*" multiple>
                   </div>
-
                   <div class="col-lg-6 col-md-6">
                      <input class="btn btn-primary" type="submit" value="Submit" style="float: right;">
                   </div>
-
                </div>
             </div>
 
 
-
          </form>
-
-
-
       </div>
       @endif
       <div class="block-box user-timeline-header">

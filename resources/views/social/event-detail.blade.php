@@ -14,7 +14,6 @@
                      <h6 class="card-subtitle">{{ $agenda->jenis }}</h6>
                   </div>
                   <a href="{{ route('page.agenda.peserta',$agenda) }}" class=""><u>Daftar Peserta</u></a>
-
                </div>
                <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-6">

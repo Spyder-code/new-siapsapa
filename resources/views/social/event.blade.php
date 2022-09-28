@@ -46,49 +46,45 @@
 
 <div class="row gutters-20">
 
-
-   @foreach ($agenda as $item)
-   <div class="col-lg-4 col-md-4">
-      <div class="block-box user-blog">
-         <div class="blog-img">
-            <a href="user-blog.html#"><img src="{{ asset($item->foto) }}"></a>
-         </div>
-         <div class="blog-content">
-            <div class="blog-category">
-               <a href="user-blog.html#">{{ $item->kategori }}</a>
+    @foreach ($agenda as $item)
+    <div class="col-lg-4 col-md-4">
+        <div class="block-box user-blog">
+            <div class="blog-img">
+                <a href="{{ route('agenda.detail', $item->id) }}"><img style="max-width:100%; max-height:100%; object-fit: cover;" src="{{ asset($item->foto) }}"></a>
             </div>
-            <h3 class="blog-title"><a href="{{ route('agenda.detail', $item->id) }}">{{ $item->nama }}</a></h3>
-            <div class="blog-date"><i class="icofont-calendar"></i>{{ date("jS F, Y",
-               strtotime($item->created_at)) }}</div>
-            <p>{{ substr($item->deskripsi, 0, 100) . '...' }}</p>
-            <p style="text-transform: capitalize; font-size: .8rem">{{ Str::lower($item->kecamatan->name) }}, {{
-               Str::lower($item->kabupaten->name) }}, Provinsi {{ Str::lower($item->provinsi->name) }}</p>
-            <p class="font-weight-bold" style="text-transform: capitalize; font-size: 1rem">Tanggal mulai: {{
-               date('d/m/Y', strtotime($item->tanggal_mulai)) }}</p>
-            <p class="font-weight-bold" style="text-transform: capitalize; font-size: 1rem">Tanggal selesai: {{
-               date('d/m/Y', strtotime($item->tanggal_selesai)) }}</p>
-         </div>
-         <div class="blog-meta">
-            <li class="d-flex btn-group">
-               <a href="{{ route('agenda.detail', $item->id) }}" class="btn btn-sm btn-primary">Detail</a>
-               <a href="{{ route('agenda.peserta', $item) }}" class="btn btn-sm btn-success">Peserta</a>
-               @if (Auth::id() == $item->created_by || Auth::user()->role=='admin')
-               <a href="{{ route('agenda.edit', $item) }}" class="btn btn-sm btn-warning">Edit</a>
-               <button type="button" onclick="deleteAgenda({{ $item->id }})"
-                  class="btn btn-sm btn-danger">Hapus</button>
-               @endif
-            </li>
-         </div>
-      </div>
+            <div class="blog-content">
+                <div class="blog-category">
+                    <a href="#">{{ $item->kategori }}</a>
+                </div>
+                <h3 class="blog-title"><a href="{{ route('agenda.detail', $item->id) }}">{{ substr($item->nama, 0, 75) . '...' }}</a></h3>
+                <div class="blog-date">
+                    <i class="icofont-calendar"></i>{{ date("j F, Y", strtotime($item->created_at)) }}
+                </div>
+                <p>{{ substr($item->deskripsi, 0, 150) . '...' }}</p>
+                <p style="text-transform: capitalize; font-size: .8rem">{{ Str::lower($item->kecamatan->name) }}, {{ Str::lower($item->kabupaten->name) }}, Provinsi {{ Str::lower($item->provinsi->name) }}</p>
+                <p class="font-weight-bold" style="text-transform: capitalize; font-size: 1rem">Tanggal mulai: {{ date('d/m/Y', strtotime($item->tanggal_mulai)) }}</p>
+                <p class="font-weight-bold" style="text-transform: capitalize; font-size: 1rem">Tanggal selesai: {{ date('d/m/Y', strtotime($item->tanggal_selesai)) }}</p>
+            </div>
+            <div class="blog-meta">
+                <li class="d-flex btn-group">
+                    <a href="{{ route('agenda.detail', $item->id) }}" class="btn btn-sm btn-primary">Detail</a>
+                    <a href="{{ route('agenda.peserta', $item) }}" class="btn btn-sm btn-success">Peserta</a>
+                    @if (Auth::id() == $item->created_by || Auth::user()->role=='admin')
+                    <a href="{{ route('agenda.edit', $item) }}" class="btn btn-sm btn-warning">Edit</a>
+                    <button type="button" onclick="deleteAgenda({{ $item->id }})" class="btn btn-sm btn-danger">Hapus</button>
+                @endif
+                </li>
+            </div>
+        </div>
    </div>
    @endforeach
 
 
 
-
-
 </div>
-<div class="load-more-post">
+
+{{-- <div class="load-more-post">
    <a href="user-blog.html#" class="item-btn"><i class="icofont-refresh"></i>Load More Posts</a>
-</div>
+</div> --}}
+
 @endsection
