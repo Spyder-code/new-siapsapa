@@ -58,6 +58,7 @@ Route::get('/agenda/{agenda}/peserta', [PageController::class, 'peserta_agenda']
 Route::get('/ubah-password', [PageController::class, 'change_password'])->name('page.change_password');
 Route::put('/ubah-password/{user}', [UserController::class, 'update'])->name('user.update');
 Route::post('/anggota', [AnggotaController::class, 'handleUpdateOrStore'])->name('page.profile.store');
+Route::post('/dokumen', [DocumentController::class, 'store'])->name('dokumen.store');
 
 Auth::routes();
 
@@ -100,7 +101,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::get('anggota/{anggotum}/edit', [AnggotaController::class,'edit'])->name('anggota.edit');
         Route::get('anggota/{anggotum}', [AnggotaController::class,'show'])->name('anggota.show');
         Route::get('user/reset-password', [UserController::class,'reset_password'])->name('user.reset-password');
-        Route::resource('dokumen', DocumentController::class);
+        Route::resource('dokumen', DocumentController::class)->except(['store']);
         Route::resource('agenda', AgendaController::class);
         Route::get('agenda/{agenda}/peserta', [AgendaController::class,'peserta'])->name('agenda.peserta');
         Route::resource('user', UserController::class)->except(['update']);
