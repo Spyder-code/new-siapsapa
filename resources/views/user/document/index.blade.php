@@ -31,7 +31,7 @@
                     @endif
                     <x-input :name="'pramuka'" :type="'select'" :label="'Kepramukaan'" :options="$pramuka" :attr="['required']" />
                     <x-input :name="'document_type_id'" :type="'select'" :label="'Jenis Dokumen'" :options="[]" :attr="['required']" />
-                    <x-input :name="'file'" :type="'file'" :label="'File Dokumen (.jpg/.jpeg/.png)'" :attr="['required']" />
+                    <x-input :name="'sertif'" :type="'file'" :label="'File Dokumen (.jpg/.jpeg/.png)'" :attr="['required']" />
                     <div class="row justify-content-end">
                         <div class="col-auto">
                             <button class="btn btn-primary" type="submit">Upload</button>

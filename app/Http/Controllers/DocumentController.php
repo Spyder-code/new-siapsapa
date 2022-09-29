@@ -25,7 +25,7 @@ class DocumentController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'sertif.0' => 'required|image|max:2048',
+            'sertif' => 'required|image|max:2048',
             'document_type_id' => 'required',
             'pramuka' => 'required',
         ]);

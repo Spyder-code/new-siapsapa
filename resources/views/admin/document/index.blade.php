@@ -71,10 +71,11 @@
                 @endif
                 <x-input :name="'pramuka'" :type="'select'" :label="'Kepramukaan'" :options="$pramuka" :attr="['required']" />
                 <x-input :name="'document_type_id'" :type="'select'" :label="'Jenis Dokumen'" :options="[]" :attr="['required']" />
-                <div class="col-12">
+                <x-input :name="'sertif'" :type="'file'" :label="'File (.jpg/jpeg/png)'" :attr="['required']" />
+                {{-- <div class="col-12">
                     <label for="file">File (.jpg/jpeg/png)</label>
                     <div class="input-images"></div>
-                </div>
+                </div> --}}
                 <div class="row justify-content-end">
                     <div class="col-auto">
                         <button class="btn btn-primary" type="submit">Upload</button>

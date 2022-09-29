@@ -10,7 +10,7 @@ class DocumentService {
     {
         $user = Auth::user();
         $data['user_id'] = $user->id;
-        $file = $data['sertif'][0];
+        $file = $data['sertif'];
         $fileName = time().'.'.$file->getClientOriginalExtension();
         $file->move(public_path('/berkas/dokumen'.'/'.$data['document_type_id']), $fileName);
         $data['file'] = $fileName;
