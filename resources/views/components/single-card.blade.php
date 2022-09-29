@@ -72,7 +72,7 @@
                 </tr>
                 <tr style="top:-18px">
                     <td>Golongan</td>
-                    <td> {{ ucwords(strtolower($anggota->golongan->name)) }} <span style="position: relative; left:20px">Gol.Darah: {{ $anggota->gol_darah }}</span></td>
+                    <td> {{ ucwords(strtolower($anggota->golongan->name ?? '-')) }} <span style="position: relative; left:20px">Gol.Darah: {{ $anggota->gol_darah }}</span></td>
                 </tr>
                 @if ($anggota->gudep != null)
                     <tr style="top:-21px">
