@@ -124,17 +124,23 @@
                 </div>
             </div>
 
-            {{-- Anggota Muda --}}
             <div class="card accordion" id="accordionExample">
                 <div class="accordion-item">
                     <h4 class="accordion-header" id="headingOne">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Anggota Muda
+                            Statistik Golongan Anggota
                         </button>
                     </h4>
 
                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                         <div class="accordion-body table-responsive bg-white">
+                            <div class="card-header d-flex justify-content-between">
+                                #
+                                <div>
+                                    <button type="button" class="btn btn-sm btn-info" onclick="statistikAnggota()"><i class="fas fa-redo"></i> Load Data</button>
+                                    <button type="button" class="btn btn-sm btn-success" onclick="statistikAnggota()"><i class="fas fa-download"></i> Download</button>
+                                </div>
+                            </div>
                             <table class="table text-center table-bordered text-dark" id="tableData">
                                 <thead>
                                     <tr>
@@ -156,7 +162,7 @@
                                                 $lk_count = 0;
                                                 $pr_count = 0;
                                             @endphp
-                                            <td scope="row" class="table-{{ strtolower($pramuka->name) }}" rowspan="{{ $pramuka->documentTypes->count() + 1 }}">
+                                            <td scope="row" class="table-{{ strtolower($pramuka->name) }}" rowspan="{{ $pramuka->documentTypes->count() }}">
                                                 {{ $pramuka->name }} <br><br>
                                                 <span class="fw-normal" style="font-size: .7rem">L: {{ $lkk }}</span><br>
                                                 <span class="fw-normal" style="font-size: .7rem">P: {{ $prr }}</span><br>
@@ -175,8 +181,6 @@
                                                             $q->where('jk', 'P');
                                                         });
                                                     })->count();
-                                                    $lk_count += $lk;
-                                                    $pr_count += $pr;
                                                 @endphp
                                             <td>{{ $lk }}</td>
                                             <td>{{ $pr }}</td>
@@ -184,742 +188,70 @@
                                             <td><a href="" class="btn btn-sm btn-info">Detail</a></td>
                                         </tr>
                                         @endforeach
-                                        <tr>
-                                            <td class="fw-bold">TOTAL</td>
-                                            <td class="fw-bold">{{ $lk_count }}</td>
-                                            <td class="fw-bold">{{ $pr_count }}</td>
-                                            <td class="fw-bold">{{ $lk_count + $pr_count }}</td>
-                                            <td class="fw-bold">#</td>
-                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{-- Siaga --}}
-                            {{-- <div class="row border border-success">
-                                <div class="col-12 col-md-3 card-header bg-success">
-                                    <div class="card shadow">
-                                        <div class="card-header bg-success">
-                                            <div class="rounded-circle mx-auto bg-light-light text-success text-white text-center">
-                                                <strong id="total-siaga">2000</strong>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="text-center mt-2">
-                                                <b>SIAGA</b><br>
-                                                <span class="badge bg-secondary">P : 10</span>
-                                                <span class="badge bg-secondary">L : 10</span>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer d-flex justify-content-between">
-                                            <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-9">
-                                    <button class="w-100 btn btn-info btn-sm my-2">Load Data</button>
-                                    <div class="d-flex gap-1 flex-wrap">
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-success">
-                                                <div class="rounded-circle mx-auto bg-light-light text-success text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-success">
-                                                <div class="rounded-circle mx-auto bg-light-light text-success text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-success">
-                                                <div class="rounded-circle mx-auto bg-light-light text-success text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-success">
-                                                <div class="rounded-circle mx-auto bg-light-light text-success text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
-
-                            {{-- Penggalang --}}
-                            {{-- <div class="row border border-danger mt-1">
-                                <div class="col-12 col-md-3 card-header bg-penggalang">
-                                    <div class="card shadow">
-                                        <div class="card-header bg-penggalang">
-                                            <div class="rounded-circle mx-auto bg-light-light text-penggalang text-white text-center">
-                                                <strong id="total-siaga">2000</strong>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="text-center mt-2">
-                                                <b>SIAGA</b><br>
-                                                <span class="badge bg-secondary">P : 10</span>
-                                                <span class="badge bg-secondary">L : 10</span>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer d-flex justify-content-between">
-                                            <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-9">
-                                    <button class="w-100 btn btn-info btn-sm my-2">Load Data</button>
-                                    <div class="d-flex gap-1 flex-wrap">
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-penggalang">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penggalang text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-penggalang">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penggalang text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-penggalang">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penggalang text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-penggalang">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penggalang text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
-
-                            {{-- Penegak --}}
-                            {{-- <div class="row border border-warning mt-1">
-                                <div class="col-12 col-md-3 card-header bg-penegak">
-                                    <div class="card shadow">
-                                        <div class="card-header bg-penegak">
-                                            <div class="rounded-circle mx-auto bg-light-light text-penegak text-white text-center">
-                                                <strong id="total-siaga">2000</strong>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="text-center mt-2">
-                                                <b>SIAGA</b><br>
-                                                <span class="badge bg-secondary">P : 10</span>
-                                                <span class="badge bg-secondary">L : 10</span>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer d-flex justify-content-between">
-                                            <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-9">
-                                    <button class="w-100 btn btn-info btn-sm my-2">Load Data</button>
-                                    <div class="d-flex gap-1 flex-wrap">
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-penegak">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penegak text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-penegak">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penegak text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-penegak">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penegak text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-penegak">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penegak text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
-
-                            {{-- Penegak --}}
-                            {{-- <div class="row border border-warning mt-1">
-                                <div class="col-12 col-md-3 card-header bg-pandega">
-                                    <div class="card shadow">
-                                        <div class="card-header bg-pandega">
-                                            <div class="rounded-circle mx-auto bg-light-light text-pandega text-white text-center">
-                                                <strong id="total-siaga">2000</strong>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="text-center mt-2">
-                                                <b>SIAGA</b><br>
-                                                <span class="badge bg-secondary">P : 10</span>
-                                                <span class="badge bg-secondary">L : 10</span>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer d-flex justify-content-between">
-                                            <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-9">
-                                    <button class="w-100 btn btn-info btn-sm my-2">Load Data</button>
-                                    <div class="d-flex gap-1 flex-wrap">
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pandega">
-                                                <div class="rounded-circle mx-auto bg-light-light text-pandega text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pandega">
-                                                <div class="rounded-circle mx-auto bg-light-light text-pandega text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pandega">
-                                                <div class="rounded-circle mx-auto bg-light-light text-pandega text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pandega">
-                                                <div class="rounded-circle mx-auto bg-light-light text-pandega text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- Anggota Dewasa --}}
             <div class="card accordion" id="accordionDewasa">
                 <div class="accordion-item">
                     <h4 class="accordion-header" id="headingTwo">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                            Anggota Dewasa
+                            Statistik SAKA
                         </button>
                     </h4>
 
                     <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionDewasa">
-                        <div class="accordion-body">
-                            {{-- Pelatoh --}}
-                            <div class="row border border-success">
-                                <div class="col-12 col-md-3 card-header bg-pelatih">
-                                    <div class="card shadow">
-                                        <div class="card-header bg-pelatih">
-                                            <div class="rounded-circle mx-auto bg-light-light text-success text-white text-center">
-                                                <strong id="total-siaga">2000</strong>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="text-center mt-2">
-                                                <b>PELATIH</b><br>
-                                                <span class="badge bg-secondary">P : 10</span>
-                                                <span class="badge bg-secondary">L : 10</span>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer d-flex justify-content-between">
-                                            <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-9">
-                                    <button class="w-100 btn btn-info btn-sm my-2">Load Data</button>
-                                    <div class="d-flex gap-1 flex-wrap">
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pelatih">
-                                                <div class="rounded-circle mx-auto bg-light-light text-success text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pelatih">
-                                                <div class="rounded-circle mx-auto bg-light-light text-success text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pelatih">
-                                                <div class="rounded-circle mx-auto bg-light-light text-success text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pelatih">
-                                                <div class="rounded-circle mx-auto bg-light-light text-success text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="accordion-body table-responsive">
+                            <div class="card-header d-flex justify-content-between">
+                                #
+                                <div>
+                                    <button type="button" class="btn btn-sm btn-info" onclick="statistikAnggota()"><i class="fas fa-redo"></i> Load Data</button>
+                                    <button type="button" class="btn btn-sm btn-success" onclick="statistikAnggota()"><i class="fas fa-download"></i> Download</button>
                                 </div>
                             </div>
-
-                            {{-- Pembina --}}
-                            <div class="row border border-danger mt-1">
-                                <div class="col-12 col-md-3 card-header bg-pembina">
-                                    <div class="card shadow">
-                                        <div class="card-header bg-pembina">
-                                            <div class="rounded-circle mx-auto bg-light-light text-penggalang text-white text-center">
-                                                <strong id="total-siaga">2000</strong>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="text-center mt-2">
-                                                <b>SIAGA</b><br>
-                                                <span class="badge bg-secondary">P : 10</span>
-                                                <span class="badge bg-secondary">L : 10</span>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer d-flex justify-content-between">
-                                            <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-9">
-                                    <button class="w-100 btn btn-info btn-sm my-2">Load Data</button>
-                                    <div class="d-flex gap-1 flex-wrap">
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pembina">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penggalang text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pembina">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penggalang text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pembina">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penggalang text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pembina">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penggalang text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {{-- Pembantu --}}
-                            <div class="row border border-warning mt-1">
-                                <div class="col-12 col-md-3 card-header bg-pembantu">
-                                    <div class="card shadow">
-                                        <div class="card-header bg-pembantu">
-                                            <div class="rounded-circle mx-auto bg-light-light text-penegak text-white text-center">
-                                                <strong id="total-siaga">2000</strong>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="text-center mt-2">
-                                                <b>SIAGA</b><br>
-                                                <span class="badge bg-secondary">P : 10</span>
-                                                <span class="badge bg-secondary">L : 10</span>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer d-flex justify-content-between">
-                                            <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-9">
-                                    <button class="w-100 btn btn-info btn-sm my-2">Load Data</button>
-                                    <div class="d-flex gap-1 flex-wrap">
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pembantu">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penegak text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pembantu">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penegak text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pembantu">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penegak text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                        <div class="card shadow justify-content-center mx-auto">
-                                            <div class="card-header bg-pembantu">
-                                                <div class="rounded-circle mx-auto bg-light-light text-penegak text-white text-center">
-                                                    <strong id="total-siaga" style="font-size: .8rem;">2000</strong>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="text-center mt-2">
-                                                    <b style="font-size: .7rem">MULA</b><br>
-                                                    <span class="badge bg-secondary">P : 10</span>
-                                                    <span class="badge bg-secondary">L : 10</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <a href="" class="w-100 btn btn-sm btn-primary">Detail</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                            <table class="table text-center table-bordered text-dark" id="tableData">
+                                <thead>
+                                    <tr>
+                                        <th class="table-secondary" scope="col">Golongan</th>
+                                        <th class="table-secondary" scope="col">Laki-laki</th>
+                                        <th class="table-secondary" scope="col">Perempuan</th>
+                                        <th class="table-secondary" scope="col">Jumlah</th>
+                                        <th class="table-secondary" scope="col">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($saka as $item)
+                                        <tr>
+                                            <td>{{ $item->name }}</td>
+                                                @php
+                                                    $lk = $item->documents()->whereHas('user', function($q){
+                                                        $q->whereHas('anggota', function($q){
+                                                            $q->where('jk', 'L');
+                                                        });
+                                                    })->count();
+                                                    $pr = $item->documents()->whereHas('user', function($q){
+                                                        $q->whereHas('anggota', function($q){
+                                                            $q->where('jk', 'P');
+                                                        });
+                                                    })->count();
+                                                @endphp
+                                            <td>{{ $lk }}</td>
+                                            <td>{{ $pr }}</td>
+                                            <td>{{ $item->documents->count() }}</td>
+                                            <td><a href="" class="btn btn-sm btn-info">Detail</a></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card p-3 my-3">
-                <div class="card-header d-flex justify-content-between">
-                    Fungsionaris Organisasi
-                    <button type="button" class="btn btn-sm btn-info" onclick="statistikAnggota()"><i class="fas fa-redo"></i> Load Data</button>
-                </div>
-                <div id="organisasi" class="mt-2">
-                    <div class="d-flex flex-wrap gap-2">
-                        <ul class="list-group list-group-horizontal">
-                            <li class="list-group-item">Test</li>
-                            <li class="list-group-item">123</li>
-                        </ul>
-                        <ul class="list-group list-group-horizontal">
-                            <li class="list-group-item">Test</li>
-                            <li class="list-group-item">123</li>
-                        </ul>
-                        <ul class="list-group list-group-horizontal">
-                            <li class="list-group-item">Test</li>
-                            <li class="list-group-item">123</li>
-                        </ul>
-                        <ul class="list-group list-group-horizontal">
-                            <li class="list-group-item">Test</li>
-                            <li class="list-group-item">123</li>
-                        </ul>
-                        <ul class="list-group list-group-horizontal">
-                            <li class="list-group-item">Test</li>
-                            <li class="list-group-item">123</li>
-                        </ul>
-                        <ul class="list-group list-group-horizontal">
-                            <li class="list-group-item">muhammad aziz almi</li>
-                            <li class="list-group-item">123</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
             <div class="card p-3 my-3">
                 <div class="card-header d-flex justify-content-between">
                     Statistik Anggota
@@ -971,129 +303,26 @@
             </div>
         </div>
         <div class="col-4">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Anggota Dewasa</h4>
-                    <hr>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card shadow">
-                            <div class="card-header" style="background-color: #804000;">
-                                <div class="text-white text-center"><strong id="total-pelatih">-</strong>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <p>PELATIH</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card shadow">
-                            <div class="card-header" style="background-color: #9900ff;">
-                                <div class="text-white text-center"><strong id="total-pembina">-</strong>
-                                </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <p>PEMBINA</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card shadow">
-                            <div class="card-header" style="background-color: #2fb7cf;">
-                                <div class="text-white text-center"><strong id="total-dewasa">-</strong>
-                                </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <p>PEMBANTU</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card my-3 p-3">
-                <div class="card-header">
-                    Siaga
-                </div>
-                <div id="siaga"></div>
-                <div class="card-footer">
-                    <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item">Putra: <strong id="total-siaga-lk">-</strong></li>
-                        <li class="list-group-item">Putri: <strong id="total-siaga-pr">-</strong></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card my-3 p-3">
-                <div class="card-header">
-                    Penggalang
-                </div>
-                <div id="penggalang"></div>
-                <div class="card-footer">
-                    <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item">Putra: <strong id="total-penggalang-lk">-</strong></li>
-                        <li class="list-group-item">Putri: <strong id="total-penggalang-pr">-</strong></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card my-3 p-3">
-                <div class="card-header">
-                    Penegak
-                </div>
-                <div id="penegak"></div>
-                <div class="card-footer">
-                    <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item">Putra: <strong id="total-penegak-lk">-</strong></li>
-                        <li class="list-group-item">Putri: <strong id="total-penegak-pr">-</strong></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card my-3 p-3">
-                <div class="card-header">
-                    Pandega
-                </div>
-                <div id="pandega"></div>
-                <div class="card-footer">
-                    <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item">Putra: <strong id="total-pandega-lk">-</strong></li>
-                        <li class="list-group-item">Putri: <strong id="total-pandega-pr">-</strong></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card my-3 p-3">
-                <div class="card-header">
-                    Pelatih
-                </div>
-                <div id="pelatih"></div>
-                <div class="card-footer">
-                    <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item">Putra: <strong id="total-pelatih-lk">-</strong></li>
-                        <li class="list-group-item">Putri: <strong id="total-pelatih-pr">-</strong></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card my-3 p-3">
-                <div class="card-header">
-                    Pembina
-                </div>
-                <div id="pembina"></div>
-                <div class="card-footer">
-                    <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item">Putra: <strong id="total-pembina-lk">-</strong></li>
-                        <li class="list-group-item">Putri: <strong id="total-pembina-pr">-</strong></li>
-                    </ul>
-                </div>
-            </div>
             <div class="card my-3 p-3">
                 <h4 class="card-title mb-0">List Admin</h4>
                 <hr>
                 <ol class="list-group list-group-numbered" id="list-admin"></ol>
+            </div>
+            <div class="card p-3 my-3">
+                <div class="card-header d-flex justify-content-between">
+                    Fungsionaris Organisasi
+                    <button type="button" class="btn btn-sm btn-info" onclick="statistikAnggota()"><i class="fas fa-redo"></i> Load Data</button>
+                </div>
+                <div id="organisasi" class="mt-2">
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach ($organizations as $item)
+                        <ul class="list-group list-group-horizontal">
+                            <li class="list-group-item">{{ $item->name }}</li>
+                            <li class="list-group-item">{{ $item->organizationUsers->count() }}</li>
+                        </ul>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </div>
     </div>

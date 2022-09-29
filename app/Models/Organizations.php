@@ -11,4 +11,9 @@ class Organizations extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function organizationUsers()
+    {
+        return $this->hasMany(OrganizationUser::class,'organization_id');
+    }
 }
