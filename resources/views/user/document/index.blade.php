@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-7 justify-content-end align-self-center d-none d-md-flex">
             <ul class="list-group list-group-horizontal">
-                <li class="list-group-item">Status saya: <strong>{{ Auth::user()->anggota->golongan->name }}</strong></li>
+                <li class="list-group-item">Status saya: <strong>{{ Auth::user()->anggota->golongan->name ?? '-' }}</strong></li>
             </ul>
         </div>
     </div>
