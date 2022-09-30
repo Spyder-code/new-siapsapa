@@ -112,7 +112,7 @@ class AnggotaService{
             }
         }else{
             $data['pramuka'] = $this->getPramuka($data['tgl_lahir']);
-            File::move(public_path('berkas\\import\\foto\\'.$data['foto']), public_path('berkas\\anggota\\'.$data['foto']));
+            File::move(public_path('berkas/import/foto/'.$data['foto']), public_path('berkas/anggota/'.$data['foto']));
         }
         $kta = Kta::where('kabupaten', $data['kabupaten'])->where('pramuka_id', $data['pramuka'])->first();
         if($kta){
