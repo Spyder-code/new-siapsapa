@@ -19,4 +19,9 @@ class Post extends Model
         'admin_validated',
         'status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_created');
+    }
 }

@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('post_media', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('post_id')->constrained();
+            $table->foreignId('post_id')->nullable()->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->string('type');
             $table->string('path');
             $table->boolean('status')->default(0);

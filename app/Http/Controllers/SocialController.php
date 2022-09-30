@@ -22,7 +22,8 @@ class SocialController extends Controller
         $user = $anggota->user;
         $kategori = PostCategory::all();
         $tags = Tag::all();
-        return view('social.user.feed', compact('user', 'anggota', 'kategori', 'tags'));
+        $post = Post::all();
+        return view('social.user.feed', compact('user', 'anggota', 'kategori', 'tags', 'post'));
     }
 
     public function userGallery($anggota_id)
@@ -44,7 +45,8 @@ class SocialController extends Controller
         $anggota = Anggota::find($anggota_id);
         $user = $anggota->user;
         $pramuka = Pramuka::where('id', '!=', 5)->select('name', 'id')->get();
-        $data = Document::all()->where('user_id', Auth::id())->groupBy('pramuka');
+        // $data = Document::all()->where('user_id', Auth::id())->groupBy('pramuka');
+        $data = Document::where('user_id', $user->id)->get();
         return view('social.user.sertification', compact('user', 'anggota', 'pramuka', 'data'));
     }
 
