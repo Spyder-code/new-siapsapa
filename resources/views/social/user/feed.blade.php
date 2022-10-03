@@ -29,7 +29,6 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @endsection
 
-
 @section('content-user')
 <div class="row">
     <div class="col-lg-8">
@@ -166,7 +165,7 @@
                         <img src="https://radiustheme.com/demo/html/cirkle/media/figure/chat_5.jpg" alt="Aahat">
                     </div>
                     <div class="media-body">
-                        <div class="user-title"><a href="user-timeline.html">{{ $item->user->name }}</a></div>
+                        <div class="user-title">{{ $item->user->name }}</div>
                         <ul class="entry-meta">
                             <li class="meta-privacy"><i class="icofont-user-alt-3"></i>Personal</li>
                             <li class="meta-time">{{ date("j F, Y", strtotime($item->created_at)) }}</li>
@@ -176,8 +175,11 @@
             </div>
             <div class="post-body">
                 <div class="mt-3">
-                    <h5 class="blog-title" style="text-transform: capitalize;">
-                        {{(strlen($item->title) >= 50) ? substr($item->title, 0, 50) . '...' : $item->title}}</h5>
+                    <a href="{{ route('social.news.detail', $item->id) }}">
+                        <h5 class="blog-title" style="text-transform: capitalize;">
+                            {{(strlen($item->title) >= 50) ? substr($item->title, 0, 50) . '...' : $item->title}}
+                        </h5>
+                    </a>
                 </div>
                 <div class="post-no-thumbnail">
                     <p>{{(strlen($item->content) >= 300) ? substr($item->content, 0, 300) . '...' : $item->content}}</p>

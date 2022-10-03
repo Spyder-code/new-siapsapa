@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\PostMedia;
 use App\Models\PostTag;
+use App\Repositories\PostMediaService;
 
 class PostController extends Controller
 {
@@ -44,7 +45,7 @@ class PostController extends Controller
             'post_category_id' => 'required',
             'content' => 'required|string|min:5',
             'cover_image' => 'required|image|mimes:png,jpg,jpeg|max:2000',
-            'post_media.*' => 'mimes:png,jpg,jpeg,avi,mpeg,quicktime,mp4|max:30000',
+            'post_media.*' => 'mimes:png,jpg,jpeg,mpeg,quicktime,mp4|max:30000',
             'tag_id' => 'required',
         ]);
 
@@ -56,34 +57,40 @@ class PostController extends Controller
         $file = $request->cover_image;
         $fileType = $file->getClientOriginalExtension();
         $fileName = 'cover.' . $fileType;
-        $filePath = 'public/social/' . $post->id . '/' . $fileName;
+        // $filePath = 'public/social/' . $post->id . '/' . $fileName;
+        $filePath = 'public/social/media/' . Auth::id() . '/' . $post->id . '/' . $fileName;
         Storage::put($filePath, file_get_contents($file));
         $validate['cover_image'] = Storage::url($filePath);
         $post->update($validate);
 
-        if ($request->hasFile('post_media')) {
-            foreach ($request->post_media as $file) {
-                $mime = $file->getClientmimeType();
+        // if ($request->hasFile('post_media')) {
+        //     foreach ($request->post_media as $file) {
+        //         $mime = $file->getClientmimeType();
 
-                if (strstr($mime, 'video/')) {
-                    $postmedia = PostMedia::create(['post_id' => $post->id, 'type' => 'video', 'path' => 'temporary', 'status' => 0]);
-                    $fileType = $file->getClientOriginalExtension();
-                    $fileName = $postmedia->id . '.' . $fileType;
-                    $filePath = 'public/social/' . $post->id . '/' . $fileName;
-                    Storage::put($filePath, file_get_contents($file));
-                    $validate['path'] = Storage::url($filePath);
-                    $postmedia->update($validate);
-                } else if (strstr($mime, 'image/')) {
-                    $postmedia = PostMedia::create(['post_id' => $post->id, 'type' => 'image', 'path' => 'temporary', 'status' => 0]);
-                    $fileType = $file->getClientOriginalExtension();
-                    $fileName = $postmedia->id . '.' . $fileType;
-                    $filePath = 'public/social/' . $post->id . '/' . $fileName;
-                    Storage::put($filePath, file_get_contents($file));
-                    $validate['path'] = Storage::url($filePath);
-                    $postmedia->update($validate);
-                }
-            }
-        }
+        //         if (strstr($mime, 'video/')) {
+        //             $postmedia = PostMedia::create(['post_id' => $post->id, 'user_id' => Auth::id(), 'type' => 'video', 'path' => 'temporary', 'status' => 0]);
+        //             $fileType = $file->getClientOriginalExtension();
+        //             $fileName = $postmedia->id . '.' . $fileType;
+        //             $filePath = 'public/social/' . $post->id . '/' . $fileName;
+        //             Storage::put($filePath, file_get_contents($file));
+        //             $validate['path'] = Storage::url($filePath);
+        //             $postmedia->update($validate);
+        //         } else if (strstr($mime, 'image/')) {
+        //             $postmedia = PostMedia::create(['post_id' => $post->id, 'user_id' => Auth::id(), 'type' => 'image', 'path' => 'temporary', 'status' => 0]);
+        //             $fileType = $file->getClientOriginalExtension();
+        //             $fileName = $postmedia->id . '.' . $fileType;
+        //             $filePath = 'public/social/' . $post->id . '/' . $fileName;
+        //             Storage::put($filePath, file_get_contents($file));
+        //             $validate['path'] = Storage::url($filePath);
+        //             $postmedia->update($validate);
+        //         }
+        //     }
+        // }
+
+        if ($request->hasFile('post_media')) {
+            $service = new PostMediaService();
+            $service->storeMedia($request->post_media, $validate, $post->id);
+        };
 
         foreach ($request->tag_id as $item) {
             PostTag::create(['tag_id' => $item, 'post_id' => $post->id]);

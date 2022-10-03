@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostMedia extends Model
 {
-   use HasFactory;
+    use HasFactory;
 
-   protected $table = 'post_media';
-   protected $fillable = [
-      'post_id',
-      'type',
-      'path',
-      'status',
-   ];
+    protected $table = 'post_media';
+    protected $fillable = [
+        'post_id',
+        'user_id',
+        'type',
+        'path',
+        'status',
+    ];
 }

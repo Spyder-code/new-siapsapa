@@ -10,7 +10,6 @@
 </div>
 @endif
 
-
 @if (Auth::id() == $user->id)
 <form id="form-main" action="{{ route('dokumen.store') }}" method="post" enctype="multipart/form-data">
     @csrf
@@ -86,7 +85,6 @@
 
 
 <div class="user-list-view forum-member">
-
     @foreach ($data as $item)
     <div class="widget-author block-box">
         <div class="author-heading">
@@ -125,7 +123,6 @@
         </ul>
     </div>
     @endforeach
-
 
     {{-- <div class="block-box load-more-btn">
         <a href="#" class="item-btn"><i class="icofont-refresh"></i>Load More Member</a>
@@ -231,7 +228,7 @@
 
         $('a#delete-item').click(function (e) {
             const id = $(this).attr('nilai');
-            if (confirm('are you sure?')) {
+            if (confirm('Apakah kamu yakin untuk menghapus sertifikat ini?')) {
                 $.ajax({
                     url: '{{ url("api/delete-document") }}',
                     type: 'DELETE',

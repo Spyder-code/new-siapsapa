@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostMediaController;
 
 /* |-------------------------------------------------------------------------- | Web Routes |-------------------------------------------------------------------------- | | Here is where you can register web routes for your application. These | routes are loaded by the RouteServiceProvider within a group which | contains the "web" middleware group. Now create something great! | */
 
@@ -60,6 +61,7 @@ Route::get('/penggumuman', [SocialController::class, 'announcement'])->name('soc
 Route::get('/account', [SocialController::class, 'profile'])->name('social.profile');
 Route::post('/post/store', [PostController::class, 'store'])->name('social.post.store');
 Route::get('/agenda/{id}', [SocialController::class, 'agendaDetail'])->name('agenda.detail');
+Route::post('/post/media/store', [PostMediaController::class, 'store'])->name('post.media.store');
 
 
 Route::get('/profile', [PageController::class, 'profile'])->name('page.profile');
