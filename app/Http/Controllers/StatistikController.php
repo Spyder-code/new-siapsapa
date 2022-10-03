@@ -41,15 +41,15 @@ class StatistikController extends Controller
             if($role=='kwarcab'){
                 $id_wilayah = $user->anggota->kabupaten;
                 $active = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->count();
-                $kwarcab = 0;
+                $kwarcab = Anggota::where('kabupaten',$id_wilayah)->where('status',0)->count();
                 $kwaran = Distrik::where('regency_id', $id_wilayah)->count();
                 $gudep = Gudep::where('kabupaten',$id_wilayah)->count();
             }
             if($role=='kwaran'){
                 $id_wilayah = $user->anggota->kecamatan;
                 $active = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->count();
-                $kwarcab = 0;
-                $kwaran = 0;
+                $kwarcab = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->count();
+                $kwaran = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->whereNull('gudep')->count();
                 $gudep = Gudep::where('kecamatan',$id_wilayah)->count();
             }
             if($role=='gudep'){

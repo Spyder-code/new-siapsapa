@@ -270,7 +270,7 @@ class StatistikController extends Controller
                 <td>'.(int)$lk.'</td>
                 <td>'.(int)$pr.'</td>
                 <td>'.(int)$count.'</td>
-                <td><a href="" class="btn btn-sm btn-info">Detail</a></td>
+                <td><a href="'.route('anggota.search_document',$item->id).'" class="btn btn-sm btn-info">Detail</a></td>
             </tr>';
             }
         }
@@ -368,7 +368,7 @@ class StatistikController extends Controller
                 <td>'.$lk.'</td>
                 <td>'.$pr.'</td>
                 <td> '.$item->documents->count().'</td>
-                <td><a href="" class="btn btn-sm btn-info">Detail</a></td>
+                <td><a href="'.route('anggota.search_document',$item->id).'" class="btn btn-sm btn-info">Detail</a></td>
             </tr>';
         }
 

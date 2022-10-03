@@ -84,7 +84,6 @@
                                 </div>
                             </div>
                         </div>
-                        @if (Auth::user()->role=='admin'||Auth::user()->role=='kwarda')
                         <div class="col">
                             <div class="card shadow">
                                 <div class="card-header bg-danger">
@@ -93,13 +92,15 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">
+                                        @if (Auth::user()->role=='admin'||Auth::user()->role=='kwarda')
                                         <p>KWARTIR CABANG</p>
+                                        @else
+                                        <p>TOTAL ANGGOTA NON AKTIF</p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @endif
-                        @if (Auth::user()->role=='admin'||Auth::user()->role=='kwarda'||Auth::user()->role=='kwarcab')
                         <div class="col">
                             <div class="card shadow">
                                 <div class="card-header bg-warning">
@@ -108,13 +109,15 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">
+                                        @if (Auth::user()->role=='admin'||Auth::user()->role=='kwarda'||Auth::user()->role=='kwarcab')
                                         <p>KWARTIR RANTING</p>
+                                        @else
+                                        <p>TOTAL ANGGOTA NON GUDEP</p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @endif
-                        @if (Auth::user()->role=='admin'||Auth::user()->role=='kwarda'||Auth::user()->role=='kwarcab'||Auth::user()->role=='kwaran')
                         <div class="col">
                             <div class="card shadow">
                                 <div class="card-header" style="background-color: #e67300;">
@@ -128,7 +131,6 @@
                                 </div>
                             </div>
                         </div>
-                        @endif
                     </div>
                 </div>
             </div>

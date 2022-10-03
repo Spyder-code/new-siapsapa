@@ -8,9 +8,12 @@ use App\Imports\AnggotaImport;
 use App\Models\Anggota;
 use App\Models\City;
 use App\Models\Distrik;
+use App\Models\Document;
+use App\Models\DocumentType;
 use App\Models\Gudep;
 use App\Models\Organizations;
 use App\Models\Provinsi;
+use App\Models\User;
 use App\Repositories\AnggotaService;
 use App\Repositories\WilayahService;
 use Illuminate\Http\Request;
@@ -66,13 +69,10 @@ class AnggotaController extends Controller
         return view('admin.anggota.index', compact('url','data','id_wilayah','kwartir','title','type','organizations'));
     }
 
-    public function search()
+    public function searchByDocument($id)
     {
-        $query = Anggota::query();
-        if(request('docuement_type_id')){
-
-        }
-        return view('admin.anggota.list',compact('data'));
+        $documentType = DocumentType::find($id);
+        return view('admin.anggota.list', compact('id','documentType'));
     }
 
     public function non_validate()
@@ -870,6 +870,127 @@ class AnggotaController extends Controller
                 return $data->district->name;
             })
             ->setFilteredRecords($count)
+            ->rawColumns(['action','foto','status'])
+            ->make(true);
+    }
+
+    public function data_table_search_document()
+    {
+        $user = User::find(request('user_id'));
+        $role = $user->role;
+        $anggota = $user->anggota;
+        if ($role=='admin') {
+            $data = Anggota::join('users','users.id','=','tb_anggota.user_id')
+                    ->join('documents','documents.user_id','=','users.id')
+                    ->where('documents.document_type_id',request('document_type_id'))
+                    ->where('tb_anggota.status',1)
+                    ->select('tb_anggota.id','tb_anggota.nik','tb_anggota.status','tb_anggota.kode','tb_anggota.jk','tb_anggota.nama','tb_anggota.tgl_lahir','tb_anggota.foto','tb_anggota.pramuka','tb_anggota.gudep','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.provinsi')
+                    ->get();
+        } elseif($role=='kwarda') {
+            $data = Anggota::join('users','users.id','=','tb_anggota.user_id')
+                    ->join('documents','documents.user_id','=','users.id')
+                    ->where('documents.document_type_id',request('document_type_id'))
+                    ->where('tb_anggota.status',1)
+                    ->where('tb_anggota.provinsi',$anggota->provinsi)
+                    ->select('tb_anggota.id','tb_anggota.nik','tb_anggota.status','tb_anggota.kode','tb_anggota.jk','tb_anggota.nama','tb_anggota.tgl_lahir','tb_anggota.foto','tb_anggota.pramuka','tb_anggota.gudep','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.provinsi')
+                    ->get();
+        } elseif($role=='kwarcab') {
+            $data = Anggota::join('users','users.id','=','tb_anggota.user_id')
+                    ->join('documents','documents.user_id','=','users.id')
+                    ->where('documents.document_type_id',request('document_type_id'))
+                    ->where('tb_anggota.status',1)
+                    ->where('tb_anggota.kabupaten',$anggota->kabupaten)
+                    ->select('tb_anggota.id','tb_anggota.nik','tb_anggota.status','tb_anggota.kode','tb_anggota.jk','tb_anggota.nama','tb_anggota.tgl_lahir','tb_anggota.foto','tb_anggota.pramuka','tb_anggota.gudep','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.provinsi')
+                    ->get();
+        } elseif($role=='kwaran') {
+            $data = Anggota::join('users','users.id','=','tb_anggota.user_id')
+                    ->join('documents','documents.user_id','=','users.id')
+                    ->where('documents.document_type_id',request('document_type_id'))
+                    ->where('tb_anggota.status',1)
+                    ->where('tb_anggota.kecamatan',$anggota->kecamatan)
+                    ->select('tb_anggota.id','tb_anggota.nik','tb_anggota.status','tb_anggota.kode','tb_anggota.jk','tb_anggota.nama','tb_anggota.tgl_lahir','tb_anggota.foto','tb_anggota.pramuka','tb_anggota.gudep','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.provinsi')
+                    ->get();
+        } elseif($role=='gudep') {
+            $data = Anggota::join('users','users.id','=','tb_anggota.user_id')
+                    ->join('documents','documents.user_id','=','users.id')
+                    ->where('documents.document_type_id',request('document_type_id'))
+                    ->where('tb_anggota.status',1)
+                    ->where('tb_anggota.gudep',$anggota->gudep)
+                    ->select('tb_anggota.id','tb_anggota.nik','tb_anggota.status','tb_anggota.kode','tb_anggota.jk','tb_anggota.nama','tb_anggota.tgl_lahir','tb_anggota.foto','tb_anggota.pramuka','tb_anggota.gudep','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.provinsi')
+                    ->get();
+        }
+
+        return DataTables::of($data)
+            ->addColumn('nama', function($data){
+                return $data->nama.' ('.$data->kode.')';
+            })
+            ->addColumn('jk', function($data){
+                $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
+                $date = date('d/m/Y', strtotime($data->tgl_lahir));
+                return $nama.' ('.$date.')';
+            })
+            ->addColumn('foto', function($data){
+                if($data->pramuka==1){
+                    $warna = '<span class="badge bg-siaga">Siaga</span>';
+                }elseif($data->pramuka==2){
+                    $warna = '<span class="badge bg-penggalang">Penggalang</span>';
+                }elseif($data->pramuka==3){
+                    $warna = '<span class="badge bg-penegak">Penegak</span>';
+                }elseif($data->pramuka==4){
+                    $warna = '<span class="badge bg-pandega">Pandega</span>';
+                }elseif($data->pramuka==5){
+                    $warna = '<span class="badge bg-dewasa">Dewasa</span>';
+                }else{
+                    $warna = '<span class="badge bg-white text-dark">Pelatih</span>';
+                }
+                return '
+                    <div class="justify-content-center text-center">
+                    <img src="'.asset('berkas/anggota/'.$data->foto).'" class="img-thumbnail mx-auto d-block" height="80px" width="80px">
+                        '.$warna.'
+                    </div>
+                ';
+            })
+            ->addColumn('status', function($data){
+                $name = $data->status == 0 ? 'Tidak Aktif' : 'Aktif';
+                $value = $data->status == 0 ? 1 : 0;
+                $is_check = $data->status== 0 ? '' : 'checked';
+                $html = '<form action="' . route('anggota.update.status', $data) . '" method="post">
+                                <input type="hidden" name="_method" value="PUT">
+                                <input type="hidden" name="_token" value="' . csrf_token() . '">
+                                <input type="hidden" value="' . $value . '" name="status">
+                                <div class="form-check form-switch">
+                                    <input '.$is_check.' class="form-check-input" type="checkbox" onchange="submit()" id="flexSwitchCheckChecked">
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">' . $name . '</label>
+                                </div>
+                                </button>
+                            </form>';
+
+                return $html;
+            })
+            ->addColumn('action', function ($data) {
+                $btn = '';
+                $status = $data->status;
+                if($status==2){
+                    $btn = '
+                        <button type="button" onclick="validasi('.$data->id.')" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Validasi</button>
+                        <button type="button" onclick="tolak('.$data->id.')" class="btn btn-secondary btn-sm"><i class="fa fa-crosshairs"></i> Tolak</button>
+                    ';
+                }
+                $html = '<div class="btn-group">
+                            <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
+                            '.$btn.'
+                            <button type="button" onclick="promoteAnggota('.$data->id.')" class="btn btn-sm btn-success"><i class="fas fa-star"></i>  Promosikan</button>
+                            <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
+                        </div>';
+                return $html;
+            })
+            ->addColumn('kabupaten', function ($data) {
+                return $data->city->name;
+            })
+            ->addColumn('kecamatan', function ($data) {
+                return $data->district->name;
+            })
             ->rawColumns(['action','foto','status'])
             ->make(true);
     }

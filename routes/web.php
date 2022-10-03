@@ -70,7 +70,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::get('data/wrong-date', [DataController::class, 'view_date'])->name('data.view.date');
         Route::put('data/wrong-date', [DataController::class, 'update_tgl_lahir'])->name('data.update.date');
         Route::get('data/wrong-image', [DataController::class, 'view_image'])->name('data.view.image');
-        Route::get('statistik', [StatistikController::class, 'index'])->name('statistik.index');
+        Route::get('statistik', [StatistikController::class, 'new'])->name('statistik.index');
         Route::get('new-statistik', [StatistikController::class, 'new'])->name('statistik.new');
         Route::post('print-kta/{transactionDetail}', [CartController::class, 'print'])->name('cart.print');
         Route::resource('kwartir', KwartirController::class)->except(['show','create','store']);
@@ -87,6 +87,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::get('get-anggota/{type}', [AnggotaController::class,'index'])->name('anggota.index');
         Route::put('anggota/update/status/{anggota}', [AnggotaController::class,'updateStatus'])->name('anggota.update.status');
         Route::get('anggota/non-validate', [AnggotaController::class,'non_validate'])->name('anggota.non_validate');
+        Route::get('anggota/search-document/{id}', [AnggotaController::class,'searchByDocument'])->name('anggota.search_document');
         Route::get('anggota/gudep/{gudep}', [GudepController::class,'anggota'])->name('gudep.anggota');
         Route::get('gudep/anggota/transfer', [GudepController::class,'transfer'])->name('gudep.transfer');
         Route::put('gudep/anggota/transfer', [GudepController::class,'transfer_store'])->name('gudep.transfer.store');
@@ -129,6 +130,7 @@ Route::prefix('datatable')->group(function(){
     Route::get('anggota/is-gudep', [AnggotaController::class, 'data_table_is_gudep'])->name('datatable.anggota.is-gudep');
     Route::get('anggota/active', [AnggotaController::class, 'data_table_active'])->name('datatable.anggota.active');
     Route::get('anggota/non-validate', [AnggotaController::class, 'data_table_non_validate'])->name('datatable.anggota.non_validate');
+    Route::get('anggota/search-document', [AnggotaController::class, 'data_table_search_document'])->name('datatable.anggota.search_document');
     Route::get('gudep/anggota', [GudepController::class, 'data_table_anggota'])->name('datatable.gudep.anggota');
     Route::get('kwartir', [KwartirController::class, 'data_table'])->name('datatable.kwartir');
     Route::get('wrong-date', [DataController::class, 'wrong_date'])->name('datatable.data.wrong.date');

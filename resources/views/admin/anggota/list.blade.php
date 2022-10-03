@@ -11,10 +11,7 @@
 @endsection
 @section('breadcrumb')
 @php
-    $title = $kwartir.' '.ucfirst(strtolower($title));
-    if(Auth::user()->role=='gudep'){
-        $title = Auth::user()->anggota->gudepInfo->nama_sekolah;
-    }
+    $title = ' Dokumen '.ucfirst($documentType->name);
 @endphp
 <div class="row">
     <x-breadcrumb_left
@@ -67,7 +64,6 @@
                     <table class="table table-bordered file-export" style="width: 100%">
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>Foto</th>
                                 <th>Nik</th>
                                 <th>Nama Lengkap</th>
@@ -93,6 +89,35 @@
     <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        var table = $(".file-export").DataTable();
+        var table = $(".file-export").DataTable({
+            processing: true,
+            serverSide: true,
+            scrollY: '500px',
+            ajax: {
+            url: '{!! route('datatable.anggota.search_document') !!}',
+            type: 'GET',
+            data: {
+                    document_type_id: @json($id),
+                    user_id: @json(Auth::id())
+                },
+            },
+            columns: [
+                {data: 'foto', name: 'foto'},
+                {data: 'nik', name: 'nik', visible: false},
+                {data: 'nama', name: 'nama'},
+                {data: 'jk', name: 'jk'},
+                {data: 'kabupaten', name: 'kabupaten'},
+                {data: 'kecamatan', name: 'kecamatan'},
+                {data: 'status', name: 'status'},
+                {data: 'action', name: 'action', searchable: false, orderable: false},
+            ],
+            dom: "Bfrtip",
+            lengthMenu: [
+                [ 10, 25, 50, -1 ],
+                [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+            ],
+            buttons: ["pageLength","copy", "csv", "excel", "pdf", "print"],
+            "bLengthChange": true,
+        });
     </script>
 @endsection
