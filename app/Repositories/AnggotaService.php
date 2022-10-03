@@ -83,7 +83,9 @@ class AnggotaService{
         if($ulpoad_foto){
             $data['foto'] = $this->uploadImage($data['foto']);
         }else{
-            File::move(public_path('berkas/import/foto/'.$data['foto']), public_path('berkas/anggota/'.$data['foto']));
+            if (!empty($data['foto'])) {
+                File::move(public_path('berkas/import/foto/'.$data['foto']), public_path('berkas/anggota/'.$data['foto']));
+            }
         }
 
         $kta = Kta::where('kabupaten', $data['kabupaten'])->where('pramuka_id', $data['pramuka'])->first();

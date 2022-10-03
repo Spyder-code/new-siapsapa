@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AnggotaExport;
 use App\Http\Requests\AnggotaRequest;
 use App\Imports\AnggotaImport;
 use App\Models\Anggota;
 use App\Models\City;
 use App\Models\Distrik;
+use App\Models\Gudep;
 use App\Models\Organizations;
 use App\Models\Provinsi;
 use App\Repositories\AnggotaService;
@@ -345,6 +347,38 @@ class AnggotaController extends Controller
         $data = $request->all();
         $anggota->update($data);
         return back()->with('success', 'Data berhasil diubah');
+    }
+
+    public function export(Request $request)
+    {
+        $id = $request->gudep_id;
+        return Excel::download(new AnggotaExport($id), 'anggota.xlsx');
+    }
+
+    public function bulkUpdate(Request $request)
+    {
+        $file = $request->file('file');
+        $import = new AnggotaImport();
+        Excel::import($import, $file);
+        $data = $import->getData();
+        $gudep = Gudep::find($request->gudep_id);
+        foreach ($data as $item) {
+            $anggota = Anggota::where('nik',$item['nik'])->first();
+            $item['kecamatan'] = $gudep->kecamatan;
+            $item['kabupaten'] = $gudep->kabupaten;
+            $item['provinsi'] = $gudep->provinsi;
+            $item['gudep'] = $gudep->id;
+            $item['status'] = 1;
+            $item['tgl_lahir'] = date('Y-m-d',strtotime($item['tgl_lahir']));
+            if($anggota){
+                $anggota->update($item);
+            }else{
+                $service = new AnggotaService();
+                $anggota = $service->createUser($item,false);
+            }
+        }
+
+        return back()->with('success','Bulk Update Berhasil');
     }
 
     public function data_table_active()

@@ -115,6 +115,8 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::post('transfer-anggota/cancel/{transfer_anggota}', [TransferAnggotaController::class,'cancel'])->name('transfer.anggota.cancel');
         Route::post('transfer-anggota/reject/{transfer_anggota}', [TransferAnggotaController::class,'reject'])->name('transfer.anggota.reject');
         Route::post('transfer-anggota/approve/{transfer_anggota}', [TransferAnggotaController::class,'approve'])->name('transfer.anggota.approve');
+        Route::post('export/anggota', [AnggotaController::class,'export'])->name('anggota.export');
+        Route::post('bulk-update/anggota', [AnggotaController::class,'bulkUpdate'])->name('anggota.bulkUpdate');
     });
 });
 
