@@ -19,7 +19,7 @@
     @foreach($data as $item)
         <tr>
             <td>{{ $loop->iteration }}</td>
-            <td>{{ $item->nik }}</td>
+            <td>{{ $item->nik }}'</td>
             <td>{{ $item->nama }}</td>
             <td>{{ $item->tempat_lahir }}</td>
             <td>{{ date('d/m/Y', strtotime($item->tgl_lahir)) }}</td>

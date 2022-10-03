@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anggota;
 use App\Models\City;
 use App\Models\Distrik;
 use App\Models\DocumentType;
+use App\Models\Gudep;
 use App\Models\Organizations;
 use App\Models\Pramuka;
 use App\Models\Provinsi;
@@ -20,25 +22,45 @@ class StatistikController extends Controller
         if (request('id_wilayah')) {
             $id_wilayah = request('id_wilayah');
         }else{
-            if($role=='admin')
+            if($role=='admin'){
                 $id_wilayah = 'all';
-            if($role=='kwarda')
+                $active = Anggota::where('status',1)->count();
+                $kwarcab = City::count();
+                $kwaran = Distrik::count();
+                $gudep = Gudep::count();
+            }
+            if($role=='kwarda'){
                 $id_wilayah = $user->anggota->provinsi;
-            if($role=='kwarcab')
+                $active = Anggota::where('provinsi',$id_wilayah)->where('status',1)->count();
+                $kwarcab = City::where('province_id',$id_wilayah)->count();
+                $kwaran = Distrik::whereHas('regency', function($q) use($id_wilayah){
+                    $q->where('province_id',$id_wilayah);
+                })->count();
+                $gudep = Gudep::where('provinsi',$id_wilayah)->count();
+            }
+            if($role=='kwarcab'){
                 $id_wilayah = $user->anggota->kabupaten;
-            if($role=='kwaran')
+                $active = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->count();
+                $kwarcab = 0;
+                $kwaran = Distrik::where('regency_id', $id_wilayah)->count();
+                $gudep = Gudep::where('kabupaten',$id_wilayah)->count();
+            }
+            if($role=='kwaran'){
                 $id_wilayah = $user->anggota->kecamatan;
-            if($role=='gudep')
+                $active = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->count();
+                $kwarcab = 0;
+                $kwaran = 0;
+                $gudep = Gudep::where('kecamatan',$id_wilayah)->count();
+            }
+            if($role=='gudep'){
                 return redirect()->route('gudep.show', $user->anggota->gudep);
+            }
         }
 
         $data = $this->getData($id_wilayah);
         $title = $data[0]->name ?? 'Kwartir Nasional';
         $kwartir = $data[1];
-        $data = Pramuka::whereIn('id',[1,2,3,4,6,7])->get();
-        $saka = DocumentType::where('pramuka_id',8)->get();
-        $organizations = Organizations::all();
-        return view('admin.new-statistik', compact('id_wilayah','title','kwartir','data','saka','organizations'));
+        return view('admin.new-statistik', compact('id_wilayah','title','kwartir', 'data','active','kwarcab','kwaran','gudep'));
     }
 
     public function index()

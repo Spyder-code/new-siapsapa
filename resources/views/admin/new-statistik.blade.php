@@ -15,7 +15,7 @@
     />
     <div class="col-md-7 justify-content-end align-self-center d-none d-md-flex">
         <ul class="list-group list-group-horizontal">
-            <li class="list-group-item">Total Anggota: <strong id="total-anggota">-</strong></li>
+            <li class="list-group-item">Total Anggota: <strong id="total-anggota">{{ number_format($active) }}</strong></li>
             @if($id_wilayah!='all')
                 <li class="list-group-item">Total Admin: <strong id="total-admin">-</strong></li>
                 <li class="list-group-item">
@@ -57,6 +57,9 @@
     tr.td,tr{
         background-color: white;
     }
+    .text-center p{
+        font-size: .8rem;
+    }
 </style>
 <div class="cards">
     <div class="row">
@@ -71,7 +74,7 @@
                         <div class="col">
                             <div class="card shadow">
                                 <div class="card-header bg-success">
-                                    <div class="rounded-circle mx-auto bg-light-light text-success text-white text-center"><strong id="total-siaga">-</strong>
+                                    <div class="rounded-circle mx-auto bg-light-light text-success text-white text-center"><strong id="total-siaga">{{ number_format($active) }}</strong>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -81,10 +84,11 @@
                                 </div>
                             </div>
                         </div>
+                        @if (Auth::user()->role=='admin'||Auth::user()->role=='kwarda')
                         <div class="col">
                             <div class="card shadow">
                                 <div class="card-header bg-danger">
-                                    <div class="text-white text-center"><strong id="total-penggalang">-</strong>
+                                    <div class="text-white text-center"><strong id="total-penggalang">{{ number_format($kwarcab) }}</strong>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -94,10 +98,12 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
+                        @if (Auth::user()->role=='admin'||Auth::user()->role=='kwarda'||Auth::user()->role=='kwarcab')
                         <div class="col">
                             <div class="card shadow">
                                 <div class="card-header bg-warning">
-                                    <div class="text-white text-center"><strong id="total-penegak">-</strong>
+                                    <div class="text-white text-center"><strong id="total-penegak">{{ number_format($kwaran) }}</strong>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -107,10 +113,12 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
+                        @if (Auth::user()->role=='admin'||Auth::user()->role=='kwarda'||Auth::user()->role=='kwarcab'||Auth::user()->role=='kwaran')
                         <div class="col">
                             <div class="card shadow">
                                 <div class="card-header" style="background-color: #e67300;">
-                                    <div class="text-white text-center"><strong id="total-pandega">-</strong>
+                                    <div class="text-white text-center"><strong id="total-pandega">{{ number_format($gudep) }}</strong>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -120,6 +128,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -127,70 +136,21 @@
             <div class="card accordion" id="accordionExample">
                 <div class="accordion-item">
                     <h4 class="accordion-header" id="headingOne">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                             Statistik Golongan Anggota
                         </button>
                     </h4>
 
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                         <div class="accordion-body table-responsive bg-white">
                             <div class="card-header d-flex justify-content-between">
                                 #
                                 <div>
-                                    <button type="button" class="btn btn-sm btn-info" onclick="statistikAnggota()"><i class="fas fa-redo"></i> Load Data</button>
-                                    <button type="button" class="btn btn-sm btn-success" onclick="statistikAnggota()"><i class="fas fa-download"></i> Download</button>
+                                    <button type="button" class="btn btn-sm btn-info" onclick="getAnggotaMuda()"><i class="fas fa-redo"></i> Load Data</button>
+                                    <button type="button" class="btn btn-sm btn-success" onclick="downloadTableGolongan()"><i class="fas fa-download"></i> Download</button>
                                 </div>
                             </div>
-                            <table class="table text-center table-bordered text-dark" id="tableData">
-                                <thead>
-                                    <tr>
-                                        <th class="table-secondary" scope="col" colspan="2">Golongan</th>
-                                        <th class="table-secondary" scope="col">Laki-laki</th>
-                                        <th class="table-secondary" scope="col">Perempuan</th>
-                                        <th class="table-secondary" scope="col">Jumlah</th>
-                                        <th class="table-secondary" scope="col">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($data as $pramuka)
-                                        @foreach ($pramuka->documentTypes as $item)
-                                        <tr>
-                                            @if ($loop->iteration==1)
-                                            @php
-                                                $lkk = $pramuka->anggotas()->where('jk','L')->count();
-                                                $prr = $pramuka->anggotas()->where('jk','P')->count();
-                                                $lk_count = 0;
-                                                $pr_count = 0;
-                                            @endphp
-                                            <td scope="row" class="table-{{ strtolower($pramuka->name) }}" rowspan="{{ $pramuka->documentTypes->count() }}">
-                                                {{ $pramuka->name }} <br><br>
-                                                <span class="fw-normal" style="font-size: .7rem">L: {{ $lkk }}</span><br>
-                                                <span class="fw-normal" style="font-size: .7rem">P: {{ $prr }}</span><br>
-                                                <span class="fw-normal" style="font-size: .7rem">J: {{ $prr+$lkk }}</span>
-                                            </td>
-                                            @endif
-                                            <td>{{ $item->name }}</td>
-                                                @php
-                                                    $lk = $item->documents()->whereHas('user', function($q){
-                                                        $q->whereHas('anggota', function($q){
-                                                            $q->where('jk', 'L');
-                                                        });
-                                                    })->count();
-                                                    $pr = $item->documents()->whereHas('user', function($q){
-                                                        $q->whereHas('anggota', function($q){
-                                                            $q->where('jk', 'P');
-                                                        });
-                                                    })->count();
-                                                @endphp
-                                            <td>{{ $lk }}</td>
-                                            <td>{{ $pr }}</td>
-                                            <td>{{ $item->documents->count() }}</td>
-                                            <td><a href="" class="btn btn-sm btn-info">Detail</a></td>
-                                        </tr>
-                                        @endforeach
-                                    @endforeach
-                                </tbody>
-                            </table>
+                            <div id="table-anggota-muda"></div>
                         </div>
                     </div>
                 </div>
@@ -199,54 +159,21 @@
             <div class="card accordion" id="accordionDewasa">
                 <div class="accordion-item">
                     <h4 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                             Statistik SAKA
                         </button>
                     </h4>
 
-                    <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionDewasa">
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionDewasa">
                         <div class="accordion-body table-responsive">
                             <div class="card-header d-flex justify-content-between">
                                 #
                                 <div>
-                                    <button type="button" class="btn btn-sm btn-info" onclick="statistikAnggota()"><i class="fas fa-redo"></i> Load Data</button>
-                                    <button type="button" class="btn btn-sm btn-success" onclick="statistikAnggota()"><i class="fas fa-download"></i> Download</button>
+                                    <button type="button" class="btn btn-sm btn-info" onclick="getAnggotaSaka()"><i class="fas fa-redo"></i> Load Data</button>
+                                    <button type="button" class="btn btn-sm btn-success" onclick="downloadTableSaka()"><i class="fas fa-download"></i> Download</button>
                                 </div>
                             </div>
-                            <table class="table text-center table-bordered text-dark" id="tableData">
-                                <thead>
-                                    <tr>
-                                        <th class="table-secondary" scope="col">Golongan</th>
-                                        <th class="table-secondary" scope="col">Laki-laki</th>
-                                        <th class="table-secondary" scope="col">Perempuan</th>
-                                        <th class="table-secondary" scope="col">Jumlah</th>
-                                        <th class="table-secondary" scope="col">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($saka as $item)
-                                        <tr>
-                                            <td>{{ $item->name }}</td>
-                                                @php
-                                                    $lk = $item->documents()->whereHas('user', function($q){
-                                                        $q->whereHas('anggota', function($q){
-                                                            $q->where('jk', 'L');
-                                                        });
-                                                    })->count();
-                                                    $pr = $item->documents()->whereHas('user', function($q){
-                                                        $q->whereHas('anggota', function($q){
-                                                            $q->where('jk', 'P');
-                                                        });
-                                                    })->count();
-                                                @endphp
-                                            <td>{{ $lk }}</td>
-                                            <td>{{ $pr }}</td>
-                                            <td>{{ $item->documents->count() }}</td>
-                                            <td><a href="" class="btn btn-sm btn-info">Detail</a></td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                            <div id="table-saka"></div>
                         </div>
                     </div>
                 </div>
@@ -311,16 +238,10 @@
             <div class="card p-3 my-3">
                 <div class="card-header d-flex justify-content-between">
                     Fungsionaris Organisasi
-                    <button type="button" class="btn btn-sm btn-info" onclick="statistikAnggota()"><i class="fas fa-redo"></i> Load Data</button>
+                    <button type="button" class="btn btn-sm btn-info" onclick="getFungsionaris()"><i class="fas fa-redo"></i> Load Data</button>
                 </div>
                 <div id="organisasi" class="mt-2">
-                    <div class="d-flex flex-wrap gap-2">
-                        @foreach ($organizations as $item)
-                        <ul class="list-group list-group-horizontal">
-                            <li class="list-group-item">{{ $item->name }}</li>
-                            <li class="list-group-item">{{ $item->organizationUsers->count() }}</li>
-                        </ul>
-                        @endforeach
+                    <div class="d-flex flex-wrap gap-2" id="fungsionaris">
                     </div>
                 </div>
             </div>
@@ -330,13 +251,9 @@
 @endsection
 
 @section('script')
-    {{-- @include('components.dashboard',['id_wilayah' => $id_wilayah, 'gudep' => 0]) --}}
+    @include('components.dashboard',['id_wilayah' => $id_wilayah, 'gudep' => 0])
     <script src="{{ asset('js/excelexportjs.js') }}"></script>
     <script>
-        // $("#tableData").excelexportjs({
-        //     containerid: "tableData",
-        //     datatype: 'table'
-        // });
         var table = $(".file-export").DataTable({
             processing: true,
             serverSide: true,
@@ -373,7 +290,9 @@
                     success: function(data) {
                         var data = data.data;
                         $('#list-admin').html('');
+                        var count = 0;
                         $.each(data, function(index, value) {
+                            count+=1;
                             $('#list-admin').append(
                                 `<li class="list-group-item d-flex justify-content-between align-items-start">
                                     <div div class="ms-2 me-auto">
@@ -384,6 +303,8 @@
                                 </li>`
                             );
                         });
+
+                        $('#total-admin').html(count);
                     }
                 });
         }
@@ -397,7 +318,6 @@
                 },
                 success: function(data) {
                     list_admin();
-                    total_anggota();
                     table.ajax.reload();
                 }
             });
@@ -413,10 +333,66 @@
                 },
                 success: function(data) {
                     list_admin();
-                    total_anggota();
                     table.ajax.reload();
                 }
             });
+        }
+
+        let getAnggotaMuda = ()=>{
+            var url = @json(url('api/get-table-anggota-muda'));
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {user_id:@json(Auth::id())},
+                success: function (response) {
+                    $('#table-anggota-muda').html(response);
+                }
+            });
+        }
+        let getAnggotaSaka = ()=>{
+            var url = @json(url('api/get-table-anggota-saka'));
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {user_id:@json(Auth::id())},
+                success: function (response) {
+                    $('#table-saka').html(response);
+                }
+            });
+        }
+        let getFungsionaris = ()=>{
+            var url = @json(url('api/get-table-fungsionaris'));
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {user_id:@json(Auth::id())},
+                success: function (response) {
+                    $('#fungsionaris').html(response);
+                }
+            });
+        }
+
+        let downloadTableSaka = ()=>{
+            var check = $('#tableSaka')[0];
+            if(check != undefined){
+                $("#tableSaka").excelexportjs({
+                    containerid: "tableSaka",
+                    datatype: 'table'
+                });
+            }else{
+                alert('Anda harus load data terlebih dahulu');
+            }
+        }
+        let downloadTableGolongan = ()=>{
+            var check = $('#tableGolongan')[0];
+            if(check != undefined){
+                $("#tableGolongan").excelexportjs({
+                    containerid: "tableGolongan",
+                    datatype: 'table'
+                });
+            }else{
+                alert('Anda harus load data terlebih dahulu');
+            }
         }
         list_admin();
     </script>

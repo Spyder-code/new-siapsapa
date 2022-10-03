@@ -13,15 +13,15 @@
     />
     <div class="col-md-4 justify-content-end align-self-center d-none d-md-flex gap-2">
         <a href="{{ route('gudep.edit', $gudep) }}" class="btn btn-primary btn-sm">Edit Gudep</a>
-        <form action="{{ route('anggota.export') }}" method="post">
+        {{-- <form action="{{ route('anggota.export') }}" method="post">
             @csrf
             <button type="submit" name="gudep_id" value="{{ $gudep->id }}" class="btn btn-sm btn-success">Export Anggota</button>
-        </form>
+        </form> --}}
         @if (Auth::user()->role == 'gudep')
             <a href="{{ route('anggota.import') }}" class="btn btn-info">Import Anggota Gudep</a>
         @endif
     </div>
-    <div class="col-md-3">
+    {{-- <div class="col-md-3">
         <div class="d-flex">
             <form action="{{ route('anggota.bulkUpdate') }}" method="post" enctype="multipart/form-data">
                 @csrf
@@ -31,7 +31,7 @@
                 <button type="submit" class="btn btn-sm btn-success">Update</button>
             </form>
         </div>
-    </div>
+    </div> --}}
 </div>
 @endsection
 @section('content')

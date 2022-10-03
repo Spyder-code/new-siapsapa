@@ -47,6 +47,9 @@ Route::get('get-jumlah-anggota/{id_wilayah}', [StatistikController::class, 'juml
 Route::get('get-statistik-darah/{id_wilayah}', [StatistikController::class, 'statistikDarah']);
 Route::get('get-statistik-agama/{id_wilayah}', [StatistikController::class, 'statistikAgama']);
 Route::get('get-statistik-tingkat/{id_wilayah}', [StatistikController::class, 'statistikTingkat']);
+Route::get('get-table-anggota-muda', [StatistikController::class, 'anggotaMuda']);
+Route::get('get-table-anggota-saka', [StatistikController::class, 'anggotaSaka']);
+Route::get('get-table-fungsionaris', [StatistikController::class, 'fungsionaris']);
 
 // gudep
 Route::get('get-admin-gudep/{gudep_id}', [GudepController::class, 'getAdmin']);

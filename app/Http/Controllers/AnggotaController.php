@@ -66,6 +66,15 @@ class AnggotaController extends Controller
         return view('admin.anggota.index', compact('url','data','id_wilayah','kwartir','title','type','organizations'));
     }
 
+    public function search()
+    {
+        $query = Anggota::query();
+        if(request('docuement_type_id')){
+
+        }
+        return view('admin.anggota.list',compact('data'));
+    }
+
     public function non_validate()
     {
         if(request('id_wilayah')){
@@ -363,7 +372,9 @@ class AnggotaController extends Controller
         $data = $import->getData();
         $gudep = Gudep::find($request->gudep_id);
         foreach ($data as $item) {
-            $anggota = Anggota::where('nik',$item['nik'])->first();
+            $nik = str_replace("'","",$item['nik']);
+            $anggota = Anggota::where('nik',$nik)->first();
+            $item['nik'] = $nik;
             $item['kecamatan'] = $gudep->kecamatan;
             $item['kabupaten'] = $gudep->kabupaten;
             $item['provinsi'] = $gudep->provinsi;
