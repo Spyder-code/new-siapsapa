@@ -45,12 +45,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function anggota(){
+    public function anggota()
+    {
         return $this->hasOne(Anggota::class, 'user_id');
     }
 
     public function cart()
     {
         return $this->hasMany(Cart::class);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'user_created');
     }
 }

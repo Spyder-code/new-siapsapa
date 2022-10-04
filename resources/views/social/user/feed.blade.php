@@ -1,6 +1,7 @@
 @extends('social.user-timeline')
 
 @section('style')
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 <style>
     #file-upload-1 {
         display: none;
@@ -21,6 +22,10 @@
         overflow: hidden !important;
         height: auto !important;
     }
+
+    .show-grid {
+        border: 1px solid rgba(0, 0, 0, 0.3) !important;
+    }
 </style>
 @endsection
 
@@ -32,93 +37,119 @@
 @section('content-user')
 <div class="row">
     <div class="col-lg-8">
+
+        @if($errors->any())
+        <div class="alert alert-danger" role="alert">
+            <div><b>Error, gagal upload:</b></div>
+            @foreach ($errors->all() as $error)
+            <div>{{ $error }}</div>
+            @endforeach
+        </div>
+        @endif
+
+        @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+        @endif
+
         @if (Auth::id() == $user->id)
         <div class="block-box post-input-tab">
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item" role="presentation" data-toggle="tooltip" data-placement="top" title="STATUS">
-                    <a class="nav-link active" data-toggle="tab" href="user-timeline.html#post-status" role="tab"
-                        aria-selected="true"><i class="icofont-copy"></i>Status</a>
+                    <a class="nav-link active" data-toggle="tab" href="#status-tab" role="tab" aria-selected="true"><i
+                            class="icofont-copy"></i>Status</a>
                 </li>
                 <li class="nav-item" role="presentation" data-toggle="tooltip" data-placement="top" title="MEDIA">
-                    <a class="nav-link" data-toggle="tab" href="user-timeline.html#post-media" role="tab"
-                        aria-selected="false"><i class="icofont-image"></i>Photo/ Video Album</a>
+                    <a class="nav-link" data-toggle="tab" href="#image-tab" role="tab" aria-selected="false"><i
+                            class="icofont-image"></i>Photo/ Video Album</a>
                 </li>
                 <li class="nav-item" role="presentation" data-toggle="tooltip" data-placement="top" title="BLOG">
-                    <a class="nav-link" data-toggle="tab" href="user-timeline.html#post-blog" role="tab"
-                        aria-selected="false"><i class="icofont-list"></i>Blog</a>
+                    <a class="nav-link" data-toggle="tab" href="#blog-tab" role="tab" aria-selected="false"><i
+                            class="icofont-list"></i>Blog</a>
                 </li>
             </ul>
 
-            @if($errors->any())
-            <div class="alert alert-danger mx-4 mt-4" role="alert">
-                <div><b>Error, gagal upload:</b></div>
-                @foreach ($errors->all() as $error)
-                <div>{{ $error }}</div>
-                @endforeach
-            </div>
-            @endif
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="status-tab" role="tabpanel">
+                    status tab
+                </div>
 
-            @if (session('success'))
-            <div class="alert alert-success mx-4 mt-4" role="alert">
-                {{ session('success') }}
-            </div>
-            @endif
-
-            <form action="{{ route('social.post.store') }}" method="post" enctype="multipart/form-data">
-                @csrf
-                <div class="tab-content mx-4">
-                    <div class="row mt-3 mb-3">
-                        <div class="col-lg-9 col-md-9">
-                            <label class="font-weight-bold">Judul</label>
-                            <input type="text" class="form-control border-opacity-25" name="title"
-                                placeholder="Masukan judul" required>
+                <div class="tab-pane fade mx-3 my-3" id="image-tab" role="tabpanel">
+                    <div id="divForm">
+                        <form action="{{ route('post.media.store') }}" class="dropzone" id="dropzoneForm">
+                            @csrf
+                        </form>
+                        <div class="row my-3">
+                            <div class="col-md-4 mb-2">
+                                <button id="btnRemovePreview" class="btn btn-danger" style="width: 100%">Hapus
+                                    Preview</button>
+                            </div>
+                            <div class="col-md-8">
+                                <button id="btnSubmitGaleri" class="btn btn-primary" style="width: 100%">Submit
+                                    Galeri</button>
+                            </div>
                         </div>
-                        <div class="col-lg-3 col-md-3">
-                            <label class="font-weight-bold">Kategori</label>
-                            <select class="form-select d-block" name="post_category_id" required>
-                                <option selected disabled>- pilih kategori -</option>
-                                @foreach ($kategori as $item)
+                    </div>
+                </div>
+
+                <div class="tab-pane fade mx-3" id="blog-tab" role="tabpanel">
+                    <form action="{{ route('social.post.store') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mx-3">
+                            <div class="row mt-3 mb-3">
+                                <div class="col-lg-9 col-md-9">
+                                    <label class="font-weight-bold">Judul</label>
+                                    <input type="text" class="show-grid form-control border-opacity-25" name="title"
+                                        placeholder="Masukan judul" required>
+                                </div>
+                                <div class="col-lg-3 col-md-3">
+                                    <label class="font-weight-bold">Kategori</label>
+                                    <select class="form-select d-block" name="post_category_id" required>
+                                        <option selected disabled>- pilih kategori -</option>
+                                        @foreach ($kategori as $item)
+                                        <option value={{$item->id}}>{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="font-weight-bold">Isi Konten</label>
+                            <textarea class="show-grid form-control border-opacity-0" placeholder="Masukan isi konten"
+                                cols="30" rows="6" name="content" required></textarea>
+                        </div>
+                        <div class="mx-3 py-3">
+                            <label class="font-weight-bold">Pilih Tags</label>
+                            <select class="js-example-basic-multiple" name="tag_id[]" style="width: 100%;" multiple
+                                required>
+                                @foreach ($tags as $item)
                                 <option value={{$item->id}}>{{$item->name}}</option>
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-                    <label class="font-weight-bold">Isi Konten</label>
-                    <textarea class="form-control border-opacity-0" placeholder="Masukan isi konten" cols="30" rows="6"
-                        name="content" required></textarea>
+                        <div class="container px-3 py-2">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4">
+                                    <label for="file-upload-1" class="custom-file-upload">
+                                        <i class="icofont-image"></i> Cover Gambar
+                                    </label>
+                                    <input id="file-upload-1" type="file" name="cover_image" accept="image/*" required>
+                                </div>
+                                <div class="col-lg-3 col-md-3">
+                                    <label for="file-upload-2" class="custom-file-upload">
+                                        <i class="icofont-file-alt"></i> Post Media
+                                    </label>
+                                    <input id="file-upload-2" type="file" name="post_media[]" accept="video/*, image/*"
+                                        multiple>
+                                </div>
+                                <div class="col-lg-5 col-md-5">
+                                    <input class="btn btn-primary" type="submit" value="Submit" style="float: right;">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
-                <div class="mx-4 py-3">
-                    <label class="font-weight-bold">Pilih Tags</label>
-                    <select class="js-example-basic-multiple" name="tag_id[]" style="width: 100%;" multiple required>
-                        @foreach ($tags as $item)
-                        <option value={{$item->id}}>{{$item->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="mx-4 py-3">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-3">
-                            <label for="file-upload-1" class="custom-file-upload">
-                                <i class="icofont-image"></i> Cover Gambar
-                            </label>
-                            <input id="file-upload-1" type="file" name="cover_image" accept="image/*" required>
-                        </div>
-                        <div class="col-lg-3 col-md-3">
-                            <label for="file-upload-2" class="custom-file-upload">
-                                <i class="icofont-file-alt"></i> Post Media
-                            </label>
-                            <input id="file-upload-2" type="file" name="post_media[]" accept="video/*, image/*"
-                                multiple>
-                        </div>
-                        <div class="col-lg-6 col-md-6">
-                            <input class="btn btn-primary" type="submit" value="Submit" style="float: right;">
-                        </div>
-                    </div>
-                </div>
-
-            </form>
+            </div>
         </div>
         @endif
 
@@ -277,7 +308,39 @@
 @endsection
 
 @section('script')
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 <script>
+    Dropzone.options.dropzoneForm = {
+        paramName: "post_media",
+        maxFilesize: 30, // MB
+        uploadMultiple: "true",
+        acceptedFiles: "image/jpeg,image/png,image/jpg,video/mpeg,video/quicktime,video/mp4",
+        method: "post",
+        autoProcessQueue: false,
+        parallelUploads: 5,
+        init: function() {
+            const myDropzone = this;
+            $("#btnRemovePreview").click(function() {
+                myDropzone.removeAllFiles(true);
+            });
+            $("#btnSubmitGaleri").click(function() {
+                myDropzone.processQueue();
+            });
+            myDropzone.on("complete", function() {
+                if (myDropzone.getQueuedFiles().length == 0 && myDropzone.getUploadingFiles().length == 0) {
+                    myDropzone.removeAllFiles(true);
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1800);
+                }
+            });
+            myDropzone.on("error", function(file, response) {
+                let alert = `<div class="alert alert-danger" role="alert"> ${response} </div>`
+                $("#divForm").prepend(alert);
+            });
+        }
+    };
+
     $(document).ready(function() {
         $('.js-example-basic-multiple').select2({
             width: 'resolve'

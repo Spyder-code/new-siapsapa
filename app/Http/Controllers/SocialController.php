@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\PostCategory;
 use App\Models\Tag;
 use App\Models\Agenda;
+use App\Models\Follower;
 use App\Models\Kegiatan;
 use App\Models\Post;
 use App\Models\PostMedia;
@@ -38,7 +39,9 @@ class SocialController extends Controller
     {
         $anggota = Anggota::find($anggota_id);
         $user = $anggota->user;
-        return view('social.user.friend', compact('user', 'anggota'));
+        $follower = Follower::where('following', '=', $user->id)->orderByDesc('id')->get();
+        $following = Follower::where('user_id', '=', $user->id)->orderByDesc('id')->get();
+        return view('social.user.friend', compact('user', 'anggota', 'follower', 'following'));
     }
 
     public function userSertification($anggota_id)

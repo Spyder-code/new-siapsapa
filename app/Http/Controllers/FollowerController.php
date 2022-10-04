@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Follower;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FollowerController extends Controller
 {
@@ -35,7 +36,13 @@ class FollowerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $this->validate($request, [
+            'id_user' => 'required',
+        ]);
+        $validate['user_id'] = Auth::id();
+        $validate['following'] = $request->id_user;
+        Follower::create($validate);
+        return back();
     }
 
     /**
@@ -78,8 +85,9 @@ class FollowerController extends Controller
      * @param  \App\Models\Follower  $follower
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Follower $follower)
+    public function destroy(Request $request, Follower $follower)
     {
-        //
+        $follower::where('user_id', '=', Auth::id())->where('following', '=', $request->id_user)->delete();
+        return back();
     }
 }

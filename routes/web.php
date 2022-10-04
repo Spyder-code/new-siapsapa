@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartProductController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\GudepController;
 use App\Http\Controllers\InitController;
 use App\Http\Controllers\KtaController;
@@ -62,6 +63,8 @@ Route::get('/account', [SocialController::class, 'profile'])->name('social.profi
 Route::post('/post/store', [PostController::class, 'store'])->name('social.post.store');
 Route::get('/agenda/{id}', [SocialController::class, 'agendaDetail'])->name('agenda.detail');
 Route::post('/post/media/store', [PostMediaController::class, 'store'])->name('post.media.store');
+Route::post('/follow/add', [FollowerController::class, 'store'])->name('follow.store');
+Route::post('/follow/remove', [FollowerController::class, 'destroy'])->name('follow.remove');
 
 
 Route::get('/profile', [PageController::class, 'profile'])->name('page.profile');
