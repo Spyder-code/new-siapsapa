@@ -890,31 +890,31 @@ class AnggotaController extends Controller
         if ($role==0) {
             $data = Anggota::where('tingkat',request('document_type_id'))
                     ->where('status',1)
-                    ->select('id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
+                    ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
         } elseif($role==2) {
             $data = Anggota::where('tingkat',request('document_type_id'))
                     ->where('status',1)
                     ->where('provinsi',$id_wilayah)
-                    ->select('id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
+                    ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
         } elseif($role==4) {
             $data = Anggota::where('tingkat',request('document_type_id'))
                     ->where('status',1)
                     ->where('kabupaten',$id_wilayah)
-                    ->select('id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
+                    ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
         } elseif($role>=6) {
             $data = Anggota::where('tingkat',request('document_type_id'))
                     ->where('status',1)
                     ->where('kecamatan',$id_wilayah)
-                    ->select('id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
+                    ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
         } elseif($role=='gudep') {
             $data = Anggota::where('tingkat',request('document_type_id'))
                     ->where('status',1)
                     ->where('gudep',$id_wilayah)
-                    ->select('id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','gudep','kabupaten','kecamatan','provinsi')
+                    ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
         }
 
@@ -948,21 +948,9 @@ class AnggotaController extends Controller
                     </div>
                 ';
             })
-            ->addColumn('status', function($data){
-                $name = $data->status == 0 ? 'Tidak Aktif' : 'Aktif';
-                $value = $data->status == 0 ? 1 : 0;
-                $is_check = $data->status== 0 ? '' : 'checked';
-                $html = '<form action="' . route('anggota.update.status', $data) . '" method="post">
-                                <input type="hidden" name="_method" value="PUT">
-                                <input type="hidden" name="_token" value="' . csrf_token() . '">
-                                <input type="hidden" value="' . $value . '" name="status">
-                                <div class="form-check form-switch">
-                                    <input '.$is_check.' class="form-check-input" type="checkbox" onchange="submit()" id="flexSwitchCheckChecked">
-                                    <label class="form-check-label" for="flexSwitchCheckChecked">' . $name . '</label>
-                                </div>
-                                </button>
-                            </form>';
-
+            ->addColumn('dokumen', function($data){
+                $item = Document::where('user_id',$data->user_id)->where('document_type_id',$data->tingkat)->first();
+                $html = ' <button type="button" onclick="openImage(`'.asset('berkas/dokumen/'.$item->document_type_id.'/'.$item->file).'`)" class="btn btn-primary image-popup-vertical-fit">Lihat</button>';
                 return $html;
             })
             ->addColumn('action', function ($data) {
@@ -989,7 +977,7 @@ class AnggotaController extends Controller
             ->addColumn('kecamatan', function ($data) {
                 return $data->district->name;
             })
-            ->rawColumns(['action','foto','status'])
+            ->rawColumns(['action','foto','dokumen'])
             ->make(true);
     }
 

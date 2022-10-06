@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <link rel="stylesheet" href="{{ asset('dashboard/dist/css/magnific.css') }}">
     <style>
         tr.selected{
             background-color: #34ff89ab;
@@ -88,6 +89,8 @@
 @section('script')
     <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('dashboard/dist/js/magnific.js') }}"></script>
+    <script src="{{ asset('dashboard/dist/js/magnific.init.js') }}"></script>
     <script>
         var table = $(".file-export").DataTable({
             processing: true,
@@ -108,7 +111,7 @@
                 {data: 'jk', name: 'jk'},
                 {data: 'kabupaten', name: 'kabupaten'},
                 {data: 'kecamatan', name: 'kecamatan'},
-                {data: 'status', name: 'status'},
+                {data: 'dokumen', name: 'dokumen',searchable: false, orderable: false},
                 {data: 'action', name: 'action', searchable: false, orderable: false},
             ],
             dom: "Bfrtip",
@@ -119,5 +122,15 @@
             buttons: ["pageLength","copy", "csv", "excel", "pdf", "print"],
             "bLengthChange": true,
         });
+
+        function openImage(url) {
+            console.log(url);
+            $.magnificPopup.open({
+                items: {
+                    src: url
+                },
+                type: 'image'
+            });
+        }
     </script>
 @endsection
