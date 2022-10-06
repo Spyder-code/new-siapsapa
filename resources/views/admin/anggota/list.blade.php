@@ -98,7 +98,7 @@
             type: 'GET',
             data: {
                     document_type_id: @json($id),
-                    user_id: @json(Auth::id())
+                    id_wilayah: @json($id_wilayah)
                 },
             },
             columns: [

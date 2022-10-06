@@ -12,7 +12,12 @@ class DocumentController extends Controller
 {
     public function index()
     {
-        $pramuka = Pramuka::where('id','!=',5)->pluck('name','id');
+        $cek = Auth::user()->anggota;
+        if($cek->pramuka==3 || $cek->pramuka==4){
+            $pramuka = Pramuka::where('id','!=',5)->pluck('name','id');
+        }else{
+            $pramuka = Pramuka::where('id','!=',5)->where('id','!=','8')->pluck('name','id');
+        }
         $mydocument = Document::all()->where('user_id', Auth::id())->groupBy('pramuka');
         $data = Document::where('status',0)->with('user', function($q){
             $q->with('anggota', function($qu){

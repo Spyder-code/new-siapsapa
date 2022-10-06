@@ -148,4 +148,5 @@ Route::controller(SyncController::class)->prefix('sync')->group(function(){
     Route::get('foto', 'foto')->name('sync.foto');
     Route::get('golongan-document', 'golonganDocument')->name('sync.golongan.document');
     Route::get('golongan', 'golongan')->name('sync.golongan');
+    Route::get('data-anggota/{gudep_id}', 'dataAnggota')->name('sync.data.anggota');
 });

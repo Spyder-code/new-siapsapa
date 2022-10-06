@@ -72,7 +72,12 @@ class AnggotaController extends Controller
     public function searchByDocument($id)
     {
         $documentType = DocumentType::find($id);
-        return view('admin.anggota.list', compact('id','documentType'));
+        if(request('id_wilayah')){
+            $id_wilayah = request('id_wilayah');
+        }else{
+            $id_wilayah = 'all';
+        }
+        return view('admin.anggota.list', compact('id','documentType','id_wilayah'));
     }
 
     public function non_validate()
@@ -876,47 +881,40 @@ class AnggotaController extends Controller
 
     public function data_table_search_document()
     {
-        $user = User::find(request('user_id'));
-        $role = $user->role;
-        $anggota = $user->anggota;
-        if ($role=='admin') {
-            $data = Anggota::join('users','users.id','=','tb_anggota.user_id')
-                    ->join('documents','documents.user_id','=','users.id')
-                    ->where('documents.document_type_id',request('document_type_id'))
-                    ->where('tb_anggota.status',1)
-                    ->select('tb_anggota.id','tb_anggota.nik','tb_anggota.status','tb_anggota.kode','tb_anggota.jk','tb_anggota.nama','tb_anggota.tgl_lahir','tb_anggota.foto','tb_anggota.pramuka','tb_anggota.gudep','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.provinsi')
+        $id_wilayah = request('id_wilayah');
+        if($id_wilayah=='all'){
+            $role = 0;
+        }else{
+            $role = strlen($id_wilayah);
+        }
+        if ($role==0) {
+            $data = Anggota::where('tingkat',request('document_type_id'))
+                    ->where('status',1)
+                    ->select('id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
-        } elseif($role=='kwarda') {
-            $data = Anggota::join('users','users.id','=','tb_anggota.user_id')
-                    ->join('documents','documents.user_id','=','users.id')
-                    ->where('documents.document_type_id',request('document_type_id'))
-                    ->where('tb_anggota.status',1)
-                    ->where('tb_anggota.provinsi',$anggota->provinsi)
-                    ->select('tb_anggota.id','tb_anggota.nik','tb_anggota.status','tb_anggota.kode','tb_anggota.jk','tb_anggota.nama','tb_anggota.tgl_lahir','tb_anggota.foto','tb_anggota.pramuka','tb_anggota.gudep','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.provinsi')
+        } elseif($role==2) {
+            $data = Anggota::where('tingkat',request('document_type_id'))
+                    ->where('status',1)
+                    ->where('provinsi',$id_wilayah)
+                    ->select('id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
-        } elseif($role=='kwarcab') {
-            $data = Anggota::join('users','users.id','=','tb_anggota.user_id')
-                    ->join('documents','documents.user_id','=','users.id')
-                    ->where('documents.document_type_id',request('document_type_id'))
-                    ->where('tb_anggota.status',1)
-                    ->where('tb_anggota.kabupaten',$anggota->kabupaten)
-                    ->select('tb_anggota.id','tb_anggota.nik','tb_anggota.status','tb_anggota.kode','tb_anggota.jk','tb_anggota.nama','tb_anggota.tgl_lahir','tb_anggota.foto','tb_anggota.pramuka','tb_anggota.gudep','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.provinsi')
+        } elseif($role==4) {
+            $data = Anggota::where('tingkat',request('document_type_id'))
+                    ->where('status',1)
+                    ->where('kabupaten',$id_wilayah)
+                    ->select('id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
-        } elseif($role=='kwaran') {
-            $data = Anggota::join('users','users.id','=','tb_anggota.user_id')
-                    ->join('documents','documents.user_id','=','users.id')
-                    ->where('documents.document_type_id',request('document_type_id'))
-                    ->where('tb_anggota.status',1)
-                    ->where('tb_anggota.kecamatan',$anggota->kecamatan)
-                    ->select('tb_anggota.id','tb_anggota.nik','tb_anggota.status','tb_anggota.kode','tb_anggota.jk','tb_anggota.nama','tb_anggota.tgl_lahir','tb_anggota.foto','tb_anggota.pramuka','tb_anggota.gudep','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.provinsi')
+        } elseif($role>=6) {
+            $data = Anggota::where('tingkat',request('document_type_id'))
+                    ->where('status',1)
+                    ->where('kecamatan',$id_wilayah)
+                    ->select('id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
         } elseif($role=='gudep') {
-            $data = Anggota::join('users','users.id','=','tb_anggota.user_id')
-                    ->join('documents','documents.user_id','=','users.id')
-                    ->where('documents.document_type_id',request('document_type_id'))
-                    ->where('tb_anggota.status',1)
-                    ->where('tb_anggota.gudep',$anggota->gudep)
-                    ->select('tb_anggota.id','tb_anggota.nik','tb_anggota.status','tb_anggota.kode','tb_anggota.jk','tb_anggota.nama','tb_anggota.tgl_lahir','tb_anggota.foto','tb_anggota.pramuka','tb_anggota.gudep','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.provinsi')
+            $data = Anggota::where('tingkat',request('document_type_id'))
+                    ->where('status',1)
+                    ->where('gudep',$id_wilayah)
+                    ->select('id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
         }
 

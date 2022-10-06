@@ -31,28 +31,34 @@
 @section('content')
 <style>
     td.table-pembina{
-        background-color: #7f440860;
+        background-color: #7f4308;
         vertical-align: middle;
+        color: white;
     }
     td.table-pelatih{
-        background-color: #2fb7cfab;
+        background-color: #2fb7cf;
         vertical-align: middle;
+        color: white;
     }
     td.table-siaga{
-        background-color: #2fd94852;
+        background-color: #2fd949;
         vertical-align: middle;
+        color: white;
     }
     td.table-penggalang{
-        background-color: #e21a1a8b;
+        background-color: #e21a1a;
         vertical-align: middle;
-    }
-    td.table-penegak{
-        background-color: #e28b1a8b;
-        vertical-align: middle;
+        color: white;
     }
     td.table-pandega{
-        background-color: #dbe21a8b;
+        background-color: #e28b1a;
         vertical-align: middle;
+        color: white;
+    }
+    td.table-penegak{
+        background-color: #dbe21a;
+        vertical-align: middle;
+        color: white;
     }
     tr.td,tr{
         background-color: white;
@@ -345,7 +351,7 @@
             $.ajax({
                 type: "GET",
                 url: url,
-                data: {user_id:@json(Auth::id())},
+                data: {id_wilayah:@json($id_wilayah)},
                 success: function (response) {
                     $('#table-anggota-muda').html(response);
                 }
@@ -356,7 +362,7 @@
             $.ajax({
                 type: "GET",
                 url: url,
-                data: {user_id:@json(Auth::id())},
+                data: {id_wilayah:@json($id_wilayah)},
                 success: function (response) {
                     $('#table-saka').html(response);
                 }
@@ -367,7 +373,7 @@
             $.ajax({
                 type: "GET",
                 url: url,
-                data: {user_id:@json(Auth::id())},
+                data: {id_wilayah:@json($id_wilayah)},
                 success: function (response) {
                     $('#fungsionaris').html(response);
                 }

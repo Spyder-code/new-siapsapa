@@ -21,6 +21,26 @@ class StatistikController extends Controller
         $role = $user->role;
         if (request('id_wilayah')) {
             $id_wilayah = request('id_wilayah');
+            $len = strlen($id_wilayah);
+            if ($len==2) {
+                $active = Anggota::where('provinsi',$id_wilayah)->where('status',1)->count();
+                $kwarcab = City::where('province_id',$id_wilayah)->count();
+                $kwaran = Distrik::whereHas('regency', function($q) use($id_wilayah){
+                    $q->where('province_id',$id_wilayah);
+                })->count();
+                $gudep = Gudep::where('provinsi',$id_wilayah)->count();
+            }elseif($len==4){
+                $active = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->count();
+                $kwarcab = Anggota::where('kabupaten',$id_wilayah)->where('status',0)->count();
+                $kwaran = Distrik::where('regency_id', $id_wilayah)->count();
+                $gudep = Gudep::where('kabupaten',$id_wilayah)->count();
+            }else{
+                $id_wilayah = $user->anggota->kecamatan;
+                $active = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->count();
+                $kwarcab = Anggota::where('kecamatan',$id_wilayah)->where('status',0)->count();
+                $kwaran = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->whereNull('gudep')->count();
+                $gudep = Gudep::where('kecamatan',$id_wilayah)->count();
+            }
         }else{
             if($role=='admin'){
                 $id_wilayah = 'all';
@@ -48,7 +68,7 @@ class StatistikController extends Controller
             if($role=='kwaran'){
                 $id_wilayah = $user->anggota->kecamatan;
                 $active = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->count();
-                $kwarcab = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->count();
+                $kwarcab = Anggota::where('kecamatan',$id_wilayah)->where('status',0)->count();
                 $kwaran = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->whereNull('gudep')->count();
                 $gudep = Gudep::where('kecamatan',$id_wilayah)->count();
             }

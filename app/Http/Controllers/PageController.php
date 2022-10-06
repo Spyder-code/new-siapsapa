@@ -84,7 +84,15 @@ class PageController extends Controller
 
     public function document()
     {
-        $pramuka = Pramuka::where('id','!=',5)->pluck('name','id');
+        if(!Auth::check()){
+            return redirect()->route('login');
+        }
+        $cek = Auth::user()->anggota;
+        if($cek->pramuka==3 || $cek->pramuka==4){
+            $pramuka = Pramuka::where('id','!=',5)->pluck('name','id');
+        }else{
+            $pramuka = Pramuka::where('id','!=',5)->where('id','!=','8')->pluck('name','id');
+        }
         $data = Document::all()->where('user_id', Auth::id())->groupBy('pramuka');
         return view('user.document.index', compact('data','pramuka'));
     }
