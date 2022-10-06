@@ -71,7 +71,7 @@
                                 <th>Gender</th>
                                 <th>Kabupaten</th>
                                 <th>Kecamatan</th>
-                                <th>Status</th>
+                                <th>Dokumen</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
