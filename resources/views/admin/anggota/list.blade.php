@@ -101,7 +101,8 @@
             type: 'GET',
             data: {
                     document_type_id: @json($id),
-                    id_wilayah: @json($id_wilayah)
+                    id_wilayah: @json($id_wilayah),
+                    gudep:@json($gudep)
                 },
             },
             columns: [

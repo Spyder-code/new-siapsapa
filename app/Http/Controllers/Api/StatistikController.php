@@ -313,7 +313,6 @@ class StatistikController extends Controller
         return response($response);
 
     }
-
     public function anggotaSaka()
     {
         $tr = '';

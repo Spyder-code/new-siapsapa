@@ -77,7 +77,12 @@ class AnggotaController extends Controller
         }else{
             $id_wilayah = 'all';
         }
-        return view('admin.anggota.list', compact('id','documentType','id_wilayah'));
+
+        $gudep = false;
+        if(request('gudep')){
+            $gudep = true;
+        }
+        return view('admin.anggota.list', compact('id','documentType','id_wilayah','gudep'));
     }
 
     public function non_validate()
@@ -881,11 +886,17 @@ class AnggotaController extends Controller
 
     public function data_table_search_document()
     {
-        $id_wilayah = request('id_wilayah');
-        if($id_wilayah=='all'){
-            $role = 0;
-        }else{
-            $role = strlen($id_wilayah);
+        if(request('id_wilayah')){
+            $id_wilayah = request('id_wilayah');
+            if($id_wilayah=='all'){
+                $role = 0;
+            }else{
+                if(request('gudep')){
+                    $role = 'gudep';
+                }else{
+                    $role = strlen($id_wilayah);
+                }
+            }
         }
         if ($role==0) {
             $data = Anggota::where('tingkat',request('document_type_id'))

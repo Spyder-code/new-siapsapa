@@ -7,6 +7,7 @@ use App\Models\Anggota;
 use App\Models\City;
 use App\Models\Distrik;
 use App\Models\Gudep;
+use App\Models\Pramuka;
 use App\Models\Provinsi;
 use App\Models\TransferAnggota;
 use App\Repositories\GudepService;
@@ -115,7 +116,10 @@ class GudepController extends Controller
         if($data[0]==null){
             $data[0] = Provinsi::pluck('name', 'id');
         }
-        return view('admin.gudep.show', compact('data','id_wilayah','gudep'));
+        $plk = Anggota::where('gudep',$gudep->id)->where('status',1)->where('pramuka',5)->where('jk','L')->count();
+        $ppr = Anggota::where('gudep',$gudep->id)->where('status',1)->where('pramuka',5)->where('jk','P')->count();
+        $pramuka = Pramuka::whereIn('id',[1,2,3,4,6,7])->get();
+        return view('admin.gudep.show', compact('data','id_wilayah','gudep','pramuka','plk','ppr'));
     }
 
     public function anggota(Gudep $gudep)
@@ -297,6 +301,14 @@ class GudepController extends Controller
         }
 
         return DataTables::of($data)
+            ->addColumn('nama', function($data){
+                return $data->nama.' ('.$data->kode.')';
+            })
+            ->addColumn('jk', function($data){
+                $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
+                $date = date('d/m/Y', strtotime($data->tgl_lahir));
+                return $nama.' ('.$date.')';
+            })
             ->addColumn('foto', function($data){
                 if($data->pramuka==1){
                     $warna = '<span class="badge bg-siaga">Siaga</span>';
@@ -318,9 +330,6 @@ class GudepController extends Controller
                     </div>
                 ';
             })
-            ->addColumn('kecamatan', function($data){
-                return $data->city->name;
-            })
             ->addColumn('status', function($data){
                 $name = $data->status == 0 ? 'Tidak Aktif' : 'Aktif';
                 $value = $data->status == 0 ? 1 : 0;
@@ -338,25 +347,28 @@ class GudepController extends Controller
 
                 return $html;
             })
-            ->addColumn('kabupaten', function($data){
-                return $data->district->name;
-            })
             ->addColumn('action', function ($data) {
-                $add = '';
-                if($data->user->role=='anggota'){
-                    $add = '<button type="button" onclick="addAdmin('.$data->id.')" class="btn btn-sm btn-success">Tambah Admin</button>';
+                $btn = '';
+                $status = $data->status;
+                if($status==2){
+                    $btn = '
+                        <button type="button" onclick="validasi('.$data->id.')" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Validasi</button>
+                        <button type="button" onclick="tolak('.$data->id.')" class="btn btn-secondary btn-sm"><i class="fa fa-crosshairs"></i> Tolak</button>
+                    ';
                 }
-                $html = ' <a href="'.route('anggota.show',$data->id).'" class="btn btn-sm btn-primary">Detail Anggota</a>
-                '.$add.'';
-                return '<div class="dropdown">
-                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                        <i class="bx bx-dots-vertical-rounded"></i>
-                    </button>
-                    <div class="dropdown-menu px-2">
-                        '.$html.'
-                        <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger">Hapus Anggota</button>
-                    </div>
-                </div>';
+                $html = '<div class="btn-group">
+                            <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
+                            '.$btn.'
+                            <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
+                        </div>';
+                return $html;
+            })
+            ->addColumn('kabupaten', function ($data) {
+                return $data->city->name;
+            })
+            ->addColumn('kecamatan', function ($data) {
+                return $data->district->name;
             })
             ->setFilteredRecords($count)
             ->rawColumns(['action','foto','status'])

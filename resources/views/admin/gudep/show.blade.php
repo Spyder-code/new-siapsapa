@@ -109,7 +109,7 @@
 
 <div class="row">
     <div class="col-8">
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-body">
                 <h4>Anggota Muda</h4>
                 <hr>
@@ -168,6 +168,96 @@
                     </div>
                 </div>
             </div>
+        </div> --}}
+        <div class="card p-3">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        Anggota Kepramukaan
+                    </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table class="table text-center table-bordered text-dark" id="tableGolongan">
+                                        <thead>
+                                            <tr>
+                                                <th class="table-secondary" scope="col" colspan="2">Golongan</th>
+                                                <th class="table-secondary" scope="col">Laki-laki</th>
+                                                <th class="table-secondary" scope="col">Perempuan</th>
+                                                <th class="table-secondary" scope="col">Jumlah</th>
+                                                <th class="table-secondary" scope="col">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($pramuka as $golongan)
+                                                @foreach ($golongan->documentTypes as $item)
+                                                <tr>
+                                                    @php
+                                                        $id = $gudep->id;
+                                                        $lkk = $golongan->anggotas()->where('gudep',$id)->where('jk','L')->where('status',1)->count();
+                                                        $prr = $golongan->anggotas()->where('gudep',$id)->where('jk','P')->where('status',1)->count();
+                                                        $count = $item->documents()->whereHas('user', function($q) use($id,$item){
+                                                            $q->whereHas('anggota', function($q) use($id,$item){
+                                                                $q->where('gudep',$id);
+                                                                $q->where('tingkat',$item->id);
+                                                                $q->where('status',1);
+                                                            });
+                                                        })->count();
+                                                        $lk = $item->documents()->whereHas('user', function($q) use($id,$item){
+                                                            $q->whereHas('anggota', function($q) use($id,$item){
+                                                                $q->where('jk', 'L');
+                                                                $q->where('tingkat',$item->id);
+                                                                $q->where('gudep',$id);
+                                                                $q->where('status',1);
+                                                            });
+                                                        })->count();
+                                                        $pr = $item->documents()->whereHas('user', function($q) use($id,$item){
+                                                            $q->whereHas('anggota', function($q) use($id,$item){
+                                                                $q->where('jk', 'P');
+                                                                $q->where('tingkat',$item->id);
+                                                                $q->where('gudep',$id);
+                                                                $q->where('status',1);
+                                                            });
+                                                        })->count();
+                                                    @endphp
+                                                    @if ($loop->iteration==1)
+                                                        <td scope="row" class="table-{{ strtolower($golongan->name) }}" rowspan="{{ $golongan->documentTypes->count() }}">
+                                                            {{ $golongan->name }} <br><br>
+                                                            <span class="fw-normal" style="font-size: .7rem">L: {{ $lkk }}</span><br>
+                                                            <span class="fw-normal" style="font-size: .7rem">P: {{ $prr }}</span><br>
+                                                            <span class="fw-normal" style="font-size: .7rem">J: {{ $prr+$lkk }}</span>
+                                                        </td>
+                                                    @endif
+                                                    <td>{{ $item->name }}</td>
+                                                    <td>{{ (int)$lk }}</td>
+                                                    <td>{{ (int)$pr }}</td>
+                                                    <td>{{ (int)$count }}</td>
+                                                    <td><a href="{{ route('anggota.search_document',['id'=>$item->id,'id_wilayah'=>$gudep->id,'gudep'=>true]) }}" class="btn btn-sm btn-info">Detail</a></td>
+                                                </tr>
+                                                @endforeach
+                                            @endforeach
+                                            <tr>
+                                                <td scope="row">
+                                                    Pembantu
+                                                </td>
+                                                <td>-</td>
+                                                <td>{{ $plk }}</td>
+                                                <td>{{ $ppr }}</td>
+                                                <td>{{ $ppr+$plk }}</td>
+                                                <td>-</td>
+                                                {{-- <td><a href="{{ route('anggota.search_document',['id'=>$item->id,'id_wilayah'=>5]) }}" class="btn btn-sm btn-info">Detail</a></td> --}}
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="card p-3 my-3">
             <div class="card-header d-flex justify-content-between">
@@ -198,29 +288,9 @@
             </div>
             <div id="total-agama"></div>
         </div>
-        <div class="card p-3 my-3">
-            <div class="border-bottom title-part-padding">
-                <h4 class="card-title mb-0">List Anggota</h4>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped file-export" style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th>Nama Lengkap</th>
-                                <th>Email</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="col-4">
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-body">
                 <h4>Anggota Dewasa</h4>
                 <hr>
@@ -338,18 +408,45 @@
                     <li class="list-group-item">Putri: <strong id="total-pembina-pr">-</strong></li>
                 </ul>
             </div>
-        </div>
+        </div> --}}
         <div class="card my-3 p-3">
             <h4 class="card-title mb-0">List Admin</h4>
             <hr>
             <ol class="list-group list-group-numbered" id="list-admin"></ol>
         </div>
     </div>
+    <div class="col-12">
+        <div class="card p-3 my-3">
+            <div class="border-bottom title-part-padding">
+                <h4 class="card-title mb-0">List Anggota</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped file-export" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nik</th>
+                                <th>Nama Lengkap</th>
+                                <th>Gender</th>
+                                <th>Kabupaten</th>
+                                <th>Kecamatan</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 
 @section('script')
-@include('components.dashboard-gudep',['id_wilayah' => $id_wilayah, 'gudep' => $gudep->id])
+{{-- @include('components.dashboard-gudep',['id_wilayah' => $id_wilayah, 'gudep' => $gudep->id]) --}}
 <script>
     var table = $(".file-export").DataTable({
         processing: true,
@@ -363,8 +460,13 @@
             },
         },
         columns: [
-            {data: 'foto', name: 'foto'},
+            {data: 'foto', name: 'foto', searchable: false, orderable: false},
+            {data: 'nik', name: 'nik', visible: false},
             {data: 'nama', name: 'nama'},
+            {data: 'jk', name: 'jk', searchable: false, orderable: false},
+            {data: 'kabupaten', name: 'kabupaten', searchable: false, orderable: false},
+            {data: 'kecamatan', name: 'kecamatan', searchable: false, orderable: false},
+            {data: 'status', name: 'status', searchable: false, orderable: false},
             {data: 'action', name: 'action', searchable: false, orderable: false},
         ],
         dom: "Bfrtip",
@@ -380,18 +482,18 @@
     .addClass("btn btn-primary");
     $(".buttons-collection ").addClass("btn btn-info m-1");
 
-    $.ajax({
-        url: {!! json_encode(url('api/get-number-of-pramuka-gudep')) !!}+'/'+{!! json_encode($gudep->id) !!},
-        type: 'GET',
-        success: function(data) {
-            $('#total-siaga').html(data.siaga);
-            $('#total-penggalang').html(data.penggalang);
-            $('#total-penegak').html(data.penegak);
-            $('#total-pandega').html(data.pandega);
-            $('#total-dewasa').html(data.dewasa);
-            $('#total-pelatih').html(data.pelatih);
-        }
-    });
+    // $.ajax({
+    //     url: {!! json_encode(url('api/get-number-of-pramuka-gudep')) !!}+'/'+{!! json_encode($gudep->id) !!},
+    //     type: 'GET',
+    //     success: function(data) {
+    //         $('#total-siaga').html(data.siaga);
+    //         $('#total-penggalang').html(data.penggalang);
+    //         $('#total-penegak').html(data.penegak);
+    //         $('#total-pandega').html(data.pandega);
+    //         $('#total-dewasa').html(data.dewasa);
+    //         $('#total-pelatih').html(data.pelatih);
+    //     }
+    // });
 
     const number_of_member = () => {
         $.ajax({
