@@ -146,17 +146,17 @@
                                 <ul class="nav nav-tabs nav-tabs-left" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active" data-toggle="tab" href="index.html#team1" role="tab" aria-selected="true">
-                                            <img src="https://radiustheme.com/demo/html/cirkle/media/team/team_1.jpg" alt="team">
+                                            <img src="{{ $anggota[0]->anggota->foto }}" alt="team">
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="index.html#team2" role="tab" aria-selected="false">
-                                            <img src="https://radiustheme.com/demo/html/cirkle/media/team/team_5.jpg" alt="team">
+                                            <img src="{{ $anggota[1]->anggota->foto }}" alt="team">
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="index.html#team3" role="tab" aria-selected="false">
-                                            <img src="https://radiustheme.com/demo/html/cirkle/media/team/team_6.jpg" alt="team">
+                                            <img src="{{ $anggota[2]->anggota->foto }}" alt="team">
                                         </a>
                                     </li>
                                 </ul>
@@ -165,17 +165,17 @@
                                 <ul class="nav nav-tabs nav-tabs-right" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="index.html#team4" role="tab" aria-selected="false">
-                                            <img src="https://radiustheme.com/demo/html/cirkle/media/team/team_3.jpg" alt="team">
+                                            <img src="{{ $anggota[3]->anggota->foto }}" alt="team">
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="index.html#team5" role="tab" aria-selected="false">
-                                            <img src="https://radiustheme.com/demo/html/cirkle/media/team/team_4.jpg" alt="team">
+                                            <img src="{{ $anggota[4]->anggota->foto }}" alt="team">
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="index.html#team6" role="tab" aria-selected="false">
-                                            <img src="https://radiustheme.com/demo/html/cirkle/media/team/team_7.jpg" alt="team">
+                                            <img src="{{ $anggota[5]->anggota->foto }}" alt="team">
                                         </a>
                                     </li>
                                 </ul>
@@ -404,7 +404,7 @@
                     <div class="col-lg-8">
                         <div class="newsletter-box">
                             <h2 class="item-title">Dapatkan Berita dan Informasi Kami</h2>
-                            <p>Tulikan email anda untuk menjadi yang pertama mengetahui tentang pembaruan, fitur baru, dan banyak lagi</p>
+                            <p>Tulis    kan email anda untuk menjadi yang pertama mengetahui tentang pembaruan, fitur baru, dan banyak lagi</p>
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Enter your e-mail">
                                 <div class="input-group-append">

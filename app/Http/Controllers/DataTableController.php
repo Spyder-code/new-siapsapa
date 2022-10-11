@@ -78,7 +78,7 @@ class DataTableController extends Controller
                 }
                 $html = '<div class="btn-group">
                             '.$g.'
-                            <a href="'.route('statistik.index',['id_wilayah'=>$data->id]).'" class="btn text-white btn-sm btn-warning">Lihat Statistik</a>
+                            <a href="'.route('page.statistik.detail',['id_wilayah'=>$data->id]).'" class="btn text-white btn-sm btn-warning">Lihat Statistik</a>
                         </div>';
                 return $html;
             })

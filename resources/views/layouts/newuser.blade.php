@@ -5,11 +5,11 @@
     <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Cirkle | NewsFeed</title>
+    <title>SIAPSAPA</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('social') }}/media/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logosiap.png') }}">
     <link rel="stylesheet" href="{{ asset('social') }}/dependencies/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('social') }}/dependencies/icofont/icofont.min.css">
     <link rel="stylesheet" href="{{ asset('social') }}/dependencies/slick-carousel/css/slick.css">
@@ -25,6 +25,57 @@
     <link rel="stylesheet" href="{{ asset('social') }}/assets/css/app.css">
     <!-- Google Web Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+    <style>
+        .loading {
+            z-index: 9999;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .loading img{
+            width: 300px;
+            height: 300px;
+            animation-name: stretch;
+            animation-duration: 1.5s;
+            animation-timing-function: ease-out;
+            animation-delay: 0;
+            animation-direction: alternate;
+            animation-iteration-count: infinite;
+            animation-fill-mode: none;
+            animation-play-state: running;
+        }
+
+        /* css loading */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @keyframes stretch {
+            0% {
+                transform: scale(.3);
+            }
+            /* 25% {
+                transform: scale(.6);
+            }
+            50% {
+                transform: scale(.9);
+            }
+            75% {
+                transform: scale(1.2);
+            } */
+            100% {
+                transform: scale(1.5);
+            }
+        }
+    </style>
 </head>
 
 <body class="sticky-header">
@@ -32,8 +83,14 @@
         <i class="icofont-bubble-up"></i>
     </a>
     <!-- Preloader Start Here -->
-    <div id="preloader"></div>
+    {{-- <div id="preloader"></div> --}}
     <!-- Preloader End Here -->
+
+    <div class="loading-overlay" id="loading">
+        <div class="loading">
+            <img src="{{ asset('images/logosiap.png') }}" alt="siapsapa">
+        </div>
+    </div>
     <div id="wrapper" class="wrapper overflow-hidden">
         <header class="header">
             <div id="rt-sticky-placeholder"></div>
@@ -78,9 +135,15 @@
                                     <li class="header-search-icon">
                                         <a href="index.html#header-search" title="Search"><i class="icofont-qr-code"></i></a>
                                     </li>
+                                    @if (Auth::check())
+                                    <li class="login-btn">
+                                        <a href="{{ route('logout') }}" class="item-btn"><i class="fas fa-user"></i>Logout</a>
+                                    </li>
+                                    @else
                                     <li class="login-btn">
                                         <a href="{{ route('login') }}" class="item-btn"><i class="fas fa-user"></i>Login</a>
                                     </li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -225,6 +288,7 @@
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
     <!-- Site Scripts -->
     <script src="{{ asset('social') }}/assets/js/app.js"></script>
+    <script src="{{ asset('js/site.js') }}"></script>
     @yield('script')
 </body>
 

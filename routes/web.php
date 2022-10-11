@@ -44,7 +44,8 @@ Route::get('init/add-to-cart', [InitController::class, 'addToCart']);
 
 // Global
 Route::get('/', [PageController::class, 'home'])->name('home');
-Route::get('/statistik', [PageController::class, 'statistik'])->name('page.statistik');
+Route::get('/i/statistik', [PageController::class, 'statistik'])->name('page.statistik');
+Route::get('/i/statistik/detail', [PageController::class, 'statistikDetail'])->name('page.statistik.detail');
 Route::get('/i/agenda', [PageController::class, 'agenda'])->name('page.agenda');
 Route::get('/i/agenda/{agenda}', [PageController::class, 'show_agenda'])->name('page.agenda.show');
 Route::get('/i/agenda/{agenda}/peserta', [PageController::class, 'peserta_agenda'])->name('page.agenda.peserta');

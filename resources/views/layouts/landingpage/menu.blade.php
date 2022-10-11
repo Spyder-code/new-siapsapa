@@ -24,7 +24,7 @@
     </ul>
 </li>
 <li class="header-nav-item">
-    <a href="{{ url('statistik') }}" class="menu-link active">Statistik</a>
+    <a href="{{ route('page.statistik') }}" class="menu-link active">Statistik</a>
 </li>
 <li class="header-nav-item">
     <a href="index.html#" class="menu-link have-sub">Produk</a>

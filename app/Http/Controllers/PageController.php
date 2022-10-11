@@ -10,6 +10,7 @@ use App\Models\Kegiatan;
 use App\Models\PendaftaranAgenda;
 use App\Models\Pramuka;
 use App\Models\Provinsi;
+use App\Models\User;
 use App\Repositories\StatistikService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,9 @@ class PageController extends Controller
             $count = $statistik->getNumberOfPramuka();
             return $count;
         });
-        return view('social.index', compact('data'));
+
+        $anggota = User::whereIn('role',['kwarda','kwarcab','kwaran','gudep'])->inRandomOrder()->take(6)->get();
+        return view('social.index', compact('data','anggota'));
     }
 
     public function profile()
@@ -63,6 +66,20 @@ class PageController extends Controller
         $kwartir = $data[1];
         return view('user.statistik', compact('id_wilayah', 'title', 'kwartir'));
     }
+
+    public function statistikDetail()
+    {
+        if (request('id_wilayah')) {
+            $id_wilayah = request('id_wilayah');
+        }else{
+            $id_wilayah = 'all';
+        }
+        $data = $this->getData($id_wilayah);
+        $title = $data[0]->name ?? 'Kwartir Nasional';
+        $kwartir = $data[1];
+        return view('user.statistik_detail', compact('id_wilayah', 'title', 'kwartir'));
+    }
+
 
     public function getData($id_wilayah)
     {
