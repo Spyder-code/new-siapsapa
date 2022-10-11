@@ -149,4 +149,5 @@ Route::controller(SyncController::class)->prefix('sync')->group(function(){
     Route::get('golongan-document', 'golonganDocument')->name('sync.golongan.document');
     Route::get('golongan', 'golongan')->name('sync.golongan');
     Route::get('data-anggota/{gudep_id}', 'dataAnggota')->name('sync.data.anggota');
+    Route::get('pramuka-null', 'pramukaNull')->name('sync.pramuka-null');
 });
