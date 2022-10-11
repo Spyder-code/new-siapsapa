@@ -425,17 +425,17 @@ class StatistikController extends Controller
             $role = strlen($id_wilayah);
         }
         foreach ($organizations as $item){
-            if ($role=='admin') {
+            if ($role==0) {
                 $count = $item->organizationUsers()->count();
-            }elseif($role=='kwarda'){
+            }elseif($role==2){
                 $count = $item->organizationUsers()->whereHas('anggota', function($q) use($id_wilayah){
                     $q->where('provinsi',$id_wilayah);
                 })->count();
-            }elseif($role=='kwarcab'){
+            }elseif($role==4){
                 $count = $item->organizationUsers()->whereHas('anggota', function($q) use($id_wilayah){
                     $q->where('kabupaten',$id_wilayah);
                 })->count();
-            }elseif($role=='kwaran'){
+            }elseif($role>=6){
                 $count = $item->organizationUsers()->whereHas('anggota', function($q) use($id_wilayah){
                     $q->where('kecamatan',$id_wilayah);
                 })->count();
