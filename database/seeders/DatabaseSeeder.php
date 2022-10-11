@@ -31,8 +31,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // AnggotaStatusSeeder::class
             // UserSeeder::class
-            // PostCategorySeeder::class,
-            // TagSeeder::class
+            DocumentTypeSeeder::class,
+            OrganizationSeeder::class
         ]);
     }
 }

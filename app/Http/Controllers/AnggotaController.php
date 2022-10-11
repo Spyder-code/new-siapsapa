@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AnggotaExport;
 use App\Http\Requests\AnggotaRequest;
 use App\Imports\AnggotaImport;
 use App\Models\Anggota;
 use App\Models\City;
 use App\Models\Distrik;
+use App\Models\Document;
+use App\Models\DocumentType;
+use App\Models\Gudep;
+use App\Models\Organizations;
 use App\Models\Provinsi;
+use App\Models\User;
 use App\Repositories\AnggotaService;
 use App\Repositories\WilayahService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
@@ -58,7 +65,24 @@ class AnggotaController extends Controller
         $data = $wilayah->getData();
         $kwartir = $data[1];
         $title = $data[0]->name ?? 'Kwartir Nasional';
-        return view('admin.anggota.index', compact('url','data','id_wilayah','kwartir','title','type'));
+        $organizations = Organizations::pluck('name','id');
+        return view('admin.anggota.index', compact('url','data','id_wilayah','kwartir','title','type','organizations'));
+    }
+
+    public function searchByDocument($id)
+    {
+        $documentType = DocumentType::find($id);
+        if(request('id_wilayah')){
+            $id_wilayah = request('id_wilayah');
+        }else{
+            $id_wilayah = 'all';
+        }
+
+        $gudep = false;
+        if(request('gudep')){
+            $gudep = true;
+        }
+        return view('admin.anggota.list', compact('id','documentType','id_wilayah','gudep'));
     }
 
     public function non_validate()
@@ -243,6 +267,13 @@ class AnggotaController extends Controller
         $data = json_decode($request->data);
         $foto = json_decode($request->foto);
         $data = $data[0];
+        if(count($data)!=count($foto)){
+            foreach ($foto as $item ) {
+                $name = 'berkas/import/foto/'.$item->name;
+                File::delete($name);
+            }
+            return back()->with('danger','Jumlah foto dan data excel tidak sesuai');
+        }
         foreach ($foto as $idx => $item) {
             $data[$idx]->foto = $item->name;
         }
@@ -260,7 +291,7 @@ class AnggotaController extends Controller
     {
         $validator = $request->validate([
             'nik'    => 'required|array',
-            'nik.*'  => 'required|string|unique:tb_anggota,nik',
+            'nik.*'  => 'required|string',
             'nama'    => 'required|array',
             'nama.*'  => 'required|string',
             'tgl_lahir'    => 'required|array',
@@ -269,7 +300,6 @@ class AnggotaController extends Controller
             'alamat.*'  => 'required|max:64',
         ], [
             'nik.*.required' => 'NIK tidak boleh kosong',
-            'nik.*.unique' => 'NIK sudah terdaftar',
             'nama.*.required' => 'Nama tidak boleh kosong',
             'tgl_lahir.*.required' => 'Tanggal lahir tidak boleh kosong',
             'tgl_lahir.*.date_format' => 'Format tanggal lahir salah',
@@ -338,6 +368,40 @@ class AnggotaController extends Controller
         return back()->with('success', 'Data berhasil diubah');
     }
 
+    public function export(Request $request)
+    {
+        $id = $request->gudep_id;
+        return Excel::download(new AnggotaExport($id), 'anggota.xlsx');
+    }
+
+    public function bulkUpdate(Request $request)
+    {
+        $file = $request->file('file');
+        $import = new AnggotaImport();
+        Excel::import($import, $file);
+        $data = $import->getData();
+        $gudep = Gudep::find($request->gudep_id);
+        foreach ($data as $item) {
+            $nik = str_replace("'","",$item['nik']);
+            $anggota = Anggota::where('nik',$nik)->first();
+            $item['nik'] = $nik;
+            $item['kecamatan'] = $gudep->kecamatan;
+            $item['kabupaten'] = $gudep->kabupaten;
+            $item['provinsi'] = $gudep->provinsi;
+            $item['gudep'] = $gudep->id;
+            $item['status'] = 1;
+            $item['tgl_lahir'] = date('Y-m-d',strtotime($item['tgl_lahir']));
+            if($anggota){
+                $anggota->update($item);
+            }else{
+                $service = new AnggotaService();
+                $anggota = $service->createUser($item,false);
+            }
+        }
+
+        return back()->with('success','Bulk Update Berhasil');
+    }
+
     public function data_table_active()
     {
         $limit = request('length');
@@ -362,6 +426,14 @@ class AnggotaController extends Controller
         }
 
         return DataTables::of($data)
+            ->addColumn('nama', function($data){
+                return $data->nama.' ('.$data->kode.')';
+            })
+            ->addColumn('jk', function($data){
+                $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
+                $date = date('d/m/Y', strtotime($data->tgl_lahir));
+                return $nama.' ('.$date.')';
+            })
             ->addColumn('foto', function($data){
                 if($data->pramuka==1){
                     $warna = '<span class="badge bg-siaga">Siaga</span>';
@@ -413,6 +485,7 @@ class AnggotaController extends Controller
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             '.$btn.'
+                            <button type="button" onclick="promoteAnggota('.$data->id.')" class="btn btn-sm btn-success"><i class="fas fa-star"></i>  Promosikan</button>
                             <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
                         </div>';
                 return $html;
@@ -452,6 +525,14 @@ class AnggotaController extends Controller
         }
 
         return DataTables::of($data)
+            ->addColumn('nama', function($data){
+                return $data->nama.' ('.$data->kode.')';
+            })
+            ->addColumn('jk', function($data){
+                $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
+                $date = date('d/m/Y', strtotime($data->tgl_lahir));
+                return $nama.' ('.$date.')';
+            })
             ->addColumn('foto', function($data){
                 if($data->pramuka==1){
                     $warna = '<span class="badge bg-siaga">Siaga</span>';
@@ -503,6 +584,7 @@ class AnggotaController extends Controller
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             '.$btn.'
+                            <button type="button" onclick="promoteAnggota('.$data->id.')" class="btn btn-sm btn-success"><i class="fas fa-star"></i>  Promosikan</button>
                             <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
                         </div>';
                 return $html;
@@ -542,6 +624,14 @@ class AnggotaController extends Controller
         }
 
         return DataTables::of($data)
+            ->addColumn('nama', function($data){
+                return $data->nama.' ('.$data->kode.')';
+            })
+            ->addColumn('jk', function($data){
+                $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
+                $date = date('d/m/Y', strtotime($data->tgl_lahir));
+                return $nama.' ('.$date.')';
+            })
             ->addColumn('foto', function($data){
                 if($data->pramuka==1){
                     $warna = '<span class="badge bg-siaga">Siaga</span>';
@@ -593,6 +683,7 @@ class AnggotaController extends Controller
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             '.$btn.'
+                            <button type="button" onclick="promoteAnggota('.$data->id.')" class="btn btn-sm btn-success"><i class="fas fa-star"></i>  Promosikan</button>
                             <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
                         </div>';
                 return $html;
@@ -632,6 +723,14 @@ class AnggotaController extends Controller
         }
 
         return DataTables::of($data)
+            ->addColumn('nama', function($data){
+                return $data->nama.' ('.$data->kode.')';
+            })
+            ->addColumn('jk', function($data){
+                $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
+                $date = date('d/m/Y', strtotime($data->tgl_lahir));
+                return $nama.' ('.$date.')';
+            })
             ->addColumn('foto', function($data){
                 if($data->pramuka==1){
                     $warna = '<span class="badge bg-siaga">Siaga</span>';
@@ -683,6 +782,7 @@ class AnggotaController extends Controller
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             '.$btn.'
+                            <button type="button" onclick="promoteAnggota('.$data->id.')" class="btn btn-sm btn-success"><i class="fas fa-star"></i>  Promosikan</button>
                             <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
                         </div>';
                 return $html;
@@ -726,6 +826,14 @@ class AnggotaController extends Controller
         }
 
         return DataTables::of($data)
+            ->addColumn('nama', function($data){
+                return $data->nama.' ('.$data->kode.')';
+            })
+            ->addColumn('jk', function($data){
+                $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
+                $date = date('d/m/Y', strtotime($data->tgl_lahir));
+                return $nama.' ('.$date.')';
+            })
             ->addColumn('foto', function($data){
                 if($data->pramuka==1){
                     $warna = '<span class="badge bg-siaga">Siaga</span>';
@@ -760,6 +868,7 @@ class AnggotaController extends Controller
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             '.$btn.'
+                            <button type="button" onclick="promoteAnggota('.$data->id.')" class="btn btn-sm btn-success"><i class="fas fa-star"></i>  Promosikan</button>
                             <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
                         </div>';
                 return $html;
@@ -772,6 +881,114 @@ class AnggotaController extends Controller
             })
             ->setFilteredRecords($count)
             ->rawColumns(['action','foto','status'])
+            ->make(true);
+    }
+
+    public function data_table_search_document()
+    {
+        if(request('id_wilayah')){
+            $id_wilayah = request('id_wilayah');
+            if($id_wilayah=='all'){
+                $role = 0;
+            }else{
+                if(request('gudep')){
+                    $role = 'gudep';
+                }else{
+                    $role = strlen($id_wilayah);
+                }
+            }
+        }
+        if ($role==0) {
+            $data = Anggota::where('tingkat',request('document_type_id'))
+                    ->where('status',1)
+                    ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
+                    ->get();
+        } elseif($role==2) {
+            $data = Anggota::where('tingkat',request('document_type_id'))
+                    ->where('status',1)
+                    ->where('provinsi',$id_wilayah)
+                    ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
+                    ->get();
+        } elseif($role==4) {
+            $data = Anggota::where('tingkat',request('document_type_id'))
+                    ->where('status',1)
+                    ->where('kabupaten',$id_wilayah)
+                    ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
+                    ->get();
+        } elseif($role>=6) {
+            $data = Anggota::where('tingkat',request('document_type_id'))
+                    ->where('status',1)
+                    ->where('kecamatan',$id_wilayah)
+                    ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
+                    ->get();
+        } elseif($role=='gudep') {
+            $data = Anggota::where('tingkat',request('document_type_id'))
+                    ->where('status',1)
+                    ->where('gudep',$id_wilayah)
+                    ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','gudep','kabupaten','kecamatan','provinsi')
+                    ->get();
+        }
+
+        return DataTables::of($data)
+            ->addColumn('nama', function($data){
+                return $data->nama.' ('.$data->kode.')';
+            })
+            ->addColumn('jk', function($data){
+                $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
+                $date = date('d/m/Y', strtotime($data->tgl_lahir));
+                return $nama.' ('.$date.')';
+            })
+            ->addColumn('foto', function($data){
+                if($data->pramuka==1){
+                    $warna = '<span class="badge bg-siaga">Siaga</span>';
+                }elseif($data->pramuka==2){
+                    $warna = '<span class="badge bg-penggalang">Penggalang</span>';
+                }elseif($data->pramuka==3){
+                    $warna = '<span class="badge bg-penegak">Penegak</span>';
+                }elseif($data->pramuka==4){
+                    $warna = '<span class="badge bg-pandega">Pandega</span>';
+                }elseif($data->pramuka==5){
+                    $warna = '<span class="badge bg-dewasa">Dewasa</span>';
+                }else{
+                    $warna = '<span class="badge bg-white text-dark">Pelatih</span>';
+                }
+                return '
+                    <div class="justify-content-center text-center">
+                    <img src="'.asset('berkas/anggota/'.$data->foto).'" class="img-thumbnail mx-auto d-block" height="80px" width="80px">
+                        '.$warna.'
+                    </div>
+                ';
+            })
+            ->addColumn('dokumen', function($data){
+                $item = Document::where('user_id',$data->user_id)->where('document_type_id',$data->tingkat)->first();
+                $html = ' <button type="button" onclick="openImage(`'.asset('berkas/dokumen/'.$item->document_type_id.'/'.$item->file).'`)" class="btn btn-primary image-popup-vertical-fit">Lihat</button>';
+                return $html;
+            })
+            ->addColumn('action', function ($data) {
+                $btn = '';
+                $status = $data->status;
+                if($status==2){
+                    $btn = '
+                        <button type="button" onclick="validasi('.$data->id.')" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Validasi</button>
+                        <button type="button" onclick="tolak('.$data->id.')" class="btn btn-secondary btn-sm"><i class="fa fa-crosshairs"></i> Tolak</button>
+                    ';
+                }
+                $html = '<div class="btn-group">
+                            <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
+                            '.$btn.'
+                            <button type="button" onclick="promoteAnggota('.$data->id.')" class="btn btn-sm btn-success"><i class="fas fa-star"></i>  Promosikan</button>
+                            <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
+                        </div>';
+                return $html;
+            })
+            ->addColumn('kabupaten', function ($data) {
+                return $data->city->name;
+            })
+            ->addColumn('kecamatan', function ($data) {
+                return $data->district->name;
+            })
+            ->rawColumns(['action','foto','dokumen'])
             ->make(true);
     }
 

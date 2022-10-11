@@ -119,7 +119,7 @@ class SyncController extends Controller
 
     public function gender()
     {
-        $data = Anggota::all();
+        $data = Anggota::whereRaw('LENGTH(jk) > 1')->get();
         $i = 0;
         foreach ($data->chunk(500) as $anggota) {
             dispatch(new SyncGender($anggota))->delay(now()->addMinutes(1));
@@ -175,17 +175,30 @@ class SyncController extends Controller
 
     public function golonganDocument()
     {
-        $document = Document::all()->where('status',1);
-        foreach ($document as $item ) {
-            $item->update(['pramuka'=>$item->documentType->pramuka_id]);
-            $anggota = User::find($item->user_id)->anggota;
-            $anggota->update([
-                'pramuka'=>$item->pramuka
-            ]);
-        };
+        $documents = Document::all()->where('status',1)->groupBy('user_id');
+        $i = 0;
+        foreach ($documents as $document) {
+            $now = 0;
+            $pramuka = 0;
+            foreach ($document as $item) {
+                if($item->document_type_id>$now){
+                    $now = $item->document_type_id;
+                    $pramuka = $item->pramuka;
+                }
+            }
+            $anggota = User::find($document->first()->user_id)->anggota;
+            if($pramuka<8){
+                if($anggota){
+                    $anggota->update(['tingkat'=>$now,'pramuka'=>$pramuka]);
+                }else{
+                    Document::where('user_id',$document->first()->user_id)->delete();
+                }
+            }
+            $i++;
+        }
 
         return response()->json([
-            'message' => 'Berhasil mengupdate data'
+            'message' => 'Berhasil mengupdate : '.$i.' data'
         ], 200);
     }
 
@@ -203,5 +216,63 @@ class SyncController extends Controller
         return response()->json([
             'message' => $i.' Berhasil terupdate'
         ], 200);
+    }
+
+    public function dataAnggota($gudep_id)
+    {
+        $data = Anggota::where('gudep',$gudep_id)->get();
+        $i = 0;
+        foreach ($data as $item ) {
+            if (!filter_var($item->email, FILTER_VALIDATE_EMAIL)) {
+                // invalid
+                $item->update([
+                    'email' => $item->nohp,
+                    'jk' => $item->gol_darah,
+                    'agama' => $item->email,
+                    'gol_darah' => $item->keterangan,
+                    'nohp' => $item->jk,
+                    'alamat' => $item->agama,
+                    'keterangan' => '-'
+                ]);
+                $i++;
+            }
+        }
+
+        return response($i.' data berhasil terupdate');
+    }
+
+    public function pramukaNull()
+    {
+        $data = Anggota::whereNull('pramuka')->get();
+        $i = 0;
+        foreach ($data as $item ) {
+            if($item->tingkat >= 13 ){
+                $golongan = 6;
+            }else{
+                if($item->kawin==1){
+                    $golongan = 5;
+                }else{
+                    $tgl = new DateTime($item->tgl_lahir);
+                    $now = new DateTime();
+                    $difference = $tgl->diff($now);
+                    $usia   = $difference->y; //hitung tahun
+                    if ($usia < 10) {
+                        $golongan = 1;
+                    } else if ($usia >= 10 && $usia <= 15) {
+                        $golongan = 2;
+                    } else if ($usia >= 16 && $usia <= 20) {
+                        $golongan = 3;
+                    } else if ($usia >= 21 && $usia < 25) {
+                        $golongan = 4;
+                    } else if ($usia >= 25) {
+                        $golongan = 5;
+                    }
+                }
+            }
+            $item->update(['pramuka'=>$golongan]);
+            $i++;
+        }
+
+        return response($i.' Data berhasil terupdate');
     }
 }

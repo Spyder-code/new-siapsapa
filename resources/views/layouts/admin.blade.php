@@ -289,7 +289,7 @@
                 {{-- boostrap 5 session danger --}}
                 @if (session('danger'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Maaf!</strong> {{ session('error') }}
+                    <strong>Maaf!</strong> {{ session('danger') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif

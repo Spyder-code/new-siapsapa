@@ -1,6 +1,8 @@
 @extends('layouts.admin')
 @section('style')
     <link rel="stylesheet" href="{{ asset('dashboard/dist/css/magnific.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/imageuploader.css') }}">
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 @endsection
 @section('breadcrumb')
 <div class="row">
@@ -69,7 +71,11 @@
                 @endif
                 <x-input :name="'pramuka'" :type="'select'" :label="'Kepramukaan'" :options="$pramuka" :attr="['required']" />
                 <x-input :name="'document_type_id'" :type="'select'" :label="'Jenis Dokumen'" :options="[]" :attr="['required']" />
-                <x-input :name="'file'" :type="'file'" :label="'File Dokumen'" :attr="['required']" />
+                <x-input :name="'sertif'" :type="'file'" :label="'File (.jpg/jpeg/png)'" :attr="['required']" />
+                {{-- <div class="col-12">
+                    <label for="file">File (.jpg/jpeg/png)</label>
+                    <div class="input-images"></div>
+                </div> --}}
                 <div class="row justify-content-end">
                     <div class="col-auto">
                         <button class="btn btn-primary" type="submit">Upload</button>
@@ -84,9 +90,14 @@
 @section('script')
     <script src="{{ asset('dashboard/dist/js/magnific.js') }}"></script>
     <script src="{{ asset('dashboard/dist/js/magnific.init.js') }}"></script>
+    <script src="{{ asset('js/imageuploader.js') }}"></script>
     <script>
         var table = $(".file-export").DataTable({
             scrollY: '500px',
+        });
+        $('.input-images').imageUploader({
+            label:'Klik atau Drop Sertifikat',
+            imagesInputName: 'sertif',
         });
         $('#pramuka').change(function (e) {
             var val = $(this).val();

@@ -13,6 +13,8 @@ class Document extends Model
         'user_id',
         'document_type_id',
         'file',
+        'active_on',
+        'unactive_on',
         'pramuka',
         'status'
     ];

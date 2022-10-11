@@ -34,7 +34,7 @@
     <x-input :type="'text'" :name="'nama'" :value="$anggota->nama ?? ''" :label="'Nama Lengkap'" :col="4" :attr="['required']"/>
     <x-input :type="'text'" :name="'tgl_lahir'" :value="$anggota->tgl_lahir ?? ''" :label="'Tanggal Lahir'" :col="4" :attr="['required']"/>
     <x-input :type="'text'" :name="'tempat_lahir'" :value="$anggota->tempat_lahir ?? ''" :label="'Tempat Lahir'" :col="4" :attr="['required']"/>
-    <x-input :type="'select'" :name="'jk'" :label="'Jenis Kelamin'" :value="$anggota->jk ?? ''" :col="4" :options="['Laki-Laki'=>'Laki-laki','Perempuan'=>'Perempuan']" :attr="['required']"/>
+    <x-input :type="'select'" :name="'jk'" :label="'Jenis Kelamin'" :value="$anggota->jk ?? ''" :col="4" :options="['L'=>'Laki-laki','P'=>'Perempuan']" :attr="['required']"/>
     <x-input :type="'select'" :name="'kawin'" :label="'Status'" :value="$anggota->kawin ?? ''" :col="4" :options="[1=>'Nikah',0=>'Belum Nikah']" :attr="['required']"/>
     <x-input :type="'select'" :name="'gol_darah'" :label="'Golongan Darah'" :value="$anggota->gol_darah ?? ''" :col="4" :options="['-'=>'-','A'=>'A','B'=>'B','AB'=>'AB','O'=>'O']" :attr="['required']"/>
     <x-input :type="'select'" :name="'agama'" :label="'Agama'" :col="4" :value="$anggota->agama ?? ''" :options="['Islam'=>'Islam','Protestan'=>'Protestan','Katolik'=>'Katolik','Hindu'=>'Hindu','Budha'=>'Budha','Khonghucu'=>'Khonghucu']" :attr="['required']"/>

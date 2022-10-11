@@ -6,7 +6,7 @@
         </div>
         <div class="alert alert-light">
             <ol>
-                <li class=" fs-2"><a href="{{ asset('berkas/data_anggota.xlsx') }}">Download Template Excel</a></li>
+                <li class=" fs-2"><a download="{{ asset('berkas/data_anggota.xlsx') }}" href="{{ asset('berkas/data_anggota.xlsx') }}">Download Template Excel</a></li>
                 <li class=" fs-2">Upload pada form dibawah</li>
                 <li class=" fs-2">Jika ada <i>error</i>, harap check pesan <i>error</i> dan perbaiki data</li>
                 <li class=" fs-2">Jika tidak ada <i>error</i>, maka akan ke langkah selanjutnya</li>

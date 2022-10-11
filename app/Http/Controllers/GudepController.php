@@ -7,7 +7,9 @@ use App\Models\Anggota;
 use App\Models\City;
 use App\Models\Distrik;
 use App\Models\Gudep;
+use App\Models\Pramuka;
 use App\Models\Provinsi;
+use App\Models\TransferAnggota;
 use App\Repositories\GudepService;
 use App\Repositories\WilayahService;
 use Illuminate\Http\Request;
@@ -114,7 +116,10 @@ class GudepController extends Controller
         if($data[0]==null){
             $data[0] = Provinsi::pluck('name', 'id');
         }
-        return view('admin.gudep.show', compact('data','id_wilayah','gudep'));
+        $plk = Anggota::where('gudep',$gudep->id)->where('status',1)->where('pramuka',5)->where('jk','L')->count();
+        $ppr = Anggota::where('gudep',$gudep->id)->where('status',1)->where('pramuka',5)->where('jk','P')->count();
+        $pramuka = Pramuka::whereIn('id',[1,2,3,4,6,7])->get();
+        return view('admin.gudep.show', compact('data','id_wilayah','gudep','pramuka','plk','ppr'));
     }
 
     public function anggota(Gudep $gudep)
@@ -129,24 +134,43 @@ class GudepController extends Controller
     public function transfer()
     {
         $gudep = Gudep::find(Auth::user()->anggota->gudep);
-        return view('admin.gudep.transfer', compact('gudep'));
+        $transferFrom = TransferAnggota::where('from_gudep', $gudep->id)->get();
+        $transferTo = TransferAnggota::where('to_gudep', $gudep->id)->get();
+        return view('admin.gudep.transfer', compact('gudep','transferFrom','transferTo'));
     }
 
     public function transfer_store(Request $request)
     {
-        $anggota = Anggota::where('email', $request->email)->where('status','!=',1)->first();
+        $anggota = Anggota::where('nik', $request->nik)->first();
+        // dd($anggota->gudep);
         if($anggota){
-            $user = $anggota->user;
-            if(!password_verify($request->password, $user->password)){
-                return back()->with('error', 'Password salah');
+            if($request->gudep_id > 0){
+                if ($anggota->gudep!=null) {
+                    TransferAnggota::create([
+                        'anggota_id' => $anggota->id,
+                        'from_gudep' => $request->from_gudep,
+                        'to_gudep' => $request->gudep_id,
+                        'user_created' => Auth::id(),
+                        'status' => 0,
+                    ]);
+                    return back()->with('success', 'Permintaan transfer anggota telah di buat. Silahkan menunggu gudep tujuan untuk menyetujui permintaan');
+                }else{
+                    return back()->with('error','Anggota tidak terdaftar dari gudep asal! harap hubungi admin ranting untuk menambahkan');
+                }
             }else{
-                $anggota->gudep = $request->gudep;
-                $anggota->kode = $this->generateCode($anggota->kecamatan, $request->gudep, $anggota->jk);
-                $anggota->save();
-                return back()->with('success', $anggota->nama.' berhasil di transfer ke gudep');
+                return back()->with('error', 'Gudep tidak ditemukan');
             }
+            // $user = $anggota->user;
+            // if(!password_verify($request->password, $user->password)){
+            //     return back()->with('error', 'Password salah');
+            // }else{
+            //     $anggota->gudep = $request->gudep;
+            //     $anggota->kode = $this->generateCode($anggota->kecamatan, $request->gudep, $anggota->jk);
+            //     $anggota->save();
+            //     return back()->with('success', $anggota->nama.' berhasil di transfer ke gudep');
+            // }
         }else{
-            return back()->with('error', 'Anggota tidak ditemukan');
+            return back()->with('error', 'NIK Anggota tidak ditemukan');
         }
     }
 
@@ -174,6 +198,9 @@ class GudepController extends Controller
         $limit = request('length');
         $start = request('start') * request('length');
         if($id_wilayah=='all'){
+            if($limit==-1){
+                $limit = Gudep::count();
+            }
             $data = Gudep::select('id', 'nama_sekolah', 'npsn')->withCount(['anggota as admin' => function($q){
                 $q->whereHas('user', function($q){
                     $q->where('role', 'gudep');
@@ -189,6 +216,9 @@ class GudepController extends Controller
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
+                if($limit==-1){
+                    $limit = Gudep::where('provinsi', $id_wilayah)->count();
+                }
                 $data = Gudep::where('provinsi',$id_wilayah)->select('id', 'nama_sekolah', 'npsn')->withCount(['anggota as admin' => function($q){
                     $q->whereHas('user', function($q){
                         $q->where('role', 'gudep');
@@ -197,6 +227,9 @@ class GudepController extends Controller
                 $count = Gudep::where('provinsi',$id_wilayah)->select('id')->count();
                 $type = 2;
             }elseif($len==4){
+                if($limit==-1){
+                    $limit = Gudep::where('kabupaten', $id_wilayah)->count();
+                }
                 $data =  Gudep::where('kabupaten',$id_wilayah)->select('id', 'nama_sekolah', 'npsn')->withCount(['anggota as admin' => function($q){
                     $q->whereHas('user', function($q){
                         $q->where('role', 'gudep');
@@ -205,6 +238,9 @@ class GudepController extends Controller
                 $count = Gudep::where('kabupaten',$id_wilayah)->select('id')->count();
                 $type = 3;
             }else{
+                if($limit==-1){
+                    $limit = Gudep::where('kecamatan', $id_wilayah)->count();
+                }
                 $data = Gudep::where('kecamatan',$id_wilayah)->select('id', 'nama_sekolah', 'npsn')->withCount(['anggota as admin' => function($q){
                     $q->whereHas('user', function($q){
                         $q->where('role', 'gudep');
@@ -251,14 +287,28 @@ class GudepController extends Controller
         $gudep = request('gudep');
         $active = request('active');
         if($active=='all'){
+            if($limit==-1){
+                $limit = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',1)->count();
+            }
             $data = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',1)->select('id','nik','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->orderBy('id','desc')->with('user:id,role')->offset($start)->limit($limit);
             $count = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',1)->count();
         }else{
+            if($limit==-1){
+                $limit = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',$active)->count();
+            }
             $data = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',$active)->select('id','nik','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->orderBy('id','desc')->with('user:id,role')->offset($start)->limit($limit);
             $count = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',$active)->count();
         }
 
         return DataTables::of($data)
+            ->addColumn('nama', function($data){
+                return $data->nama.' ('.$data->kode.')';
+            })
+            ->addColumn('jk', function($data){
+                $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
+                $date = date('d/m/Y', strtotime($data->tgl_lahir));
+                return $nama.' ('.$date.')';
+            })
             ->addColumn('foto', function($data){
                 if($data->pramuka==1){
                     $warna = '<span class="badge bg-siaga">Siaga</span>';
@@ -280,9 +330,6 @@ class GudepController extends Controller
                     </div>
                 ';
             })
-            ->addColumn('kecamatan', function($data){
-                return $data->city->name;
-            })
             ->addColumn('status', function($data){
                 $name = $data->status == 0 ? 'Tidak Aktif' : 'Aktif';
                 $value = $data->status == 0 ? 1 : 0;
@@ -300,25 +347,28 @@ class GudepController extends Controller
 
                 return $html;
             })
-            ->addColumn('kabupaten', function($data){
-                return $data->district->name;
-            })
             ->addColumn('action', function ($data) {
-                $add = '';
-                if($data->user->role=='anggota'){
-                    $add = '<button type="button" onclick="addAdmin('.$data->id.')" class="btn btn-sm btn-success">Tambah Admin</button>';
+                $btn = '';
+                $status = $data->status;
+                if($status==2){
+                    $btn = '
+                        <button type="button" onclick="validasi('.$data->id.')" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Validasi</button>
+                        <button type="button" onclick="tolak('.$data->id.')" class="btn btn-secondary btn-sm"><i class="fa fa-crosshairs"></i> Tolak</button>
+                    ';
                 }
-                $html = ' <a href="'.route('anggota.show',$data->id).'" class="btn btn-sm btn-primary">Detail Anggota</a>
-                '.$add.'';
-                return '<div class="dropdown">
-                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                        <i class="bx bx-dots-vertical-rounded"></i>
-                    </button>
-                    <div class="dropdown-menu px-2">
-                        '.$html.'
-                        <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger">Hapus Anggota</button>
-                    </div>
-                </div>';
+                $html = '<div class="btn-group">
+                            <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
+                            '.$btn.'
+                            <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
+                        </div>';
+                return $html;
+            })
+            ->addColumn('kabupaten', function ($data) {
+                return $data->city->name;
+            })
+            ->addColumn('kecamatan', function ($data) {
+                return $data->district->name;
             })
             ->setFilteredRecords($count)
             ->rawColumns(['action','foto','status'])

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('tb_anggota', function (Blueprint $table) {
-            // $table->foreignId('kta_id')->after('user_id')->nullable()->constrained('kta');
+            $table->foreignId('jabatan')->after('tingkat')->nullable()->constrained('organizations');
         });
     }
 

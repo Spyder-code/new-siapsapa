@@ -1,6 +1,8 @@
 @extends('layouts.admin')
 @section('style')
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     <style>
         tr.selected{
             background-color: #34ff89ab;
@@ -45,6 +47,15 @@
 </div>
 @endsection
 @section('content')
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 <div class="row mt-4">
     <div class="col-12">
         <div class="card">
@@ -59,9 +70,9 @@
                                 <th></th>
                                 <th>Foto</th>
                                 <th>Nik</th>
-                                <th>Nomor Anggota</th>
+                                {{-- <th>Nomor Anggota</th> --}}
                                 <th>Nama Lengkap</th>
-                                <th>Tgl Lahir</th>
+                                {{-- <th>Tgl Lahir</th> --}}
                                 <th>Gender</th>
                                 <th>Kabupaten</th>
                                 <th>Kecamatan</th>
@@ -104,16 +115,45 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalPromote" tabindex="-1" aria-labelledby="modalPromoteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{{ route('organization_user.store') }}" method="POST" class="modal-content">
+            @csrf
+            <input type="hidden" name="anggota_id" id="anggota_promote_id">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalPromoteLabel">Angkat Sebagai</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <x-input :type="'select'" :options="$organizations" :name="'organization_id'" :label="''"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" onclick="return confirm('apa anda yakin?')" class="btn btn-success">Simpan</button>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection
 
 @section('script')
     <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
+        $("select").select2({
+            theme: "bootstrap-5",
+        });
         $('#cart').hide();
 
         var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
             keyboard: false
         })
+
+        var modalPromote = new bootstrap.Modal(document.getElementById('modalPromote'), {
+            keyboard: false
+        })
+
+
         var table = $(".file-export").DataTable({
             processing: true,
             serverSide: true,
@@ -139,9 +179,9 @@
                 },
                 {data: 'foto', name: 'foto', searchable: false, orderable: false},
                 {data: 'nik', name: 'nik', visible: false},
-                {data: 'kode', name: 'kode'},
+                // {data: 'kode', name: 'kode'},
                 {data: 'nama', name: 'nama'},
-                {data: 'tgl_lahir', name: 'tgl_lahir', searchable: false, orderable: false},
+                // {data: 'tgl_lahir', name: 'tgl_lahir', searchable: false, orderable: false},
                 {data: 'jk', name: 'jk', searchable: false, orderable: false},
                 {data: 'kabupaten', name: 'kabupaten', searchable: false, orderable: false},
                 {data: 'kecamatan', name: 'kecamatan', searchable: false, orderable: false},
@@ -255,6 +295,12 @@
                     table.ajax.reload();
                 }
             });
+        }
+
+
+        let promoteAnggota = (anggota_id) => {
+            $('#anggota_promote_id').val(anggota_id);
+            modalPromote.toggle()
         }
 
         let deleteGudep = (gudep) => {

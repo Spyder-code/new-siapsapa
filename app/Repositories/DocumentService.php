@@ -10,7 +10,7 @@ class DocumentService {
     {
         $user = Auth::user();
         $data['user_id'] = $user->id;
-        $file = $data['file'];
+        $file = $data['sertif'];
         $fileName = time().'.'.$file->getClientOriginalExtension();
         $file->move(public_path('/berkas/dokumen'.'/'.$data['document_type_id']), $fileName);
         $data['file'] = $fileName;
@@ -21,7 +21,7 @@ class DocumentService {
             $data['status'] = 0;
         }
         $check = Document::where('user_id', Auth::id())->where('document_type_id', $data['document_type_id'])->first();
-        if($check){
+        if($check && $check->pramuka != 8){
             $check->update($data);
         }else{
             $check = Document::create($data);

@@ -50,4 +50,11 @@ class GudepController extends Controller
             'status' => 'success'
         ]);
     }
+
+    public function search()
+    {
+        $name = request('name');
+        $data = Gudep::where('nama_sekolah','LIKE','%'.$name.'%')->select('id','nama_sekolah as name')->get();
+        return response($data);
+    }
 }

@@ -37,6 +37,7 @@ class Anggota extends Model
         'kawin',
         'user_id',
         'tingkat',
+        'jabatan',
     ];
 
     public function user()

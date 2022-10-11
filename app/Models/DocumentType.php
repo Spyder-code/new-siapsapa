@@ -10,11 +10,17 @@ class DocumentType extends Model
     use HasFactory;
     protected $fillable = [
         'pramuka_id',
-        'name'
+        'name',
+        'id'
     ];
 
     public function pramuka()
     {
         return $this->belongsTo(Pramuka::class, 'pramuka_id');
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
     }
 }
