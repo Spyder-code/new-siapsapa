@@ -4,6 +4,7 @@
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\DataTableController;
+use App\Http\Controllers\GudepController;
 use App\Http\Controllers\KwartirController;
 use App\Http\Controllers\PercetakanController;
 use Illuminate\Support\Facades\Route;

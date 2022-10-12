@@ -15,12 +15,12 @@
                 <div class="col-lg-8">
                     <ul class="entry-meta">
                         <li>
-                            <img src="https://radiustheme.com/demo/html/cirkle/media/figure/chat_7.jpg" alt="Chat">
+                            <img src="{{ asset('berkas/anggota/'.$post->user->anggota->foto) }}" alt="{{ $post->user->name }}" style="height: 44px; width:44px">
                             Oleh <a href="#">{{ $post->nama_user }}</a>
                         </li>
                         <li><i class="icofont-calendar"></i>{{ date("j F, Y", strtotime($post->created_at)) }}</li>
-                        <li><i class="icofont-comment"></i> Comments: 05</li>
-                        <li><i class="icofont-share"></i> Share: 02</li>
+                        {{-- <li><i class="icofont-comment"></i> Comments: 05</li>
+                        <li><i class="icofont-share"></i> Share: 02</li> --}}
                     </ul>
                 </div>
                 <div class="col-lg-4">
@@ -77,7 +77,7 @@
                 <a href="single-blog.html#"><img src="https://radiustheme.com/demo/html/cirkle/media/figure/reaction_5.png" alt="Like"></a>
             </div>
         </div> --}}
-        <div class="blog-comment-form">
+        {{-- <div class="blog-comment-form">
             <h3 class="item-title">Tinggalkan komentar</h3>
             <form>
                 <div class="row gutters-20">
@@ -98,7 +98,7 @@
                     </div>
                 </div>
             </form>
-        </div>
+        </div> --}}
     </div>
 </div>
 {{-- <div class="realated-blog">

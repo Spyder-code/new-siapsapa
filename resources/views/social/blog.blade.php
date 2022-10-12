@@ -1,12 +1,21 @@
 @extends('layouts.social')
+@section('style')
+<style type="text/css">
+    .ajax-load{
+        background: #e1e1e1;
+      padding: 10px 0px;
+      width: 100%;
+    }
+</style>
+@endsection
 @section('content')
 <h3>Berita & Artikel</h3>
 <div class="block-box user-top-header mt-5">
-    <ul class="menu-list justify-content-around">
+    <ul class="menu-list">
 
-        <li class="active"><a href="user-blog.html#">All</a></li>
+        <li class="{{ !$category?'active':'' }}"><a href="{{ route('social.news') }}">All</a></li>
         @foreach ($postCategory->slice(0, 5) as $item)
-        <li><a href="user-blog.html#">{{ $item->name }}</a></li>
+        <li class="{{ $category==$item->id?'active':'' }}"><a href="{{ route('social.news',['category'=>$item->id]) }}">{{ $item->name }}</a></li>
         @endforeach
 
         <li>
@@ -16,7 +25,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     @foreach ($postCategory->slice(5) as $item)
-                    <a class="dropdown-item" href="user-blog.html#">{{ $item->name }}</a>
+                    <a class="dropdown-item" href="{{ route('social.news',['category'=>$item->id]) }}">{{ $item->name }}</a>
                     @endforeach
                 </div>
             </div>
@@ -27,7 +36,7 @@
     <div class="box-item">
         <div class="item-show-title">Total {{ $post->count() }} Posts</div>
     </div>
-    <div class="box-item search-filter">
+    {{-- <div class="box-item search-filter">
         <div class="dropdown">
             <label>Order By:</label>
             <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">Newest
@@ -38,33 +47,57 @@
                 <a class="dropdown-item" href="user-blog.html#">Oldest Post</a>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
-<div class="row gutters-20">
-
-    @foreach ($post as $item)
-    <div class="col-lg-4 col-md-6">
-        <div class="block-box user-blog">
-            <div class="blog-img">
-                <a href="{{ route('social.news.detail', $item->id) }}"><img
-                        style="max-width:100%; max-height:100%; object-fit: cover;" src="{{ $item->cover_image }}"
-                        alt="Blog"></a>
-            </div>
-            <div class="blog-content">
-                <div class="blog-category">
-                    <a href="#">{{ $item->name }}</a>
-                </div>
-                <h3 class="blog-title" style="text-transform: capitalize;"><a
-                        href="{{ route('social.news.detail', $item->id) }}">
-                        {{(strlen($item->title) >= 50) ? substr($item->title, 0, 50) . '...' : $item->title}}</a></h3>
-                <div class="blog-date"><i class="icofont-calendar"></i>
-                    {{ date("j F, Y", strtotime($item->created_at)) }}
-                </div>
-                <p>{{(strlen($item->content) >= 120) ? substr($item->content, 0, 120) . '...' : $item->content}}</p>
-            </div>
-        </div>
-    </div>
-    @endforeach
-
+<div class="row gutters-20" id="post-data">
+    @include('data.postList')
 </div>
+<div class="load-more-post text-center">
+    <a href="#" id="load-more" class="item-btn"><i class="icofont-refresh"></i>Load More Posts</a>
+</div>
+@endsection
+
+@section('script')
+    <script>
+        var page = 1;
+        // $(window).scroll(function() {
+        //     if($(window).scrollTop() + $(window).height() >= $(document).height()) {
+        //         page++;
+        //         loadMoreData(page);
+        //     }
+        // });
+
+        $('#load-more').click(function (e) {
+            e.preventDefault();
+            page++;
+            loadMoreData(page);
+        });
+
+
+        function loadMoreData(page){
+            var type = @json($category);
+            if (type>=1) {
+                var url = '?category='+type+'&&page='+page;
+            } else {
+                var url =  '?page=' + page;
+            }
+            $.ajax(
+                {
+                    url: url,
+                    type: "get",
+                })
+                .done(function(data)
+                {
+                    if(data.html == " "){
+                        $('#load-more').hide();
+                        return;
+                    }
+                    $("#post-data").append(data.html);
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError)
+                {
+                    alert('server not responding...');
+                });
+        }
+    </script>
 @endsection

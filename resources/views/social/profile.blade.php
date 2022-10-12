@@ -18,7 +18,7 @@
     <div class="banner-content">
         <div class="media">
             <div class="item-img">
-                <img src="{{ asset('berkas/anggota/02.jpg') }}" alt="User" style="width: 90px; height:90px">
+                <img src="{{ asset('berkas/anggota/'.$anggota->foto) }}" alt="User" style="width: 90px; height:90px">
             </div>
             <div class="media-body">
                 <h3 class="item-title">{{ $anggota->nama }}</h3>

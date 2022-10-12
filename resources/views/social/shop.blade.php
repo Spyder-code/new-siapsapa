@@ -13,7 +13,7 @@
                 </ul>
             </div>
         </div>
-        <div class="block-box product-filter">
+        {{-- <div class="block-box product-filter">
             <label>Filter By:</label>
             <div class="select-box">
                 <select class="select2 select2-hidden-accessible" data-placeholder="Select a Category" data-select2-id="1" tabindex="-1" aria-hidden="true">
@@ -32,138 +32,32 @@
             <div class="filter-btn">
                 <a href="#" class="item-btn">Filter Product</a>
             </div>
-        </div>
+        </div> --}}
         <div class="row">
+            @forelse ($products as $item)
             <div class="col-lg-4 col-md-6">
                 <div class="block-box product-box">
                     <div class="product-img">
-                        <a href="single-shop.html"><img src="media/figure/product_1.png" alt="product"></a>
+                        <a href="{{ asset('berkas/product/'.$item->foto) }}" target="d-blank" class="popup-zoom">
+                            <img src="{{ asset('berkas/product/'.$item->foto) }}" alt="{{ $item->nama }}">
+                        </a>
                     </div>
                     <div class="product-content">
                         <div class="item-category">
-                            <a href="#">COFFEE MUGS</a>
+                            <a href="{{ route('social.shop.detail',$item->id) }}">{{ $item->deskripsi }}</a>
                         </div>
-                        <h3 class="product-title"><a href="single-shop.html">Black Coffee Mug </a></h3>
-                        <div class="product-price">$29</div>
+                        <h3 class="product-title"><a href="{{ route('social.shop.detail',$item->id) }}">{{ $item->nama }} </a></h3>
+                        <div class="product-price">Rp. {{ number_format($item->harga) }}</div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="block-box product-box">
-                    <div class="product-img">
-                        <a href="single-shop.html"><img src="media/figure/product_2.png" alt="product"></a>
-                    </div>
-                    <div class="product-content">
-                        <div class="item-category">
-                            <a href="#">COFFEE MUGS</a>
-                        </div>
-                        <h3 class="product-title"><a href="single-shop.html">Black Coffee Mug</a></h3>
-                        <div class="product-price">$29</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="block-box product-box">
-                    <div class="product-img">
-                        <a href="single-shop.html"><img src="media/figure/product_3.png" alt="product"></a>
-                    </div>
-                    <div class="product-content">
-                        <div class="item-category">
-                            <a href="#">COFFEE MUGS</a>
-                        </div>
-                        <h3 class="product-title"><a href="single-shop.html">Black Coffee Mug</a></h3>
-                        <div class="product-price">$29</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="block-box product-box">
-                    <div class="product-img">
-                        <a href="single-shop.html"><img src="media/figure/product_4.png" alt="product"></a>
-                    </div>
-                    <div class="product-content">
-                        <div class="item-category">
-                            <a href="#">COFFEE MUGS</a>
-                        </div>
-                        <h3 class="product-title"><a href="single-shop.html">Black Coffee Mug</a></h3>
-                        <div class="product-price">$29</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="block-box product-box">
-                    <div class="product-img">
-                        <a href="single-shop.html"><img src="media/figure/product_5.png" alt="product"></a>
-                    </div>
-                    <div class="product-content">
-                        <div class="item-category">
-                            <a href="#">COFFEE MUGS</a>
-                        </div>
-                        <h3 class="product-title"><a href="single-shop.html">Black Coffee Mug</a></h3>
-                        <div class="product-price">$29</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="block-box product-box">
-                    <div class="product-img">
-                        <a href="single-shop.html"><img src="media/figure/product_6.png" alt="product"></a>
-                    </div>
-                    <div class="product-content">
-                        <div class="item-category">
-                            <a href="#">COFFEE MUGS</a>
-                        </div>
-                        <h3 class="product-title"><a href="single-shop.html">Black Coffee Mug</a></h3>
-                        <div class="product-price">$29</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="block-box product-box">
-                    <div class="product-img">
-                        <a href="single-shop.html"><img src="media/figure/product_7.png" alt="product"></a>
-                    </div>
-                    <div class="product-content">
-                        <div class="item-category">
-                            <a href="#">COFFEE MUGS</a>
-                        </div>
-                        <h3 class="product-title"><a href="single-shop.html">Black Coffee Mug</a></h3>
-                        <div class="product-price">$29</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="block-box product-box">
-                    <div class="product-img">
-                        <a href="single-shop.html"><img src="media/figure/product_8.png" alt="product"></a>
-                    </div>
-                    <div class="product-content">
-                        <div class="item-category">
-                            <a href="#">COFFEE MUGS</a>
-                        </div>
-                        <h3 class="product-title"><a href="single-shop.html">Black Coffee Mug</a></h3>
-                        <div class="product-price">$29</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="block-box product-box">
-                    <div class="product-img">
-                        <a href="single-shop.html"><img src="media/figure/product_9.png" alt="product"></a>
-                    </div>
-                    <div class="product-content">
-                        <div class="item-category">
-                            <a href="#">COFFEE MUGS</a>
-                        </div>
-                        <h3 class="product-title"><a href="single-shop.html">Black Coffee Mug</a></h3>
-                        <div class="product-price">$29</div>
-                    </div>
-                </div>
-            </div>
+            @empty
+                <img src="{{ asset('images/empty.png') }}" class="img-fluid" width="100%">
+            @endforelse
         </div>
-        <div class="block-box load-more-btn">
+        {{-- <div class="block-box load-more-btn">
             <a href="#" class="item-btn"><i class="icofont-refresh"></i>Load More</a>
-        </div>
+        </div> --}}
     </div>
 </div>
 @endsection

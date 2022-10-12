@@ -1,7 +1,7 @@
 @extends('layouts.social')
 @section('content')
 <h3>Agenda Kegiatan</h3>
-<div class="block-box user-top-header mt-5">
+{{-- <div class="block-box user-top-header mt-5">
     <ul class="menu-list">
         <li class="active"><a href="user-blog.html#">Timeline</a></li>
         <li><a href="user-blog.html#">About</a></li>
@@ -25,12 +25,12 @@
             </div>
         </li>
     </ul>
-</div>
+</div> --}}
 <div class="block-box user-search-bar justify-content-between">
     <div class="box-item">
-        <div class="item-show-title">Total {{ $agenda->count() }} Posts</div>
+        <div class="item-show-title">Total {{ $agenda->count() }} Agenda</div>
     </div>
-    <div class="box-item search-filter">
+    {{-- <div class="box-item search-filter">
         <div class="dropdown">
             <label>Order By:</label>
             <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">Newest
@@ -41,13 +41,13 @@
                 <a class="dropdown-item" href="user-blog.html#">Oldest Post</a>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
 
 
 <div class="row gutters-20">
 
-    @foreach ($agenda as $item)
+    @forelse ($agenda as $item)
     <div class="col-lg-4 col-md-4">
         <div class="block-box user-blog">
             <div class="blog-img">
@@ -86,7 +86,9 @@
             </div>
         </div>
     </div>
-    @endforeach
+    @empty
+    <img src="{{ asset('images/empty.png') }}" class="img-fluid" width="100%">
+    @endforelse
 
 </div>
 

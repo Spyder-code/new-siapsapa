@@ -737,6 +737,9 @@ h6 {
 
 /*------------------- 4.3 Footer -------------------*/
 
+footer{
+    width: 100%;
+}
 .footer-wrap {
     background-color: #f0f4f6;
     position: relative;

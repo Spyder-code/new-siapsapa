@@ -9,7 +9,7 @@ $following = App\Models\Follower::where('user_id', '=', $user->id)->orderByDesc(
     <div class="banner-content">
         <div class="media">
             <div class="item-img">
-                <img src="{{ asset('berkas/anggota/02.jpg') }}" alt="User" style="width: 90px; height:90px">
+                <img src="{{ asset('berkas/anggota/'.$anggota->foto) }}" alt="User" style="width: 90px; height:90px">
             </div>
             <div class="media-body">
                 <h3 class="item-title">{{ $anggota->nama }}</h3>
@@ -71,17 +71,18 @@ $following = App\Models\Follower::where('user_id', '=', $user->id)->orderByDesc(
                 href="{{ route('social.userFriend', $anggota->id) }}">Teman</a></li>
         <li class="{{ request()->is('anggota/*/galeri') ? 'active' : '' }}"><a
                 href="{{ route('social.userGallery', $anggota->id) }}">Galeri</a></li>
-        {{-- <li>
+        @if (Auth::id()==$anggota->user_id)
+        <li>
             <div class="dropdown">
                 <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
                     ...
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="user-timeline.html#">Pengikut</a>
-                    <a class="dropdown-item" href="user-timeline.html#">Mengikuti</a>
+                    <a class="dropdown-item" href="{{ route('social.profile') }}">Profile</a>
                 </div>
             </div>
-        </li> --}}
+        </li>
+        @endif
     </ul>
 </div>
 

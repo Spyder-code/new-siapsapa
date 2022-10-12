@@ -240,7 +240,7 @@
                                     <i data-feather="key" class="feather-sm text-warning me-1 ms-1" ></i>
                                     Update Password
                                 </a>
-                                <a class="dropdown-item" href="{{ route('page.profile') }}" >
+                                <a class="dropdown-item" href="{{ route('social.home') }}" >
                                     <i data-feather="award" class="feather-sm text-success me-1 ms-1" ></i>
                                     Member Area
                                 </a>

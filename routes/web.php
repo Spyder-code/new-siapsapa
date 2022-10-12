@@ -51,23 +51,30 @@ Route::get('/i/agenda/{agenda}', [PageController::class, 'show_agenda'])->name('
 Route::get('/i/agenda/{agenda}/peserta', [PageController::class, 'peserta_agenda'])->name('page.agenda.peserta');
 
 // Social
-Route::get('/anggota/{anggota_id}/feed', [SocialController::class, 'userFeed'])->name('social.userFeed');
-Route::get('/anggota/{anggota_id}/sertifikat', [SocialController::class, 'userSertification'])->name('social.userSertification');
-Route::get('/anggota/{anggota_id}/teman', [SocialController::class, 'userFriend'])->name('social.userFriend');
-Route::get('/anggota/{anggota_id}/galeri', [SocialController::class, 'userGallery'])->name('social.userGallery');
-Route::get('/berita', [SocialController::class, 'news'])->name('social.news');
-Route::get('/berita/{id}', [SocialController::class, 'newsDetail'])->name('social.news.detail');
-Route::get('/agenda', [SocialController::class, 'event'])->name('social.event');
-Route::get('/photo', [SocialController::class, 'photo'])->name('social.photo');
-Route::get('/video', [SocialController::class, 'video'])->name('social.video');
-Route::get('/belanja', [SocialController::class, 'shop'])->name('social.shop');
-Route::get('/penggumuman', [SocialController::class, 'announcement'])->name('social.announcement');
-Route::get('/account', [SocialController::class, 'profile'])->name('social.profile');
-Route::post('/post/store', [PostController::class, 'store'])->name('social.post.store');
-Route::get('/agenda/{id}', [SocialController::class, 'agendaDetail'])->name('agenda.detail');
-Route::post('/post/media/store', [PostMediaController::class, 'store'])->name('post.media.store');
-Route::post('/follow/add', [FollowerController::class, 'store'])->name('follow.store');
-Route::post('/follow/remove', [FollowerController::class, 'destroy'])->name('follow.remove');
+Route::middleware('auth')->group(function(){
+    Route::get('/anggota/{anggota_id}/feed', [SocialController::class, 'userFeed'])->name('social.userFeed');
+    Route::get('/anggota/{anggota_id}/sertifikat', [SocialController::class, 'userSertification'])->name('social.userSertification');
+    Route::get('/anggota/{anggota_id}/teman', [SocialController::class, 'userFriend'])->name('social.userFriend');
+    Route::get('/anggota/{anggota_id}/galeri', [SocialController::class, 'userGallery'])->name('social.userGallery');
+    Route::get('/home', [SocialController::class, 'home'])->name('social.home');
+    Route::get('/cart', [SocialController::class, 'cart'])->name('social.cart');
+    Route::get('/transaction/create', [SocialController::class, 'createTransaction'])->name('social.transaction.create');
+    Route::get('/transaction', [SocialController::class, 'transaction'])->name('social.transaction');
+    Route::get('/berita', [SocialController::class, 'news'])->name('social.news');
+    Route::get('/berita/{id}', [SocialController::class, 'newsDetail'])->name('social.news.detail');
+    Route::get('/agenda', [SocialController::class, 'event'])->name('social.event');
+    Route::get('/photo', [SocialController::class, 'photo'])->name('social.photo');
+    Route::get('/video', [SocialController::class, 'video'])->name('social.video');
+    Route::get('/belanja', [SocialController::class, 'shop'])->name('social.shop');
+    Route::get('/belanja/{id}', [SocialController::class, 'shopDetail'])->name('social.shop.detail');
+    Route::get('/penggumuman', [SocialController::class, 'announcement'])->name('social.announcement');
+    Route::get('/account', [SocialController::class, 'profile'])->name('social.profile');
+    Route::post('/post/store', [PostController::class, 'store'])->name('social.post.store');
+    Route::get('/agenda/{id}', [SocialController::class, 'agendaDetail'])->name('agenda.detail');
+    Route::post('/post/media/store', [PostMediaController::class, 'store'])->name('post.media.store');
+    Route::post('/follow/add', [FollowerController::class, 'store'])->name('follow.store');
+    Route::post('/follow/remove', [FollowerController::class, 'destroy'])->name('follow.remove');
+});
 
 
 Route::get('/profile', [PageController::class, 'profile'])->name('page.profile');
@@ -149,7 +156,6 @@ Route::prefix('datatable')->group(function(){
     Route::get('anggota/active', [AnggotaController::class, 'data_table_active'])->name('datatable.anggota.active');
     Route::get('anggota/non-validate', [AnggotaController::class, 'data_table_non_validate'])->name('datatable.anggota.non_validate');
     Route::get('anggota/search-document', [AnggotaController::class, 'data_table_search_document'])->name('datatable.anggota.search_document');
-    Route::get('gudep/anggota', [GudepController::class, 'data_table_anggota'])->name('datatable.gudep.anggota');
     Route::get('kwartir', [KwartirController::class, 'data_table'])->name('datatable.kwartir');
     Route::get('wrong-date', [DataController::class, 'wrong_date'])->name('datatable.data.wrong.date');
     Route::get('wrong-image', [DataController::class, 'wrong_image'])->name('datatable.data.wrong.image');

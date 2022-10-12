@@ -47,6 +47,7 @@
             </div>
             <div class="tab-pane fade" id="post-saka" role="tabpanel">
                 <div class="p-4">
+                    @if (Auth::user()->anggota->pramuka==3||Auth::user()->anggota->pramuka==4)
                     <select name="pramuka" id="sertif-saka" class="select-golongan form-select text-center">
                         <option disabled selected>Pilih Golongan</option>
                         @foreach ($pramuka as $item)
@@ -56,6 +57,11 @@
                         @endforeach
                     </select>
                     <select id="select-saka" name="document_type_id" class="form-select text-center mt-2"></select>
+                    @else
+                    <div class="alert alert-info">
+                        Sertifikat SAKA khusus golongan Penegak dan Pandega
+                    </div>
+                    @endif
                 </div>
             </div>
             <div class="tab-pane fade" id="post-dewasa" role="tabpanel">

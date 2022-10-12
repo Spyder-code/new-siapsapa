@@ -1,4 +1,4 @@
-@extends('social.user-timeline')
+@extends('layouts.social')
 
 @section('style')
 <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
@@ -29,12 +29,12 @@
 </style>
 @endsection
 
-@section('custom-head')
+@section('style')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @endsection
 
-@section('content-user')
+@section('content')
 <div class="row">
     <div class="col-lg-8">
 
@@ -53,7 +53,6 @@
         </div>
         @endif
 
-        @if (Auth::id() == $user->id)
         <div class="block-box post-input-tab">
             <ul class="nav nav-tabs" role="tablist">
                 {{-- <li class="nav-item" role="presentation" data-toggle="tooltip" data-placement="top" title="STATUS">
@@ -151,7 +150,6 @@
 
             </div>
         </div>
-        @endif
 
         <div class="block-box user-timeline-header">
             <ul class="menu-list d-none d-md-block">
@@ -188,116 +186,16 @@
             </div> --}}
         </div>
 
-        @foreach ($post as $item)
-        <div class="block-box post-view">
-            <div class="post-header">
-                <div class="media">
-                    <div class="user-img">
-                        <img src="https://radiustheme.com/demo/html/cirkle/media/figure/chat_5.jpg" alt="Aahat">
-                    </div>
-                    <div class="media-body">
-                        <div class="user-title">{{ $item->user->name }}</div>
-                        <ul class="entry-meta">
-                            <li class="meta-privacy"><i class="icofont-user-alt-3"></i>Personal</li>
-                            <li class="meta-time">{{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="post-body">
-                <div class="mt-3">
-                    <a href="{{ route('social.news.detail', $item->id) }}">
-                        <h5 class="blog-title" style="text-transform: capitalize;">
-                            {{(strlen($item->title) >= 50) ? substr($item->title, 0, 50) . '...' : $item->title}}
-                        </h5>
-                    </a>
-                </div>
-                <div class="post-no-thumbnail">
-                    <p>{{(strlen($item->content) >= 300) ? substr($item->content, 0, 300) . '...' : $item->content}}</p>
-                    @if (strlen($item->content) > 300)
-                    <p><a href="{{ route('social.news.detail', $item->id) }}">Baca lebih lanjut</a></p>
-                    @endif
-                </div>
-                {{-- <div class="post-meta-wrap">
-                    <div class="post-meta">
-                        <div class="post-reaction">
-                            <div class="reaction-icon">
-                                <img src="https://radiustheme.com/demo/html/cirkle/media/figure/reaction_1.png"
-                                    alt="icon">
-                                <img src="https://radiustheme.com/demo/html/cirkle/media/figure/reaction_2.png"
-                                    alt="icon">
-                                <img src="https://radiustheme.com/demo/html/cirkle/media/figure/reaction_3.png"
-                                    alt="icon">
-                            </div>
-                            <div class="meta-text">35</div>
-                        </div>
-                    </div>
-                    <div class="post-meta">
-                        <div class="meta-text">2 Comments</div>
-                        <div class="meta-text">05 Share</div>
-                    </div>
-                </div> --}}
-            </div>
-            {{-- <div class="post-footer">
-                <ul>
-                    <li class="post-react">
-                        <a href="user-timeline.html#"><i class="icofont-thumbs-up"></i>React!</a>
-                        <ul class="react-list">
-                            <li><a href="user-timeline.html#"><img
-                                        src="https://radiustheme.com/demo/html/cirkle/media/figure/reaction_1.png"
-                                        alt="Like"></a>
-                            </li>
-                            <li><a href="user-timeline.html#"><img
-                                        src="https://radiustheme.com/demo/html/cirkle/media/figure/reaction_3.png"
-                                        alt="Like"></a>
-                            </li>
-                            <li><a href="user-timeline.html#"><img
-                                        src="https://radiustheme.com/demo/html/cirkle/media/figure/reaction_4.png"
-                                        alt="Like"></a>
-                            </li>
-                            <li><a href="user-timeline.html#"><img
-                                        src="https://radiustheme.com/demo/html/cirkle/media/figure/reaction_2.png"
-                                        alt="Like"></a>
-                            </li>
-                            <li><a href="user-timeline.html#"><img
-                                        src="https://radiustheme.com/demo/html/cirkle/media/figure/reaction_7.png"
-                                        alt="Like"></a>
-                            </li>
-                            <li><a href="user-timeline.html#"><img
-                                        src="https://radiustheme.com/demo/html/cirkle/media/figure/reaction_6.png"
-                                        alt="Like"></a>
-                            </li>
-                            <li><a href="user-timeline.html#"><img
-                                        src="https://radiustheme.com/demo/html/cirkle/media/figure/reaction_5.png"
-                                        alt="Like"></a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="user-timeline.html#"><i class="icofont-comment"></i>Comment</a></li>
-                    <li class="post-share">
-                        <a href="javascript:void(0);" class="share-btn"><i class="icofont-share"></i>Share</a>
-                        <ul class="share-list">
-                            <li><a href="user-timeline.html#" class="color-fb"><i class="icofont-facebook"></i></a></li>
-                            <li><a href="user-timeline.html#" class="color-messenger"><i
-                                        class="icofont-facebook-messenger"></i></a></li>
-                            <li><a href="user-timeline.html#" class="color-instagram"><i
-                                        class="icofont-instagram"></i></a>
-                            </li>
-                            <li><a href="user-timeline.html#" class="color-whatsapp"><i
-                                        class="icofont-brand-whatsapp"></i></a>
-                            </li>
-                            <li><a href="user-timeline.html#" class="color-twitter"><i class="icofont-twitter"></i></a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div> --}}
+        <div id="post-data">
+            @include('data.feedList',['post'=>$post])
         </div>
-        @endforeach
 
         {{-- <div class="block-box load-more-btn">
             <a href="user-timeline.html#" class="item-btn"><i class="icofont-refresh"></i>Load More Posts</a>
         </div> --}}
+        <div class="load-more-post">
+            <a href="#" id="load-more" class="item-btn"><i class="icofont-refresh"></i>Load More Posts</a>
+        </div>
 
 
     </div>
@@ -346,5 +244,41 @@
             width: 'resolve'
         });
     });
+
+    var page = 1;
+        // $(window).scroll(function() {
+        //     if($(window).scrollTop() + $(window).height() >= $(document).height()) {
+        //         page++;
+        //         loadMoreData(page);
+        //     }
+        // });
+
+        $('#load-more').click(function (e) {
+            e.preventDefault();
+            page++;
+            loadMoreData(page);
+        });
+
+
+        function loadMoreData(page){
+            var url =  '?page=' + page;
+            $.ajax(
+                {
+                    url: url,
+                    type: "get",
+                })
+                .done(function(data)
+                {
+                    if(data.html == " "){
+                        $('#load-more').hide();
+                        return;
+                    }
+                    $("#post-data").append(data.html);
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError)
+                {
+                    alert('server not responding...');
+                });
+        }
 </script>
 @endsection

@@ -10,10 +10,13 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\PostCategory;
 use App\Models\Tag;
 use App\Models\Agenda;
+use App\Models\Cart;
 use App\Models\Follower;
 use App\Models\Kegiatan;
 use App\Models\Post;
 use App\Models\PostMedia;
+use App\Models\Product;
+use App\Models\TransactionDetail;
 
 class SocialController extends Controller
 {
@@ -25,6 +28,18 @@ class SocialController extends Controller
         $tags = Tag::all();
         $post = Post::orderByDesc('id')->get();
         return view('social.user.feed', compact('user', 'anggota', 'kategori', 'tags', 'post'));
+    }
+
+    public function home()
+    {
+        $kategori = PostCategory::all();
+        $tags = Tag::all();
+        $post = Post::paginate(3);
+        if (request()->ajax()) {
+    		$view = view('data.feedList',compact('post'))->render();
+            return response()->json(['html'=>$view]);
+        }
+        return view('social.home', compact('kategori', 'tags', 'post'));
     }
 
     public function userGallery($anggota_id)
@@ -57,8 +72,19 @@ class SocialController extends Controller
     public function news()
     {
         $postCategory = PostCategory::all();
-        $post = Post::select('posts.*', 'post_categories.name')->join('post_categories', 'post_categories.id', '=', 'posts.post_category_id')->get();
-        return view('social.blog', compact('postCategory', 'post'));
+        if(request('category')){
+            $post = Post::where('post_category_id',request('category'))->paginate(6);
+        }else{
+            $post = Post::select('posts.*', 'post_categories.name')->join('post_categories', 'post_categories.id', '=', 'posts.post_category_id')->paginate(6);
+        }
+
+        $category = request('category');
+
+        if (request()->ajax()) {
+    		$view = view('data.postList',compact('post'))->render();
+            return response()->json(['html'=>$view]);
+        }
+        return view('social.blog', compact('postCategory', 'post','category'));
     }
 
     public function newsDetail($id)
@@ -88,17 +114,34 @@ class SocialController extends Controller
 
     public function photo()
     {
-        return view('social.photo');
+        $files = PostMedia::where('type','image')->paginate(8);
+        if (request()->ajax()) {
+    		$view = view('data.photoList',compact('files'))->render();
+            return response()->json(['html'=>$view]);
+        }
+        return view('social.photo', compact('files'));
     }
 
     public function video()
     {
-        return view('social.video');
+        $files = PostMedia::where('type','video')->paginate(8);
+        if (request()->ajax()) {
+    		$view = view('data.videoList',compact('files'))->render();
+            return response()->json(['html'=>$view]);
+        }
+        return view('social.video', compact('files'));
     }
 
     public function shop()
     {
-        return view('social.shop');
+        $products = Product::all();
+        return view('social.shop', compact('products'));
+    }
+
+    public function shopDetail($id = 1)
+    {
+        $product = Product::findOrFail($id);
+        return view('social.shop-detail', compact('product'));
     }
 
     public function announcement()
@@ -122,5 +165,31 @@ class SocialController extends Controller
         $agenda = Agenda::find($id);
         $kegiatan = Kegiatan::where('agenda_id', $agenda->id)->orderBy('jam', 'asc')->get();
         return view('social.event-detail', compact('agenda', 'kegiatan'));
+    }
+
+    public function cart()
+    {
+        $carts = Cart::where('user_id', Auth::id())->with('anggota')->get();
+        $pramuka = Pramuka::all();
+        return view('social.cart', compact('carts','pramuka'));
+    }
+
+    public function createTransaction()
+    {
+        $total = Cart::all()->where('user_id', Auth::id())->sum('harga');
+        return view('social.transaction.create', compact('total'));
+    }
+
+    public function transaction()
+    {
+        $status = 'all';
+        $query = TransactionDetail::query();
+        if(request()->has('status')){
+            $query->where('status',request('status'));
+            $status= request('status');
+        }
+        $transactions = $query->where('user_id',Auth::user()->id)->get();
+
+        return view('social.transaction.index', compact('transactions','status'));
     }
 }

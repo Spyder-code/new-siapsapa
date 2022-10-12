@@ -52,17 +52,17 @@
                         </a>
                     </div> --}}
                     <div class="profile-name mt-4">
-                        <h4 class="author-name"><a href="user-timeline.html">{{ $item->userFollower->name }}</a></h4>
+                        <h4 class="author-name"><a href="{{ route('social.userFeed',$item->user_id) }}">{{ $item->userFollower->name }}</a></h4>
                         {{-- <div class="author-location">@ahat akter</div> --}}
                     </div>
                 </div>
                 <ul class="author-badge mt-3">
-                    <li><a href="#" class="bg-salmon-gradient"><i class="icofont-search-user"></i></a></li>
-                    <li><a href="#" class="bg-amethyst-gradient"><i class="icofont-plus"></i></a></li>
+                    <li><a href="{{ route('social.userFeed',$item->following) }}" class="bg-salmon-gradient"><i class="icofont-search-user"></i></a></li>
+                    {{-- <li><a href="#" class="bg-amethyst-gradient"><i class="icofont-plus"></i></a></li> --}}
                     {{-- <li><a href="#" class="bg-sun-gradient"><i class="icofont-squirrel"></i></a></li> --}}
                     {{-- <li><a href="#" class="bg-jungle-gradient"><i class="icofont-rocket-alt-1"></i></a></li> --}}
                 </ul>
-                <ul class="author-statistics">
+                {{-- <ul class="author-statistics">
                     <li>
                         <a href="#"><span class="item-number">30</span> <span class="item-text">POSTS</span></a>
                     </li>
@@ -72,7 +72,7 @@
                     <li>
                         <a href="#"><span class="item-number">1,125</span> <span class="item-text">VIEWS</span></a>
                     </li>
-                </ul>
+                </ul> --}}
             </div>
         </div>
         @empty
@@ -106,17 +106,17 @@
                         </a>
                     </div> --}}
                     <div class="profile-name mt-4">
-                        <h4 class="author-name"><a href="user-timeline.html">{{ $item->userFollowing->name }}</a></h4>
+                        <h4 class="author-name"><a href="{{ route('social.userFeed',$item->following) }}">{{ $item->userFollowing->name }}</a></h4>
                         {{-- <div class="author-location">@ahat akter</div> --}}
                     </div>
                 </div>
                 <ul class="author-badge mt-3">
-                    <li><a href="#" class="bg-salmon-gradient"><i class="icofont-search-user"></i></a></li>
-                    <li><a href="#" class="bg-amethyst-gradient"><i class="icofont-plus"></i></a></li>
+                    <li><a href="{{ route('social.userFeed',$item->following) }}" class="bg-salmon-gradient"><i class="icofont-search-user"></i></a></li>
+                    {{-- <li><a href="#" class="bg-amethyst-gradient"><i class="icofont-plus"></i></a></li> --}}
                     {{-- <li><a href="#" class="bg-sun-gradient"><i class="icofont-squirrel"></i></a></li> --}}
                     {{-- <li><a href="#" class="bg-jungle-gradient"><i class="icofont-rocket-alt-1"></i></a></li> --}}
                 </ul>
-                <ul class="author-statistics">
+                {{-- <ul class="author-statistics">
                     <li>
                         <a href="#"><span class="item-number">30</span> <span class="item-text">POSTS</span></a>
                     </li>
@@ -126,7 +126,7 @@
                     <li>
                         <a href="#"><span class="item-number">1,125</span> <span class="item-text">VIEWS</span></a>
                     </li>
-                </ul>
+                </ul> --}}
             </div>
         </div>
         @empty

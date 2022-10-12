@@ -76,6 +76,9 @@ class TransactionController extends Controller
             $transaction = Transaction::create($items);
         }
         Cart::where('user_id', Auth::id())->delete();
+        if($request->social){
+            return redirect()->route('social.transaction')->with('success', 'Berhasil melakukan transaksi');
+        }
         return redirect()->route('transaction.index')->with('success', 'Berhasil melakukan transaksi');
     }
 

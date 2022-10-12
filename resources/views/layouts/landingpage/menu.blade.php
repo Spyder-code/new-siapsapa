@@ -5,7 +5,7 @@
     <a href="index.html#" class="menu-link have-sub">Agenda</a>
     <ul class="sub-menu">
         <li>
-            <a href="#">Lomba</a>
+            <a href="#"> <i class="icofont-lock"></i>Lomba</a>
         </li>
         <li>
             <a href="{{ route('page.agenda') }}">Non Lomba</a>
@@ -27,16 +27,19 @@
     <a href="{{ route('page.statistik') }}" class="menu-link active">Statistik</a>
 </li>
 <li class="header-nav-item">
-    <a href="index.html#" class="menu-link have-sub">Produk</a>
+    <a href="index.html#" class="menu-link have-sub"><i class="icofont-lock"></i> Produk</a>
     <ul class="sub-menu">
         <li>
-            <a href="https://radiustheme.com/demo/html/cirkle/shop.html">Pramuka</a>
+            <a href="#">Pramuka</a>
         </li>
         <li>
-            <a href="https://radiustheme.com/demo/html/cirkle/single-shop.html">Umum</a>
+            <a href="#">Umum</a>
         </li>
     </ul>
 </li>
-<li class="header-nav-item">
+{{-- <li class="header-nav-item">
     <a href="https://radiustheme.com/demo/html/cirkle/contact.html" class="menu-link">Kontak Kami</a>
+</li> --}}
+<li class="header-nav-item">
+    <a href="{{ route('social.home') }}" class="menu-link">Member Area</a>
 </li>

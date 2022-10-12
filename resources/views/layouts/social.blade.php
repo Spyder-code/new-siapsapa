@@ -5,11 +5,11 @@
    <!-- Meta Data -->
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <title>Cirkle | NewsFeed</title>
+   <title>SIAPSAPA</title>
    <meta name="description" content="">
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    <!-- Favicon -->
-   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('social') }}/media/favicon.png">
+   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logosiap_mini.png') }}">
    <link rel="stylesheet" href="{{ asset('social') }}/dependencies/bootstrap/css/bootstrap.min.css">
    <link rel="stylesheet" href="{{ asset('social') }}/dependencies/icofont/icofont.min.css">
    <link rel="stylesheet" href="{{ asset('social') }}/dependencies/slick-carousel/css/slick.css">
@@ -26,6 +26,57 @@
       href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&display=swap"
       rel="stylesheet">
 
+      <style>
+        .loading {
+            z-index: 9999;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .loading img{
+            width: 300px;
+            height: 300px;
+            animation-name: stretch;
+            animation-duration: 1.5s;
+            animation-timing-function: ease-out;
+            animation-delay: 0;
+            animation-direction: alternate;
+            animation-iteration-count: infinite;
+            animation-fill-mode: none;
+            animation-play-state: running;
+        }
+
+        /* css loading */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @keyframes stretch {
+            0% {
+                transform: scale(.3);
+            }
+            /* 25% {
+                transform: scale(.6);
+            }
+            50% {
+                transform: scale(.9);
+            }
+            75% {
+                transform: scale(1.2);
+            } */
+            100% {
+                transform: scale(1.5);
+            }
+        }
+    </style>
    @yield('custom-head')
    @yield('style')
 </head>
@@ -38,7 +89,12 @@
       <i class="icofont-bubble-up"></i>
    </a>
    <!-- Preloader Start Here -->
-   <div id="preloader"></div>
+   <div class="loading-overlay" id="loading">
+        <div class="loading">
+            <img src="{{ asset('images/logosiap.png') }}" alt="siapsapa">
+        </div>
+    </div>
+   {{-- <div id="preloader"></div> --}}
    <!-- Preloader End Here -->
    <div id="wrapper" class="wrapper">
       <!-- Top Header -->
@@ -47,14 +103,14 @@
             <div class="navbar">
                <div class="nav-item d-none d-sm-block">
                   <div class="header-logo">
-                     <a href="index.html"><img src="{{ asset('social') }}/media/logo.png" alt="Cirkle"></a>
+                     <a href="{{ route('social.home') }}"><img src="{{ asset('images/logo.png') }}" alt="Cirkle"></a>
                   </div>
                </div>
                <div class="nav-item nav-top-menu">
                   <nav id="dropdown" class="template-main-menu">
                      <ul class="menu-content">
                         <li class="header-nav-item">
-                           <a href="#" class="menu-link">Home</a>
+                           <a href="{{ route('social.home') }}" class="menu-link">Home</a>
                         </li>
                         <li class="header-nav-item">
                            <a href="{{ route('social.userFeed',Auth::user()->anggota->id) }}"
@@ -64,11 +120,13 @@
                            <a href="#" class="menu-link have-sub">Halaman</a>
                            <ul class="sub-menu">
                               <li>
-                                 <a href="about-us.html">Global Area</a>
+                                 <a href="{{ url('/') }}">Global Area</a>
                               </li>
+                              @if (Auth::user()->role != 'anggota')
                               <li>
-                                 <a href="user-blog.html">Admin Area</a>
-                              </li>
+                                <a href="{{ route('statistik.index') }}">Admin Area</a>
+                             </li>
+                              @endif
                            </ul>
                         </li>
                      </ul>
@@ -88,26 +146,28 @@
                             @include('layouts.social-component.friend')
                             @include('layouts.social-component.message')
                             @include('layouts.social-component.notification') --}}
-                     <a href="index.html#header-search" title="Search"><i class="icofont-qr-code text-white"></i></a>
+                        @include('layouts.social-component.header.cart')
+                        <a href="#" title="Search"><i class="icofont-qr-code text-white"></i></a>
                   </div>
                   <div class="inline-item">
                      <div class="dropdown dropdown-admin">
                         <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
                            <span class="media">
                               <span class="item-img">
-                                 <img src="{{ asset('social') }}/media/figure/chat_5.jpg" alt="Chat">
+                                 <img src="{{ asset('berkas/anggota/'.Auth::user()->anggota->foto) }}" alt="Chat" style="height: 44px; width:44px;">
                                  <span class="acc-verified"><i class="icofont-check"></i></span>
                               </span>
                               <span class="media-body">
-                                 <span class="item-title">Rebeca</span>
+                                 <span class="item-title">{{ Auth::user()->name }}</span>
                               </span>
                            </span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                            <ul class="admin-options">
                               <li><a href="{{ route('social.profile') }}">Profile</a></li>
-                              <li><a href="user-groups.html">Admin Area</a></li>
-                              <li><a href="user-groups.html">Global Area</a></li>
+                              <li><a href="{{ route('statistik.index') }}">Admin Area</a></li>
+                              <li><a href="{{ url('/') }}">Global Area</a></li>
+                              <li><a href="{{ route('social.transaction') }}">Pesanan Saya</a></li>
                               <li><a href="{{ route('logout') }}">Log Out</a></li>
                            </ul>
                         </div>
@@ -152,7 +212,7 @@
          <div class="fixed-sidebar-left large-sidebar">
             <div class="sidebar-toggle">
                <div class="sidebar-logo">
-                  <a href="index.html"><img src="{{ asset('social') }}/media/logo2.png" alt="Logo"></a>
+                  <a href="{{ route('social.home') }}"><img src="{{ asset('images/logo.png') }}" alt="Logo"></a>
                </div>
                <button class="toggle-btn toggler-close">
                   <span></span>
@@ -163,29 +223,29 @@
             <div class="sidebar-menu-wrap">
                <div class="mCustomScrollbar" data-mcs-theme="dark" data-mcs-axis="y">
                   <ul class="side-menu">
-                     <li><a href="newsfeed.html" class="menu-link"><i class="icofont-newspaper"></i><span
+                     <li><a href="{{ route('social.news') }}" class="menu-link"><i class="icofont-newspaper"></i><span
                               class="menu-title">Berita</span></a></li>
-                     <li><a href="user-timeline.html" class="menu-link"><i class="icofont-list"></i><span
+                     <li><a href="{{ route('social.event') }}" class="menu-link"><i class="icofont-list"></i><span
                               class="menu-title">Agenda</span></a></li>
-                     <li><a href="user-groups.html" class="menu-link"><i class="icofont-users-alt-2"></i><span
+                     <li><a href="{{ route('social.announcement') }}" class="menu-link"><i class="icofont-users-alt-2"></i><span
                               class="menu-title">Penggumuman</span></a></li>
                      {{-- <li><a href="user-friends.html" class="menu-link"><i class="icofont-users-alt-4"></i><span class="menu-title">Members Friends</span></a></li> --}}
-                     <li><a href="user-photo.html" class="menu-link"><i class="icofont-photobucket"></i><span
+                     <li><a href="{{ route('social.photo') }}" class="menu-link"><i class="icofont-photobucket"></i><span
                               class="menu-title">Gallery</span></a></li>
-                     <li><a href="user-video.html" class="menu-link"><i class="icofont-play-alt-1"></i><span
+                     <li><a href="{{ route('social.video') }}" class="menu-link"><i class="icofont-play-alt-1"></i><span
                               class="menu-title">Videos</span></a></li>
                      {{-- <li><a href="#" class="menu-link"><i class="icofont-calendar"></i><span class="menu-title">Event Schedule</span></a></li> --}}
                      {{-- <li><a href="forums-timeline.html" class="menu-link"><i class="icofont-ui-text-chat"></i><span class="menu-title">Forum</span></a></li> --}}
-                     <li><a href="shop.html" class="menu-link"><i class="icofont-shopping-cart"></i><span
+                     <li><a href="{{ route('social.shop') }}" class="menu-link"><i class="icofont-shopping-cart"></i><span
                               class="menu-title">Shop</span></a></li>
                   </ul>
                   <ul class="top-menu-mobile">
                      <li class="menu-label">Halaman</li>
                      <li>
-                        <a href="about-us.html" class="menu-link">Global Area</a>
+                        <a href="{{ url('/') }}" class="menu-link">Global Area</a>
                      </li>
                      <li>
-                        <a href="user-blog.html" class="menu-link">Admin Area</a>
+                        <a href="{{ route('statistik.index') }}" class="menu-link">Admin Area</a>
                      </li>
                   </ul>
                </div>
@@ -275,97 +335,111 @@
       <!--=        Newsfeed  Area Start       =-->
       <!--=====================================-->
       <div class="container">
+        @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Yey!</strong> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+
+        {{-- boostrap 5 session danger --}}
+        @if (session('danger'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Maaf!</strong> {{ session('danger') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
          @yield('content')
       </div>
       <!--=====================================-->
       <!--=        Footer Area Start       	=-->
       <!--=====================================-->
-      <footer class="footer-wrap footer-dashboard">
-         <div class="main-footer">
-            <div class="container">
-               <div class="row row-cols-lg-4 row-cols-sm-2 row-cols-1">
-                  <div class="col">
-                     <div class="footer-box">
-                        <div class="footer-logo">
-                           <a href="https://radiustheme.com/demo/html/cirkle/index.html"><img
-                                 src="{{ asset('images/logosiap.png') }}" alt="SIAPSAPA" style="width: 200px"></a>
-                        </div>
-                        <p>Gerakan Pramuka Wadah Utama Pembentukan Kader Pemimpin Bangsa.</p>
-                     </div>
-                  </div>
-                  <div class="col d-flex justify-content-lg-center">
-                     <div class="footer-box">
-                        <h3 class="footer-title">
-                           Menu
-                        </h3>
-                        <div class="footer-link">
-                           <ul>
-                              <li><a
-                                    href="https://radiustheme.com/https://radiustheme.com/demo/html/cirkle/media/logo_dark.pngdemo/html/cirkle/index.html">Beranda</a>
-                              </li>
-                              <li><a href="https://radiustheme.com/demo/html/cirkle/about-us.html">Statistik</a></li>
-                              <li><a href="https://radiustheme.com/demo/html/cirkle/about-us.html">Artikel</a></li>
-                              <li><a href="https://radiustheme.com/demo/html/cirkle/about-us.html">Penggumuman</a></li>
-                              <li><a href="https://radiustheme.com/demo/html/cirkle/shop.html">Kontak Kami</a></li>
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col d-flex justify-content-lg-center">
-                     <div class="footer-box">
-                        <h3 class="footer-title">
-                           Followers
-                        </h3>
-                        <div class="footer-link">
-                           <ul>
-                              <li><a href="https://www.facebook.com/">facebook</a></li>
-                              <li><a href="https://twitter.com/">twitter</a></li>
-                              <li><a href="https://www.instagram.com/">instagram</a></li>
-                              <li><a href="https://www.youtube.com/">Youtube</a></li>
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col d-flex justify-content-lg-center">
-                     <div class="footer-box">
-                        <h3 class="footer-title">
-                           Download Apps
-                        </h3>
-                        <a href="#" class="border border-primary px-3 py-2 rounded my-2">
-                           <div class="d-flex" style="gap: 20px">
-                              <div style="font-size: 30pt">
-                                 <i class="icofont-brand-android-robot"></i>
-                              </div>
-                              <div class="d-flex flex-column">
-                                 Google Play
-                                 <span>Coming Soon</span>
-                              </div>
-                           </div>
-                        </a>
-                        <a href="#" class="border border-primary px-3 py-2 rounded my-2">
-                           <div class="d-flex" style="gap: 20px">
-                              <div style="font-size: 30pt">
-                                 <i class="icofont-brand-apple"></i>
-                              </div>
-                              <div class="d-flex flex-column">
-                                 App Store
-                                 <span>Coming Soon</span>
-                              </div>
-                           </div>
-                        </a>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="footer-bottom">
-            <div class="footer-copyright">Copy© siapsapa 2021. All Rights Reserved</div>
-         </div>
-      </footer>
 
 
 
    </div>
+   <footer class="footer-wrap footer-dashboard">
+    <div class="main-footer">
+       <div class="container">
+          <div class="row row-cols-lg-4 row-cols-sm-2 row-cols-1">
+             <div class="col">
+                <div class="footer-box">
+                   <div class="footer-logo">
+                      <a href="#"><img
+                            src="{{ asset('images/logosiap.png') }}" alt="SIAPSAPA" style="width: 200px"></a>
+                   </div>
+                   <p>Gerakan Pramuka Wadah Utama Pembentukan Kader Pemimpin Bangsa.</p>
+                </div>
+             </div>
+             <div class="col d-flex justify-content-lg-center">
+                <div class="footer-box">
+                   <h3 class="footer-title">
+                      Menu
+                   </h3>
+                   <div class="footer-link">
+                      <ul>
+                         <li><a
+                               href="{{ url('/') }}">Beranda</a>
+                         </li>
+                         <li><a href="{{ route('page.statistik') }}">Statistik</a></li>
+                         <li><a href="#">Artikel</a></li>
+                         <li><a href="#">Penggumuman</a></li>
+                         <li><a href="#">Kontak Kami</a></li>
+                      </ul>
+                   </div>
+                </div>
+             </div>
+             <div class="col d-flex justify-content-lg-center">
+                <div class="footer-box">
+                   <h3 class="footer-title">
+                      Followers
+                   </h3>
+                   <div class="footer-link">
+                      <ul>
+                         <li><a href="https://www.facebook.com/">facebook</a></li>
+                         <li><a href="https://twitter.com/">twitter</a></li>
+                         <li><a href="https://www.instagram.com/">instagram</a></li>
+                         <li><a href="https://www.youtube.com/">Youtube</a></li>
+                      </ul>
+                   </div>
+                </div>
+             </div>
+             <div class="col d-flex justify-content-lg-center">
+                <div class="footer-box">
+                   <h3 class="footer-title">
+                      Download Apps
+                   </h3>
+                   <a href="#" class="border border-primary px-3 py-2 rounded my-2">
+                      <div class="d-flex" style="gap: 20px">
+                         <div style="font-size: 30pt">
+                            <i class="icofont-brand-android-robot"></i>
+                         </div>
+                         <div class="d-flex flex-column">
+                            Google Play
+                            <span>Coming Soon</span>
+                         </div>
+                      </div>
+                   </a>
+                   <a href="#" class="border border-primary px-3 py-2 rounded my-2">
+                      <div class="d-flex" style="gap: 20px">
+                         <div style="font-size: 30pt">
+                            <i class="icofont-brand-apple"></i>
+                         </div>
+                         <div class="d-flex flex-column">
+                            App Store
+                            <span>Coming Soon</span>
+                         </div>
+                      </div>
+                   </a>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+    <div class="footer-bottom">
+       <div class="footer-copyright">Copy© siapsapa 2021. All Rights Reserved</div>
+    </div>
+ </footer>
    <!-- Chat Modal Here -->
    <div class="chat-conversion-box" id="chat-box-modal" tabindex="-1" aria-labelledby="chat-modal-label"
       aria-hidden="true">
@@ -435,6 +509,7 @@
 
    <!-- Site Scripts -->
    <script src="{{ asset('social') }}/assets/js/app.js"></script>
+   <script src="{{ asset('js/site.js') }}"></script>
    @yield('script')
    @stack('scripts')
 </body>

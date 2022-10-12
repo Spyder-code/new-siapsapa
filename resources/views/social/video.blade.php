@@ -1,6 +1,6 @@
 @extends('layouts.social')
 @section('content')
-<div class="block-box user-top-header">
+{{-- <div class="block-box user-top-header">
     <ul class="menu-list">
         <li class="active"><a href="user-video.html#">Timeline</a></li>
         <li><a href="user-video.html#">About</a></li>
@@ -24,107 +24,70 @@
             </div>
         </li>
     </ul>
+</div> --}}
+<div class="row gutters-20" id="post-data">
+    @include('data.videoList')
 </div>
-<div class="row gutters-20 ">
-    <div class="col-lg-3 col-md-4 col-6">
-        <div class="user-video">
-            <img src="https://radiustheme.com/demo/html/cirkle/media/figure/user_video1.jpg" alt="video">
-            <div class="video-btn">
-                <a href="https://www.youtube.com/watch?v=v7FwSOvHPEk" class="popup-youtube play-icon">
-                    <i class="icofont-ui-play"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-6">
-        <div class="user-video">
-            <img src="https://radiustheme.com/demo/html/cirkle/media/figure/user_video2.jpg" alt="video">
-            <div class="video-btn">
-                <a href="https://www.youtube.com/watch?v=v7FwSOvHPEk" class="popup-youtube play-icon">
-                    <i class="icofont-ui-play"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-6">
-        <div class="user-video">
-            <img src="https://radiustheme.com/demo/html/cirkle/media/figure/user_video3.jpg" alt="video">
-            <div class="video-btn">
-                <a href="https://www.youtube.com/watch?v=v7FwSOvHPEk" class="popup-youtube play-icon">
-                    <i class="icofont-ui-play"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-6">
-        <div class="user-video">
-            <img src="https://radiustheme.com/demo/html/cirkle/media/figure/user_video4.jpg" alt="video">
-            <div class="video-btn">
-                <a href="https://www.youtube.com/watch?v=v7FwSOvHPEk" class="popup-youtube play-icon">
-                    <i class="icofont-ui-play"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-6">
-        <div class="user-video">
-            <img src="https://radiustheme.com/demo/html/cirkle/media/figure/user_video5.jpg" alt="video">
-            <div class="video-btn">
-                <a href="https://www.youtube.com/watch?v=v7FwSOvHPEk" class="popup-youtube play-icon">
-                    <i class="icofont-ui-play"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-6">
-        <div class="user-video">
-            <img src="https://radiustheme.com/demo/html/cirkle/media/figure/user_video6.jpg" alt="video">
-            <div class="video-btn">
-                <a href="https://www.youtube.com/watch?v=v7FwSOvHPEk" class="popup-youtube play-icon">
-                    <i class="icofont-ui-play"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-6">
-        <div class="user-video">
-            <img src="https://radiustheme.com/demo/html/cirkle/media/figure/user_video7.jpg" alt="video">
-            <div class="video-btn">
-                <a href="https://www.youtube.com/watch?v=v7FwSOvHPEk" class="popup-youtube play-icon">
-                    <i class="icofont-ui-play"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-6">
-        <div class="user-video">
-            <img src="https://radiustheme.com/demo/html/cirkle/media/figure/user_video8.jpg" alt="video">
-            <div class="video-btn">
-                <a href="https://www.youtube.com/watch?v=v7FwSOvHPEk" class="popup-youtube play-icon">
-                    <i class="icofont-ui-play"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-6">
-        <div class="user-video">
-            <img src="https://radiustheme.com/demo/html/cirkle/media/figure/user_video9.jpg" alt="video">
-            <div class="video-btn">
-                <a href="https://www.youtube.com/watch?v=v7FwSOvHPEk" class="popup-youtube play-icon">
-                    <i class="icofont-ui-play"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-6">
-        <div class="user-video">
-            <img src="https://radiustheme.com/demo/html/cirkle/media/figure/user_video10.jpg" alt="video">
-            <div class="video-btn">
-                <a href="https://www.youtube.com/watch?v=v7FwSOvHPEk" class="popup-youtube play-icon">
-                    <i class="icofont-ui-play"></i>
-                </a>
-            </div>
-        </div>
-    </div>
+<div class="load-more-post">
+    <a href="#" id="load-more" class="item-btn"><i class="icofont-refresh"></i>Load More Posts</a>
 </div>
+@endsection
+@section('script')
+    <script>
+        var page = 1;
+        // $(window).scroll(function() {
+        //     if($(window).scrollTop() + $(window).height() >= $(document).height()) {
+        //         page++;
+        //         loadMoreData(page);
+        //     }
+        // });
+
+        $('#load-more').click(function (e) {
+            e.preventDefault();
+            page++;
+            loadMoreData(page);
+        });
+
+
+        function loadMoreData(page){
+            var url =  '?page=' + page;
+            $.ajax(
+                {
+                    url: url,
+                    type: "get",
+                })
+                .done(function(data)
+                {
+                    if(data.html == " "){
+                        $('#load-more').hide();
+                        return;
+                    }
+                    $("#post-data").append(data.html);
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError)
+                {
+                    alert('server not responding...');
+                });
+        }
+
+        var yVideo = $(".popup-video");
+        if (yVideo.length) {
+            yVideo.magnificPopup({
+                disableOn: 700,
+                type: 'iframe',
+                mainClass: 'mfp-fade',
+                removalDelay: 160,
+                preloader: false,
+                fixedContentPos: false,
+                iframe: {
+                markup: '<div class="mfp-iframe-scaler">'+
+                        '<div class="mfp-close"></div>'+
+                        '<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>'+
+                    '</div>',
+
+                srcAction: 'iframe_src',
+                }
+            });
+        }
+    </script>
 @endsection

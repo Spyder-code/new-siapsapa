@@ -1,26 +1,33 @@
-@extends('layouts.admin')
-@section('breadcrumb')
-<div class="row">
-    <x-breadcrumb_left
-        :links="[
-            ['name' => 'Dashboard', 'url' => '#'],
-            ['name' => 'Transaksi', 'url' => '#'],
-        ]"
-
-        :title="'Transaksi'"
-        :description="'Daftar Transaksi'"
-    />
-</div>
-@endsection
+@extends('layouts.social')
 @section('content')
-<div class="row mt-4">
-    <div class="col-12">
-        <div class="card">
-            <div class="border-bottom title-part-padding d-flex justify-content-between">
-                <h4 class="card-title mb-0">List Transaksi</h4>
+<div class="block-box user-top-header">
+    <ul class="menu-list">
+        <li><a href="{{ route('social.cart') }}">Keranjang</a></li>
+        <li class="{{ $status=='all'?'active':'' }}" style="width: 100%"><a href="{{ route('social.transaction') }}">Semua Transaksi</a></li>
+        <li class="{{ $status==0?'active':'' }}" style="width: 100%"><a href="{{ route('social.transaction',['status'=>0]) }}">Belum dibayar</a></li>
+        <li class="{{ $status==1?'active':'' }}" style="width: 100%"><a href="{{ route('social.transaction',['status'=>1]) }}">Sudah dibayar</a></li>
+        {{-- <li>
+            <div class="dropdown">
+                <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                    ...
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="user-photo.html#">Shop</a>
+                    <a class="dropdown-item" href="user-photo.html#">Blog</a>
+                    <a class="dropdown-item" href="user-photo.html#">Others</a>
+                </div>
             </div>
-            <div class="card-body">
-                <div class="table-responsive">
+        </li> --}}
+    </ul>
+</div>
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="border-bottom title-part-padding d-flex justify-content-between card-header">
+                    <h4 class="card-title mb-0">{{ $status=='all'?'Semua Transaksi':($status=='0'?'Transaksi Belum dibayar':'Transaksi sudah dibayar') }}</h4>
+                </div>
+                <div class="table-responsive p-4">
                     <table class="table table-bordered table-striped file-export" style="width: 100%">
                         <thead>
                             <tr>
@@ -80,10 +87,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('script')
-    <script>
-        var table = $(".file-export").DataTable();
-    </script>
 @endsection

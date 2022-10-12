@@ -146,17 +146,17 @@
                                 <ul class="nav nav-tabs nav-tabs-left" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active" data-toggle="tab" href="index.html#team1" role="tab" aria-selected="true">
-                                            <img src="{{ $anggota[0]->anggota->foto }}" alt="team">
+                                            <img src="{{ asset('berkas/anggota/'.$anggota[0]->anggota->foto) }}" alt="team">
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="index.html#team2" role="tab" aria-selected="false">
-                                            <img src="{{ $anggota[1]->anggota->foto }}" alt="team">
+                                            <img src="{{ asset('berkas/anggota/'.$anggota[1]->anggota->foto) }}" alt="team">
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="index.html#team3" role="tab" aria-selected="false">
-                                            <img src="{{ $anggota[2]->anggota->foto }}" alt="team">
+                                            <img src="{{ asset('berkas/anggota/'.$anggota[2]->anggota->foto) }}" alt="team">
                                         </a>
                                     </li>
                                 </ul>
@@ -165,17 +165,17 @@
                                 <ul class="nav nav-tabs nav-tabs-right" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="index.html#team4" role="tab" aria-selected="false">
-                                            <img src="{{ $anggota[3]->anggota->foto }}" alt="team">
+                                            <img src="{{ asset('berkas/anggota/'.$anggota[3]->anggota->foto) }}" alt="team">
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="index.html#team5" role="tab" aria-selected="false">
-                                            <img src="{{ $anggota[4]->anggota->foto }}" alt="team">
+                                            <img src="{{ asset('berkas/anggota/'.$anggota[4]->anggota->foto) }}" alt="team">
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="index.html#team6" role="tab" aria-selected="false">
-                                            <img src="{{ $anggota[5]->anggota->foto }}" alt="team">
+                                            <img src="{{ asset('berkas/anggota/'.$anggota[5]->anggota->foto) }}" alt="team">
                                         </a>
                                     </li>
                                 </ul>
