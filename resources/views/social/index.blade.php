@@ -145,18 +145,18 @@
                             <div class="col-lg-4 col-sm-6">
                                 <ul class="nav nav-tabs nav-tabs-left" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="index.html#team1" role="tab" aria-selected="true">
-                                            <img src="{{ asset('berkas/anggota/'.$anggota[0]->anggota->foto) }}" alt="team">
+                                        <a class="nav-link active" data-toggle="tab" href="{{ route('social.userFeed',$anggota[0]->anggota->id) }}" role="tab" aria-selected="true">
+                                            <img src="{{  asset('berkas/anggota/'.$anggota[0]->anggota->foto) }}" alt="team">
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="index.html#team2" role="tab" aria-selected="false">
-                                            <img src="{{ asset('berkas/anggota/'.$anggota[1]->anggota->foto) }}" alt="team">
+                                        <a class="nav-link" data-toggle="tab" href="{{ route('social.userFeed',$anggota[1]->anggota->id) }}" role="tab" aria-selected="false">
+                                            <img src="{{  asset('berkas/anggota/'.$anggota[1]->anggota->foto) }}" alt="team">
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="index.html#team3" role="tab" aria-selected="false">
-                                            <img src="{{ asset('berkas/anggota/'.$anggota[2]->anggota->foto) }}" alt="team">
+                                        <a class="nav-link" data-toggle="tab" href="{{ route('social.userFeed',$anggota[2]->anggota->id) }}" role="tab" aria-selected="false">
+                                            <img src="{{  asset('berkas/anggota/'.$anggota[2]->anggota->foto) }}" alt="team">
                                         </a>
                                     </li>
                                 </ul>
@@ -164,18 +164,18 @@
                             <div class="col-lg-4 col-sm-6 order-lg-3">
                                 <ul class="nav nav-tabs nav-tabs-right" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="index.html#team4" role="tab" aria-selected="false">
-                                            <img src="{{ asset('berkas/anggota/'.$anggota[3]->anggota->foto) }}" alt="team">
+                                        <a class="nav-link" data-toggle="tab" href="{{ route('social.userFeed',$anggota[3]->anggota->id) }}" role="tab" aria-selected="false">
+                                            <img src="{{  asset('berkas/anggota/'.$anggota[3]->anggota->foto) }}" alt="team">
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="index.html#team5" role="tab" aria-selected="false">
-                                            <img src="{{ asset('berkas/anggota/'.$anggota[4]->anggota->foto) }}" alt="team">
+                                        <a class="nav-link" data-toggle="tab" href="{{ route('social.userFeed',$anggota[4]->anggota->id) }}" role="tab" aria-selected="false">
+                                            <img src="{{  asset('berkas/anggota/'.$anggota[4]->anggota->foto) }}" alt="team">
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="index.html#team6" role="tab" aria-selected="false">
-                                            <img src="{{ asset('berkas/anggota/'.$anggota[5]->anggota->foto) }}" alt="team">
+                                        <a class="nav-link" data-toggle="tab" href="{{ route('social.userFeed',$anggota[5]->anggota->id) }}" role="tab" aria-selected="false">
+                                            <img src="{{  asset('berkas/anggota/'.$anggota[5]->anggota->foto) }}" alt="team">
                                         </a>
                                     </li>
                                 </ul>
@@ -185,66 +185,11 @@
                                     <div class="tab-pane fade show active" id="team1" role="tabpanel">
                                         <div class="team-box">
                                             <div class="item-img">
-                                                <img src="https://radiustheme.com/demo/html/cirkle/media/team/team_1.jpg" alt="team">
+                                                <img src="{{ asset('berkas/anggota/'.$anggota[0]->anggota->foto) }}" alt="{{ $anggota[0]->anggota->name }}">
                                             </div>
                                             <div class="item-content">
-                                                <h3 class="item-title"><a href="https://radiustheme.com/demo/html/cirkle/user-timeline.html">Ketty Rio</a></h3>
-                                                <div class="group-count"><span>25</span> - Fashion</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="team2" role="tabpanel">
-                                        <div class="team-box">
-                                            <div class="item-img">
-                                                <img src="https://radiustheme.com/demo/html/cirkle/media/team/team_5.jpg" alt="team">
-                                            </div>
-                                            <div class="item-content">
-                                                <h3 class="item-title"><a href="https://radiustheme.com/demo/html/cirkle/user-timeline.html">Johnson John</a></h3>
-                                                <div class="group-count"><span>25</span> - Fashion</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="team3" role="tabpanel">
-                                        <div class="team-box">
-                                            <div class="item-img">
-                                                <img src="https://radiustheme.com/demo/html/cirkle/media/team/team_6.jpg" alt="team">
-                                            </div>
-                                            <div class="item-content">
-                                                <h3 class="item-title"><a href="https://radiustheme.com/demo/html/cirkle/user-timeline.html">Fahim Rahman</a></h3>
-                                                <div class="group-count"><span>25</span> - Fashion</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="team4" role="tabpanel">
-                                        <div class="team-box">
-                                            <div class="item-img">
-                                                <img src="https://radiustheme.com/demo/html/cirkle/media/team/team_3.jpg" alt="team">
-                                            </div>
-                                            <div class="item-content">
-                                                <h3 class="item-title"><a href="https://radiustheme.com/demo/html/cirkle/user-timeline.html">Mamunur Rashid</a></h3>
-                                                <div class="group-count"><span>25</span> - Fashion</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="team5" role="tabpanel">
-                                        <div class="team-box">
-                                            <div class="item-img">
-                                                <img src="https://radiustheme.com/demo/html/cirkle/media/team/team_4.jpg" alt="team">
-                                            </div>
-                                            <div class="item-content">
-                                                <h3 class="item-title"><a href="https://radiustheme.com/demo/html/cirkle/user-timeline.html">Ketty Rio</a></h3>
-                                                <div class="group-count"><span>25</span> - Fashion</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="team6" role="tabpanel">
-                                        <div class="team-box">
-                                            <div class="item-img">
-                                                <img src="https://radiustheme.com/demo/html/cirkle/media/team/team_7.jpg" alt="team">
-                                            </div>
-                                            <div class="item-content">
-                                                <h3 class="item-title"><a href="https://radiustheme.com/demo/html/cirkle/user-timeline.html">Ketty Rio</a></h3>
-                                                <div class="group-count"><span>25</span> - Fashion</div>
+                                                <h3 class="item-title"><a href="{{ route('social.userFeed',$anggota[0]->anggota->id) }}">{{ $anggota[0]->anggota->name }}</a></h3>
+                                                <div class="group-count"><span></span> - ADMIN {{ strtoupper($anggota[0]->role) }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -252,19 +197,19 @@
                             </div>
                         </div>
                         <ul class="shape-wrap">
-                            <li><img src="https://radiustheme.com/demo/html/cirkle/media/figure/shape_9.png" alt="shape"></li>
-                            <li><img src="https://radiustheme.com/demo/html/cirkle/media/team/shape_1.png" alt="shape"></li>
-                            <li><img src="https://radiustheme.com/demo/html/cirkle/media/team/shape_2.png" alt="shape"></li>
-                            <li><img src="https://radiustheme.com/demo/html/cirkle/media/team/shape_circle_1.png" alt="shape"></li>
-                            <li><img src="https://radiustheme.com/demo/html/cirkle/media/team/shape_circle_2.png" alt="shape"></li>
-                            <li><img src="https://radiustheme.com/demo/html/cirkle/media/team/shape_circle_3.png" alt="shape"></li>
-                            <li><img src="https://radiustheme.com/demo/html/cirkle/media/team/shape_3.png" alt="shape"></li>
-                            <li><img src="https://radiustheme.com/demo/html/cirkle/media/team/shape_4.png" alt="shape"></li>
+                            <li><img src="{{ asset('social') }}/media/figure/shape_9.png" alt="shape"></li>
+                            <li><img src="{{ asset('social') }}/media/team/shape_1.png" alt="shape"></li>
+                            <li><img src="{{ asset('social') }}/media/team/shape_2.png" alt="shape"></li>
+                            <li><img src="{{ asset('social') }}/media/team/shape_circle_1.png" alt="shape"></li>
+                            <li><img src="{{ asset('social') }}/media/team/shape_circle_2.png" alt="shape"></li>
+                            <li><img src="{{ asset('social') }}/media/team/shape_circle_3.png" alt="shape"></li>
+                            <li><img src="{{ asset('social') }}/media/team/shape_3.png" alt="shape"></li>
+                            <li><img src="{{ asset('social') }}/media/team/shape_4.png" alt="shape"></li>
                         </ul>
                     </div>
                 </div>
                 <div class="see-all-btn">
-                    <a href="https://radiustheme.com/demo/html/cirkle/forums-members.html" class="button-slide">
+                    <a href="{{ route('login') }}" class="button-slide">
                         <span class="btn-text">Lihat Semua Anggota</span>
                         <span class="btn-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21px" height="10px">
@@ -284,7 +229,7 @@
                         <div class="banner-content">
                             <h2 class="item-title">Download Aplikasi Mobile</h2>
                             <p>Akses lebih mudah dan dapatkan segala manfaatnya</p>
-                            <a href="https://themeforest.net/user/radiustheme/portfolio" class="button-slide">
+                            <a href="#" class="button-slide">
                                 <span class="btn-text">Download Android</span>
                                 <span class="btn-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21px" height="10px">
@@ -292,7 +237,7 @@
                                     </svg>
                                 </span>
                             </a>
-                            <a href="https://themeforest.net/user/radiustheme/portfolio" class="button-slide">
+                            <a href="#" class="button-slide">
                                 <span class="btn-text">Download IOS</span>
                                 <span class="btn-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21px" height="10px">
@@ -305,7 +250,7 @@
                     <div class="col-lg-6">
                         <div class="banner-img">
                             <div class="apps-view">
-                                <img src="https://radiustheme.com/demo/html/cirkle/media/banner/apps.png" alt="Apps">
+                                <img src="{{ asset('images/apps.png') }}" alt="Apps">
                             </div>
                         </div>
                     </div>
@@ -323,7 +268,7 @@
                             <h2 class="heading-title">Informasi-informasi dan berita baru </h2>
                         </div>
                         <div class="col-lg-7">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, dignissimos voluptatum quos laboriosam perspiciatis distinctio molestiae soluta atque praesentium architecto odit adipisci? Non fuga incidunt eius, quo vel itaque aperiam.</p>
+                            <p>Dapatkan semua informasi-informasi diberbagai wilayah dan acara-acara yang dapat diikuti.</p>
                         </div>
                     </div>
                 </div>
@@ -331,13 +276,13 @@
                     <div class="col-md-4">
                         <div class="blog-box">
                             <div class="blog-img">
-                                <a href="https://radiustheme.com/demo/html/cirkle/single-blog.html">
+                                <a href="#">
                                     <img src="https://radiustheme.com/demo/html/cirkle/media/blog/blog_1.jpg" alt="Blog">
                                 </a>
                                 <div class="blog-date"><i class="icofont-calendar"></i>24 Jun</div>
                             </div>
                             <div class="blog-content">
-                                <h3 class="blog-title"><a href="https://radiustheme.com/demo/html/cirkle/single-blog.html">Our 10 Steps to successful video for blogging & Challanging</a></h3>
+                                <h3 class="blog-title"><a href="#">Our 10 Steps to successful video for blogging & Challanging</a></h3>
                                 <ul class="entry-meta">
                                     <li><i class="icofont-ui-user"></i>by <a href="index.html#">Admin</a></li>
                                     <li><i class="icofont-tag"></i><a href="index.html#">Social</a>, <a href="index.html#">Live</a></li>
@@ -348,13 +293,13 @@
                     <div class="col-md-4">
                         <div class="blog-box">
                             <div class="blog-img">
-                                <a href="https://radiustheme.com/demo/html/cirkle/single-blog.html">
+                                <a href="#">
                                     <img src="https://radiustheme.com/demo/html/cirkle/media/blog/blog_2.jpg" alt="Blog">
                                 </a>
                                 <div class="blog-date"><i class="icofont-calendar"></i>22 Jun</div>
                             </div>
                             <div class="blog-content">
-                                <h3 class="blog-title"><a href="https://radiustheme.com/demo/html/cirkle/single-blog.html">Our 10 Steps to successful video for blogging & Challanging</a></h3>
+                                <h3 class="blog-title"><a href="#">Our 10 Steps to successful video for blogging & Challanging</a></h3>
                                 <ul class="entry-meta">
                                     <li><i class="icofont-ui-user"></i>by <a href="index.html#">Admin</a></li>
                                     <li><i class="icofont-tag"></i><a href="index.html#">Social</a>, <a href="index.html#">Live</a></li>
@@ -365,13 +310,13 @@
                     <div class="col-md-4">
                         <div class="blog-box">
                             <div class="blog-img">
-                                <a href="https://radiustheme.com/demo/html/cirkle/single-blog.html">
+                                <a href="#">
                                     <img src="https://radiustheme.com/demo/html/cirkle/media/blog/blog_3.jpg" alt="Blog">
                                 </a>
                                 <div class="blog-date"><i class="icofont-calendar"></i>20 Jun</div>
                             </div>
                             <div class="blog-content">
-                                <h3 class="blog-title"><a href="https://radiustheme.com/demo/html/cirkle/single-blog.html">Our 10 Steps to successful video for blogging & Challanging</a></h3>
+                                <h3 class="blog-title"><a href="#">Our 10 Steps to successful video for blogging & Challanging</a></h3>
                                 <ul class="entry-meta">
                                     <li><i class="icofont-ui-user"></i>by <a href="index.html#">Admin</a></li>
                                     <li><i class="icofont-tag"></i><a href="index.html#">Social</a>, <a href="index.html#">Live</a></li>
@@ -387,24 +332,24 @@
         <!--=====================================-->
         <section class="banner-newsletter">
             <ul class="section-cloud">
-                <li><img src="https://radiustheme.com/demo/html/cirkle/media/figure/cloud_1.png" alt="shape"></li>
-                <li><img src="https://radiustheme.com/demo/html/cirkle/media/figure/cloud_2.png" alt="shape"></li>
-                <li><img src="https://radiustheme.com/demo/html/cirkle/media/figure/cloud_2.png" alt="shape"></li>
-                <li><img src="https://radiustheme.com/demo/html/cirkle/media/figure/cloud_1.png" alt="shape"></li>
+                <li><img src="{{ asset('social') }}/media/figure/cloud_1.png" alt="shape"></li>
+                <li><img src="{{ asset('social') }}/media/figure/cloud_2.png" alt="shape"></li>
+                <li><img src="{{ asset('social') }}/media/figure/cloud_2.png" alt="shape"></li>
+                <li><img src="{{ asset('social') }}/media/figure/cloud_1.png" alt="shape"></li>
             </ul>
             <div class="container">
                 <ul class="section-shape">
-                    <li><img src="https://radiustheme.com/demo/html/cirkle/media/figure/shape_1.png" alt="shape"></li>
-                    <li><img src="https://radiustheme.com/demo/html/cirkle/media/figure/shape_2.png" alt="shape"></li>
-                    <li><img src="https://radiustheme.com/demo/html/cirkle/media/figure/shape_3.png" alt="shape"></li>
-                    <li><img src="https://radiustheme.com/demo/html/cirkle/media/figure/shape_4.png" alt="shape"></li>
-                    <li><img src="https://radiustheme.com/demo/html/cirkle/media/figure/shape_5.png" alt="shape"></li>
+                    <li><img src="{{ asset('social') }}/media/figure/shape_1.png" alt="shape"></li>
+                    <li><img src="{{ asset('social') }}/media/figure/shape_2.png" alt="shape"></li>
+                    <li><img src="{{ asset('social') }}/media/figure/shape_3.png" alt="shape"></li>
+                    <li><img src="{{ asset('social') }}/media/figure/shape_4.png" alt="shape"></li>
+                    <li><img src="{{ asset('social') }}/media/figure/shape_5.png" alt="shape"></li>
                 </ul>
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="newsletter-box">
                             <h2 class="item-title">Dapatkan Berita dan Informasi Kami</h2>
-                            <p>Tulis    kan email anda untuk menjadi yang pertama mengetahui tentang pembaruan, fitur baru, dan banyak lagi</p>
+                            <p>Tuliskan email anda untuk menjadi yang pertama mengetahui tentang pembaruan, fitur baru, dan banyak lagi</p>
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Enter your e-mail">
                                 <div class="input-group-append">
