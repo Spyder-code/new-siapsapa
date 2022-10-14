@@ -320,8 +320,14 @@ class GudepController extends Controller
                     $warna = '<span class="badge bg-pandega">Pandega</span>';
                 }elseif($data->pramuka==5){
                     $warna = '<span class="badge bg-dewasa">Dewasa</span>';
+                }elseif($data->pramuka==6){
+                    $warna = '<span class="badge bg-dewasa">Pembina</span>';
+                }elseif($data->pramuka==7){
+                    $warna = '<span class="badge bg-dewasa">Pelatih</span>';
+                }elseif($data->pramuka==8){
+                    $warna = '<span class="badge bg-dewasa">Saka</span>';
                 }else{
-                    $warna = '<span class="badge bg-white text-dark">Pelatih</span>';
+                    $warna = '<span class="badge bg-white text-dark">-</span>';
                 }
                 return '
                     <div class="justify-content-center text-center">
