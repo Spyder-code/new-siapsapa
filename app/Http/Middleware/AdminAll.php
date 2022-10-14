@@ -17,7 +17,7 @@ class AdminAll
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::user()->role == 'anggota'){
+        if(Auth::user()->role == 'anggota' || Auth::user()->role == null){
             return abort(403);
         }
         return $next($request);
