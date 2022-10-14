@@ -78,11 +78,11 @@ class AnggotaController extends Controller
             $id_wilayah = 'all';
         }
 
-        $gudep = false;
-        if(request('gudep')){
-            $gudep = true;
+        $role = 'admin';
+        if(request('role')){
+            $role = 'gudep';
         }
-        return view('admin.anggota.list', compact('id','documentType','id_wilayah','gudep'));
+        return view('admin.anggota.list', compact('id','documentType','id_wilayah','role'));
     }
 
     public function non_validate()
@@ -891,42 +891,42 @@ class AnggotaController extends Controller
             if($id_wilayah=='all'){
                 $role = 0;
             }else{
-                if(request('gudep')){
+                if(request('role')=='gudep'){
                     $role = 'gudep';
                 }else{
                     $role = strlen($id_wilayah);
                 }
             }
         }
-        if ($role==0) {
+        if ($role===0) {
             $data = Anggota::where('tingkat',request('document_type_id'))
                     ->where('status',1)
                     ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
-        } elseif($role==2) {
+        } elseif($role===2) {
             $data = Anggota::where('tingkat',request('document_type_id'))
                     ->where('status',1)
                     ->where('provinsi',$id_wilayah)
                     ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
-        } elseif($role==4) {
+        } elseif($role===4) {
             $data = Anggota::where('tingkat',request('document_type_id'))
                     ->where('status',1)
                     ->where('kabupaten',$id_wilayah)
                     ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
-        } elseif($role>=6) {
+        } elseif($role==7) {
             $data = Anggota::where('tingkat',request('document_type_id'))
                     ->where('status',1)
                     ->where('kecamatan',$id_wilayah)
                     ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
-        } elseif($role=='gudep') {
+        } elseif($role==='gudep') {
             $data = Anggota::where('tingkat',request('document_type_id'))
-                    ->where('status',1)
-                    ->where('gudep',$id_wilayah)
-                    ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','gudep','kabupaten','kecamatan','provinsi')
-                    ->get();
+            ->where('status',1)
+            ->where('gudep',$id_wilayah)
+            ->select('id','user_id','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','gudep','kabupaten','kecamatan','provinsi')
+            ->get();
         }
 
         return DataTables::of($data)

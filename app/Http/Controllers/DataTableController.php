@@ -29,6 +29,7 @@ class DataTableController extends Controller
             $count =  Provinsi::select('id')->count();
             $type = 1;
             $len = 1;
+            $role = 'admin';
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
@@ -43,6 +44,7 @@ class DataTableController extends Controller
                 }])->offset($start)->limit($limit);
                 $count = City::where('province_id',$id_wilayah)->select('id')->count();
                 $type = 2;
+                $role = 'admin';
             }elseif($len==4){
                 $data =  Distrik::where('regency_id',$id_wilayah)->select('id','name','no_kec as code')->withCount(['anggota as admin' => function($q){
                     $q->where('status', 1);
@@ -55,6 +57,7 @@ class DataTableController extends Controller
                 }])->offset($start)->limit($limit);
                 $count = Distrik::where('regency_id',$id_wilayah)->select('id')->count();
                 $type = 3;
+                $role = 'admin';
             }else{
                 $data = Gudep::where('kecamatan',$id_wilayah)->select('id','nama_sekolah','npsn')->withCount(['anggota as admin' => function($q){
                     $q->where('status', 1);
@@ -67,18 +70,19 @@ class DataTableController extends Controller
                 }])->offset($start)->limit($limit);
                 $count = Gudep::where('kecamatan',$id_wilayah)->select('id')->count();
                 $type = 4;
+                $role = 'gudep';
             }
         }
 
         return DataTables::of($data)
-            ->addColumn('action', function ($data) use ($type) {
+            ->addColumn('action', function ($data) use ($type, $role) {
                 $g = '';
                 if($type!=4){
                     $g = '<a href="'.route('page.statistik', ['id_wilayah'=>$data->id]).'" class="btn text-white btn-sm btn-primary">Lihat Wilayah</a>';
                 }
                 $html = '<div class="btn-group">
                             '.$g.'
-                            <a href="'.route('page.statistik.detail',['id_wilayah'=>$data->id]).'" class="btn text-white btn-sm btn-warning">Lihat Statistik</a>
+                            <a href="'.route('page.statistik.detail',['id_wilayah'=>$data->id,'role'=>$role]).'" class="btn text-white btn-sm btn-warning">Lihat Statistik</a>
                         </div>';
                 return $html;
             })

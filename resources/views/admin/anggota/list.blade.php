@@ -102,7 +102,7 @@
             data: {
                     document_type_id: @json($id),
                     id_wilayah: @json($id_wilayah),
-                    gudep:@json($gudep)
+                    role:@json($role)
                 },
             },
             columns: [

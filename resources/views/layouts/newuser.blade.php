@@ -151,6 +151,7 @@
                 </div>
             </div>
         </header>
+
         @yield('content')
         <!--=====================================-->
         <!--=        Footer Area Start       	=-->

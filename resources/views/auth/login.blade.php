@@ -62,6 +62,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#registration-tab" role="tab" aria-selected="false"><i class="icofont-download"></i> Registration</a>
                             </li>
+                            {{-- <li class="nav-item" style="opacity: 0%">
+                                <a class="nav-link" data-toggle="tab" href="#reset-tab" role="tab" aria-selected="false"><i class="icofont-refresh"></i> Reset Password</a>
+                            </li> --}}
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane login-tab fade show active" id="login-tab" role="tabpanel">
@@ -83,8 +86,8 @@
                                     <div class="form-group">
                                         <input type="password" id="password" class="form-control" name="password" placeholder="Password"><span toggle="#password" class="icofont-eye-alt field-icon toggle-password"></span>
                                     </div>
-                                    <div class="form-group reset-password">
-                                        <a href="#">* Reset Password</a>
+                                    <div class="form-group reset-password" role="tablist">
+                                        <a class="nav-link" data-toggle="tab" href="#reset-tab" role="tab" aria-selected="false">* Reset Password</a>
                                     </div>
                                     <div class="form-group mb-4">
                                         <div class="form-check">
@@ -127,6 +130,31 @@
                                         <input type="submit" name="registration" class="submit-btn" value="Complete Registration">
                                     </div>
                                 </form>
+                            </div>
+                            <div class="tab-pane login-tab fade show" id="reset-tab" role="tabpanel">
+                                <h3 class="item-title">Reset <span>Password</span></h3>
+                                @if (count($errors) > 0)
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                                <form method="POST" action="{{ route('login') }}">
+                                    @csrf
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="email" placeholder="Your E-mail">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" name="login-btn" class="submit-btn w-100" value="Login">
+                                    </div>
+                                    <a href="{{ url('/') }}" class="btn btn-info w-100"> Kembali</a>
+                                </form>
+                                {{-- <div class="account-create">
+                    		Don't have an account yet? <a href="#registration-tab">Sign Up Now</a>
+                    	</div> --}}
                             </div>
                         </div>
                     </div>

@@ -159,10 +159,15 @@ class StatistikController extends Controller
         if($id_wilayah=='all'){
             $role = 0;
         }else{
-            $role = strlen($id_wilayah);
+            if(request('role') && request('role')=='gudep'){
+                $role = 'gudep';
+            }else{
+                $role = strlen($id_wilayah);
+            }
         }
         foreach ($data as $pramuka){
             foreach ($pramuka->documentTypes as $idx => $item){
+                $url = route('anggota.search_document',['id'=>$item->id,'id_wilayah'=>$id_wilayah]);
                 if ($role==0) {
                     $lkk = $pramuka->anggotas()->where('jk','L')->count();
                     $prr = $pramuka->anggotas()->where('jk','P')->count();
@@ -229,7 +234,7 @@ class StatistikController extends Controller
                             $q->where('kabupaten',$id_wilayah);
                         });
                     })->count();
-                }elseif($role>=6){
+                }elseif($role==7){
                     $lkk = $pramuka->anggotas()->where('kecamatan',$id_wilayah)->where('jk','L')->count();
                     $prr = $pramuka->anggotas()->where('kecamatan',$id_wilayah)->where('jk','P')->count();
                     $count = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
@@ -275,6 +280,7 @@ class StatistikController extends Controller
                             $q->where('gudep',$id_wilayah);
                         });
                     })->count();
+                    $url = route('anggota.search_document',['id'=>$item->id,'id_wilayah'=>$id_wilayah,'role'=>'gudep']);
                 }
                 if ($idx==0) {
                     $first = '<td scope="row" class="table-'.strtolower($pramuka->name).'" rowspan="'.$pramuka->documentTypes->count().'">
@@ -292,7 +298,7 @@ class StatistikController extends Controller
                 <td>'.(int)$lk.'</td>
                 <td>'.(int)$pr.'</td>
                 <td>'.(int)$count.'</td>
-                <td><a href="'.route('anggota.search_document',['id'=>$item->id,'id_wilayah'=>$id_wilayah]).'" class="btn btn-sm btn-info">Detail</a></td>
+                <td><a href="'.$url.'" class="btn btn-sm btn-info">Detail</a></td>
             </tr>';
             }
         }
@@ -320,7 +326,11 @@ class StatistikController extends Controller
         if($id_wilayah=='all'){
             $role = 0;
         }else{
-            $role = strlen($id_wilayah);
+            if(request('role') && request('role')=='gudep'){
+                $role = 'gudep';
+            }else{
+                $role = strlen($id_wilayah);
+            }
         }
         $saka = DocumentType::where('pramuka_id',8)->get();
         foreach ($saka as $item){
@@ -361,7 +371,7 @@ class StatistikController extends Controller
                         $q->where('jk', 'P');
                     });
                 })->count();
-            }elseif($role>=6){
+            }elseif($role==7){
                 $lk = $item->documents()->whereHas('user', function($q) use($id_wilayah){
                     $q->whereHas('anggota', function($q) use($id_wilayah){
                         $q->where('kecamatan', $id_wilayah);
@@ -422,7 +432,11 @@ class StatistikController extends Controller
         if($id_wilayah=='all'){
             $role = 0;
         }else{
-            $role = strlen($id_wilayah);
+            if(request('role') && request('role')=='gudep'){
+                $role = 'gudep';
+            }else{
+                $role = strlen($id_wilayah);
+            }
         }
         foreach ($organizations as $item){
             if ($role==0) {
@@ -435,7 +449,7 @@ class StatistikController extends Controller
                 $count = $item->organizationUsers()->whereHas('anggota', function($q) use($id_wilayah){
                     $q->where('kabupaten',$id_wilayah);
                 })->count();
-            }elseif($role>=6){
+            }elseif($role==7){
                 $count = $item->organizationUsers()->whereHas('anggota', function($q) use($id_wilayah){
                     $q->where('kecamatan',$id_wilayah);
                 })->count();

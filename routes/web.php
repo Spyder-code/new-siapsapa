@@ -49,9 +49,10 @@ Route::get('/i/statistik/detail', [PageController::class, 'statistikDetail'])->n
 Route::get('/i/agenda', [PageController::class, 'agenda'])->name('page.agenda');
 Route::get('/i/agenda/{agenda}', [PageController::class, 'show_agenda'])->name('page.agenda.show');
 Route::get('/i/agenda/{agenda}/peserta', [PageController::class, 'peserta_agenda'])->name('page.agenda.peserta');
+Route::get('/i/profile', [PageController::class, 'profile'])->name('page.profile');
 
 // Social
-Route::middleware('auth')->group(function(){
+Route::middleware(['auth','anggota'])->group(function(){
     Route::get('/anggota/{anggota_id}/feed', [SocialController::class, 'userFeed'])->name('social.userFeed');
     Route::get('/anggota/{anggota_id}/sertifikat', [SocialController::class, 'userSertification'])->name('social.userSertification');
     Route::get('/anggota/{anggota_id}/teman', [SocialController::class, 'userFriend'])->name('social.userFriend');
@@ -77,7 +78,6 @@ Route::middleware('auth')->group(function(){
 });
 
 
-Route::get('/profile', [PageController::class, 'profile'])->name('page.profile');
 Route::get('/agenda-saya', [PageController::class, 'my_agenda'])->name('page.my_agenda');
 Route::get('/dokumen-saya', [PageController::class, 'document'])->name('page.document');
 Route::get('/ubah-password', [PageController::class, 'change_password'])->name('page.change_password');

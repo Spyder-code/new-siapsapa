@@ -74,10 +74,11 @@ class PageController extends Controller
         }else{
             $id_wilayah = 'all';
         }
+        $role = request('role');
         $data = $this->getData($id_wilayah);
         $title = $data[0]->name ?? 'Kwartir Nasional';
         $kwartir = $data[1];
-        return view('user.statistik_detail', compact('id_wilayah', 'title', 'kwartir'));
+        return view('user.statistik_detail', compact('id_wilayah', 'title', 'kwartir','role'));
     }
 
 

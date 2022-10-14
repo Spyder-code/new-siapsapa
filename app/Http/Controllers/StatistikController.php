@@ -35,7 +35,6 @@ class StatistikController extends Controller
                 $kwaran = Distrik::where('regency_id', $id_wilayah)->count();
                 $gudep = Gudep::where('kabupaten',$id_wilayah)->count();
             }else{
-                $id_wilayah = $user->anggota->kecamatan;
                 $active = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->count();
                 $kwarcab = Anggota::where('kecamatan',$id_wilayah)->where('status',0)->count();
                 $kwaran = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->whereNull('gudep')->count();

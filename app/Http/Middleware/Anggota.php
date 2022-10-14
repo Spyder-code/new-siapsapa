@@ -18,7 +18,7 @@ class Anggota
     public function handle(Request $request, Closure $next)
     {
         if(Auth::user()->role != 'anggota'){
-            return abort(403);
+            return redirect(route('page.profile'))->with('danger','Anda harus melengkapi data anggota terlebih dahulu sebelum masuk member area!');
         }
         return $next($request);
     }

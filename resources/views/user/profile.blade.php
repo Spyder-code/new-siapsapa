@@ -1,43 +1,73 @@
-@extends('layouts.profile')
-@section('style-user')
+@extends('layouts.newuser')
+@section('style')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 @endsection
-@section('content-user')
-    <div class="card">
-        <form action="{{ route('page.profile.store') }}" method="POST" class="card-body needs-validation" novalidate enctype="multipart/form-data">
-            @if (!empty($anggota))
-                <input type="hidden" name="id" value="{{ $anggota->id }}">
-                @if ($anggota->status==2)
-                    <div class="alert alert-info">
-                        <i class="fa fa-info-circle"></i>
-                        Data anggota ini sedang dalam proses verifikasi.
-                    </div>
-                @elseif ($anggota->status==3)
-                    <div class="alert alert-danger">
-                        <i class="fa fa-info-circle"></i>
-                        Data anggota tidak valid, silahkan perbarui data dengan benar.
-                    </div>
-                @endif
-            @endif
-            @csrf
-            @include('user.anggota.form')
-            <div class="row">
-                <div class="col-12">
-                    @if (empty($anggota))
-                    <input type="hidden" name="status" value="2">
-                    <button type="submit" name="type" class="btn btn-primary" value="create">SImpan Data</button>
-                    @else
-                    <input type="hidden" name="anggota_id" value="{{ $anggota->id }}">
-                    <input type="hidden" name="kode" value="{{ $anggota->kode }}">
-                    <button type="submit" name="type" class="btn btn-primary" value="update">Ubah Data</button>
-                    @endif
-                </div>
-            </div>
-        </form>
+@section('content')
+<section class="hero-banner">
+    <div class="container text-center">
+        <h1 class="text-white">Profile Anggota</h1>
+        <h3>Data Anggota Pramuka</h3>
     </div>
+</section>
+<section class="why-choose-us">
+    <div class="container mb-5">
+        <div class="mb-3">
+            @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Yey!</strong> {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
+
+            {{-- boostrap 5 session danger --}}
+            @if (session('danger'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Maaf!</strong> {{ session('danger') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
+        </div>
+        <div class="card">
+            <form action="{{ route('page.profile.store') }}" method="POST" class="card-body needs-validation" novalidate enctype="multipart/form-data">
+                @if (!empty($anggota))
+                    <input type="hidden" name="id" value="{{ $anggota->id }}">
+                    @if ($anggota->status==2)
+                        <div class="alert alert-info">
+                            <i class="fa fa-info-circle"></i>
+                            Data anggota ini sedang dalam proses verifikasi.
+                        </div>
+                    @elseif ($anggota->status==3)
+                        <div class="alert alert-danger">
+                            <i class="fa fa-info-circle"></i>
+                            Data anggota tidak valid, silahkan perbarui data dengan benar.
+                        </div>
+                    @endif
+                @endif
+                @csrf
+                @include('user.anggota.form')
+                <div class="row">
+                    <div class="col-12">
+                        @if (empty($anggota))
+                        <input type="hidden" name="status" value="2">
+                        <button type="submit" name="type" class="btn btn-primary" value="create">SImpan Data</button>
+                        @else
+                        <input type="hidden" name="anggota_id" value="{{ $anggota->id }}">
+                        <input type="hidden" name="kode" value="{{ $anggota->kode }}">
+                        <button type="submit" name="type" class="btn btn-primary" value="update">Ubah Data</button>
+                        @endif
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
 @endsection
 
-@section('script-user')
+@section('script')
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         // $('.max-two').keyup(function (e) {

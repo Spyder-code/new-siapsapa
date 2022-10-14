@@ -35,7 +35,7 @@
             $.ajax({
                 type: "GET",
                 url: url,
-                data: {id_wilayah:@json($id_wilayah)},
+                data: {id_wilayah:@json($id_wilayah),role:@json($role)},
                 success: function (response) {
                     $('#response').html(response);
                 }

@@ -14,7 +14,7 @@
                     <p>Pramuka isection-herotu tangguh, menjadi teladan, tangguh menghadapi setiap tantangan, menggalang kepedulian kepada sesama, bersedia berkorban, suka menolong dan selalu semangat pantang menyerah</p>
                     <div class="item-number" data-sal="counter-up">{{ number_format($data['total']) }}</div>
                     <div class="conn-people">Anggota Pramuka</div>
-                    <a href="https://radiustheme.com/demo/html/cirkle/newsfeed.html" class="button-slide">
+                    <a href="{{ route('login') }}" class="button-slide">
                         <span class="btn-text">Daftar Anggota</span>
                         <span class="btn-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21px" height="10px">
@@ -53,14 +53,19 @@
                             <div class="item-subtitle">SIAPSAPA</div>
                             <h2 class="item-title"><span>Gabung Jadi Anggota</span> Dapatkan Kartu Anggota Dan Keseruan Lainya</h2>
                             <p>Dengan bergabung jadi anggota anda akan dapat kartu anggota dan dapat menggunakan fitur-fitur siapsapa lainya.</p>
-                            <a href="https://radiustheme.com/demo/html/cirkle/login.html" class="button-slide">
-                                <span class="btn-text">Daftar Anggota</span>
-                                <span class="btn-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21px" height="10px">
-                                        <path fill-rule="evenodd" fill="rgb(255, 255, 255)" d="M16.671,9.998 L12.997,9.998 L16.462,6.000 L5.000,6.000 L5.000,4.000 L16.462,4.000 L12.997,0.002 L16.671,0.002 L21.003,5.000 L16.671,9.998 ZM17.000,5.379 L17.328,5.000 L17.000,4.621 L17.000,5.379 ZM-0.000,4.000 L3.000,4.000 L3.000,6.000 L-0.000,6.000 L-0.000,4.000 Z" />
-                                    </svg>
-                                </span>
-                            </a>
+                            <div class="d-flex justify-content-center">
+                                <div>
+                                    <img src="{{ asset('berkas/kta/belakang.png') }}" alt="KTA" class="img-fluid" style="height:200px;">
+                                    <a href="{{ route('login') }}" class="button-slide mt-2">
+                                        <span class="btn-text">Daftar Anggota</span>
+                                        <span class="btn-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21px" height="10px">
+                                                <path fill-rule="evenodd" fill="rgb(255, 255, 255)" d="M16.671,9.998 L12.997,9.998 L16.462,6.000 L5.000,6.000 L5.000,4.000 L16.462,4.000 L12.997,0.002 L16.671,0.002 L21.003,5.000 L16.671,9.998 ZM17.000,5.379 L17.328,5.000 L17.000,4.621 L17.000,5.379 ZM-0.000,4.000 L3.000,4.000 L3.000,6.000 L-0.000,6.000 L-0.000,4.000 Z" />
+                                            </svg>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -284,8 +289,8 @@
                             <div class="blog-content">
                                 <h3 class="blog-title"><a href="#">Our 10 Steps to successful video for blogging & Challanging</a></h3>
                                 <ul class="entry-meta">
-                                    <li><i class="icofont-ui-user"></i>by <a href="index.html#">Admin</a></li>
-                                    <li><i class="icofont-tag"></i><a href="index.html#">Social</a>, <a href="index.html#">Live</a></li>
+                                    <li><i class="icofont-ui-user"></i>by <a href="#">Admin</a></li>
+                                    <li><i class="icofont-tag"></i><a href="#">Social</a>, <a href="#">Live</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -301,8 +306,8 @@
                             <div class="blog-content">
                                 <h3 class="blog-title"><a href="#">Our 10 Steps to successful video for blogging & Challanging</a></h3>
                                 <ul class="entry-meta">
-                                    <li><i class="icofont-ui-user"></i>by <a href="index.html#">Admin</a></li>
-                                    <li><i class="icofont-tag"></i><a href="index.html#">Social</a>, <a href="index.html#">Live</a></li>
+                                    <li><i class="icofont-ui-user"></i>by <a href="#">Admin</a></li>
+                                    <li><i class="icofont-tag"></i><a href="#">Social</a>, <a href="#">Live</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -318,8 +323,8 @@
                             <div class="blog-content">
                                 <h3 class="blog-title"><a href="#">Our 10 Steps to successful video for blogging & Challanging</a></h3>
                                 <ul class="entry-meta">
-                                    <li><i class="icofont-ui-user"></i>by <a href="index.html#">Admin</a></li>
-                                    <li><i class="icofont-tag"></i><a href="index.html#">Social</a>, <a href="index.html#">Live</a></li>
+                                    <li><i class="icofont-ui-user"></i>by <a href="#">Admin</a></li>
+                                    <li><i class="icofont-tag"></i><a href="#">Social</a>, <a href="#">Live</a></li>
                                 </ul>
                             </div>
                         </div>

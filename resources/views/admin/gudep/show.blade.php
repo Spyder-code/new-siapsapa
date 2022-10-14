@@ -235,7 +235,7 @@
                                                     <td>{{ (int)$lk }}</td>
                                                     <td>{{ (int)$pr }}</td>
                                                     <td>{{ (int)$count }}</td>
-                                                    <td><a href="{{ route('anggota.search_document',['id'=>$item->id,'id_wilayah'=>$gudep->id,'gudep'=>true]) }}" class="btn btn-sm btn-info">Detail</a></td>
+                                                    <td><a href="{{ route('anggota.search_document',['id'=>$item->id,'id_wilayah'=>$gudep->id,'role'=>'gudep']) }}" class="btn btn-sm btn-info">Detail</a></td>
                                                 </tr>
                                                 @endforeach
                                             @endforeach
