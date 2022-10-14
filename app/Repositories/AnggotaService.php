@@ -135,9 +135,9 @@ class AnggotaService{
             $now = new DateTime();
             $difference = $tgl->diff($now);
             $usia   = $difference->y; //hitung tahun
-            if ($usia < 10) {
+            if ($usia < 11) {
                 $golongan = 1;
-            } else if ($usia >= 10 && $usia <= 15) {
+            } else if ($usia >= 11 && $usia <= 15) {
                 $golongan = 2;
             } else if ($usia >= 16 && $usia <= 20) {
                 $golongan = 3;

@@ -43,15 +43,15 @@ class SyncGolongan implements ShouldQueue
                     $now = new DateTime();
                     $difference = $tgl->diff($now);
                     $usia   = $difference->y; //hitung tahun
-                    if ($usia < 10) {
+                    if ($usia < 11) {
                         $golongan = 1;
-                    } else if ($usia >= 10 && $usia <= 15) {
+                    } else if ($usia >= 11 && $usia <= 15) {
                         $golongan = 2;
                     } else if ($usia >= 16 && $usia <= 20) {
                         $golongan = 3;
-                    } else if ($usia >= 21 && $usia < 25) {
+                    } else if ($usia >= 21 && $usia <= 25) {
                         $golongan = 4;
-                    } else if ($usia >= 25) {
+                    } else if ($usia > 25) {
                         $golongan = 5;
                     }
                 }
