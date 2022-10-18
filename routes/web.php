@@ -9,6 +9,7 @@ use App\Http\Controllers\DataController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\GudepController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InitController;
 use App\Http\Controllers\KtaController;
 use App\Http\Controllers\KwartirController;
@@ -43,6 +44,7 @@ Route::get('test', function () {
 Route::get('init/add-to-cart', [InitController::class, 'addToCart']);
 
 // Global
+Route::get('check-login', [HomeController::class, 'index']);
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/i/statistik', [PageController::class, 'statistik'])->name('page.statistik');
 Route::get('/i/statistik/detail', [PageController::class, 'statistikDetail'])->name('page.statistik.detail');

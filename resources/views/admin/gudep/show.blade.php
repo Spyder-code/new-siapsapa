@@ -461,8 +461,8 @@
         },
         columns: [
             {data: 'foto', name: 'foto', searchable: false, orderable: false},
-            {data: 'nik', name: 'nik', visible: false},
-            {data: 'nama', name: 'nama'},
+            {data: 'nik', name: 'tb_anggota.nik', visible: false},
+            {data: 'nama', name: 'tb_anggota.nama'},
             {data: 'jk', name: 'jk', searchable: false, orderable: false},
             {data: 'kabupaten', name: 'kabupaten', searchable: false, orderable: false},
             {data: 'kecamatan', name: 'kecamatan', searchable: false, orderable: false},

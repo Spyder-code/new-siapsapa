@@ -336,17 +336,15 @@
       <!--=====================================-->
       <div class="container">
         @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Yey!</strong> {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
         </div>
         @endif
 
         {{-- boostrap 5 session danger --}}
         @if (session('danger'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Maaf!</strong> {{ session('danger') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="alert alert-danger" role="alert">
+            {{ session('danger') }}
         </div>
         @endif
          @yield('content')

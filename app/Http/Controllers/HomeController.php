@@ -24,13 +24,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        if($user->role == 'admin'){
-            return redirect()->route('statistik.index')->with('success', 'Login Berhasil');
-        }elseif($user->role == 'percetakan'){
-            return redirect()->route('percetakan.batch')->with('success', 'Login Berhasil');
+        if(Auth::check()){
+            $user = Auth::user();
+            if($user->role == 'percetakan'){
+                return redirect()->route('percetakan.batch')->with('success', 'Login Berhasil');
+            }else{
+                return redirect()->route('social.home')->with('success', 'Login Berhasil');
+            }
         }else{
-            return redirect()->route('page.profile')->with('success', 'Login Berhasil');
+            return redirect()->route('login');
         }
     }
 }

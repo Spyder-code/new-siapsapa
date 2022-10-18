@@ -290,13 +290,13 @@ class GudepController extends Controller
             if($limit==-1){
                 $limit = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',1)->count();
             }
-            $data = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',1)->select('id','nik','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->orderBy('id','desc')->with('user:id,role')->offset($start)->limit($limit);
+            $data = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',1)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi','user_id')->offset($start)->limit($limit);
             $count = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',1)->count();
         }else{
             if($limit==-1){
                 $limit = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',$active)->count();
             }
-            $data = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',$active)->select('id','nik','user_id','nama','foto','kode','tgl_lahir','jk','kabupaten','kecamatan','pramuka','status')->orderBy('id','desc')->with('user:id,role')->offset($start)->limit($limit);
+            $data = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',$active)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi','user_id')->offset($start)->limit($limit);
             $count = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',$active)->count();
         }
 

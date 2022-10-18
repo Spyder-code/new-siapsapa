@@ -47,12 +47,6 @@
         </div>
         @endif
 
-        @if (session('success'))
-        <div class="alert alert-success" role="alert">
-            {{ session('success') }}
-        </div>
-        @endif
-
         <div class="block-box post-input-tab">
             <ul class="nav nav-tabs" role="tablist">
                 {{-- <li class="nav-item" role="presentation" data-toggle="tooltip" data-placement="top" title="STATUS">
