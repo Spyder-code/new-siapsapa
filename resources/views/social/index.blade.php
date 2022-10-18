@@ -11,7 +11,7 @@
             <div class="container">
                 <div class="hero-content" data-sal="zoom-out" data-sal-duration="1000">
                     <h1 class="item-title">Pramuka Indonesia</h1>
-                    <p>Pramuka isection-herotu tangguh, menjadi teladan, tangguh menghadapi setiap tantangan, menggalang kepedulian kepada sesama, bersedia berkorban, suka menolong dan selalu semangat pantang menyerah</p>
+                    <p>Pramuka itu tangguh, menjadi teladan, tangguh menghadapi setiap tantangan, menggalang kepedulian kepada sesama, bersedia berkorban, suka menolong dan selalu semangat pantang menyerah</p>
                     <div class="item-number" data-sal="counter-up">{{ number_format($data['total']) }}</div>
                     <div class="conn-people">Anggota Pramuka</div>
                     <a href="{{ route('login') }}" class="button-slide">

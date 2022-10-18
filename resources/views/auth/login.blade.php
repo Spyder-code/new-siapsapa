@@ -62,8 +62,8 @@
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#registration-tab" role="tab" aria-selected="false"><i class="icofont-download"></i> Registration</a>
                             </li>
-                            {{-- <li class="nav-item" style="opacity: 0%">
-                                <a class="nav-link" data-toggle="tab" href="#reset-tab" role="tab" aria-selected="false"><i class="icofont-refresh"></i> Reset Password</a>
+                            {{-- <li class="nav-item">
+                                <a class="nav-link" href="{{ route('password.request') }}"><i class="icofont-refresh"></i> Reset Password</a>
                             </li> --}}
                         </ul>
                         <div class="tab-content">
@@ -87,7 +87,7 @@
                                         <input type="password" id="password" class="form-control" name="password" placeholder="Password"><span toggle="#password" class="icofont-eye-alt field-icon toggle-password"></span>
                                     </div>
                                     <div class="form-group reset-password" role="tablist">
-                                        <a class="nav-link" data-toggle="tab" href="#reset-tab" role="tab" aria-selected="false">* Reset Password</a>
+                                        <a class="nav-link" href="{{ route('password.request') }}">* Reset Password</a>
                                     </div>
                                     <div class="form-group mb-4">
                                         <div class="form-check">
@@ -115,10 +115,10 @@
                                         <input type="email" name="email" class="form-control" placeholder="E-mail">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" name="password" class="form-control" placeholder="Password">
+                                        <input type="password" name="password" id="password-register" class="form-control" placeholder="Password"><span toggle="#password-register" class="icofont-eye-alt field-icon field-icon toggle-password"></span>
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" name="password_confirmation" class="form-control" placeholder="Konfirmasi Password">
+                                        <input type="password" name="password_confirmation" id="password-confirm" class="form-control" placeholder="Konfirmasi Password"><span toggle="#password-confirm" class="icofont-eye-alt field-icon field-icon toggle-password"></span>
                                     </div>
                                     <div class="form-group">
                                         <div class="form-check mb-3">
@@ -202,7 +202,8 @@
     <script>
         $(".toggle-password").click(function() {
                 $(this).toggleClass("icofont-eye-blocked");
-                var input = $('#password');
+                var input = $(this).attr('toggle');
+                input = $(input);
                 if (input.attr("type") == "password") {
                     input.attr("type", "text");
                 } else {
