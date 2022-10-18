@@ -49,10 +49,10 @@
 
         <div class="block-box post-input-tab">
             <ul class="nav nav-tabs" role="tablist">
-                {{-- <li class="nav-item" role="presentation" data-toggle="tooltip" data-placement="top" title="STATUS">
+                <li class="nav-item" role="presentation" data-toggle="tooltip" data-placement="top" title="STATUS">
                     <a class="nav-link active" data-toggle="tab" href="#status-tab" role="tab" aria-selected="true"><i
                             class="icofont-copy"></i>Status</a>
-                </li> --}}
+                </li>
                 <li class="nav-item" role="presentation" data-toggle="tooltip" data-placement="top" title="MEDIA">
                     <a class="nav-link" data-toggle="tab" href="#image-tab" role="tab" aria-selected="false"><i
                             class="icofont-image"></i>Photo/ Video Album</a>
@@ -64,9 +64,38 @@
             </ul>
 
             <div class="tab-content">
-                {{-- <div class="tab-pane fade show active" id="status-tab" role="tabpanel">
-                    status tab
-                </div> --}}
+                <div class="tab-pane fade show active mx-3 my-2" id="status-tab" role="tabpanel">
+                    <form action="{{ route('story.store') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mx-3">
+                            {{-- <label class="font-weight-bold">Isi Konten</label> --}}
+                            <textarea class="show-grid form-control border-opacity-0" placeholder="Masukan isi konten"
+                                cols="30" rows="3" name="caption" required></textarea>
+                        </div>
+                        {{-- <div class="mx-3 py-3">
+                            <label class="font-weight-bold">Pilih Tags</label>
+                            <select class="js-example-basic-multiple" name="tag_id[]" style="width: 100%;" multiple
+                                required>
+                                @foreach ($tags as $item)
+                                <option value={{$item->id}}>{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div> --}}
+                        <div class="container px-3 py-2">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3">
+                                    {{-- <label for="file-upload-2" class="custom-file-upload">
+                                    </label> --}}
+                                    <i class="icofont-file-alt"></i> Foto/Video
+                                    <input type="file" name="file" accept="video/*, image/*">
+                                </div>
+                                <div class="col-lg-5 col-md-5">
+                                    <input class="btn btn-primary" type="submit" value="Submit" style="float: right;">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
 
                 <div class="tab-pane fade mx-3 my-3" id="image-tab" role="tabpanel">
                     <div id="divForm">
@@ -180,6 +209,84 @@
             </div> --}}
         </div>
 
+        @foreach ($stories as $item)
+        <div class="block-box post-view">
+            <div class="post-header">
+                <div class="media">
+                    <div class="user-img">
+                        <img src="{{ asset('berkas/anggota/'.$item->user->anggota->foto) }}" alt="{{ $item->user->name }}" style="width: 44px; height:44px">
+                    </div>
+                    <div class="media-body">
+                        <div class="user-title"><a href="{{ route('social.userFeed', $item->user->anggota->id) }}">{{ $item->user->name }}</a> <i class="icofont-check"></i> posted in the story </div>
+                        <ul class="entry-meta">
+                            <li class="meta-privacy"><i class="icofont-world"></i> Public</li>
+                            <li class="meta-time">{{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                        ...
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Close</a>
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item" href="#">Delete</a>
+                    </div>
+                </div>
+            </div>
+            <div class="post-body">
+                <p>{{ $item->caption }}</p>
+                @if ($item->file)
+                <div class="post-img">
+                    <img src="{{ asset($item->file) }}" alt="{{ $item->caption }}">
+                </div>
+                @endif
+                <div class="post-meta-wrap">
+                    <div class="post-meta">
+                        <div class="post-reaction">
+                            <div class="reaction-icon">
+                                <img src="media/figure/reaction_1.png" alt="icon">
+                                <img src="media/figure/reaction_2.png" alt="icon">
+                            </div>
+                            <div class="meta-text">15</div>
+                        </div>
+                    </div>
+                    <div class="post-meta">
+                        <div class="meta-text">2 Comments</div>
+                        <div class="meta-text">05 Share</div>
+                    </div>
+                </div>
+            </div>
+            <div class="post-footer">
+                <ul>
+                    <li class="post-react">
+                        <a href="#"><i class="icofont-thumbs-up"></i>React!</a>
+                        <ul class="react-list">
+                            <li><a href="#"><img src="media/figure/reaction_1.png" alt="Like"></a></li>
+                            <li><a href="#"><img src="media/figure/reaction_2.png" alt="Like"></a></li>
+                            <li><a href="#"><img src="media/figure/reaction_4.png" alt="Like"></a></li>
+                            <li><a href="#"><img src="media/figure/reaction_2.png" alt="Like"></a></li>
+                            <li><a href="#"><img src="media/figure/reaction_7.png" alt="Like"></a></li>
+                            <li><a href="#"><img src="media/figure/reaction_6.png" alt="Like"></a></li>
+                            <li><a href="#"><img src="media/figure/reaction_5.png" alt="Like"></a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><i class="icofont-comment"></i>Comment</a></li>
+                    <li class="post-share">
+                        <a href="javascript:void(0);" class="share-btn"><i class="icofont-share"></i>Share</a>
+                        <ul class="share-list">
+                            <li><a href="#" class="color-fb"><i class="icofont-facebook"></i></a></li>
+                            <li><a href="#" class="color-messenger"><i class="icofont-facebook-messenger"></i></a></li>
+                            <li><a href="#" class="color-instagram"><i class="icofont-instagram"></i></a></li>
+                            <li><a href="#" class="color-whatsapp"><i class="icofont-brand-whatsapp"></i></a></li>
+                            <li><a href="#" class="color-twitter"><i class="icofont-twitter"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        @endforeach
         <div id="post-data">
             @include('data.feedList',['post'=>$post])
         </div>

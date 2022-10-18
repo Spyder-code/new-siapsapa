@@ -16,7 +16,9 @@ use App\Models\Kegiatan;
 use App\Models\Post;
 use App\Models\PostMedia;
 use App\Models\Product;
+use App\Models\Story;
 use App\Models\TransactionDetail;
+use Illuminate\Support\Carbon;
 
 class SocialController extends Controller
 {
@@ -35,11 +37,15 @@ class SocialController extends Controller
         $kategori = PostCategory::all();
         $tags = Tag::all();
         $post = Post::paginate(3);
+        $stories = Story::where('status',1)
+                    ->whereDate('start_date','>=', date('Y-m-d'))
+                    ->whereDate('end_date','<=', date('Y-m-d',strtotime("+1 days")))
+                    ->get();
         if (request()->ajax()) {
     		$view = view('data.feedList',compact('post'))->render();
             return response()->json(['html'=>$view]);
         }
-        return view('social.home', compact('kategori', 'tags', 'post'));
+        return view('social.home', compact('kategori', 'tags', 'post','stories'));
     }
 
     public function userGallery($anggota_id)

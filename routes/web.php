@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostMediaController;
+use App\Http\Controllers\StoryController;
 
 /* |-------------------------------------------------------------------------- | Web Routes |-------------------------------------------------------------------------- | | Here is where you can register web routes for your application. These | routes are loaded by the RouteServiceProvider within a group which | contains the "web" middleware group. Now create something great! | */
 
@@ -77,6 +78,7 @@ Route::middleware(['auth','anggota'])->group(function(){
     Route::post('/post/media/store', [PostMediaController::class, 'store'])->name('post.media.store');
     Route::post('/follow/add', [FollowerController::class, 'store'])->name('follow.store');
     Route::post('/follow/remove', [FollowerController::class, 'destroy'])->name('follow.remove');
+    Route::resource('story', StoryController::class);
 });
 
 
