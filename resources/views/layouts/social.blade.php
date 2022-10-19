@@ -59,6 +59,13 @@
             z-index: 999;
         }
 
+        .count-react{
+            top: -0.5rem;
+            color: gray;
+            font-weight: bold;
+            font-size: .9rem;
+            margin-left: 5px;
+        }
         @keyframes stretch {
             0% {
                 transform: scale(.3);
@@ -504,7 +511,7 @@
    <script src="{{ asset('social') }}/dependencies/elevate-zoom/jquery.elevatezoom.js"></script>
    <script src="{{ asset('social') }}/dependencies/bootstrap-validator/js/validator.min.js"></script>
    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtmXSwv4YmAKtcZyyad9W7D4AC08z0Rb4"></script>
-
+   <script defer src="https://unpkg.com/alpinejs@3.10.4/dist/cdn.min.js"></script>
    <!-- Site Scripts -->
    <script src="{{ asset('social') }}/assets/js/app.js"></script>
    <script src="{{ asset('js/site.js') }}"></script>

@@ -69,8 +69,7 @@
                         @csrf
                         <div class="mx-3">
                             {{-- <label class="font-weight-bold">Isi Konten</label> --}}
-                            <textarea class="show-grid form-control border-opacity-0" placeholder="Masukan isi konten"
-                                cols="30" rows="3" name="caption" required></textarea>
+                            <textarea class="show-grid form-control border-opacity-0" placeholder="Tulis cerita" cols="30" rows="3" name="caption" required></textarea>
                         </div>
                         {{-- <div class="mx-3 py-3">
                             <label class="font-weight-bold">Pilih Tags</label>
@@ -86,7 +85,7 @@
                                 <div class="col-lg-3 col-md-3">
                                     {{-- <label for="file-upload-2" class="custom-file-upload">
                                     </label> --}}
-                                    <i class="icofont-file-alt"></i> Foto/Video
+                                    {{-- <i class="icofont-file-alt"></i> Foto/Video --}}
                                     <input type="file" name="file" accept="video/*, image/*">
                                 </div>
                                 <div class="col-lg-5 col-md-5">
@@ -210,7 +209,7 @@
         </div>
 
         @foreach ($stories as $item)
-        <div class="block-box post-view">
+        <div class="block-box post-view" x-data="{ open: false }">
             <div class="post-header">
                 <div class="media">
                     <div class="user-img">
@@ -243,37 +242,34 @@
                 </div>
                 @endif
                 <div class="post-meta-wrap">
-                    <div class="post-meta">
+                    <div class="post-meta d-flex" id="react-list-{{ $item->id }}">
+                        @foreach ($item->reacts->groupBy('react_id') as $react)
                         <div class="post-reaction">
                             <div class="reaction-icon">
-                                <img src="media/figure/reaction_1.png" alt="icon">
-                                <img src="media/figure/reaction_2.png" alt="icon">
+                                <img src="{{ asset($react->first()->react->path) }}" alt="{{ $react->first()->name }}">
+                                <sup class="count-react">{{ $react->count() }}</sup>
                             </div>
-                            <div class="meta-text">15</div>
                         </div>
+                        @endforeach
                     </div>
                     <div class="post-meta">
-                        <div class="meta-text">2 Comments</div>
-                        <div class="meta-text">05 Share</div>
+                        <div class="meta-text">{{ $item->comments->count() }} Comments</div>
+                        {{-- <div class="meta-text">05 Share</div> --}}
                     </div>
                 </div>
             </div>
             <div class="post-footer">
                 <ul>
                     <li class="post-react">
-                        <a href="#"><i class="icofont-thumbs-up"></i>React!</a>
-                        <ul class="react-list">
-                            <li><a href="#"><img src="media/figure/reaction_1.png" alt="Like"></a></li>
-                            <li><a href="#"><img src="media/figure/reaction_2.png" alt="Like"></a></li>
-                            <li><a href="#"><img src="media/figure/reaction_4.png" alt="Like"></a></li>
-                            <li><a href="#"><img src="media/figure/reaction_2.png" alt="Like"></a></li>
-                            <li><a href="#"><img src="media/figure/reaction_7.png" alt="Like"></a></li>
-                            <li><a href="#"><img src="media/figure/reaction_6.png" alt="Like"></a></li>
-                            <li><a href="#"><img src="media/figure/reaction_5.png" alt="Like"></a></li>
+                        <a><i class="icofont-thumbs-up"></i>React!</a>
+                        <ul class="react-list" id="add-react-{{ $item->id }}">
+                            @foreach ($reacts as $react)
+                            <li><span><img onclick="addReact({{ $item->id }},'story',{{ $react->id }})" src="{{ asset($react->path) }}" alt="{{ $react->name }}"></span></li>
+                            @endforeach
                         </ul>
                     </li>
-                    <li><a href="#"><i class="icofont-comment"></i>Comment</a></li>
-                    <li class="post-share">
+                    <li @click="open = ! open"><a class="text-primary"><i class="icofont-comment"></i>Comment</a></li>
+                    {{-- <li class="post-share">
                         <a href="javascript:void(0);" class="share-btn"><i class="icofont-share"></i>Share</a>
                         <ul class="share-list">
                             <li><a href="#" class="color-fb"><i class="icofont-facebook"></i></a></li>
@@ -282,11 +278,63 @@
                             <li><a href="#" class="color-whatsapp"><i class="icofont-brand-whatsapp"></i></a></li>
                             <li><a href="#" class="color-twitter"><i class="icofont-twitter"></i></a></li>
                         </ul>
-                    </li>
+                    </li> --}}
                 </ul>
+            </div>
+            <div class="post-comment" x-show="open" @click.outside="open = false">
+                <ul class="comment-list" id="comment-list-{{ $item->id }}">
+                    @foreach ($item->comments->sortByDesc('created_at') as $comment)
+                    <li class="main-comments">
+                        <div class="each-comment">
+                            <div class="post-header">
+                                <div class="media">
+                                    <div class="user-img">
+                                        <img src="{{ asset('berkas/anggota/'. $comment->user->anggota->foto) }}" alt="{{ $comment->user->name }}" style="width:40px;height:40px;">
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="user-title"><a href="#">{{ $comment->user->name }}</a></div>
+                                        <ul class="entry-meta">
+                                            <li class="meta-privacy"><i class="icofont-world"></i>Public</li>
+                                            <li class="meta-time">{{ Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                @if (Auth::id()==$comment->user_id)
+                                <div class="dropdown">
+                                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                        ...
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="#">Close</a>
+                                        <a class="dropdown-item" href="#">Edit</a>
+                                        <a class="dropdown-item" href="#">Delete</a>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                            <div class="post-body">
+                                <p>{{ $comment->comment }}</p>
+                            </div>
+                        </div>
+                    </li>
+                    @endforeach
+                </ul>
+                {{-- <div class="load-more-btn">
+                    <a href="#" class="item-btn">Load More Comments <span>4+</span></a>
+                </div> --}}
+                <div class="comment-reply">
+                    <div class="user-img">
+                        <img src="{{ asset('berkas/anggota/'.Auth::user()->anggota->foto) }}" alt="{{ Auth::user()->name }}" style="width:40px;height:40px;">
+                    </div>
+                    <div class="input-box d-flex" style="gap: 5px">
+                        <input type="text" name="comment" class="form-control" id="comment-{{ $item->id }}" placeholder="Tulis komentar...." onkeypress="handle(event,{{ $item->id }},'story')">
+                        <span style="font-size:2rem; margin-top:10px" onclick="addComment({{ $item->id }},'story')"><i class="icofont-paper-plane"></i></span>
+                    </div>
+                </div>
             </div>
         </div>
         @endforeach
+
         <div id="post-data">
             @include('data.feedList',['post'=>$post])
         </div>
@@ -380,6 +428,61 @@
                 {
                     alert('server not responding...');
                 });
+        }
+
+        function handle(e,post_id,type){
+            if(e.keyCode === 13){
+                e.preventDefault(); // Ensure it is only this code that runs
+                addComment(post_id,type);
+            }
+        }
+
+        function addComment(post_id,type) {
+            let data = {
+                user_id: @json(Auth::id()),
+                comment: $('#comment-'+post_id).val()
+            }
+            if (type=='story') {
+                data['story_id'] = post_id;
+            } else if(type=='post') {
+                data['post_id'] = post_id;
+            }else if(type=='agenda') {
+                data['agenda_id'] = post_id;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('api.comment.store') }}",
+                data: data,
+                success: function (response) {
+                    $('#comment-'+post_id).val('');
+                    $('#comment-list-'+post_id).append(response.html);
+                }
+            });
+        }
+
+        function addReact(post_id,type,react_id) {
+            let data = {
+                user_id: @json(Auth::id()),
+                react_id: react_id
+            }
+            if (type=='story') {
+                data['story_id'] = post_id;
+            } else if(type=='post') {
+                data['post_id'] = post_id;
+            }else if(type=='agenda') {
+                data['agenda_id'] = post_id;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('api.react.store') }}",
+                data: data,
+                success: function (response) {
+                    console.log(response);
+                    $('#react-list-'+post_id).html(response.html);
+                }
+            });
         }
 </script>
 @endsection

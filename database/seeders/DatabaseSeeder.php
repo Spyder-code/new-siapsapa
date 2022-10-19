@@ -24,15 +24,16 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Post::factory(30)->create();
-        PostTag::factory(50)->create();
-        PostMedia::factory(100)->create();
+        // Post::factory(30)->create();
+        // PostTag::factory(50)->create();
+        // PostMedia::factory(100)->create();
 
         $this->call([
             // AnggotaStatusSeeder::class
             // UserSeeder::class
-            DocumentTypeSeeder::class,
-            OrganizationSeeder::class
+            // DocumentTypeSeeder::class,
+            // OrganizationSeeder::class
+            ReactSeeder::class
         ]);
     }
 }

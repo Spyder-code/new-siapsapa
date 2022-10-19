@@ -16,6 +16,7 @@ use App\Models\Kegiatan;
 use App\Models\Post;
 use App\Models\PostMedia;
 use App\Models\Product;
+use App\Models\Reacts;
 use App\Models\Story;
 use App\Models\TransactionDetail;
 use Illuminate\Support\Carbon;
@@ -40,12 +41,14 @@ class SocialController extends Controller
         $stories = Story::where('status',1)
                     ->whereDate('start_date','>=', date('Y-m-d'))
                     ->whereDate('end_date','<=', date('Y-m-d',strtotime("+1 days")))
+                    ->orderBy('created_at','desc')
                     ->get();
+        $reacts = Reacts::all();
         if (request()->ajax()) {
     		$view = view('data.feedList',compact('post'))->render();
             return response()->json(['html'=>$view]);
         }
-        return view('social.home', compact('kategori', 'tags', 'post','stories'));
+        return view('social.home', compact('kategori', 'tags', 'post','stories','reacts'));
     }
 
     public function userGallery($anggota_id)

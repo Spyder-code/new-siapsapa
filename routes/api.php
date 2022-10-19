@@ -4,9 +4,11 @@ use App\Http\Controllers\Api\AgendaController;
 use App\Http\Controllers\Api\AnggotaController;
 use App\Http\Controllers\Api\AuthApi;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\GudepController;
 use App\Http\Controllers\Api\KwartirController;
+use App\Http\Controllers\Api\ReactController;
 use App\Http\Controllers\Api\StatistikController;
 use App\Http\Controllers\Api\TransactionController as ApiTransactionController;
 use App\Http\Controllers\Api\WilayahController;
@@ -128,3 +130,6 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::get('get-kabupaten/{id}', [WilayahController::class, 'getKabupatenByIdProvinsi']);
     // Route::get('get-kecamatan/{id}', [WilayahController::class, 'getKecamatanByIdKabupaten']);
 });
+
+Route::post('comment', [CommentController::class,'store'])->name('api.comment.store');
+Route::post('react', [ReactController::class,'store'])->name('api.react.store');
