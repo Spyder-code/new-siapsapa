@@ -144,18 +144,34 @@ class GudepController extends Controller
         $anggota = Anggota::where('nik', $request->nik)->first();
         // dd($anggota->gudep);
         if($anggota){
+            $gudep = Gudep::find($request->gudep_id);
             if($request->gudep_id > 0){
                 if ($anggota->gudep!=null) {
-                    TransferAnggota::create([
-                        'anggota_id' => $anggota->id,
-                        'from_gudep' => $request->from_gudep,
-                        'to_gudep' => $request->gudep_id,
-                        'user_created' => Auth::id(),
-                        'status' => 0,
-                    ]);
-                    return back()->with('success', 'Permintaan transfer anggota telah di buat. Silahkan menunggu gudep tujuan untuk menyetujui permintaan');
+                    if($anggota->status==0){
+                        $kode = $this->generateCodeGudep($gudep,strtoupper($anggota->jk[0]));
+                        $anggota->update(['kode'=>$kode,'gudep'=>$request->gudep_id,'status'=>1]);
+                        TransferAnggota::create([
+                            'anggota_id' => $anggota->id,
+                            'from_gudep' => $request->from_gudep,
+                            'to_gudep' => $request->gudep_id,
+                            'user_created' => Auth::id(),
+                            'status' => 1,
+                        ]);
+                        return back()->with('success', 'Transfer anggota berhasil');
+                    }else{
+                        TransferAnggota::create([
+                            'anggota_id' => $anggota->id,
+                            'from_gudep' => $request->from_gudep,
+                            'to_gudep' => $request->gudep_id,
+                            'user_created' => Auth::id(),
+                            'status' => 0,
+                        ]);
+                        return back()->with('success', 'Permintaan transfer anggota telah di buat. Silahkan menunggu gudep tujuan untuk menyetujui permintaan');
+                    }
                 }else{
-                    return back()->with('error','Anggota tidak terdaftar dari gudep asal! harap hubungi admin ranting untuk menambahkan');
+                    $kode = $this->generateCodeGudep($gudep,strtoupper($anggota->jk[0]));
+                    $anggota->update(['kode'=>$kode,'gudep'=>$request->gudep_id,'status'=>1]);
+                    return back()->with('success','Anggota berhasil ditransfer');
                 }
             }else{
                 return back()->with('error', 'Gudep tidak ditemukan');
@@ -401,6 +417,23 @@ class GudepController extends Controller
             }else{
                 $kode_gudep = $gud->no_putra;
             }
+        }
+
+        $rand = rand(99999, 999999);
+        $kode = $kode_wil . $kode_gudep .'.'. $rand;
+        return $kode;
+    }
+
+    public function generateCodeGudep(Gudep $gudep, $jk = null)
+    {
+        $kec = Distrik::find($gudep->kecamatan);
+        $kab = City::find($gudep->kabupaten);
+        $prov = Provinsi::find($gudep->provinsi);
+        $kode_wil = $prov->no_prov .'.'. $kab->no_kab .'.'. $kec->no_kec .'.';
+        if($jk=='P'){
+            $kode_gudep = $gudep->no_putri;
+        }else{
+            $kode_gudep = $gudep->no_putra;
         }
 
         $rand = rand(99999, 999999);

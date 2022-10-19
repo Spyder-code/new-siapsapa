@@ -29,7 +29,7 @@ class TransferAnggotaController extends Controller
         $transfer_anggota->update(['status'=>1]);
         $gudep = Gudep::find($transfer_anggota->to_gudep);
         $kode = $this->generateCode($gudep,strtoupper($transfer_anggota->anggota->jk[0]));
-        $anggota = $transfer_anggota->anggota->update(['kode'=>$kode,'gudep'=>$transfer_anggota->to_gudep]);
+        $anggota = $transfer_anggota->anggota->update(['kode'=>$kode,'gudep'=>$transfer_anggota->to_gudep,'status'=>1]);
         return back()->with('success','Transfer Anggota Berhasil di Setujui');
     }
 

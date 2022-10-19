@@ -238,7 +238,9 @@
                 <p>{{ $item->caption }}</p>
                 @if ($item->file)
                 <div class="post-img">
-                    <img src="{{ asset($item->file) }}" alt="{{ $item->caption }}">
+                    <a href="{{ asset($item->file) }}" class="image-link">
+                        <img src="{{ asset($item->file) }}" alt="{{ $item->caption }}" class="img-fluid">
+                    </a>
                 </div>
                 @endif
                 <div class="post-meta-wrap">
