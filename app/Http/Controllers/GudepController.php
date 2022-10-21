@@ -144,47 +144,34 @@ class GudepController extends Controller
         $anggota = Anggota::where('nik', $request->nik)->first();
         // dd($anggota->gudep);
         if($anggota){
-            $gudep = Gudep::find($request->gudep_id);
-            if($request->gudep_id > 0){
-                if ($anggota->gudep!=null) {
-                    if($anggota->status==0){
-                        $kode = $this->generateCodeGudep($gudep,strtoupper($anggota->jk[0]));
-                        $anggota->update(['kode'=>$kode,'gudep'=>$request->gudep_id,'status'=>1]);
-                        TransferAnggota::create([
-                            'anggota_id' => $anggota->id,
-                            'from_gudep' => $request->from_gudep,
-                            'to_gudep' => $request->gudep_id,
-                            'user_created' => Auth::id(),
-                            'status' => 1,
-                        ]);
-                        return back()->with('success', 'Transfer anggota berhasil');
-                    }else{
-                        TransferAnggota::create([
-                            'anggota_id' => $anggota->id,
-                            'from_gudep' => $request->from_gudep,
-                            'to_gudep' => $request->gudep_id,
-                            'user_created' => Auth::id(),
-                            'status' => 0,
-                        ]);
-                        return back()->with('success', 'Permintaan transfer anggota telah di buat. Silahkan menunggu gudep tujuan untuk menyetujui permintaan');
-                    }
-                }else{
+            $gudep = Gudep::find($request->from_gudep);
+            if ($anggota->gudep!=null) {
+                if($anggota->status==0){
                     $kode = $this->generateCodeGudep($gudep,strtoupper($anggota->jk[0]));
-                    $anggota->update(['kode'=>$kode,'gudep'=>$request->gudep_id,'status'=>1]);
-                    return back()->with('success','Anggota berhasil ditransfer');
+                    $anggota->update(['kode'=>$kode,'gudep'=>$request->from_gudep,'status'=>1]);
+                    TransferAnggota::create([
+                        'anggota_id' => $anggota->id,
+                        'from_gudep' => $anggota->gudep,
+                        'to_gudep' => $request->from_gudep,
+                        'user_created' => Auth::id(),
+                        'status' => 1,
+                    ]);
+                    return back()->with('success', 'Transfer anggota berhasil');
+                }else{
+                    TransferAnggota::create([
+                        'anggota_id' => $anggota->id,
+                        'from_gudep' => $anggota->gudep,
+                        'to_gudep' => $request->from_gudep,
+                        'user_created' => Auth::id(),
+                        'status' => 0,
+                    ]);
+                    return back()->with('success', 'Permintaan transfer anggota telah di buat. Silahkan menunggu gudep tujuan untuk menyetujui permintaan');
                 }
             }else{
-                return back()->with('error', 'Gudep tidak ditemukan');
+                $kode = $this->generateCodeGudep($gudep,strtoupper($anggota->jk[0]));
+                $anggota->update(['kode'=>$kode,'gudep'=>$request->from_gudep,'status'=>1]);
+                return back()->with('success','Anggota berhasil ditransfer');
             }
-            // $user = $anggota->user;
-            // if(!password_verify($request->password, $user->password)){
-            //     return back()->with('error', 'Password salah');
-            // }else{
-            //     $anggota->gudep = $request->gudep;
-            //     $anggota->kode = $this->generateCode($anggota->kecamatan, $request->gudep, $anggota->jk);
-            //     $anggota->save();
-            //     return back()->with('success', $anggota->nama.' berhasil di transfer ke gudep');
-            // }
         }else{
             return back()->with('error', 'NIK Anggota tidak ditemukan');
         }

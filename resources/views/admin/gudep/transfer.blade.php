@@ -22,20 +22,23 @@
     <div class="col-sm-4 mt-2">
         <div class="card">
             <div class="border-bottom title-part-padding">
-                <h4 class="card-title mb-0">Form</h4>
+                <h4 class="card-title mb-0">Form Tarik Anggota</h4>
             </div>
             <form action="{{ route('gudep.transfer.store') }}" method="post" class="card-body needs-validation" novalidate>
+                <div class="alert alert-warning" id="info-search-false">Anggota dengan NIK "<span id="nik-info"></span>" tidak ditemukan</div>
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="from_gudep" value="{{ $gudep->id }}">
                 <div class="row">
                     <x-input :type="'text'" :name="'nik'" :label="'NIK Anggota'" :attr="['required']"/>
-                    <x-input :type="'text'" :name="'search'" :label="'Cari Gudep'" :attr="[]"/>
-                    <x-input :type="'select'" :options="[]" :name="'gudep_id'" :label="'Pilih Gudep Tujuan'" :attr="['required']"/>
+                    {{-- <x-input :type="'text'" :name="'search'" :label="'Cari Gudep'" :attr="[]"/>
+                    <x-input :type="'select'" :options="[]" :name="'gudep_id'" :label="'Pilih Gudep Tujuan'" :attr="['required']"/> --}}
+                </div>
+                <div id="info-search-true" class="my-2">
                 </div>
                 <div class="mb-3 btn-group">
                     <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">Kembali</a>
-                    <button type="submit" onclick="return confirm('apa anda yakin?')" class="btn btn-outline-primary">Transfer Anggota</button>
+                    <button type="submit" onclick="return confirm('apa anda yakin?')" class="btn btn-outline-primary">Tarik Anggota</button>
                 </div>
             </form>
         </div>
@@ -140,27 +143,68 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    $('#search').keyup(function (e) {
-        var val = $(this).val();
-        $.ajax({
-            type: "post",
-            url: @json(url('api/search-gudep')),
-            data: {
-                name:val
-            },
-            success: function (response) {
-                $('#gudep_id').empty();
-                var html = '';
-                response.forEach(item => {
-                    html+='<option value="'+item.id+'">'+item.name+'</option>';
-                });
-                $('#gudep_id').append(html);
-            }
-        });
-    });
-
     $("select").select2({
         theme: "bootstrap-5",
+    });
+
+    $('#info-search-false').hide();
+    $('#info-search-true').hide();
+
+    var timeout;
+    var delay = 1000;
+
+    function search (val) {
+        if(timeout) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(function() {
+            searchNIK(val);
+        }, delay);
+    }
+
+    function searchNIK(val) {
+        $.ajax({
+            type: "POST",
+            url: "{{ url('api/anggota/search') }}",
+            data: {
+                nik:val,
+                _token: "{{ csrf_token() }}"
+            },
+            success: function (response) {
+                console.log(response);
+                if(response.status==404){
+                    $('#nik-info').html(val);
+                    $('#info-search-false').show();
+                    $('#info-search-true').hide();
+                }else{
+                    let status;
+                    if(response.data.status==0){
+                        status = 'anggota tidak aktif';
+                    }
+                    if(response.data.status==1){
+                        status = 'anggota aktif';
+                    }
+                    var html = `<ul class="list-group">
+                        <li class="list-group-item">
+                            <img src="${response.data.foto}" class="img-fluid" style="max-height: 80px">
+                        </li>
+                        <li class="list-group-item">NIK: ${response.data.nik}</li>
+                        <li class="list-group-item">Nama: ${response.data.nama}</li>
+                        <li class="list-group-item">Email: ${response.data.email}</li>
+                        <li class="list-group-item">Gudep: ${response.data.gudep}</li>
+                        <li class="list-group-item">Status: ${status}</li>
+                    </ul>`;
+                    $('#info-search-false').hide();
+                    $('#info-search-true').show();
+                    $('#info-search-true').html(html);
+                }
+            }
+        });
+    }
+
+    $('#nik').keyup(function (e) {
+        var val = $(this).val();
+        search(val);
     });
 </script>
 @endsection

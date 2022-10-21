@@ -446,7 +446,7 @@
 @endsection
 
 @section('script')
-{{-- @include('components.dashboard-gudep',['id_wilayah' => $id_wilayah, 'gudep' => $gudep->id]) --}}
+@include('components.dashboard-gudep',['id_wilayah' => $id_wilayah, 'gudep' => $gudep->id])
 <script>
     var table = $(".file-export").DataTable({
         processing: true,

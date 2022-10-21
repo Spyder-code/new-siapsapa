@@ -57,6 +57,19 @@ class AnggotaController extends Controller
         return new AnggotaResource($anggota);
     }
 
+    public function getAnggotaByNik ()
+    {
+        // get anggota response with error message
+        $anggota = Anggota::where('nik',request('nik'))->first();
+        if (!$anggota) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Anggota not found'
+            ], 200);
+        }
+        return new AnggotaResource($anggota);
+    }
+
     public function getAnggotaByAdminLogin($id)
     {
         // get anggota response with error message

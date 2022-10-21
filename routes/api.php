@@ -75,6 +75,7 @@ Route::put('anggota-validate', [AnggotaController::class, 'anggotaValidate']);
 Route::put('anggota-reject', [AnggotaController::class, 'anggotaReject']);
 Route::delete('anggota-delete', [AnggotaController::class, 'deleteAnggota']);
 Route::get('anggota/{id}', [AnggotaController::class, 'getAnggotaById']);
+Route::post('anggota/search', [AnggotaController::class, 'getAnggotaByNik']);
 Route::get('admin/anggota/{id}', [AnggotaController::class, 'getAnggotaByAdminLogin']);
 
 // document
