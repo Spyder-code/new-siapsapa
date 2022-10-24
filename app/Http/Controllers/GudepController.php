@@ -204,16 +204,7 @@ class GudepController extends Controller
             if($limit==-1){
                 $limit = Gudep::count();
             }
-            $data = Gudep::select('id', 'nama_sekolah', 'npsn')->withCount(['anggota as admin' => function($q){
-                $q->whereHas('user', function($q){
-                    $q->where('role', 'gudep');
-                });
-            },
-            'anggota as anggota' => function($q){
-                $q->whereHas('user', function($q){
-                    $q->where('role', 'anggota');
-                });
-            }])->offset($start)->limit($limit);
+            $data = Gudep::select('id', 'nama_sekolah', 'npsn')->offset($start)->limit($limit);
             $count = Gudep::select('id')->count();
             $type = 1;
         }else{
@@ -222,39 +213,37 @@ class GudepController extends Controller
                 if($limit==-1){
                     $limit = Gudep::where('provinsi', $id_wilayah)->count();
                 }
-                $data = Gudep::where('provinsi',$id_wilayah)->select('id', 'nama_sekolah', 'npsn')->withCount(['anggota as admin' => function($q){
-                    $q->whereHas('user', function($q){
-                        $q->where('role', 'gudep');
-                    });
-                },'anggota as anggota'])->offset($start)->limit($limit);
+                $data = Gudep::where('provinsi',$id_wilayah)->select('id', 'nama_sekolah', 'npsn')->offset($start)->limit($limit);
                 $count = Gudep::where('provinsi',$id_wilayah)->select('id')->count();
                 $type = 2;
             }elseif($len==4){
                 if($limit==-1){
                     $limit = Gudep::where('kabupaten', $id_wilayah)->count();
                 }
-                $data =  Gudep::where('kabupaten',$id_wilayah)->select('id', 'nama_sekolah', 'npsn')->withCount(['anggota as admin' => function($q){
-                    $q->whereHas('user', function($q){
-                        $q->where('role', 'gudep');
-                    });
-                },'anggota as anggota'])->offset($start)->limit($limit);
+                $data =  Gudep::where('kabupaten',$id_wilayah)->select('id', 'nama_sekolah', 'npsn')->offset($start)->limit($limit);
                 $count = Gudep::where('kabupaten',$id_wilayah)->select('id')->count();
                 $type = 3;
             }else{
                 if($limit==-1){
                     $limit = Gudep::where('kecamatan', $id_wilayah)->count();
                 }
-                $data = Gudep::where('kecamatan',$id_wilayah)->select('id', 'nama_sekolah', 'npsn')->withCount(['anggota as admin' => function($q){
-                    $q->whereHas('user', function($q){
-                        $q->where('role', 'gudep');
-                    });
-                },'anggota as anggota'])->offset($start)->limit($limit);
+                $data = Gudep::where('kecamatan',$id_wilayah)->select('id', 'nama_sekolah', 'npsn')->offset($start)->limit($limit);
                 $count = Gudep::where('kecamatan',$id_wilayah)->select('id')->count();
                 $type = 4;
             }
         }
 
         return DataTables::of($data)
+            ->addColumn('admin', function($data){
+                $count = Anggota::where('gudep',$data->id)->where('status',1)->whereHas('user', function($q){
+                    $q->where('role','gudep');
+                })->count();
+                return $count;
+            })
+            ->addColumn('anggota', function($data){
+                $count = Anggota::where('gudep',$data->id)->where('status',1)->count();
+                return $count;
+            })
             ->addColumn('action', function ($data) {
                 $html = '<div class="btn-group">
                                 <a href="'.route('gudep.show', $data).'" class="btn btn-sm btn-primary">Detail Gudep</a>
