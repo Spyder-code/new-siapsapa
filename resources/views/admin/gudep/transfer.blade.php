@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="col-sm-8 mt-2">
-        <div class="card">
+        {{-- <div class="card">
             <div class="border-bottom title-part-padding">
                 <h4 class="card-title mb-0">List Transfer Anggota ke Gudep Lain</h4>
             </div>
@@ -89,7 +89,7 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="card">
             <div class="border-bottom title-part-padding">
                 <h4 class="card-title mb-0">List Permintaan Masuk Transfer Anggota</h4>

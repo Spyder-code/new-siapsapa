@@ -84,9 +84,9 @@
             },
             columns: [
                 {data: 'foto', name: 'foto'},
-                {data: 'nik', name: 'nik', visible: false},
+                {data: 'nik', name: 'tb_anggota.nik', visible: false},
                 {data: 'kode', name: 'kode'},
-                {data: 'nama', name: 'nama'},
+                {data: 'nama', name: 'tb_anggota.nama'},
                 {data: 'tgl_lahir', name: 'tgl_lahir'},
                 {data: 'jk', name: 'jk'},
                 {data: 'kabupaten', name: 'kabupaten'},

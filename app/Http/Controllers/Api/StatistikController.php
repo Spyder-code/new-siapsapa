@@ -171,6 +171,8 @@ class StatistikController extends Controller
                 if ($role==0) {
                     $lkk = $pramuka->anggotas()->where('status',1)->where('jk','L')->count();
                     $prr = $pramuka->anggotas()->where('status',1)->where('jk','P')->count();
+                    $plk = Anggota::where('status',1)->where('pramuka',5)->where('jk','L')->count();
+                    $ppr = Anggota::where('status',1)->where('pramuka',5)->where('jk','P')->count();
                     $count = $item->documents()->whereHas('user', function($q) use($item){
                         $q->whereHas('anggota', function($q) use($item){
                             $q->where('tingkat',$item->id);
@@ -191,6 +193,8 @@ class StatistikController extends Controller
                 }elseif($role==2){
                     $lkk = $pramuka->anggotas()->where('status',1)->where('provinsi',$id_wilayah)->where('jk','L')->count();
                     $prr = $pramuka->anggotas()->where('status',1)->where('provinsi',$id_wilayah)->where('jk','P')->count();
+                    $plk = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','L')->count();
+                    $ppr = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','P')->count();
                     $count = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
                         $q->whereHas('anggota', function($q) use($id_wilayah,$item){
                             $q->where('provinsi',$id_wilayah);
@@ -214,6 +218,8 @@ class StatistikController extends Controller
                 }elseif($role==4){
                     $lkk = $pramuka->anggotas()->where('status',1)->where('kabupaten',$id_wilayah)->where('jk','L')->count();
                     $prr = $pramuka->anggotas()->where('status',1)->where('kabupaten',$id_wilayah)->where('jk','P')->count();
+                    $plk = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','L')->count();
+                    $ppr = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','P')->count();
                     $count = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
                         $q->whereHas('anggota', function($q) use($id_wilayah,$item){
                             $q->where('kabupaten',$id_wilayah);
@@ -237,6 +243,8 @@ class StatistikController extends Controller
                 }elseif($role==7){
                     $lkk = $pramuka->anggotas()->where('status',1)->where('kecamatan',$id_wilayah)->where('jk','L')->count();
                     $prr = $pramuka->anggotas()->where('status',1)->where('kecamatan',$id_wilayah)->where('jk','P')->count();
+                    $plk = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','L')->count();
+                    $ppr = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','P')->count();
                     $count = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
                         $q->whereHas('anggota', function($q) use($id_wilayah,$item){
                             $q->where('kecamatan',$id_wilayah);
