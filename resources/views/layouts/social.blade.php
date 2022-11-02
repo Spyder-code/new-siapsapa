@@ -172,7 +172,9 @@
                         <div class="dropdown-menu dropdown-menu-right">
                            <ul class="admin-options">
                               <li><a href="{{ route('social.profile') }}">Profile</a></li>
+                              @if (Auth::user()->role!='anggota')
                               <li><a href="{{ route('statistik.index') }}">Admin Area</a></li>
+                              @endif
                               <li><a href="{{ url('/') }}">Global Area</a></li>
                               <li><a href="{{ route('social.transaction') }}">Pesanan Saya</a></li>
                               <li><a href="{{ route('logout') }}">Log Out</a></li>
@@ -251,9 +253,11 @@
                      <li>
                         <a href="{{ url('/') }}" class="menu-link">Global Area</a>
                      </li>
+                     @if (Auth::user()->role!='anggota')
                      <li>
                         <a href="{{ route('statistik.index') }}" class="menu-link">Admin Area</a>
                      </li>
+                     @endif
                   </ul>
                </div>
             </div>

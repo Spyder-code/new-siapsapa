@@ -41,6 +41,10 @@ class CartController extends Controller
                 'message' => 'KTA tidak aktif. Harap hubungi admin untuk mengaktifkan KTA anda.'
             ], 404);
         }
+        $check = Cart::where('anggota_id',$request->anggota_id)->first();
+        if($check){
+            return response()->json(['message'=>'Berhasil menambahkan ke keranjang. Silahkan cek keranjang!','data'=>new CartResource($check),'status'=>200]);
+        }
         $harga = $anggota->city->harga;
         $cart = Cart::create([
             'user_id' => $request->user_id,
@@ -50,7 +54,7 @@ class CartController extends Controller
             'golongan' => $anggota->pramuka
         ]);
 
-        return response()->json(['Cart created successfully.', new CartResource($cart)]);
+        return response()->json(['message'=>'Berhasil menambahkan ke keranjang. Silahkan cek keranjang!','data'=>new CartResource($cart),'status'=>200]);
     }
 
     public function destroy($id)

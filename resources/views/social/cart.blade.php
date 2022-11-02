@@ -27,10 +27,14 @@
                 <div class="border-bottom title-part-padding d-flex justify-content-between card-header">
                     <h4 class="card-title mb-0">List Item</h4>
                     <div class="d-flex" style="gap: 10px">
+                        @if ($carts->count() > 0 && Auth::user()->role!='anggota')
                         <p>Jumlah KTA ({{ $carts->count() }})</p>
                         <p>Total: <b>Rp. {{ number_format($carts->sum('harga')) }}</b></p>
-                        @if ($carts->count() > 0)
                         <a href="{{ route('social.transaction.create') }}" class="btn btn-success pos-relative right-0"><i class="fas fa-print"></i> Buat Transaksi</a>
+                        @elseif($carts->count()>0)
+                        <div class="alert alert-info">
+                            Kartu Tanda Anggota Sedang Dicetak
+                        </div>
                         @endif
                     </div>
                 </div>
@@ -70,11 +74,7 @@
                                 </td>
                                 <td>Rp. {{ number_format($item->harga) }}</td>
                                 <td>
-                                    <form action="{{ route('cart.destroy',$item) }}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('are you sure?')"><i class="icofont-trash"></i></button>
-                                    </form>
+                                    <button type="submit" class="btn btn-danger" onclick="deleteCart({{ $item->id }})"><i class="icofont-trash"></i></button>
                                 </td>
                             </tr>
                             @endforeach
@@ -85,4 +85,20 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+    <script>
+        function deleteCart(id){
+            if(confirm('are you sure?')){
+                $.ajax({
+                    type: "DELETE",
+                    url: "{{ url('api/cart/delete') }}"+'/'+id,
+                    success: function (response) {
+                        alert('Item berhasil dihapus');
+                        location.reload();
+                    }
+                });
+            }
+        }
+    </script>
 @endsection

@@ -16,7 +16,18 @@ class CartController extends Controller
 {
     public function index()
     {
-        $carts = Cart::where('user_id', Auth::id())->with('anggota')->get();
+        $role = Auth::user()->role;
+        if ($role=='gudep') {
+            $gudep = Auth::user()->anggota->gudep;
+            $carts = Cart::whereHas('anggota', function($q) use($gudep){
+                $q->where('gudep',$gudep);
+            })->get();
+            foreach ($carts as $item ) {
+                $item->update(['user_id',Auth::id()]);
+            }
+        } else {
+            $carts = Cart::where('user_id', Auth::id())->with('anggota')->get();
+        }
         $pramuka = Pramuka::all();
         return view('admin.cart.index', compact('carts','pramuka'));
     }
@@ -25,13 +36,16 @@ class CartController extends Controller
         $data = explode(',',$request->anggota_id);
         $anggota = Anggota::whereIn('id', $data)->get();
         foreach ($anggota as $item ) {
-            Cart::create([
-                'user_id' => Auth::id(),
-                'anggota_id' => $item->id,
-                'golongan' => $item->pramuka,
-                'harga' => $item->city->harga,
-                'kta_id' => $item->kta_id,
-            ]);
+            $check = Cart::where('anggota_id',$item->id)->first();
+            if(!$check){
+                Cart::create([
+                    'user_id' => Auth::id(),
+                    'anggota_id' => $item->id,
+                    'golongan' => $item->pramuka,
+                    'harga' => $item->city->harga,
+                    'kta_id' => $item->kta_id,
+                ]);
+            }
         }
 
         return redirect()->route('cart.index')->with('success', 'Berhasil menambahkan ke keranjang');

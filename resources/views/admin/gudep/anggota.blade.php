@@ -67,6 +67,9 @@
     @csrf
     <input type="hidden" name="anggota_id" id="anggota_id">
     <div class="bg-light-primary px-5 py-2 text-center justify-content-center">
+        <label for="all">
+            <input type="checkbox" class="selectAll" name="selectAll" value="all" id="all"> Pilih Semua Anggota
+        </label>
         <p class="fw-bold"><span id="cart-item">10</span> Item dipilih</p>
         <button class="btn btn-primary" type="submit"><i class="fas fa-shopping-bag"></i> Masukan ke keranjang</button>
     </div>
@@ -174,6 +177,25 @@
                 }
             }, 500);
             // console.log(data);
+        });
+
+        $(".selectAll").on("click", function(e) {
+            if ($(this).is(":checked")) {
+                table.rows().select();
+            } else {
+                table.rows().deselect();
+            }
+            setTimeout(() => {
+                handleSelected()
+                var total = selected.length;
+                if(total>0){
+                    $('#cart-item').html(total);
+                    $('#anggota_id').val(selected);
+                    $('#cart').show('slow');
+                }else{
+                    $('#cart').hide('slow');
+                }
+            }, 500);
         });
 
         $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel, .buttons-collection ")

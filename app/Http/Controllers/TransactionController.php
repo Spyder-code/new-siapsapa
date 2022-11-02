@@ -61,7 +61,7 @@ class TransactionController extends Controller
         $data['status'] = 1;
         $cek = Cart::all()->where('user_id', Auth::id())->whereNull('kta_id')->count();
         if($cek>0){
-            return back()->with('danger', 'KTA ada yang salah. Harap cek KTA anggota');
+            return back()->with('danger', 'KTA ada yang salah. Harap hubungi admin untuk proses selanjutnya');
         }
         $transactionDetail = TransactionDetail::create($data);
         foreach ($carts as $cart) {
