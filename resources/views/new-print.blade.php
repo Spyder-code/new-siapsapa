@@ -20,7 +20,7 @@
                     <div class="img-left">
                         <img src="{{ asset('berkas/anggota/'. $item->anggota->foto) }}"  alt="foto" class="foto">
                         {{-- <img src="{{ asset('berkas/kta/foto.jpg') }}"  alt="foto" class="foto"> --}}
-                        <img src="data:image/png;base64,{{DNS2D::getBarcodePNG($item->anggota->nik, 'QRCODE')}}"alt="QRCODE" class="qr">
+                        <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(route('social.userFeed',$item->anggota->id), 'QRCODE')}}"alt="QRCODE" class="qr">
                         <span class="exp">Masa Berlaku s/d {{ date('Y') + 3 }}</span>
                     </div>
                     <table cellspacing="1" cellpadding="0">

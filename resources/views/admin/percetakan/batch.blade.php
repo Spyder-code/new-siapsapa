@@ -27,6 +27,8 @@
                                 <th>No.</th>
                                 <th>Code</th>
                                 <th>Penerima</th>
+                                <th>Alamat</th>
+                                <th>Jumlah KTA</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -36,6 +38,8 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->code }}</td>
                                 <td>{{ $item->penerima }}</td>
+                                <td>{{ $item->alamat }}</td>
+                                <td>{{ $item->transactions->count() }}</td>
                                 <td class="d-flex gap-2">
                                     <a href="{{ route('percetakan.batch.show', $item) }}" class="btn btn-sm btn-primary">Lihat Detail</a>
                                     <form action="{{ route('cart.print', $item) }}" method="post">
