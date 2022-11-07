@@ -32,8 +32,21 @@ class TransactionController extends Controller
 
     public function create()
     {
-        $total = Cart::all()->where('user_id', Auth::id())->sum('harga');
-        return view('admin.transaction.create', compact('total'));
+        $role = Auth::user()->role;
+        if ($role=='gudep') {
+            $gudep = Auth::user()->anggota->gudep;
+            $data = Cart::whereHas('anggota', function($q) use($gudep){
+                $q->where('gudep',$gudep);
+            })->get();
+            foreach ($data as $item ) {
+                $item->update(['user_id'=>Auth::id()]);
+            }
+        } else {
+            $data = Cart::where('user_id', Auth::id())->with('anggota')->get();
+        }
+        $total = $data->sum('harga');
+        $weight = $data->count() * 10;
+        return view('admin.transaction.create', compact('total','weight'));
     }
 
     public function complete(TransactionDetail $transaction)
@@ -54,9 +67,9 @@ class TransactionController extends Controller
             return redirect()->back()->with('error', 'Tidak ada produk yang ditambahkan');
         }
         $data['user_id'] = Auth::id();
-        $data['item_price'] = $carts->sum('harga');
-        $data['ekpedisi_price'] = 0;
-        $data['total'] = $data['item_price'] + $data['ekpedisi_price'];
+        $data['item_price'] = (int)str_replace(['Rp.',' ',','],'',$request->item_price);
+        $data['ekspedisi_price'] = (int)str_replace(['Rp.',' '],'',$request->ekspedisi_price);
+        $data['total'] = $data['item_price'] + $data['ekspedisi_price'];
         $data['payment_status'] = 4;
         $data['status'] = 1;
         $cek = Cart::all()->where('user_id', Auth::id())->whereNull('kta_id')->count();

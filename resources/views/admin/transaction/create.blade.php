@@ -39,9 +39,12 @@
                     </ul>
                 </div>
                 @include('admin.transaction.form',['total'=>$total])
-                <div class="mb-3 btn-group my-3" id="confirm">
+                <div class="mb-3 my-3" id="confirm">
+                    <div class="alert alert-info text-center">
+                        <strong>*Ongkos kirim dibayarkan saat barang diterima</strong>
+                    </div>
                     {{-- <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">Kembali</a> --}}
-                    <button type="submit" class="btn btn-outline-primary">Buat Transaksi</button>
+                    <button type="submit" class="btn btn-outline-primary w-100">Buat Transaksi</button>
                 </div>
             </form>
         </div>

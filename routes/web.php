@@ -43,7 +43,7 @@ Route::get('test', function () {
         "origin"=>"501",
         "destination"=>"114",
         "weight"=>1700,
-        "courier"=>"sicepat"
+        "courier"=>"jne"
     ];
     $s = new RajaOngkirService();
     dd($s->getCost($data));

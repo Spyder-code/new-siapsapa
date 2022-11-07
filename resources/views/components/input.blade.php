@@ -8,9 +8,11 @@
     @endphp
         <select name="{{ $name }}" id="{{ $id ?? $name }}" class="form-control" {{ !empty($attr)?implode(' ', $attr) : '' }}>
             <option disabled selected>Pilih {{ $label }}</option>
-            @foreach ($options as $idx => $option)
+            @forelse ($options as $idx => $option)
                 <option value="{{ $idx }}" {{ $value==$idx ? 'selected' : '' }}>{{ $option }}</option>
-            @endforeach
+            @empty
+            <option value=""></option>
+            @endforelse
         </select>
     @elseif($type=='textarea')
         <textarea name="{{ $name }}" cols="{{ $cols ?? '30' }}" rows="{{ $rows ?? '3' }}" id="{{ $id ?? $name }}" class="form-control" {{ !empty($attr)?implode(' ', $attr) : '' }}>{{ $value ?? old($name) }}</textarea>

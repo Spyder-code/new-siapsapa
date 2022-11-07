@@ -134,3 +134,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('comment', [CommentController::class,'store'])->name('api.comment.store');
 Route::post('react', [ReactController::class,'store'])->name('api.react.store');
+
+// Raja Ongkir
+Route::get('ongkir/provinsi', [WilayahController::class,'getProvinceOngkir'])->name('api.ongkir.province');
+Route::get('ongkir/kota', [WilayahController::class,'getCityOngkir'])->name('api.ongkir.city');
+Route::post('ongkir', [WilayahController::class,'getOngkir'])->name('api.ongkir');

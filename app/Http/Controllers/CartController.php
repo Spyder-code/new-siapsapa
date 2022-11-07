@@ -23,7 +23,7 @@ class CartController extends Controller
                 $q->where('gudep',$gudep);
             })->get();
             foreach ($carts as $item ) {
-                $item->update(['user_id',Auth::id()]);
+                $item->update(['user_id'=>Auth::id()]);
             }
         } else {
             $carts = Cart::where('user_id', Auth::id())->with('anggota')->get();

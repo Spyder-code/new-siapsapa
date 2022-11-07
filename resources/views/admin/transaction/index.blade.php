@@ -27,7 +27,8 @@
                                 <th>No.</th>
                                 <th>Penerima</th>
                                 <th>Phone</th>
-                                <th>Total Pembayaran</th>
+                                <th>Total Pembayaran KTA</th>
+                                <th>Ongkir</th>
                                 <th>Status Pesanan</th>
                                 <th>Status Pembayaran</th>
                                 <th>action</th>
@@ -39,7 +40,8 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->penerima }}</td>
                                 <td>{{ $item->phone }}</td>
-                                <td>Rp. {{ number_format($item->total) }}</td>
+                                <td>Rp. {{ number_format($item->item_price) }}</td>
+                                <td>Rp. {{ number_format($item->ekspedisi_price) }}</td>
                                 <td>{{ $item->statusInfo->name }}</td>
                                 <td>
                                     <div class="badge bg-light-primary">
