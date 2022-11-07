@@ -56,7 +56,11 @@ class CartController extends Controller
         $data = $request->all();
         if($request->golongan){
             $kta = Kta::where('kabupaten', $cart->anggota->kabupaten)->where('pramuka_id', $request->golongan)->first();
-            $data['kta_id'] = $kta->id;
+            if($kta){
+                $data['kta_id'] = $kta->id;
+            }else{
+                return back()->with('danger', 'KTA bermasalah! silahkan hubungi admin');
+            }
         }
         $cart->update($data);
         return back()->with('success', 'Berhasil mengubah data');
