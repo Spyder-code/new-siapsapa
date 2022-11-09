@@ -71,6 +71,51 @@ class MidtransService extends Repository
         }
     }
 
+    public function test()
+    {
+        $date = date('ymdHi');
+        $item_details = array();
+        $orderId = 'KTA/'.$date.'/'.sprintf('%03d',rand(100,999));
+
+        $customer_details = array(
+            'first_name' => 'test_midtrans',
+            'email'    => 'testmidtrans@gmail.com',
+            'phone'    => '123456789',
+        );
+
+        for ($i=0; $i < 3; $i++) {
+            $item_details[$i] = array(
+                'id' => 'BR-00'.$i,
+                'price' => 10000,
+                'quantity' => 1,
+                'name' => 'KTA-'.$i,
+            );
+        }
+
+        $transaction_details = array(
+            'order_id' => $orderId,
+            'gross_amount' =>3000, // no decimal allowed for creditcard
+        );
+
+        // Fill SNAP API parameter
+        $params = array(
+            'transaction_details' => $transaction_details,
+            'customer_details' => $customer_details,
+            'item_details' => $item_details,
+        );
+
+        try {
+            // Get Snap Payment Page URL
+            $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
+            // Redirect to Snap Payment Page
+
+            return $paymentUrl;
+        }
+        catch (Exception $e) {
+            return response($e->getMessage());
+        }
+    }
+
     public function notification()
     {
         $notif = new \Midtrans\Notification();

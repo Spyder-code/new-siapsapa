@@ -13,6 +13,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InitController;
 use App\Http\Controllers\KtaController;
 use App\Http\Controllers\KwartirController;
+use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\OrganizationUserController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PercetakanController;
@@ -52,8 +53,14 @@ Route::get('test', function () {
 
 // Init
 Route::get('init/add-to-cart', [InitController::class, 'addToCart']);
+Route::get('midtrans-check', [MidtransController::class, 'check']);
+Route::post('midtrans-check', [MidtransController::class, 'test']);
 
 // Global
+Route::get('play/video/{url}',function($url){
+    return view('video', compact('url'));
+});
+
 Route::get('check-login', [HomeController::class, 'index']);
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/i/statistik', [PageController::class, 'statistik'])->name('page.statistik');
