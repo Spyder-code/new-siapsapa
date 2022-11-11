@@ -61,6 +61,11 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'ekspedisi_name' => 'required',
+            'ekspedisi_tipe' => 'required',
+            'ekspedisi_price' => 'required',
+        ]);
         $data = $request->all();
         $carts = Cart::all()->where('user_id', Auth::id());
         if ($carts->count() <= 0) {
