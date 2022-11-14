@@ -107,8 +107,8 @@
             },
             columns: [
                 {data: 'foto', name: 'foto'},
-                {data: 'nik', name: 'nik', visible: false},
-                {data: 'nama', name: 'nama'},
+                {data: 'nik', name: 'tb_anggota.nik', visible: false},
+                {data: 'nama', name: 'tb_anggota.nama'},
                 {data: 'jk', name: 'jk'},
                 {data: 'kabupaten', name: 'kabupaten'},
                 {data: 'kecamatan', name: 'kecamatan'},
