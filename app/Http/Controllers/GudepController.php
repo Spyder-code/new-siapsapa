@@ -254,16 +254,20 @@ class GudepController extends Controller
             ->addColumn('tools', function ($data) {
                 $html = '<a class="dropdown-item" href="'.route('gudep.edit',$data).'">
                                 <i class="fa fa-pencil-alt me-1"></i> Edit Gudep
-                            </a>
-                            <button type="button" class="dropdown-item" onclick="deleteGudep('.$data->id.')">
+                            </a>';
+                $del = '';
+                $count = Anggota::where('gudep',$data->id)->where('status',1)->count();
+                if($count==0){
+                    $del = '<button type="button" class="dropdown-item" onclick="deleteGudep('.$data->id.')">
                                 <i class="fa fa-trash-alt me-1"></i> Delete Gudep
                             </button>';
+                }
                 return '<div class="dropdown">
                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                 <i class="bx bx-dots-vertical-rounded"></i>
                             </button>
                             <div class="dropdown-menu">
-                                '.$html.'
+                                '.$html.$del.'
                             </div>
                         </div>';
             })

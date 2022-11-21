@@ -44,10 +44,16 @@ class GudepController extends Controller
     {
         $gudep_id = request()->gudep;
         $gudep = Gudep::find($gudep_id);
-        $gudep->delete();
-        Anggota::where('gudep', $gudep_id)->update(['gudep' => null]);
+        $check = Anggota::where('gudep',$gudep->id)->where('status',1)->count();
+        if($check==0){
+            Anggota::where('gudep', $gudep_id)->update(['gudep' => null]);
+            $gudep->delete();
+            return response()->json([
+                'status' => 'success'
+            ]);
+        }
         return response()->json([
-            'status' => 'success'
+            'status' => 'Pastikan semua anggota gudep telah dipindahkan atau di nonaktifkan.'
         ]);
     }
 

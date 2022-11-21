@@ -44,8 +44,12 @@ class TransactionController extends Controller
         } else {
             $data = Cart::where('user_id', Auth::id())->with('anggota')->get();
         }
+        $count = $data->count();
         $total = $data->sum('harga');
         $weight = $data->count() * 10;
+        if($count<5){
+            return back()->with('danger','Minimal pesan 5 KTA untuk melakukan transaksi');
+        }
         return view('admin.transaction.create', compact('total','weight'));
     }
 

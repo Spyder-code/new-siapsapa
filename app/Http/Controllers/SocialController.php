@@ -201,8 +201,25 @@ class SocialController extends Controller
 
     public function createTransaction()
     {
-        $total = Cart::all()->where('user_id', Auth::id())->sum('harga');
-        return view('social.transaction.create', compact('total'));
+        $role = Auth::user()->role;
+        if ($role=='gudep') {
+            $gudep = Auth::user()->anggota->gudep;
+            $data = Cart::whereHas('anggota', function($q) use($gudep){
+                $q->where('gudep',$gudep);
+            })->get();
+            foreach ($data as $item ) {
+                $item->update(['user_id'=>Auth::id()]);
+            }
+        } else {
+            $data = Cart::where('user_id', Auth::id())->with('anggota')->get();
+        }
+        $count = $data->count();
+        $total = $data->sum('harga');
+        $weight = $data->count() * 10;
+        if($count<5){
+            return back()->with('danger','Minimal pesan 5 KTA untuk melakukan transaksi');
+        }
+        return view('social.transaction.create', compact('total','weight'));
     }
 
     public function transaction()

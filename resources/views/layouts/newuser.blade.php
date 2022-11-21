@@ -80,8 +80,11 @@
 </head>
 
 <body class="sticky-header">
-    <a href="index.html#wrapper" data-type="section-switch" class="scrollup">
+    {{-- <a href="index.html#wrapper" data-type="section-switch" class="scrollup">
         <i class="icofont-bubble-up"></i>
+    </a> --}}
+    <a href="https://t.me/siapsapa" style="position: fixed; bottom:0px; right:0px; z-index:999;">
+        <img src="{{ asset('berkas/cs.jpeg') }}" alt="customer service" class="img-fluid" style="border-radius:100%; height:100px">
     </a>
     <!-- Preloader Start Here -->
     {{-- <div id="preloader"></div> --}}

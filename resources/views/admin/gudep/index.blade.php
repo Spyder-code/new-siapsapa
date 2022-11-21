@@ -151,6 +151,7 @@
                     },
                     success: function(data) {
                         table.ajax.reload();
+                        alert(data.status)
                     }
                 });
             }
