@@ -29,6 +29,7 @@
                                 <th>Penerima</th>
                                 <th>Alamat</th>
                                 <th>Jumlah KTA</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -40,6 +41,7 @@
                                 <td>{{ $item->penerima }}</td>
                                 <td>{{ $item->alamat }}</td>
                                 <td>{{ $item->transactions->count() }}</td>
+                                <td>{{ $item->statusInfo->name }}</td>
                                 <td class="d-flex gap-2">
                                     <a href="{{ route('percetakan.batch.show', $item) }}" class="btn btn-sm btn-primary">Lihat Detail</a>
                                     <form action="{{ route('cart.print', $item) }}" method="post">

@@ -18,7 +18,7 @@ class PercetakanController extends Controller
 
     public function batch()
     {
-        $transactions = TransactionDetail::where('status', 2)->where('payment_status','<', 4)->get();
+        $transactions = TransactionDetail::where('payment_status','<', 4)->get();
         return view('admin.percetakan.batch', compact('transactions'));
     }
 
