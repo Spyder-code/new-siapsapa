@@ -193,9 +193,10 @@ class AnggotaController extends Controller
         $type = $request->type;
         $data = $request->all();
         $data['password'] = Auth::user()->password;
+        $data['jk'] = strtoupper($request->jk[0]);
         if(!empty($request->foto)){
             $request->validate([
-                'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
+                'foto' => '|image|mimes:jpeg,png,jpg|max:2048',
             ],
             [
                 'foto.image' => 'Foto harus berupa gambar',

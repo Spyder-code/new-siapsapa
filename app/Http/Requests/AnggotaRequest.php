@@ -39,17 +39,17 @@ class AnggotaRequest extends FormRequest
             'kecamatan' => 'required',
             'gudep' => 'nullable',
             'status_anggota' => 'required',
-            'foto' => 'nullable',
+            'foto' => 'required',
             'kawin' => 'required',
             'status' => 'nullable',
             'kode' => 'nullable',
         ];
     }
 
-    protected function prepareForValidation()
-    {
-        return [
-            'jk' => strtoupper($this->jk[0])
-        ];
-    }
+    // protected function prepareForValidation()
+    // {
+    //     return [
+    //         'jk' => strtoupper($this->jk[0])
+    //     ];
+    // }
 }
