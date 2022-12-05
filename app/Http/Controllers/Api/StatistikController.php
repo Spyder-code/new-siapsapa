@@ -171,125 +171,140 @@ class StatistikController extends Controller
                 if ($role==0) {
                     $lkk = $pramuka->anggotas()->where('status',1)->where('jk','L')->count();
                     $prr = $pramuka->anggotas()->where('status',1)->where('jk','P')->count();
-                    $plk = Anggota::where('status',1)->where('pramuka',5)->where('jk','L')->count();
-                    $ppr = Anggota::where('status',1)->where('pramuka',5)->where('jk','P')->count();
-                    $count = $item->documents()->whereHas('user', function($q) use($item){
-                        $q->whereHas('anggota', function($q) use($item){
-                            $q->where('tingkat',$item->id);
-                        });
-                    })->count();
-                    $lk = $item->documents()->whereHas('user', function($q) use($item){
-                        $q->whereHas('anggota', function($q) use($item){
-                            $q->where('jk', 'L');
-                            $q->where('tingkat',$item->id);
-                        });
-                    })->count();
-                    $pr = $item->documents()->whereHas('user', function($q) use($item){
-                        $q->whereHas('anggota', function($q) use($item){
-                            $q->where('jk', 'P');
-                            $q->where('tingkat',$item->id);
-                        });
-                    })->count();
+                    $plk =  $pramuka->anggotas()->where('status',1)->where('pramuka',5)->where('jk','L')->count();
+                    $ppr =  $pramuka->anggotas()->where('status',1)->where('pramuka',5)->where('jk','P')->count();
+                    // $count = $item->documents()->whereHas('user', function($q) use($item){
+                    //     $q->whereHas('anggota', function($q) use($item){
+                    //         $q->where('tingkat',$item->id);
+                    //     });
+                    // })->count();
+                    // $lk = $item->documents()->whereHas('user', function($q) use($item){
+                    //     $q->whereHas('anggota', function($q) use($item){
+                    //         $q->where('jk', 'L');
+                    //         $q->where('tingkat',$item->id);
+                    //     });
+                    // })->count();
+                    // $pr = $item->documents()->whereHas('user', function($q) use($item){
+                    //     $q->whereHas('anggota', function($q) use($item){
+                    //         $q->where('jk', 'P');
+                    //         $q->where('tingkat',$item->id);
+                    //     });
+                    // })->count();
+                    $count =  $pramuka->anggotas()->where('tingkat',$item->id)->count();
+                    $pr =  $pramuka->anggotas()->where('tingkat',$item->id)->where('jk','P')->count();
+                    $lk =  $pramuka->anggotas()->where('tingkat',$item->id)->where('jk','L')->count();
                 }elseif($role==2){
                     $lkk = $pramuka->anggotas()->where('status',1)->where('provinsi',$id_wilayah)->where('jk','L')->count();
                     $prr = $pramuka->anggotas()->where('status',1)->where('provinsi',$id_wilayah)->where('jk','P')->count();
-                    $plk = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','L')->count();
-                    $ppr = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','P')->count();
-                    $count = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
-                        $q->whereHas('anggota', function($q) use($id_wilayah,$item){
-                            $q->where('provinsi',$id_wilayah);
-                            $q->where('tingkat',$item->id);
-                        });
-                    })->count();
-                    $lk = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
-                        $q->whereHas('anggota', function($q) use($id_wilayah,$item){
-                            $q->where('jk', 'L');
-                            $q->where('tingkat',$item->id);
-                            $q->where('provinsi',$id_wilayah);
-                        });
-                    })->count();
-                    $pr = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
-                        $q->whereHas('anggota', function($q) use($id_wilayah,$item){
-                            $q->where('jk', 'P');
-                            $q->where('tingkat',$item->id);
-                            $q->where('provinsi',$id_wilayah);
-                        });
-                    })->count();
+                    $plk = $pramuka->anggotas()->where('provinsi',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','L')->count();
+                    $ppr = $pramuka->anggotas()->where('provinsi',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','P')->count();
+                    // $count = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
+                    //     $q->whereHas('anggota', function($q) use($id_wilayah,$item){
+                    //         $q->where('provinsi',$id_wilayah);
+                    //         $q->where('tingkat',$item->id);
+                    //     });
+                    // })->count();
+                    // $lk = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
+                    //     $q->whereHas('anggota', function($q) use($id_wilayah,$item){
+                    //         $q->where('jk', 'L');
+                    //         $q->where('tingkat',$item->id);
+                    //         $q->where('provinsi',$id_wilayah);
+                    //     });
+                    // })->count();
+                    // $pr = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
+                    //     $q->whereHas('anggota', function($q) use($id_wilayah,$item){
+                    //         $q->where('jk', 'P');
+                    //         $q->where('tingkat',$item->id);
+                    //         $q->where('provinsi',$id_wilayah);
+                    //     });
+                    // })->count();
+                    $count = $pramuka->anggotas()->where('status',1)->where('tingkat',$item->id)->where('provinsi',$id_wilayah)->count();
+                    $pr = $pramuka->anggotas()->where('status',1)->where('tingkat',$item->id)->where('jk','P')->where('provinsi',$id_wilayah)->count();
+                    $lk = $pramuka->anggotas()->where('status',1)->where('tingkat',$item->id)->where('jk','L')->where('provinsi',$id_wilayah)->count();
                 }elseif($role==4){
                     $lkk = $pramuka->anggotas()->where('status',1)->where('kabupaten',$id_wilayah)->where('jk','L')->count();
                     $prr = $pramuka->anggotas()->where('status',1)->where('kabupaten',$id_wilayah)->where('jk','P')->count();
-                    $plk = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','L')->count();
-                    $ppr = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','P')->count();
-                    $count = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
-                        $q->whereHas('anggota', function($q) use($id_wilayah,$item){
-                            $q->where('kabupaten',$id_wilayah);
-                            $q->where('tingkat',$item->id);
-                        });
-                    })->count();
-                    $lk = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
-                        $q->whereHas('anggota', function($q) use($id_wilayah,$item){
-                            $q->where('jk', 'L');
-                            $q->where('tingkat',$item->id);
-                            $q->where('kabupaten',$id_wilayah);
-                        });
-                    })->count();
-                    $pr = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
-                        $q->whereHas('anggota', function($q) use($id_wilayah,$item){
-                            $q->where('jk', 'P');
-                            $q->where('tingkat',$item->id);
-                            $q->where('kabupaten',$id_wilayah);
-                        });
-                    })->count();
+                    $plk =  $pramuka->anggotas()->where('kabupaten',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','L')->count();
+                    $ppr =  $pramuka->anggotas()->where('kabupaten',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','P')->count();
+                    // $count = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
+                    //     $q->whereHas('anggota', function($q) use($id_wilayah,$item){
+                    //         $q->where('kabupaten',$id_wilayah);
+                    //         $q->where('tingkat',$item->id);
+                    //     });
+                    // })->count();
+                    // $lk = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
+                    //     $q->whereHas('anggota', function($q) use($id_wilayah,$item){
+                    //         $q->where('jk', 'L');
+                    //         $q->where('tingkat',$item->id);
+                    //         $q->where('kabupaten',$id_wilayah);
+                    //     });
+                    // })->count();
+                    // $pr = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
+                    //     $q->whereHas('anggota', function($q) use($id_wilayah,$item){
+                    //         $q->where('jk', 'P');
+                    //         $q->where('tingkat',$item->id);
+                    //         $q->where('kabupaten',$id_wilayah);
+                    //     });
+                    // })->count();
+                    $count =  $pramuka->anggotas()->where('tingkat',$item->id)->where('kabupaten',$id_wilayah)->count();
+                    $pr =  $pramuka->anggotas()->where('tingkat',$item->id)->where('jk','P')->where('kabupaten',$id_wilayah)->count();
+                    $lk =  $pramuka->anggotas()->where('tingkat',$item->id)->where('jk','L')->where('kabupaten',$id_wilayah)->count();
                 }elseif($role==7){
                     $lkk = $pramuka->anggotas()->where('status',1)->where('kecamatan',$id_wilayah)->where('jk','L')->count();
                     $prr = $pramuka->anggotas()->where('status',1)->where('kecamatan',$id_wilayah)->where('jk','P')->count();
-                    $plk = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','L')->count();
-                    $ppr = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','P')->count();
-                    $count = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
-                        $q->whereHas('anggota', function($q) use($id_wilayah,$item){
-                            $q->where('kecamatan',$id_wilayah);
-                            $q->where('tingkat',$item->id);
-                        });
-                    })->count();
-                    $lk = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
-                        $q->whereHas('anggota', function($q) use($id_wilayah,$item){
-                            $q->where('jk', 'L');
-                            $q->where('tingkat',$item->id);
-                            $q->where('kecamatan',$id_wilayah);
-                        });
-                    })->count();
-                    $pr = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
-                        $q->whereHas('anggota', function($q) use($id_wilayah,$item){
-                            $q->where('jk', 'P');
-                            $q->where('tingkat',$item->id);
-                            $q->where('kecamatan',$id_wilayah);
-                        });
-                    })->count();
+                    $plk =  $pramuka->anggotas()->where('kecamatan',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','L')->count();
+                    $ppr =  $pramuka->anggotas()->where('kecamatan',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','P')->count();
+                    // $count = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
+                    //     $q->whereHas('anggota', function($q) use($id_wilayah,$item){
+                    //         $q->where('kecamatan',$id_wilayah);
+                    //         $q->where('tingkat',$item->id);
+                    //     });
+                    // })->count();
+                    // $lk = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
+                    //     $q->whereHas('anggota', function($q) use($id_wilayah,$item){
+                    //         $q->where('jk', 'L');
+                    //         $q->where('tingkat',$item->id);
+                    //         $q->where('kecamatan',$id_wilayah);
+                    //     });
+                    // })->count();
+                    // $pr = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
+                    //     $q->whereHas('anggota', function($q) use($id_wilayah,$item){
+                    //         $q->where('jk', 'P');
+                    //         $q->where('tingkat',$item->id);
+                    //         $q->where('kecamatan',$id_wilayah);
+                    //     });
+                    // })->count();
+                    $count =  $pramuka->anggotas()->where('tingkat',$item->id)->where('kecamatan',$id_wilayah)->count();
+                    $pr =  $pramuka->anggotas()->where('tingkat',$item->id)->where('jk','P')->where('kecamatan',$id_wilayah)->count();
+                    $lk =  $pramuka->anggotas()->where('tingkat',$item->id)->where('jk','L')->where('kecamatan',$id_wilayah)->count();
                 }elseif($role=='gudep'){
                     $lkk = $pramuka->anggotas()->where('status',1)->where('gudep',$id_wilayah)->where('jk','L')->count();
                     $prr = $pramuka->anggotas()->where('status',1)->where('gudep',$id_wilayah)->where('jk','P')->count();
-                    $plk = Anggota::where('gudep',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','L')->count();
-                    $ppr = Anggota::where('gudep',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','P')->count();
-                    $count = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
-                        $q->whereHas('anggota', function($q) use($id_wilayah,$item){
-                            $q->where('gudep',$id_wilayah);
-                            $q->where('tingkat',$item->id);
-                        });
-                    })->count();
-                    $lk = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
-                        $q->whereHas('anggota', function($q) use($id_wilayah,$item){
-                            $q->where('jk', 'L');
-                            $q->where('tingkat',$item->id);
-                            $q->where('gudep',$id_wilayah);
-                        });
-                    })->count();
-                    $pr = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
-                        $q->whereHas('anggota', function($q) use($id_wilayah,$item){
-                            $q->where('jk', 'P');
-                            $q->where('tingkat',$item->id);
-                            $q->where('gudep',$id_wilayah);
-                        });
-                    })->count();
+                    $plk = $pramuka->anggotas()->where('gudep',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','L')->count();
+                    $ppr = $pramuka->anggotas()->where('gudep',$id_wilayah)->where('status',1)->where('pramuka',5)->where('jk','P')->count();
+                    // $count = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
+                    //     $q->whereHas('anggota', function($q) use($id_wilayah,$item){
+                    //         $q->where('gudep',$id_wilayah);
+                    //         $q->where('tingkat',$item->id);
+                    //     });
+                    // })->count();
+                    // $lk = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
+                    //     $q->whereHas('anggota', function($q) use($id_wilayah,$item){
+                    //         $q->where('jk', 'L');
+                    //         $q->where('tingkat',$item->id);
+                    //         $q->where('gudep',$id_wilayah);
+                    //     });
+                    // })->count();
+                    // $pr = $item->documents()->whereHas('user', function($q) use($id_wilayah,$item){
+                    //     $q->whereHas('anggota', function($q) use($id_wilayah,$item){
+                    //         $q->where('jk', 'P');
+                    //         $q->where('tingkat',$item->id);
+                    //         $q->where('gudep',$id_wilayah);
+                    //     });
+                    // })->count();
+                    $count = $pramuka->anggotas()->where('tingkat',$item->id)->where('gudep',$id_wilayah)->count();
+                    $pr = $pramuka->anggotas()->where('tingkat',$item->id)->where('jk','P')->where('gudep',$id_wilayah)->count();
+                    $lk = $pramuka->anggotas()->where('tingkat',$item->id)->where('jk','L')->where('gudep',$id_wilayah)->count();
                     $url = route('anggota.search_document',['id'=>$item->id,'id_wilayah'=>$id_wilayah,'role'=>'gudep']);
                 }
                 if ($idx==0) {

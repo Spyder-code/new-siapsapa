@@ -38,7 +38,10 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->code }}</td>
-                                <td>{{ $item->penerima }}</td>
+                                <td>
+                                    {{ $item->penerima }} <br>
+                                    ({{ $item->phone }})
+                                </td>
                                 <td>{{ $item->alamat }}</td>
                                 <td>{{ $item->transactions->count() }}</td>
                                 <td>{{ $item->statusInfo->name }}</td>
