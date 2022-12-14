@@ -165,7 +165,11 @@
                            <span class="media">
                               <span class="item-img">
                                  <img src="{{ asset('berkas/anggota/'.Auth::user()->anggota->foto) }}" alt="Chat" style="height: 44px; width:44px;">
-                                 <span class="acc-verified"><i class="icofont-check"></i></span>
+                                 @if (Auth::user()->anggota->cetak)
+                                       @if (Auth::user()->anggota->cetak->transactionDetail->payment_status < 4 )
+                                          <span class="acc-verified"><i class="icofont-check"></i></span>
+                                       @endif
+                                 @endif
                               </span>
                               <span class="media-body">
                                  <span class="item-title">{{ Auth::user()->name }}</span>

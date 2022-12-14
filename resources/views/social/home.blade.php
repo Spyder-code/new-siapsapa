@@ -216,7 +216,14 @@
                         <img src="{{ asset('berkas/anggota/'.$item->user->anggota->foto) }}" alt="{{ $item->user->name }}" style="width: 44px; height:44px">
                     </div>
                     <div class="media-body">
-                        <div class="user-title"><a href="{{ route('social.userFeed', $item->user->anggota->id) }}">{{ $item->user->name }}</a> <i class="icofont-check"></i> posted in the story </div>
+                        <div class="user-title"><a href="{{ route('social.userFeed', $item->user->anggota->id) }}">{{ $item->user->name }}</a>
+                            @if ($item->user->anggota->cetak)
+                                @if ($item->user->anggota->cetak->transactionDetail->payment_status < 4 )
+                                    <i class="icofont-check"></i>
+                                @endif
+                            @endif
+                            posted in the story
+                        </div>
                         <ul class="entry-meta">
                             <li class="meta-privacy"><i class="icofont-world"></i> Public</li>
                             <li class="meta-time">{{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }}</li>

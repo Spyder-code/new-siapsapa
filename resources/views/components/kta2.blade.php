@@ -85,9 +85,17 @@
                 </tr>
             @endif
         </table>
+        @if ($anggota->cetak)
+            @if ($anggota->cetak->transactionDetail->payment_status > 3 )
+                <div class="watermark1 text-center bg-success text-white" id="add-tocart">
+                    <span class="text-white" style="top:7px; position:relative"><b>PESAN KTA</b></span>
+                </div>
+            @endif
+        @else
         <div class="watermark1 text-center bg-success text-white" id="add-tocart">
             <span class="text-white" style="top:7px; position:relative"><b>PESAN KTA</b></span>
         </div>
+        @endif
     </div>
     {{-- <div style="height:53.98mm;width:85.60mm;display:inline-block; margin-top:10px">
         <img style="width:85.60mm" src="{{ asset('berkas/kta/'. $anggota->kta->belakang) }}" class="img-kta">

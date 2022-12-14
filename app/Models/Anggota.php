@@ -76,4 +76,9 @@ class Anggota extends Model
     {
         return $this->belongsTo(Pramuka::class, 'pramuka');
     }
+
+    public function cetak()
+    {
+        return $this->hasOne(Transaction::class,'anggota_id');
+    }
 }
