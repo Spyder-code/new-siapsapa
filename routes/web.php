@@ -51,6 +51,23 @@ Route::get('test', function () {
     // return view('social.single-blog');
 });
 
+Route::get('cek-data', function(){
+    $data = Anggota::join('tb_gudep','tb_anggota.gudep','=','tb_gudep.id')
+            ->join('regencies','regencies.id','=','tb_anggota.kabupaten')
+            ->where('tb_anggota.tgl_lahir','LIKE','00%')
+            ->select('tb_gudep.nama_sekolah','regencies.name')
+            ->get()
+            ->groupBy('nama_sekolah');
+    $output = array();
+    foreach ($data as $key => $item) {
+        array_push($output,[
+            'gudep' => $key,
+            'kabupaten' => $item->first()->name
+        ]);
+    }
+    return response($output);
+});
+
 // Init
 Route::get('init/add-to-cart', [InitController::class, 'addToCart']);
 Route::get('midtrans-check', [MidtransController::class, 'check']);
