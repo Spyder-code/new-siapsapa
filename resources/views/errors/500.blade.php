@@ -5,7 +5,7 @@
     <div class="error-body text-center">
         <h1 class="error-title text-info">500</h1>
         <h3 class="text-uppercase error-subtitle">
-            INTERNAL SERVER ERROR.
+            SERVER ERROR TIMEOUT.
         </h3>
         <p class="text-muted mt-4 mb-4">PLEASE TRY AFTER SOME TIME</p>
         <a

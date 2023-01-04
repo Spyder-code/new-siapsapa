@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anggota;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,6 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        return abort(500);
         if(Auth::check()){
             $user = Auth::user();
             if($user->role == 'percetakan'){

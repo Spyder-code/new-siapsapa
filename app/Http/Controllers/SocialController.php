@@ -35,6 +35,7 @@ class SocialController extends Controller
 
     public function home()
     {
+        return abort(500);
         $kategori = PostCategory::all();
         $tags = Tag::all();
         $post = Post::paginate(3);
