@@ -25,7 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return abort(500);
         if(Auth::check()){
             $user = Auth::user();
             if($user->role == 'percetakan'){

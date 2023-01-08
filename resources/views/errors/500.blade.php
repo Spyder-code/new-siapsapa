@@ -1,5 +1,5 @@
 @extends('layouts.error')
-@section('title', '404')
+@section('title', '500')
 @section('content')
 <div class="error-box">
     <div class="error-body text-center">
