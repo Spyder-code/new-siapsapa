@@ -173,7 +173,6 @@ class AnggotaController extends Controller
         }
 
         $type = request('type');
-
         return view('admin.anggota.edit', compact('data','anggota','type'));
     }
 
@@ -817,17 +816,26 @@ class AnggotaController extends Controller
             ->addColumn('action', function ($data) {
                 $btn = '';
                 $status = $data->status;
+                $removeGudep = '';
                 if($status==2){
                     $btn = '
                         <button type="button" onclick="validasi('.$data->id.')" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Validasi</button>
                         <button type="button" onclick="tolak('.$data->id.')" class="btn btn-secondary btn-sm"><i class="fa fa-crosshairs"></i> Tolak</button>
                     ';
                 }
-                $html = '<div class="btn-group">
+                if (!is_null($data->gudep)) {
+                    $removeGudep = '<form action="' . route('anggota.update.status', $data) . '" method="post">
+                                        <input type="hidden" name="_method" value="PUT">
+                                        <input type="hidden" name="_token" value="' . csrf_token() . '">
+                                        <input type="hidden" name="gudep">
+                                        <input type="hidden" name="status" value="1">
+                                        <button type="submit" onclick="return confirm(`are you sure?`)" class="btn btn-sm btn-secondary"><i class="fas fa-arrows-alt"></i>  Aktifkan Non-Gudep</button>
+                                    </form>';
+                }
+                $html = '<div class="btn-group" style="font-size:.7rem">
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
-                            '.$btn.'
-                            <button type="button" onclick="promoteAnggota('.$data->id.')" class="btn btn-sm btn-success"><i class="fas fa-star"></i>  Promosikan</button>
+                            '.$btn.$removeGudep.'
                             <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
                         </div>';
                 return $html;
