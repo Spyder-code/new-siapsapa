@@ -56,6 +56,9 @@ class CartController extends Controller
         $data = $request->all();
         if($request->golongan){
             $kta = Kta::where('kabupaten', $cart->anggota->kabupaten)->where('pramuka_id', $request->golongan)->first();
+            if ($request->golongan>=5) {
+                $kta = Kta::where('kabupaten', $cart->anggota->kabupaten)->where('pramuka_id',5)->first();
+            }
             if($kta){
                 $data['kta_id'] = $kta->id;
             }else{
