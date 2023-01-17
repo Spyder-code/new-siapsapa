@@ -33,8 +33,14 @@
         <div class="col-12">
             @if ($item->jenis=='lomba')
             <li class="list-group-item d-flex gap-1">
-                <a href="{{ route('agenda.file', $item) }}" class="btn btn-sm btn-outline-info w-100">Upload File <i class="fas fa-paper-plane"></i></a>
-                <a href="{{ route('agenda.juri', $item) }}" class="btn btn-sm btn-outline-warning w-100">Management Juri <i class="fas fa-check-circle"></i></a>
+                @if (Auth::user()->role!='anggota')
+                    @if ($item->penilaian=='vote')
+                    <a href="{{ route('agenda.file', $item) }}" class="btn btn-sm btn-outline-info w-100">Upload File <i class="fas fa-paper-plane"></i></a>
+                    @endif
+                    @if ($item->penilaian=='subjective')
+                    <a href="{{ route('agenda.juri', $item) }}" class="btn btn-sm btn-outline-warning w-100">Management Juri <i class="fas fa-check-circle"></i></a>
+                    @endif
+                @endif
                 <a href="{{ route('agenda.nilai', $item) }}" class="btn btn-sm btn-outline-success w-100">Penilaian <i class="fas fa-trophy"></i></a>
             </li>
             @endif

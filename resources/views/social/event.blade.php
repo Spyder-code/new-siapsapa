@@ -46,50 +46,48 @@
 
 
 <div class="row gutters-20">
-
-    @forelse ($agenda as $item)
-    <div class="col-lg-4 col-md-4">
-        <div class="block-box user-blog">
-            <div class="blog-img">
-                <a href="{{ route('agenda.detail', $item->id) }}"><img
-                        style="max-width:100%; max-height:100%; object-fit: cover;" src="{{ asset('berkas/agenda/'.$item->foto) }}"></a>
-            </div>
-            <div class="blog-content">
-                <div class="blog-category">
-                    <a href="#">{{ $item->kategori }}</a>
+    <div class="col-12">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Agenda Baru ({{ $agenda->where('is_finish',0)->count() }})</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Agenda Selesai ({{ $agenda->where('is_finish',1)->count() }})</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Perlombaan ({{ $agenda->where('jenis','lomba')->count() }})</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row">
+                    @forelse ($agenda->where('is_finish',0) as $item)
+                        <x-agenda_card_2 :item="$item"/>
+                    @empty
+                        <img src="{{ asset('images/empty.png') }}" class="img-fluid" width="100%">
+                    @endforelse
                 </div>
-                <h3 class="blog-title"><a href="{{ route('agenda.detail', $item->id) }}">{{(strlen($item->nama) >= 50) ?
-                        substr($item->nama, 0, 50) . '...' : $item->nama}}</a></h3>
-                <div class="blog-date">
-                    <i class="icofont-calendar"></i>{{ date("j F, Y", strtotime($item->created_at)) }}
-                </div>
-                <p>
-                    {{(strlen($item->deskripsi) >= 120) ? substr($item->deskripsi, 0, 120) . '...' : $item->deskripsi}}
-                </p>
-                <p style="text-transform: capitalize; font-size: .8rem">{{ Str::lower($item->kecamatan->name) }}, {{
-                    Str::lower($item->kabupaten->name) }}, Provinsi {{ Str::lower($item->provinsi->name) }}</p>
-                <p class="font-weight-bold" style="text-transform: capitalize; font-size: 1rem">Tanggal mulai: {{
-                    date('d/m/Y', strtotime($item->tanggal_mulai)) }}</p>
-                <p class="font-weight-bold" style="text-transform: capitalize; font-size: 1rem">Tanggal selesai: {{
-                    date('d/m/Y', strtotime($item->tanggal_selesai)) }}</p>
             </div>
-            <div class="blog-meta">
-                <li class="d-flex btn-group">
-                    <a href="{{ route('agenda.detail', $item->id) }}" class="btn btn-sm btn-primary">Detail</a>
-                    <a href="{{ route('agenda.peserta', $item) }}" class="btn btn-sm btn-success">Peserta</a>
-                    @if (Auth::id() == $item->created_by || Auth::user()->role=='admin')
-                    <a href="{{ route('agenda.edit', $item) }}" class="btn btn-sm btn-warning">Edit</a>
-                    <button type="button" onclick="deleteAgenda({{ $item->id }})"
-                        class="btn btn-sm btn-danger">Hapus</button>
-                    @endif
-                </li>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row">
+                    @forelse ($agenda->where('is_finish',1) as $item)
+                        <x-agenda_card_2 :item="$item"/>
+                    @empty
+                        <img src="{{ asset('images/empty.png') }}" class="img-fluid" width="100%">
+                    @endforelse
+                </div>
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="row">
+                    @forelse ($agenda->where('jenis','lomba') as $item)
+                        <x-agenda_card_2 :item="$item"/>
+                    @empty
+                        <img src="{{ asset('images/empty.png') }}" class="img-fluid" width="100%">
+                    @endforelse
+                </div>
             </div>
         </div>
     </div>
-    @empty
-    <img src="{{ asset('images/empty.png') }}" class="img-fluid" width="100%">
-    @endforelse
-
 </div>
 
 {{-- <div class="load-more-post">

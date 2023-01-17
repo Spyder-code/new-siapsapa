@@ -23,6 +23,9 @@ class Agenda extends Model
       'kepesertaan',
       'kategori',
       'jenis',
+      'is_finish',
+      'is_daftar',
+      'penilaian',
       'foto',
       'created_by'
    ];

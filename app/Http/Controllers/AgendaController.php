@@ -109,7 +109,7 @@ class AgendaController extends Controller
         $anggota_id = $request->anggota_id;
         foreach ($anggota_id as $key ) {
             $cek = PendaftaranAgenda::where('agenda_id', $agenda_id)->where('anggota_id',$key)->first();
-            if($cek!=null){
+            if($cek==null){
                 $pendaftar = PendaftaranAgenda::where('agenda_id', $agenda_id)->max('order');
                 $order = $pendaftar + 1;
                 $data = PendaftaranAgenda::create([
