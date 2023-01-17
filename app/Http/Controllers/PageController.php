@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agenda;
+use App\Models\Anggota;
 use App\Models\City;
 use App\Models\Distrik;
 use App\Models\Document;
@@ -27,7 +28,7 @@ class PageController extends Controller
             return $count;
         });
 
-        $anggota = User::whereIn('role',['kwarda','kwarcab','kwaran','gudep'])->inRandomOrder()->take(6)->get();
+        $anggota = User::whereHas('anggota')->whereIn('role',['kwarda','kwarcab','kwaran','gudep'])->inRandomOrder()->take(6)->get();
         return view('social.index', compact('data','anggota'));
     }
 
@@ -123,7 +124,12 @@ class PageController extends Controller
         if(!Auth::check()){
             return redirect()->route('login');
         }
-        $anggota = PendaftaranAgenda::all()->where('agenda_id', $agenda->id);
+        if ($agenda->kepesertaan=='kelompok') {
+            $anggota_id = PendaftaranAgenda::where('agenda_id', $agenda->id)->pluck('anggota_id');
+            $anggota = Anggota::whereIn('id',$anggota_id)->get()->groupBy('gudep');
+        }else{
+            $anggota = PendaftaranAgenda::all()->where('agenda_id', $agenda->id);
+        }
         $cek = PendaftaranAgenda::where('agenda_id', $agenda->id)->where('anggota_id',Auth::user()->anggota->id)->first();
         return view('user.agenda.peserta', compact('agenda','anggota','cek'));
     }

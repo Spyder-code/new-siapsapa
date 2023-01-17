@@ -81,4 +81,9 @@ class Anggota extends Model
     {
         return $this->hasOne(Transaction::class,'anggota_id');
     }
+
+    public function nodaf($agenda_id)
+    {
+        return PendaftaranAgenda::where('agenda_id',$agenda_id)->where('anggota_id',$this->id)->first()->nodaf;
+    }
 }

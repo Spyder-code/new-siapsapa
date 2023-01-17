@@ -12,22 +12,46 @@
                 <div class="col-12 col-md-12 mt-2">
                     <div class="cards">
                         <div class="title-part-padding">
-                            <h4 class="card-title text-center">List Peserta {{ $agenda->nama }}</h4>
-                            <div class="alert alert-danger" id="message-danger">
+                            {{-- <div class="alert alert-danger" id="message-danger">
                                 <p id="message"></p>
-                            </div>
+                            </div> --}}
                             @if ($agenda->kepesertaan=='kelompok')
-                                <div class="alert alert-info">
-                                    <p>Harap hubungi admin untuk mendaftar lomba</p>
-                                </div>
+                            <div class="alert alert-info">
+                                <p>Harap hubungi admin untuk mendaftar lomba</p>
+                            </div>
                             @else
-                                @if ($cek==null && $agenda->is_finish==0)
-                                <button type="button" id="daftar" class="btn btn-success">Daftar</button>
-                                @endif
+                            @if ($cek==null && $agenda->is_finish==0)
+                            <button type="button" id="daftar" class="btn btn-success">Daftar</button>
+                            @endif
                             @endif
                         </div>
+                        <h4 class="card-title text-center">List Peserta {{ $agenda->nama }}</h4>
                         <div class="card-body">
                             <div class="table-responsive">
+                                @if ($agenda->kepesertaan=='kelompok')
+                                <table class="table table-bordered" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Nama Gudep</th>
+                                            <th>Peserta</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($anggota as $item)
+                                            @foreach ($item as $a)
+                                            <tr>
+                                                @if ($loop->first)
+                                                <td rowspan="{{ $item->count() }}">{{ $loop->iteration }}</td>
+                                                <td rowspan="{{ $item->count() }}">{{ $item->first()->gudepInfo->nama_sekolah }}</td>
+                                                @endif
+                                                <td>{{ $a->nodaf($agenda->id) }} - {{ $a->nama }}</td>
+                                            </tr>
+                                            @endforeach
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                @else
                                 <table class="table table-bordered table-striped file-export" style="width: 100%">
                                     <thead>
                                         <tr>
@@ -38,7 +62,7 @@
                                             <th>Kwarda</th>
                                             <th>Kwarcab</th>
                                             <th>Kwaran</th>
-                                            <th>Aksi</th>
+                                            <th>action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -58,7 +82,7 @@
                                                 $warna = '<span class="badge bg-white text-dark">Pelatih</span>';
                                             }
                                         @endphp
-                                        <tr class="{{ Auth::user()->anggota->id == $item->anggota_id ?'bg-info':'' }}">
+                                        <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>
                                                 <div class="justify-content-center text-center">
@@ -71,15 +95,11 @@
                                             <td>{{ $item->anggota->province->name }}</td>
                                             <td>{{ $item->anggota->city->name }}</td>
                                             <td>{{ $item->anggota->district->name }}</td>
-                                            <td>
-                                                @if (Auth::user()->anggota->id == $item->anggota_id)
-                                                <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $item->id }})"><i class="fas fa-trash-alt"></i> Batal Daftar</button>
-                                                @endif
-                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+                                @endif
                             </div>
                         </div>
                     </div>

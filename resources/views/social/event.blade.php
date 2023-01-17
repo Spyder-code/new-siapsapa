@@ -52,7 +52,7 @@
         <div class="block-box user-blog">
             <div class="blog-img">
                 <a href="{{ route('agenda.detail', $item->id) }}"><img
-                        style="max-width:100%; max-height:100%; object-fit: cover;" src="{{ asset($item->foto) }}"></a>
+                        style="max-width:100%; max-height:100%; object-fit: cover;" src="{{ asset('berkas/agenda/'.$item->foto) }}"></a>
             </div>
             <div class="blog-content">
                 <div class="blog-category">

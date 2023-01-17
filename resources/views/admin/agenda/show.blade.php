@@ -47,11 +47,15 @@
                             </li>
                             <li class=" list-group-item border-bottom-0 py-1 px-0 text-muted">
                                 <i data-feather="check-circle" class="text-primary feather-sm me-2"></i>
-                                Alamat: {{ $agenda->alamat }}
+                                Alamat: {{ $agenda->alamat ?? '-' }}
                             </li>
                             <li class=" list-group-item border-bottom-0 py-1 px-0 text-muted">
                                 <i data-feather="check-circle" class="text-primary feather-sm me-2"></i>
+                                @if ($agenda->jenis=='lomba')
+                                Provinsi {{ Str::lower($agenda->provinsi->name) }}
+                                @else
                                 Wilayah: {{ Str::lower($agenda->kecamatan->name) }}, {{ Str::lower($agenda->kabupaten->name) }}, Provinsi {{ Str::lower($agenda->provinsi->name) }}
+                                @endif
                             </li>
                             <li class=" list-group-item border-bottom-0 py-1 px-0 text-muted">
                                 <i data-feather="check-circle" class="text-primary feather-sm me-2"></i>
@@ -83,7 +87,7 @@
                                     @endif
                                     @forelse ($kegiatan as $item)
                                     <tr data-id="{{ $item->id }}">
-                                        <td width="390">{{ date('H:i', strtotime( $item->jam)) }}</td>
+                                        <td width="390">{{ date('d/m/Y H:i', strtotime( $item->jam)) }}</td>
                                         <td>{{ $item->nama_kegiatan }}</td>
                                         @if (Auth::user()->role == 'admin' || Auth::id()==$agenda->created_by)
                                         <td class="btn-group">
@@ -137,15 +141,17 @@
 <script>
         var jam = flatpickr('#jam',{
             enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
+            dateFormat: "Y-m-d H:i:s",
             time_24hr: true,
+            minDate: @json($agenda->tanggal_mulai),
+            maxDate: @json($agenda->tanggal_selesai),
         });
         var jam_edit = flatpickr('#jam-edit',{
             enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
+            dateFormat: "Y-m-d H:i:s",
             time_24hr: true,
+            minDate: @json($agenda->tanggal_mulai),
+            maxDate: @json($agenda->tanggal_selesai),
         });
 
         const addKegiatan = () =>{

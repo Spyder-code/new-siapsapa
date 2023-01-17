@@ -40,14 +40,8 @@ use App\Repositories\RajaOngkirService;
 /* |-------------------------------------------------------------------------- | Web Routes |-------------------------------------------------------------------------- | | Here is where you can register web routes for your application. These | routes are loaded by the RouteServiceProvider within a group which | contains the "web" middleware group. Now create something great! | */
 
 Route::get('test', function () {
-    $data = [
-        "origin"=>"501",
-        "destination"=>"114",
-        "weight"=>1700,
-        "courier"=>"jne"
-    ];
-    $s = new RajaOngkirService();
-    dd($s->getCost($data));
+    $kode = '11.20.00.000.740765';
+    dd(substr($kode,0,9),substr($kode,12,18));
     // return view('social.single-blog');
 });
 
@@ -100,6 +94,7 @@ Route::middleware(['auth','anggota'])->group(function(){
     Route::get('/berita', [SocialController::class, 'news'])->name('social.news');
     Route::get('/berita/{id}', [SocialController::class, 'newsDetail'])->name('social.news.detail');
     Route::get('/agenda', [SocialController::class, 'event'])->name('social.event');
+    Route::get('/agenda/{agenda}/nilai', [AgendaController::class, 'nilai'])->name('agenda.nilai');
     Route::get('/photo', [SocialController::class, 'photo'])->name('social.photo');
     Route::get('/video', [SocialController::class, 'video'])->name('social.video');
     Route::get('/belanja', [SocialController::class, 'shop'])->name('social.shop');
@@ -167,6 +162,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::resource('dokumen', DocumentController::class)->except(['store']);
         Route::resource('agenda', AgendaController::class);
         Route::get('agenda/{agenda}/peserta', [AgendaController::class, 'peserta'])->name('agenda.peserta');
+        Route::get('agenda/{agenda}/file', [AgendaController::class, 'file'])->name('agenda.file');
+        Route::get('agenda/{agenda}/juri', [AgendaController::class, 'juri'])->name('agenda.juri');
+        Route::post('add-juri', [AgendaController::class, 'juriAdd'])->name('agenda.juri.add');
+        Route::post('agenda-file', [AgendaController::class, 'fileStore'])->name('agenda.fileStore');
+        Route::post('add-peserta', [AgendaController::class, 'daftarLomba'])->name('agenda.peserta.add');
+        Route::post('destroy-file', [AgendaController::class, 'fileDestroy'])->name('agenda.file.delete');
+        Route::post('destroy-juri/{juri}', [AgendaController::class, 'juriDestroy'])->name('agenda.juri.delete');
         Route::resource('user', UserController::class)->except(['update']);
         Route::get('percetakan', [PercetakanController::class,'index'])->name('percetakan.index');
         Route::get('percetakan/batch', [PercetakanController::class,'batch'])->name('percetakan.batch');
@@ -211,4 +213,5 @@ Route::controller(SyncController::class)->prefix('sync')->group(function () {
     Route::get('golongan', 'golongan')->name('sync.golongan');
     Route::get('data-anggota/{gudep_id}', 'dataAnggota')->name('sync.data.anggota');
     Route::get('pramuka-null', 'pramukaNull')->name('sync.pramuka-null');
+    Route::get('kode-gudep/{id}', 'kodeGudep')->name('sync.kode-gudep');
 });

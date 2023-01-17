@@ -6,8 +6,12 @@
         <div class="col-md-8">
             <div class="card-body">
                 <h5 class="card-title">{{ $item->nama }}</h5>
-                <p class="card-text">{{ $item->deskripsi }}</p>
-                <p style="text-transform: capitalize; font-size: .8rem">{{ Str::lower($item->kecamatan->name) }}, {{ Str::lower($item->kabupaten->name) }}, Provinsi {{ Str::lower($item->provinsi->name) }}</p>
+                <p class="card-text" style="font-size: .8rem">{{ $item->deskripsi }}</p>
+                @if ($item->jenis=='lomba')
+                    <p style="text-transform: capitalize; font-size: .8rem"> Provinsi {{ Str::lower($item->provinsi->name) }}</p>
+                @else
+                    <p style="text-transform: capitalize; font-size: .8rem">{{ Str::lower($item->kecamatan->name) }}, {{ Str::lower($item->kabupaten->name) }}, Provinsi {{ Str::lower($item->provinsi->name) }}</p>
+                @endif
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between align-items-start">
                         <div class="fw-bold">Tanggal mulai: {{ date('d/m/Y', strtotime($item->tanggal_mulai)) }}</div>
@@ -25,6 +29,15 @@
                     </li>
                 </ul>
             </div>
+        </div>
+        <div class="col-12">
+            @if ($item->jenis=='lomba')
+            <li class="list-group-item d-flex gap-1">
+                <a href="{{ route('agenda.file', $item) }}" class="btn btn-sm btn-outline-info w-100">Upload File <i class="fas fa-paper-plane"></i></a>
+                <a href="{{ route('agenda.juri', $item) }}" class="btn btn-sm btn-outline-warning w-100">Management Juri <i class="fas fa-check-circle"></i></a>
+                <a href="{{ route('agenda.nilai', $item) }}" class="btn btn-sm btn-outline-success w-100">Penilaian <i class="fas fa-trophy"></i></a>
+            </li>
+            @endif
         </div>
     </div>
 </div>

@@ -138,7 +138,7 @@ class AgendaController extends Controller
     public function deletePeserta()
     {
         $id = request('id');
-        $data = PendaftaranAgenda::destroy($id);
+        $data = PendaftaranAgenda::where('id',$id)->orWhere('nodaf',$id)->delete();
 
         return response()->json([
             'data' => $data,

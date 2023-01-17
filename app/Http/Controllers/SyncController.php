@@ -6,6 +6,7 @@ use App\Jobs\SyncAnggotaKta;
 use App\Jobs\SyncFoto;
 use App\Jobs\SyncGender;
 use App\Jobs\SyncGolongan;
+use App\Jobs\SyncGudepCode;
 use App\Jobs\SyncStatusAnggota;
 use App\Models\Anggota;
 use App\Models\City;
@@ -274,5 +275,16 @@ class SyncController extends Controller
         }
 
         return response($i.' Data berhasil terupdate');
+    }
+
+    public function kodeGudep($id)
+    {
+        $anggota = Anggota::where('gudep',$id)->get();
+        dispatch(new SyncGudepCode($anggota));
+
+
+        return response()->json([
+            'message' => 'Berhasil mengupdate data'
+        ], 200);
     }
 }
