@@ -130,14 +130,23 @@ class AgendaController extends Controller
     {
         $anggota = Auth::user()->anggota;
         $gudep = $anggota->gudep;
-        $cek = PendaftaranAgenda::where('agenda_id',$agenda->id)->whereHas('anggota', function($q) use($gudep){
-            $q->where('gudep',$gudep);
-        })->first();
+        if ($agenda->kepesertaan=='kelompok') {
+            $cek = PendaftaranAgenda::where('agenda_id',$agenda->id)->whereHas('anggota', function($q) use($gudep){
+                $q->where('gudep',$gudep);
+            })->first();
+        }else{
+            $cek = PendaftaranAgenda::where('agenda_id',$agenda->id)->where('anggota',$anggota->id)->first();
+        }
         if (is_null($cek)) {
             return back()->with('danger','Anda harus daftar agenda terlebih dahulu');
         }
         $file = AgendaFile::where('gudep_id',$anggota->gudep)->first();
         return view('admin.agenda.file', compact('agenda','file'));
+    }
+
+    public function openFile(AgendaFile $file)
+    {
+        return view('admin.agenda.open_file', compact('file'));
     }
 
     public function fileStore(Request $request)
@@ -147,12 +156,22 @@ class AgendaController extends Controller
         ]);
         $data = array();
         $data['size'] = $request->file->getSize();
+        $agenda = Agenda::find($request->agenda_id);
+        $anggota_id = Auth::user()->anggota->id;
+        if ($agenda->kepesertaan=='kelompok') {
+            $data['gudep_id'] = Auth::user()->anggota->gudep;
+        }else{
+            $peserta = PendaftaranAgenda::where('agenda_id',$request->agenda_id)->where('anggota', $anggota_id)->first();
+            if (!$peserta) {
+                return response('Maaf anda tidak terdaftar!');
+            }
+            $data['peserta_id'] = $peserta->id;
+        }
         if($file = $request->file('file')){
             $fileName = time().'.'.$file->getClientOriginalExtension();
             $file->move(public_path('/berkas/lomba/'.$request->agenda_id.'/'), $fileName);
             $data['agenda_id'] = $request->agenda_id;
-            $data['anggota_id'] = Auth::user()->anggota->id;
-            $data['gudep_id'] = Auth::user()->anggota->gudep;
+            $data['anggota_id'] = $anggota_id;
             $data['file_name'] = $fileName;
             $data['file_path'] = 'berkas/lomba/'.$request->agenda_id.'/'.$fileName;
             $data['mime'] = $file->getClientMimeType();

@@ -6,7 +6,7 @@
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th>Gudep</th>
+                    <th>{{ $agenda->kepesertaan=='kelompok'?'Gudep':'Nama Peserta' }}</th>
                     <th>File</th>
                     <th>Jumlah Suara</th>
                     <th>Vote</th>
@@ -16,8 +16,8 @@
                 @forelse ($files as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->gudep->nama_sekolah }}</td>
-                        <td><a href="#">Lihat</a></td>
+                        <td>{{ $agenda->kepesertaan=='kelompok'?$item->gudep->nama_sekolah:$item->anggota->nama }}</td>
+                        <td><a href="{{ route('agenda.file.open',$item) }}">Lihat</a></td>
                         <td>{{ $item->votes->count() }}</td>
                         <td>
                             @if ($cek)

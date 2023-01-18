@@ -12,6 +12,7 @@ class AgendaFile extends Model
     protected $fillable = [
         'agenda_id',
         'anggota_id',
+        'peserta_id',
         'gudep_id',
         'file_name',
         'file_path',
@@ -37,5 +38,10 @@ class AgendaFile extends Model
     public function votes()
     {
         return $this->hasMany(PointVote::class,'agenda_file_id');
+    }
+
+    public function peserta()
+    {
+        return $this->belongsTo(PendaftaranAgenda::class,'peserta_id');
     }
 }

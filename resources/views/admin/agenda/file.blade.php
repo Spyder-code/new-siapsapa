@@ -1,18 +1,4 @@
-@extends('layouts.admin')
-@section('breadcrumb')
-<div class="row">
-    <x-breadcrumb_left
-        :links="[
-            ['name' => 'Dashboard', 'url' => '/'],
-            ['name' => 'Agenda', 'url' => route('agenda.index')],
-            ['name' => 'Upload File', 'url' => '#'],
-        ]"
-
-        :title="'Agenda'"
-        :description="'Upload File'"
-    />
-</div>
-@endsection
+@extends('layouts.social')
 @section('style')
 <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 <style>
@@ -40,8 +26,11 @@
 @section('content')
 <div class="row justify-content-center">
     <div class="col-12">
+        <div class="mb-3">
+            <a href="{{ route('social.event') }}"><i class=" icofont-arrow-left"></i> Kembali</a>
+            <p>{{ $agenda->nama }}</p>
+        </div>
         <div class="dropzone" id="my-dropzone"></div>
-
         @if ($file)
             <div class="mt-3">
                 <div id="playerContainer"></div>
@@ -68,7 +57,7 @@
             uploadMultiple: false,
             maxFiles:1,
             acceptedFiles:'video/*',
-            dictDefaultMessage: '<span class="text-center"><span class="font-lg"><i class="fas fa-upload"></i></span> <br> Klik atau Drop Video disini</span>',
+            dictDefaultMessage: '<span class="text-center"><span class="font-lg"><i class="icofont-upload"></i></span> <br> Klik atau Drop Video disini</span>',
             maxfilesexceeded: function(file) {
                 this.removeAllFiles();
                 this.addFile(file);

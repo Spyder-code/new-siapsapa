@@ -96,6 +96,8 @@ Route::middleware(['auth','anggota'])->group(function(){
     Route::get('/agenda', [SocialController::class, 'event'])->name('social.event');
     Route::get('/agenda/{agenda}/nilai', [AgendaController::class, 'nilai'])->name('agenda.nilai');
     Route::get('/agenda/{agenda}/hasil', [AgendaController::class, 'hasil'])->name('agenda.hasil');
+    Route::get('/agenda/{agenda}/file', [AgendaController::class, 'file'])->name('agenda.file');
+    Route::get('/agenda/file/open/{file}', [AgendaController::class, 'openFile'])->name('agenda.file.open');
     Route::get('/photo', [SocialController::class, 'photo'])->name('social.photo');
     Route::get('/video', [SocialController::class, 'video'])->name('social.video');
     Route::get('/belanja', [SocialController::class, 'shop'])->name('social.shop');
@@ -163,7 +165,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::resource('dokumen', DocumentController::class)->except(['store']);
         Route::resource('agenda', AgendaController::class);
         Route::get('agenda/{agenda}/peserta', [AgendaController::class, 'peserta'])->name('agenda.peserta');
-        Route::get('agenda/{agenda}/file', [AgendaController::class, 'file'])->name('agenda.file');
         Route::get('agenda/{agenda}/juri', [AgendaController::class, 'juri'])->name('agenda.juri');
         Route::post('add-juri', [AgendaController::class, 'juriAdd'])->name('agenda.juri.add');
         Route::post('agenda-file', [AgendaController::class, 'fileStore'])->name('agenda.fileStore');
