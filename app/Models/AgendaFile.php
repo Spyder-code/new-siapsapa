@@ -33,4 +33,9 @@ class AgendaFile extends Model
     {
         return $this->belongsTo(Gudep::class,'gudep_id');
     }
+
+    public function votes()
+    {
+        return $this->hasMany(PointVote::class,'agenda_file_id');
+    }
 }

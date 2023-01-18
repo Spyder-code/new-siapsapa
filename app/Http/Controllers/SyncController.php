@@ -14,6 +14,7 @@ use App\Models\Distrik;
 use App\Models\Document;
 use App\Models\Gudep;
 use App\Models\Kta;
+use App\Models\PendaftaranAgenda;
 use App\Models\Provinsi;
 use App\Models\Transaction;
 use App\Models\User;
@@ -285,6 +286,25 @@ class SyncController extends Controller
 
         return response()->json([
             'message' => 'Berhasil mengupdate data'
+        ], 200);
+    }
+
+    public function agendaDaftar()
+    {
+        $i = 0;
+        $data = PendaftaranAgenda::all();
+        foreach ($data as $item ) {
+            $gudep = $item->anggota->gudep;
+            if(!is_null($gudep)){
+                $item->update([
+                    'gudep_id' => $gudep
+                ]);
+                $i++;
+            }
+        }
+
+        return response()->json([
+            'message' => 'Berhasil mengupdate '.$i.' data'
         ], 200);
     }
 }

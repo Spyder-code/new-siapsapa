@@ -8,6 +8,8 @@ use App\Models\Anggota;
 use App\Models\Juri;
 use App\Models\Kegiatan;
 use App\Models\PendaftaranAgenda;
+use App\Models\PointJuri;
+use App\Models\PointVote;
 use App\Models\Provinsi;
 use App\Models\Transaction;
 use App\Repositories\WilayahService;
@@ -195,7 +197,98 @@ class AgendaController extends Controller
 
     public function nilai(Agenda $agenda)
     {
-        $files = AgendaFile::where('agenda_id',$agenda->id)->get();
-        return view('admin.agenda.nilai',compact('agenda','files'));
+        $anggota_id = Auth::user()->anggota->id;
+        $agenda_id = $agenda->id;
+        $next = Transaction::join('transaction_details','transaction_details.id','=','transactions.transaction_detail_id')
+            ->join('tb_anggota','tb_anggota.id','=','transactions.anggota_id')
+            ->select('tb_anggota.*','transactions.transaction_detail_id','transactions.anggota_id')
+            ->where('transaction_details.payment_status','<',4)
+            ->where('tb_anggota.user_id',Auth::id())
+            ->first();
+        $cekJuri = Juri::where('agenda_id',$agenda_id)->where('anggota_id',$anggota_id)->first();
+        if (!$next) {
+            return back()->with('danger','Anda tidak bisa memberikan penilaian dikarenakan belum memiliki Kartu Tanda Anggota (KTA)');
+        }
+        if (!$cekJuri && $agenda->penilaian=='subjective') {
+            return back()->with('danger','Anda tidak punya akses sebagai Juri');
+        }
+
+        if ($agenda->penilaian=='vote') {
+            $files = AgendaFile::where('agenda_id',$agenda->id)->get();
+            $cek = PointVote::where('anggota_id',$anggota_id)->whereHas('agenda_file', function($q) use($agenda_id){
+                $q->where('agenda_id', $agenda_id);
+            })->first();
+            return view('admin.agenda.nilai',compact('agenda','files','cek'));
+        }
+        if ($agenda->penilaian=='subjective') {
+            if ($agenda->kepesertaan=='kelompok') {
+                $files = PendaftaranAgenda::all()->where('agenda_id',$agenda_id)->groupBy('gudep');
+            } else {
+                $files = PendaftaranAgenda::all()->where('agenda_id',$agenda_id);
+            }
+            $juri_id = Juri::where('agenda_id',$agenda_id)->where('anggota_id',$anggota_id)->first()->id;
+            return view('admin.agenda.nilai',compact('agenda','files','juri_id'));
+        }
+
+
+    }
+
+    public function addVote(Agenda $agenda, Request $request)
+    {
+        $anggota_id = Auth::user()->anggota->id;
+        $agenda_id = $agenda->id;
+        $cek = PointVote::where('anggota_id',$anggota_id)->whereHas('agenda_file', function($q) use($agenda_id){
+            $q->where('agenda_id', $agenda_id);
+        })->first();
+        if (!$cek) {
+            PointVote::create([
+                'anggota_id' => $anggota_id,
+                'agenda_file_id' => $request->agenda_file_id
+            ]);
+            return back()->with('success','Vote anda berhasil ditambahkan');
+        }
+        return back('danger','Anda sudah melakukan vote');
+    }
+
+    public function destroyVote(PointVote $vote)
+    {
+        $vote->delete();
+        return back()->with('success','Vote berhasil ditarik');
+    }
+
+    public function hasil(Agenda $agenda)
+    {
+        if ($agenda->penilaian=='vote') {
+            $data = PointVote::select('agenda_file_id')
+                    ->selectRaw('count(*) as total')
+                    ->groupBy('agenda_file_id')
+                    ->orderByRaw('total desc')
+                    ->get();
+        }
+        if ($agenda->penilaian=='subjective') {
+            $juriCount = Juri::where('agenda_id',$agenda->id)->count();
+            if ($agenda->kepesertaan=='kelompok') {
+                $data = array();
+                $pen = PendaftaranAgenda::all()->where('agenda_id',$agenda->id)->keyBy('gudep_id')->groupBy('gudep_id');
+                $i=0;
+                foreach ($pen as $key => $item) {
+                    $data[$i]['nama'] = $item->first()->gudep->nama_sekolah;
+                    $data[$i]['point'] = (int)PointJuri::all()->where('agenda_id',$agenda->id)->whereNull('peserta_id')->where('gudep_id',$key)->sum('point')/$juriCount;
+                    $i++;
+                }
+                $data = collect($data);
+                $data = $data->sortByDesc('point');
+            }else{
+                $data = array();
+                $pen = PendaftaranAgenda::all()->where('agenda_id',$agenda->id);
+                foreach ($pen as $key => $item) {
+                    $data[$key]['nama'] = $item->anggota->nama;
+                    $data[$key]['point'] = (int)PointJuri::all()->where('agenda_id',$agenda->id)->whereNull('gudep_id')->where('peserta_id',$item->id)->sum('point')/$juriCount;
+                }
+                $data = collect($data);
+                $data = $data->sortByDesc('point');
+            }
+        }
+        return view('admin.agenda.lomba_hasil',compact('agenda','data'));
     }
 }

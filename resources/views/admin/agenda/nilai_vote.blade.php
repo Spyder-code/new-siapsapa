@@ -1,5 +1,5 @@
 <div class="card shadow p-3">
-    <span>List Dokumen Penilaian</span>
+    <span>List Penilaian Suara</span>
     <hr>
     <div class="table-responsive">
         <table class="table table-sm table-bordered" style="font-size: .7rem">
@@ -8,9 +8,8 @@
                     <th>No.</th>
                     <th>Gudep</th>
                     <th>File</th>
-                    <th>Nilai</th>
-                    <th>Keterangan</th>
-                    <th>Aksi</th>
+                    <th>Jumlah Suara</th>
+                    <th>Vote</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,13 +18,21 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $item->gudep->nama_sekolah }}</td>
                         <td><a href="#">Lihat</a></td>
-                        <td><input type="number" class="text-center form-control" name="point" id="point"></td>
-                        <td><textarea name="deskripsu" id="deskripsi" cols="20" rows="3" class="form-control"></textarea></td>
+                        <td>{{ $item->votes->count() }}</td>
                         <td>
-                            <form action="" method="post">
+                            @if ($cek)
+                                @if ($item->id==$cek->agenda_file_id)
+                                <form action="{{ route('agenda.vote.destroy',$cek) }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-danger" style="font-size: .7rem" onclick="return confirm('are you sure?')">Tarik Suara</button>
+                                </form>
+                                @endif
+                            @else
+                            <form action="{{ route('agenda.vote.add',$agenda) }}" method="post">
                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-success" style="font-size: .7rem" onclick="return confirm('are you sure?')">Simpan</button>
+                                <button name="agenda_file_id" value="{{ $item->id }}" type="submit" class="btn btn-sm btn-success" style="font-size: .7rem" onclick="return confirm('are you sure?')">Beri Suara</button>
                             </form>
+                            @endif
                         </td>
                     </tr>
                 @empty

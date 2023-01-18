@@ -93,6 +93,7 @@ Route::post('add-kegiatan', [AgendaController::class, 'addKegiatan']);
 Route::post('add-peserta', [AgendaController::class, 'addPeserta']);
 Route::post('daftar-ulang', [AgendaController::class, 'daftarUlang']);
 Route::post('undur-diri', [AgendaController::class, 'cancel']);
+Route::post('add-point-juri', [AgendaController::class, 'addPointJuri'])->name('agenda.juri.addPoint');
 Route::delete('delete-kegiatan', [AgendaController::class, 'deleteKegiatan']);
 Route::delete('delete-peserta', [AgendaController::class, 'deletePeserta']);
 Route::put('update-kegiatan', [AgendaController::class, 'updateKegiatan']);

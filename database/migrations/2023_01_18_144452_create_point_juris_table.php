@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('agenda_files', function (Blueprint $table) {
+        Schema::create('point_juri', function (Blueprint $table) {
             $table->id();
             $table->foreignId('agenda_id')->constrained('agenda')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('peserta_id')->nullable()->constrained('pendaftaran_agenda')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('anggota_id')->constrained('tb_anggota')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('agenda_file_id')->nullable()->constrained('agenda_files')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('gudep_id')->nullable()->constrained('tb_gudep')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('file_name')->nullable();
-            $table->string('file_path')->nullable();
-            $table->string('mime')->nullable();
-            $table->string('size')->nullable();
+            $table->foreignId('peserta_id')->nullable()->constrained('pendaftaran_agenda')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('juri_id')->nullable()->constrained('juri')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->integer('point');
+            $table->string('description')->nullable();
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('agenda_files');
+        Schema::dropIfExists('point_juri');
     }
 };

@@ -95,6 +95,7 @@ Route::middleware(['auth','anggota'])->group(function(){
     Route::get('/berita/{id}', [SocialController::class, 'newsDetail'])->name('social.news.detail');
     Route::get('/agenda', [SocialController::class, 'event'])->name('social.event');
     Route::get('/agenda/{agenda}/nilai', [AgendaController::class, 'nilai'])->name('agenda.nilai');
+    Route::get('/agenda/{agenda}/hasil', [AgendaController::class, 'hasil'])->name('agenda.hasil');
     Route::get('/photo', [SocialController::class, 'photo'])->name('social.photo');
     Route::get('/video', [SocialController::class, 'video'])->name('social.video');
     Route::get('/belanja', [SocialController::class, 'shop'])->name('social.shop');
@@ -169,6 +170,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::post('add-peserta', [AgendaController::class, 'daftarLomba'])->name('agenda.peserta.add');
         Route::post('destroy-file', [AgendaController::class, 'fileDestroy'])->name('agenda.file.delete');
         Route::post('destroy-juri/{juri}', [AgendaController::class, 'juriDestroy'])->name('agenda.juri.delete');
+        Route::post('add-vote/{agenda}', [AgendaController::class, 'addVote'])->name('agenda.vote.add');
+        Route::post('destroy-vote/{vote}', [AgendaController::class, 'destroyVote'])->name('agenda.vote.destroy');
         Route::resource('user', UserController::class)->except(['update']);
         Route::get('percetakan', [PercetakanController::class,'index'])->name('percetakan.index');
         Route::get('percetakan/batch', [PercetakanController::class,'batch'])->name('percetakan.batch');
@@ -214,4 +217,5 @@ Route::controller(SyncController::class)->prefix('sync')->group(function () {
     Route::get('data-anggota/{gudep_id}', 'dataAnggota')->name('sync.data.anggota');
     Route::get('pramuka-null', 'pramukaNull')->name('sync.pramuka-null');
     Route::get('kode-gudep/{id}', 'kodeGudep')->name('sync.kode-gudep');
+    Route::get('agenda-daftar', 'agendaDaftar')->name('sync.agenda-daftar');
 });

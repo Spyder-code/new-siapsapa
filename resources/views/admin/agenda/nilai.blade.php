@@ -7,6 +7,12 @@
             @if ($agenda->penilaian=='vote')
                 @include('admin.agenda.nilai_vote')
             @endif
+            @if ($agenda->penilaian=='subjective')
+                @include('admin.agenda.nilai_juri')
+            @endif
+            @if ($agenda->penilaian=='objective')
+                <p class="text-center">PENILAIAN MASIH DALAM PENGEMBANGAN</p>
+            @endif
         </div>
     </section>
 @endsection

@@ -7,8 +7,10 @@ use App\Http\Resources\AgendaResource;
 use App\Http\Resources\PesertaAgendaResource;
 use App\Models\Agenda;
 use App\Models\Anggota;
+use App\Models\Juri;
 use App\Models\Kegiatan;
 use App\Models\PendaftaranAgenda;
+use App\Models\PointJuri;
 use Illuminate\Http\Request;
 
 class AgendaController extends Controller
@@ -206,5 +208,20 @@ class AgendaController extends Controller
             'status' => 1,
             'message' => 'Batalkan daftar ulang berhasil!'
         ]);
+    }
+
+    public function addPointJuri(Request $request)
+    {
+        $juri = Juri::find($request->juri_id);
+        $data = $request->all();
+        $data['agenda_id'] =  $juri->agenda_id;
+        $data['juri_id'] =  $juri->id;
+        if($juri->agenda->kepesertaan=='kelompok'){
+            $res = PointJuri::upsert([$data],['id'],['point','description']);
+        }else{
+            $res = PointJuri::upsert([$data],['juri_id','peserta_id','agenda_id'],['point','description']);
+        }
+
+        return response($res);
     }
 }

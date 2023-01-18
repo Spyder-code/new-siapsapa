@@ -19,4 +19,9 @@ class Juri extends Model
     {
         return $this->belongsTo(Anggota::class,'anggota_id');
     }
+
+    public function agenda()
+    {
+        return $this->belongsTo(Agenda::class,'agenda_id');
+    }
 }

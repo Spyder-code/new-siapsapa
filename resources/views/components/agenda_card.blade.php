@@ -33,15 +33,18 @@
         <div class="col-12">
             @if ($item->jenis=='lomba')
             <li class="list-group-item d-flex gap-1">
-                @if (Auth::user()->role!='anggota')
-                    @if ($item->penilaian=='vote')
-                    <a href="{{ route('agenda.file', $item) }}" class="btn btn-sm btn-outline-info w-100">Upload File <i class="fas fa-paper-plane"></i></a>
+                @if ($item->is_finish==0)
+                    @if (Auth::user()->role!='anggota')
+                        @if ($item->penilaian=='vote')
+                        <a href="{{ route('agenda.file', $item) }}" class="btn btn-sm btn-outline-info w-100">Upload File <i class="fas fa-paper-plane"></i></a>
+                        @endif
+                        @if ($item->penilaian=='subjective' && Auth::id()==$item->created_by)
+                        <a href="{{ route('agenda.juri', $item) }}" class="btn btn-sm btn-outline-warning w-100">Management Juri <i class="fas fa-check-circle"></i></a>
+                        @endif
                     @endif
-                    @if ($item->penilaian=='subjective')
-                    <a href="{{ route('agenda.juri', $item) }}" class="btn btn-sm btn-outline-warning w-100">Management Juri <i class="fas fa-check-circle"></i></a>
-                    @endif
+                    <a href="{{ route('agenda.nilai', $item) }}" class="btn btn-sm btn-outline-primary w-100">Penilaian <i class="fas fa-list-alt"></i></a>
                 @endif
-                <a href="{{ route('agenda.nilai', $item) }}" class="btn btn-sm btn-outline-success w-100">Penilaian <i class="fas fa-trophy"></i></a>
+                <a href="{{ route('agenda.hasil', $item) }}" class="btn btn-sm btn-outline-success w-100">Hasil Perlombaan <i class="fas fa-trophy"></i></a>
             </li>
             @endif
         </div>

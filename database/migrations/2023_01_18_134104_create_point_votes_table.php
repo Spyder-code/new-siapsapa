@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('pendaftaran_agenda', function (Blueprint $table) {
-            $table->foreignId('gudep_id')->nullable()->after('anggota_id')->constrained('tb_gudep')->cascadeOnDelete()->cascadeOnUpdate();
+        Schema::create('point_votes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('agenda_file_id')->constrained('agenda_files')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('anggota_id')->constrained('tb_anggota')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->timestamps();
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('point_votes');
     }
 };
