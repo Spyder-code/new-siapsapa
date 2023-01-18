@@ -182,18 +182,7 @@ class SocialController extends Controller
         if ($role=='anggota') {
             $carts = Cart::where('anggota_id', Auth::user()->anggota->id)->with('anggota')->get();
         }else{
-            if ($role=='gudep') {
-                $gudep = Auth::user()->anggota->gudep;
-                $carts = Cart::whereHas('anggota', function($q) use($gudep){
-                    $q->where('gudep',$gudep);
-                })->get();
-                foreach ($carts as $item ) {
-                    $item->update(['user_id',Auth::id()]);
-                }
-            } else {
-                $carts = Cart::where('user_id', Auth::id())->with('anggota')->get();
-            }
-
+            $carts = Cart::where('user_id', Auth::id())->with('anggota')->get();
         }
         $pramuka = Pramuka::all();
         return view('social.cart', compact('carts','pramuka'));
