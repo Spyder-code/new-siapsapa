@@ -97,6 +97,8 @@ Route::post('add-point-juri', [AgendaController::class, 'addPointJuri'])->name('
 Route::delete('delete-kegiatan', [AgendaController::class, 'deleteKegiatan']);
 Route::delete('delete-peserta', [AgendaController::class, 'deletePeserta']);
 Route::put('update-kegiatan', [AgendaController::class, 'updateKegiatan']);
+Route::post('agenda-file', [AgendaController::class, 'fileStore'])->name('agenda.fileStore');
+Route::post('destroy-file', [AgendaController::class, 'fileDestroy'])->name('agenda.file.delete');
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('get-agenda', [AgendaController::class, 'getAgenda']);
     Route::get('peserta-agenda/{agenda}', [AgendaController::class, 'getPesertaAgenda']);

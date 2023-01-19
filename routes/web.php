@@ -167,9 +167,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('agenda/{agenda}/peserta', [AgendaController::class, 'peserta'])->name('agenda.peserta');
         Route::get('agenda/{agenda}/juri', [AgendaController::class, 'juri'])->name('agenda.juri');
         Route::post('add-juri', [AgendaController::class, 'juriAdd'])->name('agenda.juri.add');
-        Route::post('agenda-file', [AgendaController::class, 'fileStore'])->name('agenda.fileStore');
         Route::post('add-peserta', [AgendaController::class, 'daftarLomba'])->name('agenda.peserta.add');
-        Route::post('destroy-file', [AgendaController::class, 'fileDestroy'])->name('agenda.file.delete');
         Route::post('destroy-juri/{juri}', [AgendaController::class, 'juriDestroy'])->name('agenda.juri.delete');
         Route::post('add-vote/{agenda}', [AgendaController::class, 'addVote'])->name('agenda.vote.add');
         Route::post('destroy-vote/{vote}', [AgendaController::class, 'destroyVote'])->name('agenda.vote.destroy');

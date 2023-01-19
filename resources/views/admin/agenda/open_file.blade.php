@@ -3,7 +3,7 @@
 <div class="row justify-content-center">
     <div class="col-12">
         <div class="mb-3">
-            <a href="{{ route('social.event') }}"><i class=" icofont-arrow-left"></i> Kembali</a>
+            <a href="{{ route('agenda.nilai',$file->agenda) }}"><i class=" icofont-arrow-left"></i> Kembali ke vote</a>
             <div class="d-flex justify-content-between">
                 <span class="fw-bold">{{ $file->agenda->nama }}</span>
                 <span class="fw-bold">{{ $file->anggota->nama }}</span>

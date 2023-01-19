@@ -27,7 +27,7 @@ class AgendaFile extends Model
 
     public function agenda()
     {
-        return $this->belongsTo(Agenda::class. 'agenda_id');
+        return $this->belongsTo(Agenda::class,'agenda_id');
     }
 
     public function gudep()

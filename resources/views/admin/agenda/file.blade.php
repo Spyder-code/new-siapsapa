@@ -51,6 +51,7 @@
             url: "{{ route('agenda.fileStore') }}",
             params: {
                 agenda_id: @json($agenda->id),
+                user_id:@json(Auth::id())
             },
             addRemoveLinks: true,
             dictRemoveFile: 'Hapus',
