@@ -226,48 +226,4 @@ class AgendaController extends Controller
 
         return response($res);
     }
-
-    public function fileStore(Request $request)
-    {
-        $request->validate([
-            'file' => 'max:20000'
-        ]);
-        $data = array();
-        $data['size'] = $request->file->getSize();
-        $agenda = Agenda::find($request->agenda_id);
-        $anggota = Anggota::where('user_id',$request->user_id)->first();
-        $anggota_id = $anggota->id;
-        if ($agenda->kepesertaan=='kelompok') {
-            $data['gudep_id'] = $anggota->gudep;
-        }else{
-            $peserta = PendaftaranAgenda::where('agenda_id',$request->agenda_id)->where('anggota', $anggota_id)->first();
-            if (!$peserta) {
-                return response('Maaf anda tidak terdaftar!');
-            }
-            $data['peserta_id'] = $peserta->id;
-        }
-        if($file = $request->file('file')){
-            $fileName = time().'.'.$file->getClientOriginalExtension();
-            $file->move(public_path('/berkas/lomba/'.$request->agenda_id.'/'), $fileName);
-            $data['agenda_id'] = $request->agenda_id;
-            $data['anggota_id'] = $anggota_id;
-            $data['file_name'] = $fileName;
-            $data['file_path'] = 'berkas/lomba/'.$request->agenda_id.'/'.$fileName;
-            $data['mime'] = $file->getClientMimeType();
-            $cek = AgendaFile::where('gudep_id',$data['gudep_id'])->first();
-            if ($cek) {
-                $cek->update($data);
-            }else{
-                AgendaFile::create($data);
-            }
-        }
-
-        return response($file);
-    }
-
-    public function fileDestroy(Request $request)
-    {
-        AgendaFile::where('agenda_id',$request->agenda_id)->where('file_name',$request->file)->delete();
-        return response('success');
-    }
 }

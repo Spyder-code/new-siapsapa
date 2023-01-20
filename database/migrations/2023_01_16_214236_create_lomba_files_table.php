@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('agenda_files', function (Blueprint $table) {
+        Schema::create('lomba_files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('agenda_id')->constrained('agenda')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('peserta_id')->nullable()->constrained('pendaftaran_agenda')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('lomba_id')->constrained('lomba')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('peserta_id')->nullable()->constrained('peserta_lomba')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('anggota_id')->constrained('tb_anggota')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('gudep_id')->nullable()->constrained('tb_gudep')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('file_name')->nullable();
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('agenda_files');
+        Schema::dropIfExists('lomba_files');
     }
 };

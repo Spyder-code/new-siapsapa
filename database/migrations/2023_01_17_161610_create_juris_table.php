@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('juri', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('agenda_id')->constrained('agenda')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('lomba_id')->constrained('lomba')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('anggota_id')->constrained('tb_anggota')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

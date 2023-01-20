@@ -23,5 +23,5 @@ Route::prefix('datatable')->group(function(){
     Route::get('wrong-image', [DataController::class, 'wrong_image'])->name('datatable.data.wrong.image');
     Route::get('kwartir/anggota', [KwartirController::class, 'data_table_anggota'])->name('datatable.kwartir.anggota');
     Route::get('statistik-kwartir', [DataTableController::class, 'kwartir'])->name('datatable.kwartir.statistik');
-    Route::get('juri', [DataTableController::class, 'juri'])->name('datatable.agenda.juri');
+    Route::get('juri', [DataTableController::class, 'juri'])->name('datatable.lomba.juri');
 });

@@ -11,7 +11,7 @@ class Juri extends Model
     protected $table = 'juri';
 
     protected $fillable = [
-        'agenda_id',
+        'lomba_id',
         'anggota_id'
     ];
 
@@ -20,8 +20,8 @@ class Juri extends Model
         return $this->belongsTo(Anggota::class,'anggota_id');
     }
 
-    public function agenda()
+    public function lomba()
     {
-        return $this->belongsTo(Agenda::class,'agenda_id');
+        return $this->belongsTo(Lomba::class,'lomba_id');
     }
 }

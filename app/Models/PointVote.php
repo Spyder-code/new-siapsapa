@@ -10,12 +10,12 @@ class PointVote extends Model
     use HasFactory;
 
     protected $fillable = [
-        'agenda_file_id',
+        'lomba_file_id',
         'anggota_id'
     ];
 
-    public function agenda_file()
+    public function lomba_file()
     {
-        return $this->belongsTo(AgendaFile::class,'agenda_file_id');
+        return $this->belongsTo(LombaFile::class,'lomba_file_id');
     }
 }

@@ -25,7 +25,6 @@ class Agenda extends Model
       'jenis',
       'is_finish',
       'is_daftar',
-      'penilaian',
       'foto',
       'created_by'
    ];

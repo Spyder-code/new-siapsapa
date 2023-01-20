@@ -7,11 +7,11 @@
     <x-breadcrumb_left
         :links="[
             ['name' => 'Dashboard', 'url' => '/'],
-            ['name' => 'Agenda', 'url' => route('agenda.index')],
-            ['name' => 'Peserta', 'url' => '#'],
+            ['name' => 'Agenda', 'url' => route('agenda.show',$lomba->kegiatan->agenda_id)],
+            ['name' => $lomba->kegiatan->nama_kegiatan, 'url' => '#'],
         ]"
 
-        :title="'Peserta '.$agenda->nama"
+        :title="'Peserta '.$lomba->kegiatan->nama_kegiatan"
         :description="'Daftar peserta'"
     />
 </div>
@@ -21,11 +21,11 @@
     <div class="col-12 col-md-8 mt-2">
         <div class="card">
             <div class="border-bottom title-part-padding">
-                <h4 class="card-title mb-0">List Peserta {{ $agenda->nama }}</h4>
+                <h4 class="card-title mb-0">List Peserta {{ $lomba->kegiatan->nama_kegiatan }}</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    @if ($agenda->kepesertaan=='kelompok')
+                    @if ($lomba->kepesertaan=='kelompok')
                     <table class="table table-bordered" style="width: 100%">
                         <thead>
                             <tr>
@@ -36,17 +36,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($anggota as $item)
+                            @foreach ($peserta as $item)
                                 @foreach ($item as $a)
                                 <tr>
                                     @if ($loop->first)
                                     <td rowspan="{{ $item->count() }}">{{ $loop->iteration }}</td>
-                                    <td rowspan="{{ $item->count() }}">{{ $item->first()->gudepInfo->nama_sekolah }}</td>
+                                    <td rowspan="{{ $item->count() }}">{{ $item->first()->gudep->nama_sekolah }}</td>
                                     @endif
-                                    <td>{{ $a->nodaf($agenda->id) }} - {{ $a->nama }}</td>
+                                    <td>{{ $a->nodaf }} - {{ $a->anggota->nama }}</td>
                                     <td>
-                                        @if (Auth::user()->anggota->gudep==$a->gudep)
-                                        <button type="button" class="btn btn-danger" onclick="deletePeserta('{{ $a->nodaf($agenda->id) }}')"><i class="fas fa-trash-alt"></i></button>
+                                        @if (Auth::user()->anggota->gudep==$a->gudep_id)
+                                            <form action="{{ route('lomba.daftar.destroy',$a) }}" method="post">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                            </form>
                                         @endif
                                     </td>
                                 </tr>
@@ -69,7 +72,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($anggota as $item)
+                            @foreach ($peserta as $item)
                             @php
                                 if($item->anggota->pramuka==1){
                                     $warna = '<span class="badge bg-siaga">Siaga</span>';
@@ -123,9 +126,8 @@
         </div>
     </div>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <form action="{{ route('agenda.peserta.add') }}" method="post" class="modal-dialog modal-xl">
+        <form action="{{ route('lomba.daftar.store', $lomba) }}" method="post" class="modal-dialog modal-xl">
             @csrf
-            <input type="hidden" name="agenda_id" value="{{ $agenda->id }}">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">List Peserta</h5>
@@ -139,7 +141,7 @@
                                 <tr>
                                     <th></th>
                                     <th>Foto</th>
-                                    <th>NIK</th>
+                                    <th>Nodaf</th>
                                     <th>Nama Lengkap</th>
                                     <th>Tanggal Lahir</th>
                                 </tr>
@@ -147,11 +149,11 @@
                             <tbody>
                                 @foreach ($daftarPeserta as $item)
                                     <tr>
-                                        <td><input type="checkbox" name="anggota_id[]" value="{{ $item->id }}"></td>
-                                        <td><img src="{{ asset('berkas/anggota/'.$item->foto) }}" style="width: 60px; height:60px"></td>
-                                        <td>{{ $item->nik }}</td>
-                                        <td>{{ $item->nama }}</td>
-                                        <td>{{ date('d/m/Y',strtotime($item->tgl_lahir)) }}</td>
+                                        <td><input type="checkbox" name="anggota_id[]" value="{{ $item->anggota_id }}"></td>
+                                        <td><img src="{{ asset('berkas/anggota/'.$item->anggota->foto) }}" style="width: 60px; height:60px"></td>
+                                        <td>{{ $item->nodaf }}</td>
+                                        <td>{{ $item->anggota->nama }}</td>
+                                        <td>{{ date('d/m/Y',strtotime($item->anggota->tgl_lahir)) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -205,13 +207,13 @@
     }
 
     $('#daftar').click(function (e) {
-        const agenda_id = @json($agenda->id);
+        const lomba_id = @json($lomba->id);
         const nik = $('#nik').val();
         $.ajax({
             url: "{{ url('/api/add-peserta') }}",
             type: "POST",
             data:{
-                agenda_id:agenda_id,
+                lomba_id:lomba_id,
                 nik:nik
             },
             success: function(data){

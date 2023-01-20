@@ -13,10 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('point_votes', function (Blueprint $table) {
+        Schema::create('peserta_lomba', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lomba_file_id')->constrained('lomba_files')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('nodaf');
+            $table->foreignId('lomba_id')->constrained('lomba')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('anggota_id')->constrained('tb_anggota')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('gudep_id')->constrained('tb_gudep')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('nama_kelompok')->nullable();
+            $table->integer('order');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
@@ -28,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('point_votes');
+        Schema::dropIfExists('peserta_lombas');
     }
 };

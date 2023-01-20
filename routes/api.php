@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\ReactController;
 use App\Http\Controllers\Api\StatistikController;
 use App\Http\Controllers\Api\TransactionController as ApiTransactionController;
 use App\Http\Controllers\Api\WilayahController;
+use App\Http\Controllers\LombaController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -97,8 +98,8 @@ Route::post('add-point-juri', [AgendaController::class, 'addPointJuri'])->name('
 Route::delete('delete-kegiatan', [AgendaController::class, 'deleteKegiatan']);
 Route::delete('delete-peserta', [AgendaController::class, 'deletePeserta']);
 Route::put('update-kegiatan', [AgendaController::class, 'updateKegiatan']);
-Route::post('agenda-file', [AgendaController::class, 'fileStore'])->name('agenda.fileStore');
-Route::post('destroy-file', [AgendaController::class, 'fileDestroy'])->name('agenda.file.delete');
+Route::post('lomba-file', [LombaController::class, 'fileStore'])->name('lomba.fileStore');
+Route::post('destroy-file', [LombaController::class, 'fileDestroy'])->name('lomba.file.delete');
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('get-agenda', [AgendaController::class, 'getAgenda']);
     Route::get('peserta-agenda/{agenda}', [AgendaController::class, 'getPesertaAgenda']);

@@ -4,12 +4,12 @@
     <x-breadcrumb_left
         :links="[
             ['name' => 'Dashboard', 'url' => '/'],
-            ['name' => 'Agenda', 'url' => route('agenda.index')],
-            ['name' => 'Penilaian', 'url' => '#'],
+            ['name' => 'Agenda', 'url' => route('agenda.show',$lomba->kegiatan->agenda)],
+            ['name' => 'Management Juri', 'url' => '#'],
         ]"
 
-        :title="'Agenda'"
-        :description="'Penilaian Agenda'"
+        :title="$lomba->kegiatan->nama_kegiatan"
+        :description="'Management Juri'"
     />
 </div>
 @endsection
@@ -55,7 +55,7 @@
                     <tfoot id="load-data">
                         <tr>
                             <td colspan="6">
-                                <a href="{{ route('agenda.juri',$agenda) }}" class="btn btn-sm btn-info w-100">Load Data</a>
+                                <a href="{{ route('lomba.juri',$lomba) }}" class="btn btn-sm btn-info w-100">Load Data</a>
                             </td>
                         </tr>
                     </tfoot>
@@ -116,7 +116,7 @@
             serverSide: true,
             scrollY: '500px',
             ajax: {
-                url: '{!! route('datatable.agenda.juri') !!}',
+                url: '{!! route('datatable.lomba.juri') !!}',
                 type: 'GET',
             },
             columns: [
@@ -134,9 +134,9 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: "post",
-                url: "{{ route('agenda.juri.add') }}",
+                url: "{{ route('lomba.juri.add') }}",
                 data: {
-                    agenda_id : @json($agenda->id),
+                    lomba_id : @json($lomba->id),
                     anggota_id: id,
                 },
                 success: function (response) {

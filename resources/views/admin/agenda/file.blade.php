@@ -28,7 +28,7 @@
     <div class="col-12">
         <div class="mb-3">
             <a href="{{ route('social.event') }}"><i class=" icofont-arrow-left"></i> Kembali</a>
-            <p>{{ $agenda->nama }}</p>
+            <p>{{ $lomba->kegiatan->nama_kegiatan }}</p>
         </div>
         <div class="dropzone" id="my-dropzone"></div>
         @if ($file)
@@ -48,9 +48,9 @@
     let name = '';
     Dropzone.autoDiscover = false;
         var myDropzoneBefore = new Dropzone("#my-dropzone", {
-            url: "{{ route('agenda.fileStore') }}",
+            url: "{{ route('lomba.fileStore') }}",
             params: {
-                agenda_id: @json($agenda->id),
+                lomba_id: @json($lomba->id),
                 user_id:@json(Auth::id())
             },
             addRemoveLinks: true,
@@ -83,8 +83,8 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     type: 'POST',
-                    url: '{{ route('agenda.file.delete') }}',
-                    data: {file: name, agenda_id: @json($agenda->id)},
+                    url: '{{ route('lomba.file.delete') }}',
+                    data: {file: name, lomba_id: @json($lomba->id)},
                     success: function (data) {
                         location.reload()
                     }
