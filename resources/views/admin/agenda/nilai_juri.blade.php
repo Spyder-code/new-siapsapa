@@ -19,10 +19,10 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $item->first()->gudep->nama_sekolah }}</td>
-                        <td><input type="number" value="{{ $item->first()->pointJuriAgendaGudep($lomba->id,$juri_id) ?? '' }}" max="100" min="1" class="text-center form-control" id="point-{{ $item->first()->gudep_id }}"></td>
+                        <td><input type="number" value="{{ $item->first()->pointJuriGudep($lomba->id,$juri_id) ?? '' }}" max="100" min="1" class="text-center form-control" id="point-{{ $item->first()->gudep_id }}"></td>
                         <td>
-                            <input type="hidden" id="id-{{ $item->first()->gudep_id }}" value="{{ $item->first()->idJuriAgendaGudep($lomba->id,$juri_id) }}">
-                            <input class="form-control" style="font-size:.7rem" type="text" id="deskripsi-{{ $item->first()->gudep_id }}" value="{{ $item->first()->deskripsiJuriAgendaGudep($lomba->id,$juri_id) ?? '' }}">
+                            <input type="hidden" id="id-{{ $item->first()->gudep_id }}" value="{{ $item->first()->idJuriGudep($lomba->id,$juri_id) }}">
+                            <input class="form-control" style="font-size:.7rem" type="text" id="deskripsi-{{ $item->first()->gudep_id }}" value="{{ $item->first()->deskripsiJuriGudep($lomba->id,$juri_id) ?? '' }}">
                         </td>
                         <td>
                             <button type="submit" class="btn btn-sm btn-primary" style="font-size: .7rem" onclick="submitGudep({{ $item->first()->gudep_id }})">Simpan</button>
@@ -51,10 +51,10 @@
                     <tr>
                         <td>{{ $item->nodaf }}</td>
                         <td>{{ $item->anggota->nama }}</td>
-                        <td><input type="number" value="{{ $item->pointJuriAgendaPeserta($lomba->id,$juri_id) ?? '' }}" max="100" min="1" class="text-center form-control" id="point-{{ $item->id }}"></td>
+                        <td><input type="number" value="{{ $item->pointJuriPeserta($lomba->id,$juri_id) ?? '' }}" max="100" min="1" class="text-center form-control" id="point-{{ $item->id }}"></td>
                         <td>
-                            <input type="hidden" id="id-{{ $item->id }}" value="{{ $item->idJuriAgendaPeserta($lomba->id,$juri_id) }}">
-                            <input class="form-control" style="font-size:.7rem" type="text" id="deskripsi-{{ $item->id }}" value="{{ $item->deskripsiJuriAgendaPeserta($lomba->id,$juri_id) ?? '' }}">
+                            <input type="hidden" id="id-{{ $item->id }}" value="{{ $item->idJuriPeserta($lomba->id,$juri_id) }}">
+                            <input class="form-control" style="font-size:.7rem" type="text" id="deskripsi-{{ $item->id }}" value="{{ $item->deskripsiJuriPeserta($lomba->id,$juri_id) ?? '' }}">
                         </td>
                         <td>
                             <button type="submit" class="btn btn-sm btn-primary" style="font-size: .7rem" onclick="submitPeserta({{ $item->id }})">Simpan</button>
@@ -93,7 +93,7 @@
             }else{
                 $.ajax({
                     type: "post",
-                    url: "{{ route('agenda.juri.addPoint') }}",
+                    url: "{{ route('lomba.juri.addPoint') }}",
                     data: {
                         point:point,
                         description:description,
@@ -117,7 +117,7 @@
             }else{
                 $.ajax({
                     type: "post",
-                    url: "{{ route('agenda.juri.addPoint') }}",
+                    url: "{{ route('lomba.juri.addPoint') }}",
                     data: {
                         point:point,
                         description:description,

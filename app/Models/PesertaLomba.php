@@ -33,4 +33,34 @@ class PesertaLomba extends Model
     {
         return $this->belongsTo(Gudep::class,'gudep_id');
     }
+
+    public function pointJuriGudep($lomba_id,$juri_id)
+    {
+        return PointJuri::where('lomba_id',$lomba_id)->where('juri_id',$juri_id)->where('gudep_id',$this->gudep_id)->first()->point ?? '';
+    }
+
+    public function idJuriGudep($lomba_id,$juri_id)
+    {
+        return PointJuri::where('lomba_id',$lomba_id)->where('juri_id',$juri_id)->where('gudep_id',$this->gudep_id)->first()->id ?? null;
+    }
+
+    public function deskripsiJuriGudep($lomba_id,$juri_id)
+    {
+        return PointJuri::where('lomba_id',$lomba_id)->where('juri_id',$juri_id)->where('gudep_id',$this->gudep_id)->first()->description ?? '';
+    }
+
+    public function pointJuriPeserta($lomba_id,$juri_id)
+    {
+        return PointJuri::where('lomba_id',$lomba_id)->where('juri_id',$juri_id)->where('peserta_id',$this->id)->first()->point ?? '';
+    }
+
+    public function idJuriPeserta($lomba_id,$juri_id)
+    {
+        return PointJuri::where('lomba_id',$lomba_id)->where('juri_id',$juri_id)->where('peserta_id',$this->id)->first()->id ?? null;
+    }
+
+    public function deskripsiJuriPeserta($lomba_id,$juri_id)
+    {
+        return PointJuri::where('lomba_id',$lomba_id)->where('juri_id',$juri_id)->where('peserta_id',$this->id)->first()->description ?? '';
+    }
 }

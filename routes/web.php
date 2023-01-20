@@ -99,7 +99,7 @@ Route::middleware(['auth','anggota'])->group(function(){
     Route::get('/lomba/{lomba}/nilai', [LombaController::class, 'nilai'])->name('lomba.nilai');
     Route::get('/lomba/{lomba}/hasil', [LombaController::class, 'hasil'])->name('lomba.hasil');
     Route::get('/lomba/{lomba}/file', [LombaController::class, 'file'])->name('lomba.file');
-    Route::get('/agenda/file/open/{file}', [AgendaController::class, 'openFile'])->name('agenda.file.open');
+    Route::get('/agenda/file/open/{file}', [LombaController::class, 'openFile'])->name('lomba.file.open');
     Route::get('/photo', [SocialController::class, 'photo'])->name('social.photo');
     Route::get('/video', [SocialController::class, 'video'])->name('social.video');
     Route::get('/belanja', [SocialController::class, 'shop'])->name('social.shop');

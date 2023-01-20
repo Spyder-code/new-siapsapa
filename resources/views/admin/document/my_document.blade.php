@@ -12,7 +12,10 @@
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             <div class="ms-2 me-auto">
                                 <div class="fw-bold">{{ $item->documentType->name }}</div>
-                                <span class="text-{{ $item->status==0?'warning':'success' }}">Status: {{ $item->status==0?'Belum diverifikasi':'Terverifikasi' }}</span>
+                                <span class="text-{{ $item->status==0?'warning':($item->status==1?'success':'danger') }}">Status: {{ $item->status==0?'Belum diverifikasi':($item->status==1?'Terverifikasi':'Ditolak') }}</span>
+                                @if ($item->status>1)
+                                    <p class="fs-1">Dokumen anda ditolak! Harap upload ulang dokumen atau silahkan hubungi admin</p>
+                                @endif
                             </div>
                             <div class="btn-group">
                                 <a href="{{ asset('berkas/dokumen/'.$item->document_type_id.'/'.$item->file) }}" target="d_blank" class="badge bg-primary rounded-pill border-light image-popup-vertical-fit">Lihat</a>

@@ -43,8 +43,10 @@ class DocumentController extends Controller
     public function update(Request $request, Document $dokuman)
     {
         $dokuman->update($request->all());
-        $service = new DocumentService();
-        $service->checkStatus($dokuman->user_id);
+        if ($request->status==1) {
+            $service = new DocumentService();
+            $service->checkStatus($dokuman->user_id);
+        }
         return back()->with('success', 'Document berhasil diupdate');
     }
 }

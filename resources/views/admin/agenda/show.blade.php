@@ -72,20 +72,6 @@
                         <div class="table-responsive">
                             <table class="table w-100" id="kegiatan">
                                 <tbody>
-                                    {{-- @if (Auth::user()->role == 'admin' || Auth::id()==$agenda->created_by)
-                                    <tr>
-                                        <td width="240">
-                                            <input type="text" name="jam" id="jam" class="form-control fs-2" placeholder="jam kegiatan" required>
-                                        </td>
-                                        <td width="350">
-                                            <input type="text" name="nama_kegiatan" id="nama_kegiatan" placeholder="nama kegiatan" class="form-control fs-2" required>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-warning btn-sm my-1 fs-1" type="button">Buat Kegiatan Lomba</button>
-                                            <button type="button" onclick="addKegiatan()" class="btn btn-success btn-sm my-1 fs-1">Buat Kegiatan Non Lomba</button>
-                                        </td>
-                                    </tr>
-                                    @endif --}}
                                     @forelse ($kegiatan as $idx => $keg)
                                         <tr>
                                             <td colspan="4" class="fw-bold">{{ date('d/m/Y', strtotime($idx)) }}</td>
@@ -93,32 +79,43 @@
                                         @foreach ($keg as $item)
                                         <tr data-id="{{ $item->id }}">
                                             <td width="200">{{ date('H:i', strtotime( $item->waktu_mulai)) }}</td>
-                                            <td width="200">{{ date('H:i', strtotime( $item->waktu_selesai)) }}</td>
+                                            <td width="200">
+                                                @if (date('Y-m-d')==date('Y-m-d',strtotime($item->waktu_selesai)))
+                                                {{ date('H:i', strtotime( $item->waktu_selesai)) }}
+                                                @else
+                                                {{ date('H:i (d/m/y)', strtotime( $item->waktu_selesai)) }}
+                                                @endif
+                                            </td>
                                             <td>{{ $item->nama_kegiatan }}</td>
                                             <td>
-                                                @if (Auth::user()->role == 'admin' || Auth::id()==$agenda->created_by)
                                                 <div class="btn-group">
+                                                @if (Auth::user()->role == 'admin' || Auth::id()==$agenda->created_by)
                                                     <button type="button" onclick="editKegiatan('{{ $item->lomba?'lomba':'non' }}',{{ $item->id }},'{{ $item->waktu_mulai }}','{{ $item->waktu_selesai }}','{{ $item->nama_kegiatan }}')" class="btn btn-primary btn-sm">Edit</button>
                                                     <button type="button" onclick="deleteKegiatan({{ $item->id }})" class="btn btn-danger btn-sm">Hapus</button>
-                                                </div>
-                                                @endif
-                                                @if ($item->lomba)
-                                                    <div class="btn-group">
-                                                        @if (strtotime(date('Y-m-d'))<strtotime($item->waktu_selesai))
-                                                            <a href="{{ route('lomba.daftar',$item->lomba) }}" class="btn btn-sm btn-success">Daftar</a>
-                                                            @if (Auth::user()->role!='anggota')
-                                                                @if ($item->lomba->penilaian=='vote')
-                                                                    <a href="{{ route('lomba.file', $item->lomba) }}" class="btn btn-sm btn-outline-info w-100">Upload File <i class="fas fa-paper-plane"></i></a>
+                                                    @endif
+                                                    @if ($item->lomba)
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Lomba</button>
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                            @if (strtotime(date('Y-m-d H:i'))<strtotime($item->waktu_selesai))
+                                                                <li><a href="{{ route('lomba.daftar',$item->lomba) }}" class="dropdown-item text-info">Daftar <i class="fas fa-pencil-alt"></i></a></li>
+                                                                @if (Auth::user()->role!='anggota')
+                                                                    @if ($item->lomba->penilaian=='vote')
+                                                                        <li><a href="{{ route('lomba.file', $item->lomba) }}" class="dropdown-item text-primary">Upload File <i class="fas fa-paper-plane"></i></a></li>
+                                                                    @endif
+                                                                    @if ($item->lomba->penilaian=='subjective' && Auth::id()==$item->agenda->created_by)
+                                                                    <li><a href="{{ route('lomba.juri', $item->lomba) }}" class="dropdown-item text-warning">Management Juri <i class="fas fa-check-circle"></i></a></li>
+                                                                    @endif
                                                                 @endif
-                                                                @if ($item->lomba->penilaian=='subjective' && Auth::id()==$item->agenda->created_by)
-                                                                <a href="{{ route('lomba.juri', $item->lomba) }}" class="btn btn-sm btn-outline-warning w-100">Management Juri <i class="fas fa-check-circle"></i></a>
-                                                                @endif
+                                                                <li><a href="{{ route('lomba.nilai', $item->lomba) }}" class="dropdown-item text-danger">Penilaian <i class="fas fa-list-alt"></i></a></li>
                                                             @endif
-                                                            <a href="{{ route('lomba.nilai', $item->lomba) }}" class="btn btn-sm btn-outline-primary w-100">Penilaian <i class="fas fa-list-alt"></i></a>
-                                                        @endif
-                                                        <a href="{{ route('lomba.hasil', $item->lomba) }}" class="btn btn-sm btn-outline-success w-100">Hasil <i class="fas fa-trophy"></i></a>
+                                                            <li>
+                                                                <a href="{{ route('lomba.hasil', $item->lomba) }}" class="dropdown-item text-success">Hasil <i class="fas fa-trophy"></i></a>
+                                                            </li>
+                                                        </ul>
                                                     </div>
-                                                @endif
+                                                    @endif
+                                                </div>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -260,6 +257,10 @@
                     <label for="tempat">Tempat</label>
                     <textarea name="tempat" id="tempat" cols="2" rows="2" class="form-control"></textarea>
                 </div>
+                <div class="col-12 lomba">
+                    <span>Keterangan Penilaian</span>
+                    <p class="fs-1" id="ket-lomba">Perlombaan bersifat digital yang mana sesuatu yang dilombakan bersifat digital seperti upload foto/video dll.Penilaian dilakukan dengan melakukan vote pada sesuatu yang dilombakan dan yang bisa melakukan vote adalah anggota aktif dan sudah memiliki Kartu Tanda Anggota (KTA)</p>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -301,18 +302,35 @@
             });
         }
 
+        $('#penilaian').change(function (e) {
+            var val = $(this).val();
+            var ket = '';
+            if(val=='vote'){
+                ket = 'Perlombaan bersifat digital yang mana sesuatu yang dilombakan bersifat digital seperti upload foto/video dll.Penilaian dilakukan dengan melakukan vote pada sesuatu yang dilombakan dan yang bisa melakukan vote adalah anggota aktif dan sudah memiliki Kartu Tanda Anggota (KTA)';
+            }
+            if(val=='objective'){
+                ket = 'Perlombaan bersifat lapangan yang mana ada sistem gugur seperti sepak bola, bulu tangkis, catur dll. Penilaian ditentukan siapa yang menang pada akhir perlombaan';
+            }
+            if(val=='subjective'){
+                ket = 'Perlombaan bersifat penjurian yang mana ada seorang juri dalam lomba tersebut seperti lomba tari/nyanyi dll. Penilaian akan dilakukan oleh juri yang bersangkutan dan hasil penilaian ditentukan oleh akumulasi dari juri-juri yang terlibat';
+            }
+            $('#ket-lomba').html(ket);
+        });
+
         const deleteKegiatan = (id) =>{
-            $.ajax({
-                url: '{{ url("api/delete-kegiatan") }}',
-                type: 'DELETE',
-                data: {
-                    id: id,
-                },
-                success: function(data){
-                    var count = @json($kegiatan->count());
-                    $('#kegiatan').find(`tr[data-id="${id}"]`).remove();
-                }
-            });
+            if (confirm('Jika anda menghapus ini setiap data yang terkait dengan kegiatan ini akan hilang! apa anda yakin?')) {
+                $.ajax({
+                    url: '{{ url("api/delete-kegiatan") }}',
+                    type: 'DELETE',
+                    data: {
+                        id: id,
+                    },
+                    success: function(data){
+                        var count = @json($kegiatan->count());
+                        $('#kegiatan').find(`tr[data-id="${id}"]`).remove();
+                    }
+                });
+            }
         }
 
         const editKegiatan = (type,id,waktu_mulai,waktu_selesai,nama_kegiatan) =>{

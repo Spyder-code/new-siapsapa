@@ -27,9 +27,6 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Agenda Selesai ({{ $data->where('is_finish',1)->count() }})</button>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Agenda Lomba ({{ $data->where('jenis','lomba')->count() }})</button>
-            </li>
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -46,17 +43,6 @@
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="row mt-2">
                     @forelse ($data->where('is_finish',1) as $item)
-                        <div class="col-12 col-md-6">
-                            <x-agenda_card :item="$item" />
-                        </div>
-                    @empty
-                        <img src="{{ asset('images/empty.png') }}" class="img-fluid" width="100%">
-                    @endforelse
-                </div>
-            </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                <div class="row mt-2">
-                    @forelse ($data->where('jenis','lomba') as $item)
                         <div class="col-12 col-md-6">
                             <x-agenda_card :item="$item" />
                         </div>

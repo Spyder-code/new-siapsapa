@@ -27,7 +27,7 @@
 <div class="row justify-content-center">
     <div class="col-12">
         <div class="mb-3">
-            <a href="{{ route('social.event') }}"><i class=" icofont-arrow-left"></i> Kembali</a>
+            <a href="{{ route('agenda.detail',$lomba->kegiatan->agenda_id) }}"><i class=" icofont-arrow-left"></i> Kembali</a>
             <p>{{ $lomba->kegiatan->nama_kegiatan }}</p>
         </div>
         <div class="dropzone" id="my-dropzone"></div>

@@ -172,7 +172,7 @@ class SocialController extends Controller
             return redirect()->route('login');
         }
         $agenda = Agenda::find($id);
-        $kegiatan = Kegiatan::where('agenda_id', $agenda->id)->orderBy('jam', 'asc')->get();
+        $kegiatan = Kegiatan::where('agenda_id', $agenda->id)->orderBy('waktu_mulai', 'asc')->get()->groupBy('waktu_mulai');
         return view('social.event-detail', compact('agenda', 'kegiatan'));
     }
 

@@ -130,7 +130,7 @@ class LombaController extends Controller
 
     public function fileDestroy(Request $request)
     {
-        LombaFile::where('lomba_id',$request->agenda_id)->where('file_name',$request->file)->delete();
+        LombaFile::where('lomba_id',$request->lomba_id)->where('file_name',$request->file)->delete();
         return response('success');
     }
 
@@ -219,6 +219,21 @@ class LombaController extends Controller
     {
         $vote->delete();
         return back()->with('success','Vote berhasil ditarik');
+    }
+
+    public function addPointJuri(Request $request)
+    {
+        $juri = Juri::find($request->juri_id);
+        $data = $request->all();
+        $data['lomba_id'] =  $juri->lomba_id;
+        $data['juri_id'] =  $juri->id;
+        if($juri->lomba->kepesertaan=='kelompok'){
+            $res = PointJuri::upsert([$data],['id'],['point','description']);
+        }else{
+            $res = PointJuri::upsert([$data],['juri_id','peserta_id','lomba_id'],['point','description']);
+        }
+
+        return response($res);
     }
 
     public function hasil(Lomba $lomba)

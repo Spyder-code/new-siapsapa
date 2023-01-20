@@ -20,10 +20,12 @@ class KegiatanController extends Controller
 
         $kegiatan = Kegiatan::create($data);
 
-        $lomba = $request->lomba;
-        $lomba['kegiatan_id'] = $kegiatan->id;
+        if ($request->lomba) {
+            $lomba = $request->lomba;
+            $lomba['kegiatan_id'] = $kegiatan->id;
 
-        Lomba::create($lomba);
+            Lomba::create($lomba);
+        }
         return back()->with('success','Data berhasil dibuat');
     }
 

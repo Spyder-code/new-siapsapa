@@ -2,9 +2,9 @@
 @section('content')
     <section class="mb-5">
         <div class="container">
-            <a href="{{ route('social.event') }}"> Kembali ke agenda</a>
+            <a href="{{ route('agenda.detail',$lomba->kegiatan->agenda_id) }}"> Kembali ke agenda</a>
             <p style="text-transform: uppercase">Penilaian {{ $lomba->kegiatan->nama_kegiatan }}</p>
-            @if (strtotime(date('Y-m-d'))<strtotime($lomba->kegiatan->waktu_selesai))
+            @if (strtotime(date('Y-m-d H:i'))<strtotime($lomba->kegiatan->waktu_selesai))
                 <div class="alert alert-warning">
                     <p class="text-center"> <strong id="countdown"></strong></p>
                 </div>
@@ -23,7 +23,7 @@
                             @forelse ($data as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $lomba->kepesertaan=='kelompok'?$item->agenda_file->gudep->nama_sekolah:$item->agenda_file->anggota->nama }}</td>
+                                    <td>{{ $lomba->kepesertaan=='kelompok'?$item->lomba_file->gudep->nama_sekolah:$item->lomba_file->anggota->nama }}</td>
                                     <td>{{ $item->total }}</td>
                                 </tr>
                             @empty

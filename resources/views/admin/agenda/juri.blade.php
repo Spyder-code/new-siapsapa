@@ -40,7 +40,7 @@
                                 <td>{{ $item->anggota->city->name }}</td>
                                 <td>{{ $item->anggota->district->name }}</td>
                                 <td>
-                                    <form action="{{ route('agenda.juri.delete',$item) }}" method="post">
+                                    <form action="{{ route('lomba.juri.delete',$item) }}" method="post">
                                         @csrf
                                         <button type="submit" class="btn btn-sm btn-danger" style="font-size: .7rem" onclick="return confirm('are you sure?')">Drop</button>
                                     </form>

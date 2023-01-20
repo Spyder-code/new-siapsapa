@@ -54,9 +54,6 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Agenda Selesai ({{ $agenda->where('is_finish',1)->count() }})</button>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Perlombaan ({{ $agenda->where('jenis','lomba')->count() }})</button>
-            </li>
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -71,15 +68,6 @@
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="row">
                     @forelse ($agenda->where('is_finish',1) as $item)
-                        <x-agenda_card_2 :item="$item"/>
-                    @empty
-                        <img src="{{ asset('images/empty.png') }}" class="img-fluid" width="100%">
-                    @endforelse
-                </div>
-            </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                <div class="row">
-                    @forelse ($agenda->where('jenis','lomba') as $item)
                         <x-agenda_card_2 :item="$item"/>
                     @empty
                         <img src="{{ asset('images/empty.png') }}" class="img-fluid" width="100%">

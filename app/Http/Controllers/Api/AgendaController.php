@@ -211,19 +211,4 @@ class AgendaController extends Controller
             'message' => 'Batalkan daftar ulang berhasil!'
         ]);
     }
-
-    public function addPointJuri(Request $request)
-    {
-        $juri = Juri::find($request->juri_id);
-        $data = $request->all();
-        $data['agenda_id'] =  $juri->agenda_id;
-        $data['juri_id'] =  $juri->id;
-        if($juri->agenda->kepesertaan=='kelompok'){
-            $res = PointJuri::upsert([$data],['id'],['point','description']);
-        }else{
-            $res = PointJuri::upsert([$data],['juri_id','peserta_id','agenda_id'],['point','description']);
-        }
-
-        return response($res);
-    }
 }

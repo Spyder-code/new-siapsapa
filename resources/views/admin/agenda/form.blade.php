@@ -20,10 +20,6 @@
             <label class="form-check-label" for="penilaian3">Subjective</label>
         </div>
     </div>
-    <div class="col-6 lomba">
-        <span>Keterangan Penilaian</span>
-        <p class="fs-1" id="ket-lomba">Perlombaan bersifat digital yang mana sesuatu yang dilombakan bersifat digital seperti upload foto/video dll.Penilaian dilakukan dengan melakukan vote pada sesuatu yang dilombakan dan yang bisa melakukan vote adalah anggota aktif dan sudah memiliki Kartu Tanda Anggota (KTA)</p>
-    </div>
     <x-input :type="'textarea'" :name="'deskripsi'" :label="'Deskripsi Agenda'" :value="$agenda->deskripsi ?? ''" :col="12" :attr="['required']"/>
     <x-input :type="'textarea'" :name="'alamat'" :label="'Alamat (optional)'" :value="$agenda->alamat ?? ''" :col="12"/>
     <hr>
@@ -35,20 +31,6 @@
 
 @push('scripts')
     <script>
-        $('input[name="penilaian"]').change(function (e) {
-            var val = $('input[name="penilaian"]:checked').val();
-            var ket = '';
-            if(val=='vote'){
-                ket = 'Perlombaan bersifat digital yang mana sesuatu yang dilombakan bersifat digital seperti upload foto/video dll.Penilaian dilakukan dengan melakukan vote pada sesuatu yang dilombakan dan yang bisa melakukan vote adalah anggota aktif dan sudah memiliki Kartu Tanda Anggota (KTA)';
-            }
-            if(val=='objective'){
-                ket = 'Perlombaan bersifat lapangan yang mana ada sistem gugur seperti sepak bola, bulu tangkis, catur dll. Penilaian ditentukan siapa yang menang pada akhir perlombaan';
-            }
-            if(val=='subjective'){
-                ket = 'Perlombaan bersifat penjurian yang mana ada seorang juri dalam lomba tersebut seperti lomba tari/nyanyi dll. Penilaian akan dilakukan oleh juri yang bersangkutan dan hasil penilaian ditentukan oleh akumulasi dari juri-juri yang terlibat';
-            }
-            $('#ket-lomba').html(ket);
-        });
         $('#jenis').change(function (e) {
             var val = $(this).val();
             if (val=='lomba') {

@@ -36,7 +36,7 @@ class LombaFile extends Model
 
     public function votes()
     {
-        return $this->hasMany(PointVote::class,'agenda_file_id');
+        return $this->hasMany(PointVote::class,'lomba_file_id');
     }
 
     public function peserta()
