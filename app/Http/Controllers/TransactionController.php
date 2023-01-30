@@ -120,7 +120,8 @@ class TransactionController extends Controller
 
     public function update(Request $request, Transaction $transaction)
     {
-        //
+        $transaction->update($request->all());
+        return back()->with('success','Data berhasil diupdate');
     }
 
 

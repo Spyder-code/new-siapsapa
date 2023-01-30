@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pramuka;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
@@ -25,7 +26,8 @@ class PercetakanController extends Controller
     public function batchShow(TransactionDetail $transaction)
     {
         $transactions = $transaction->transactions;
-        return view('admin.percetakan.batchShow', compact('transactions', 'transaction'));
+        $golongan = Pramuka::all()->where('id','<=',5);
+        return view('admin.percetakan.batchShow', compact('transactions', 'transaction','golongan'));
     }
 
     public function updateStatus(Request $request)

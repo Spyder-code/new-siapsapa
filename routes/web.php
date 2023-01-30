@@ -74,6 +74,10 @@ Route::get('play/video/{url}',function($url){
     return view('video', compact('url'));
 });
 
+Route::get('scan-anggota',function(){
+    return view('scan.anggota');
+});
+
 Route::get('check-login', [HomeController::class, 'index']);
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/i/statistik', [PageController::class, 'statistik'])->name('page.statistik');

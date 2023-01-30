@@ -57,7 +57,15 @@
                                 <td>{{ $item->anggota->district->name }}</td>
                                 <td>{{ $item->anggota->gudepInfo->nama_sekolah ?? '-' }}</td>
                                 <td>
-                                    {{ $item->pramuka->name }}
+                                    <form action="{{ route('transaction.update',$item) }}" method="post">
+                                        @csrf
+                                        @method('PUT')
+                                        <select name="golongan" class="form-control" onclick="submit()">
+                                            @foreach ($golongan as $g)
+                                                <option value="{{ $g->id }}" {{ $g->id==$item->golongan?'selected':'' }}>{{ $g->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach

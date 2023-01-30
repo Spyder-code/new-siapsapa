@@ -137,7 +137,7 @@
                                         <a href="index.html#"><i class="icofont-skype"></i></a>
                                     </li>
                                     <li class="header-search-icon">
-                                        <a href="index.html#header-search" title="Search"><i class="icofont-qr-code"></i></a>
+                                        <a href="{{ url('scan-anggota') }}" title="Search"><i class="icofont-qr-code"></i></a>
                                     </li>
                                     @if (Auth::check())
                                     <li class="login-btn">
