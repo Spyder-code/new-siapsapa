@@ -60,7 +60,7 @@
                                     <form action="{{ route('transaction.update',$item) }}" method="post">
                                         @csrf
                                         @method('PUT')
-                                        <select name="golongan" class="form-control" onclick="submit()">
+                                        <select name="golongan" class="form-control" onchange="submit()">
                                             @foreach ($golongan as $g)
                                                 <option value="{{ $g->id }}" {{ $g->id==$item->golongan?'selected':'' }}>{{ $g->name }}</option>
                                             @endforeach
