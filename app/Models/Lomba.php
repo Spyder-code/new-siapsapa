@@ -20,4 +20,32 @@ class Lomba extends Model
     {
         return $this->belongsTo(Kegiatan::class,'kegiatan_id');
     }
+
+    public function stage($id){
+        if($this->kepesertaan=='kelompok'){
+            $max = LombaStage::where('lomba_id',$this->id)->where('gudep_id',$id)->max('stage');
+            if($max==0){$max=1;}
+            return $max;
+        }else{
+            $max = LombaStage::where('lomba_id',$this->id)->where('peserta_id',$id)->max('stage');
+            if($max==0){$max=1;}
+            return $max;
+        }
+    }
+
+    public function point($id){
+        if($this->kepesertaan=='kelompok'){
+            $p = LombaStage::where('lomba_id',$this->id)->where('gudep_id',$id)->first();
+            if(!$p){
+                $p = '-';
+            }
+            return $p;
+        }else{
+            $p = LombaStage::where('lomba_id',$this->id)->where('peserta_id',$id)->first();
+            if(!$p){
+                $p = '-';
+            }
+            return $p;
+        }
+    }
 }

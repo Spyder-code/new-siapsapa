@@ -37,6 +37,9 @@
 </head>
 
 <body class="sticky-header">
+    <a href="https://t.me/siapsapa" style="position: fixed; bottom:0px; right:0px; z-index:999; ">
+        <img src="{{ asset('berkas/chat.png') }}" alt="customer service" class="img-fluid blink" style="border-radius:100%; height:70px; margin: 10px">
+    </a>
     <!--[if lte IE 9]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   	<![endif]-->

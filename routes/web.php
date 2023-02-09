@@ -171,12 +171,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::post('kegiatan-update', [KegiatanController::class,'updateRequest'])->name('kegiatan.updateRequest');
         Route::get('daftar-lomba/{lomba}', [LombaController::class,'daftar'])->name('lomba.daftar');
         Route::post('daftar-lomba/{lomba}', [LombaController::class,'storeDaftar'])->name('lomba.daftar.store');
+        Route::post('next-stage/{lomba}', [LombaController::class,'nextStage'])->name('lomba.stage.next');
+        Route::post('update-lomba-stage/{lomba_stage}', [LombaController::class,'updateLombaStage'])->name('lomba.update.lomba_stage');
         Route::post('tarik-peserta/{peserta}', [LombaController::class,'destroyPeserta'])->name('lomba.daftar.destroy');
         Route::get('user/reset-password', [UserController::class,'reset_password'])->name('user.reset-password');
         Route::resource('dokumen', DocumentController::class)->except(['store']);
         Route::resource('agenda', AgendaController::class);
         Route::get('agenda/{agenda}/peserta', [AgendaController::class, 'peserta'])->name('agenda.peserta');
         Route::get('lomba/{lomba}/juri', [LombaController::class, 'juri'])->name('lomba.juri');
+        Route::get('lomba/{lomba}/stage', [LombaController::class, 'stage'])->name('lomba.stage');
         Route::post('add-juri', [LombaController::class, 'juriAdd'])->name('lomba.juri.add');
         Route::post('add-peserta', [AgendaController::class, 'daftarAgenda'])->name('agenda.peserta.add');
         Route::post('destroy-juri/{juri}', [LombaController::class, 'juriDestroy'])->name('lomba.juri.delete');

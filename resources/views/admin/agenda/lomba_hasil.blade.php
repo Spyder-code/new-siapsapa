@@ -62,7 +62,50 @@
                 </div>
                 @endif
                 @if ($lomba->penilaian=='objective')
-                    <p class="text-center">HASIL MASIH DALAM PENGEMBANGAN</p>
+                <div class="card p-3 shadow">
+                    <table class="table table-sm table-bordered" style="font-size: .7rem">
+                        <thead>
+                            <tr>
+                                <th>Peringkat</th>
+                                <th>{{ $lomba->kepesertaan=='kelompok'?'Gudep':'Nama Peserta' }}</th>
+                                <th>Stage</th>
+                                <th>Total Nilai</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if ($lomba->kepesertaan=='kelompok')
+                                @forelse ($data as $item)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->first()->gudep->nama_sekolah }}</td>
+                                        <td>{{ $item->first()->stage }}</td>
+                                        <td>{{ $item->first()->point }}</td>
+                                        <td>{{ $item->first()->is_elimination=='1'?'Eliminasi':'-' }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="3" class="text-center">Tidak Ada Dokumen Penilaian</td>
+                                    </tr>
+                                @endforelse
+                            @else
+                                @forelse ($data as $item)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->first()->peserta->anggota->nama }}</td>
+                                        <td>{{ $item->first()->stage }}</td>
+                                        <td>{{ $item->first()->point }}</td>
+                                        <td>{{ $item->first()->is_elimination=='1'?'Eliminasi':'-' }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="3" class="text-center">Tidak Ada Dokumen Penilaian</td>
+                                    </tr>
+                                @endforelse
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
                 @endif
             @endif
         </div>

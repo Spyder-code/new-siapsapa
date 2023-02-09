@@ -92,8 +92,8 @@
                                                 @if (Auth::user()->role == 'admin' || Auth::id()==$agenda->created_by)
                                                     <button type="button" onclick="editKegiatan('{{ $item->lomba?'lomba':'non' }}',{{ $item->id }},'{{ $item->waktu_mulai }}','{{ $item->waktu_selesai }}','{{ $item->nama_kegiatan }}')" class="btn btn-primary btn-sm">Edit</button>
                                                     <button type="button" onclick="deleteKegiatan({{ $item->id }})" class="btn btn-danger btn-sm">Hapus</button>
-                                                    @endif
-                                                    @if ($item->lomba)
+                                                @endif
+                                                @if ($item->lomba)
                                                     <div class="dropdown">
                                                         <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Lomba</button>
                                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -103,18 +103,23 @@
                                                                     @if ($item->lomba->penilaian=='vote')
                                                                         <li><a href="{{ route('lomba.file', $item->lomba) }}" class="dropdown-item text-primary">Upload File <i class="fas fa-paper-plane"></i></a></li>
                                                                     @endif
-                                                                    @if ($item->lomba->penilaian=='subjective' && Auth::id()==$item->agenda->created_by)
+                                                                    @if ($item->lomba->penilaian=='subjective' && (Auth::id()==$item->agenda->created_by||Auth::user()->role == 'admin'))
                                                                     <li><a href="{{ route('lomba.juri', $item->lomba) }}" class="dropdown-item text-warning">Management Juri <i class="fas fa-check-circle"></i></a></li>
                                                                     @endif
+                                                                    @if ($item->lomba->penilaian=='objective' && (Auth::id()==$item->agenda->created_by||Auth::user()->role == 'admin'))
+                                                                    <li><a href="{{ route('lomba.stage', $item->lomba) }}" class="dropdown-item text-warning">Management Pertandingan <i class="fas fa-check-circle"></i></a></li>
+                                                                    @endif
                                                                 @endif
-                                                                <li><a href="{{ route('lomba.nilai', $item->lomba) }}" class="dropdown-item text-danger">Penilaian <i class="fas fa-list-alt"></i></a></li>
+                                                                @if ($item->lomba->penilaian!='objective')
+                                                                    <li><a href="{{ route('lomba.nilai', $item->lomba) }}" class="dropdown-item text-danger">Penilaian <i class="fas fa-list-alt"></i></a></li>
+                                                                @endif
                                                             @endif
                                                             <li>
                                                                 <a href="{{ route('lomba.hasil', $item->lomba) }}" class="dropdown-item text-success">Hasil <i class="fas fa-trophy"></i></a>
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                    @endif
+                                                @endif
                                                 </div>
                                             </td>
                                         </tr>
@@ -125,12 +130,14 @@
                                     </tr>
                                     @endforelse
                                 </tbody>
+                                @if (Auth::id()==$agenda->created_by || Auth::user()->role == 'admin')
                                 <tfoot>
                                     <tr>
                                         <td colspan="2"><button type="button" data-bs-toggle="modal" data-bs-target="#nonLomba" class="btn btn-sm btn-outline-primary w-100">Tambah Kegiatan non Lomba</button></td>
                                         <td colspan="2"><button type="button" data-bs-toggle="modal" data-bs-target="#lomba" class="btn btn-sm btn-outline-success w-100">Tambah Kegiatan Lomba</button></td>
                                     </tr>
                                 </tfoot>
+                                @endif
                             </table>
                         </div>
                     </div>

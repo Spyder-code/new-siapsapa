@@ -27,6 +27,9 @@
 </head>
 
 <body>
+    <a href="https://t.me/siapsapa" style="position: fixed; bottom:0px; right:0px; z-index:999; ">
+        <img src="{{ asset('berkas/chat.png') }}" alt="customer service" class="img-fluid blink" style="border-radius:100%; height:70px; margin: 10px">
+    </a>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->

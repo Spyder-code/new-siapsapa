@@ -6,6 +6,7 @@ use App\Models\Anggota;
 use App\Models\Juri;
 use App\Models\Lomba;
 use App\Models\LombaFile;
+use App\Models\LombaStage;
 use App\Models\PendaftaranAgenda;
 use App\Models\PesertaLomba;
 use App\Models\PointJuri;
@@ -61,6 +62,13 @@ class LombaController extends Controller
                     'status' => 0,
                     'order' => $order,
                 ]);
+                if($lomba->penilaian=='objective'){
+                    LombaStage::create([
+                        'lomba_id' => $lomba->id,
+                        'peserta_id' => $data->id,
+                        'gudep_id' =>  Auth::user()->anggota->gudep,
+                    ]);
+                }
             }
         }
         return back()->with('success','pendaftaran Berhasil');
@@ -143,6 +151,37 @@ class LombaController extends Controller
     {
         $juri = Juri::all()->where('lomba_id',$lomba->id);
         return view('admin.agenda.juri', compact('lomba','juri'));
+    }
+
+    public function stage(Lomba $lomba)
+    {
+        $peserta = LombaStage::where('lomba_id',$lomba->id)->get();
+        $lives = LombaStage::where('lomba_id',$lomba->id)->where('stage',$peserta->max('stage'))->get();
+        return view('admin.agenda.stage', compact('peserta','lomba','lives'));
+    }
+
+    public function nextStage(Lomba $lomba, Request $request){
+        $peserta = LombaStage::where('lomba_id',$lomba->id)->where('stage',$request->stage)->where('is_elimination',0)->get(['lomba_id','gudep_id','peserta_id'])->toArray();
+        foreach($peserta as $p){
+            $data = $p;
+            $data['stage'] = $request->stage + 1;
+            LombaStage::create($data);
+        }
+        return back()->with('success','Data berhasil disimpan');
+    }
+
+    public function updateLombaStage(LombaStage $lomba_stage, Request $request){
+        $type = $lomba_stage->lomba->kepesertaan;
+        if($type=='kelompok'){
+            $stage = $lomba_stage->stage;
+            $lomba_id = $lomba_stage->lomba_id;
+            $gudep_id = $lomba_stage->gudep_id;
+            LombaStage::where('lomba_id',$lomba_id)->where('stage',$stage)->where('gudep_id',$gudep_id)->update($request->all());
+        }else{
+            $lomba_stage->update($request->all());
+        }
+
+        return back()->with('success','Data berhasil disimpan');
     }
 
     public function juriAdd(Request $request)
@@ -267,6 +306,13 @@ class LombaController extends Controller
                 }
                 $data = collect($data);
                 $data = $data->sortByDesc('point');
+            }
+        }
+        if ($lomba->penilaian=='objective') {
+            if($lomba->kepesertaan=='kelompok'){
+                $data = LombaStage::where('lomba_id',$lomba->id)->orderBy('stage','desc')->orderBy('point','desc')->get()->groupBy('gudep_id');
+            }else{
+                $data = LombaStage::where('lomba_id',$lomba->id)->orderBy('stage','desc')->orderBy('point','desc')->get()->groupBy('peserta_id');
             }
         }
         return view('admin.agenda.lomba_hasil',compact('lomba','data'));
