@@ -86,6 +86,8 @@ Route::get('/i/agenda', [PageController::class, 'agenda'])->name('page.agenda');
 Route::get('/i/agenda/{agenda}', [PageController::class, 'show_agenda'])->name('page.agenda.show');
 Route::get('/i/agenda/{agenda}/peserta', [PageController::class, 'peserta_agenda'])->name('page.agenda.peserta');
 Route::get('/i/profile', [PageController::class, 'profile'])->name('page.profile');
+Route::get('/sertifikat/agenda/{code}', [PageController::class, 'sertifikatAgenda'])->name('page.sertifikat.agenda');
+Route::get('/sertifikat/lomba/{code}', [PageController::class, 'sertifikatLomba'])->name('page.sertifikat.lomba');
 
 // Social
 Route::middleware(['auth','anggota'])->group(function(){
@@ -171,6 +173,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::post('kegiatan-update', [KegiatanController::class,'updateRequest'])->name('kegiatan.updateRequest');
         Route::get('daftar-lomba/{lomba}', [LombaController::class,'daftar'])->name('lomba.daftar');
         Route::post('daftar-lomba/{lomba}', [LombaController::class,'storeDaftar'])->name('lomba.daftar.store');
+        Route::put('lomba/{lomba}', [LombaController::class,'update'])->name('lomba.update');
         Route::post('next-stage/{lomba}', [LombaController::class,'nextStage'])->name('lomba.stage.next');
         Route::post('update-lomba-stage/{lomba_stage}', [LombaController::class,'updateLombaStage'])->name('lomba.update.lomba_stage');
         Route::post('tarik-peserta/{peserta}', [LombaController::class,'destroyPeserta'])->name('lomba.daftar.destroy');
@@ -178,6 +181,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::resource('dokumen', DocumentController::class)->except(['store']);
         Route::resource('agenda', AgendaController::class);
         Route::get('agenda/{agenda}/peserta', [AgendaController::class, 'peserta'])->name('agenda.peserta');
+        Route::get('upload-sertif/{agenda}/agenda', [AgendaController::class, 'sertifikat'])->name('agenda.sertifikat');
         Route::get('lomba/{lomba}/juri', [LombaController::class, 'juri'])->name('lomba.juri');
         Route::get('lomba/{lomba}/stage', [LombaController::class, 'stage'])->name('lomba.stage');
         Route::post('add-juri', [LombaController::class, 'juriAdd'])->name('lomba.juri.add');

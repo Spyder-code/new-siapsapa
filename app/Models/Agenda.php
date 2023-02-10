@@ -24,6 +24,7 @@ class Agenda extends Model
       'kategori',
       'jenis',
       'is_finish',
+      'sertifikat',
       'is_daftar',
       'foto',
       'created_by'

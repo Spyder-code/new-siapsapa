@@ -9,6 +9,7 @@ use App\Models\Distrik;
 use App\Models\Document;
 use App\Models\Kegiatan;
 use App\Models\PendaftaranAgenda;
+use App\Models\PesertaLomba;
 use App\Models\Pramuka;
 use App\Models\Provinsi;
 use App\Models\User;
@@ -154,5 +155,23 @@ class PageController extends Controller
         }
         $data = Document::all()->where('user_id', Auth::id())->groupBy('pramuka');
         return view('user.document.index', compact('data','pramuka'));
+    }
+
+    public function sertifikatAgenda($code)
+    {
+        $peserta = PendaftaranAgenda::where('nodaf',$code)->first();
+        if(!$peserta){
+            return abort(404);
+        }
+        return view('admin.agenda.sertifikat.sertifikat_agenda', compact('peserta'));
+    }
+
+    public function sertifikatLomba($code)
+    {
+        $peserta = PesertaLomba::where('nodaf',$code)->first();
+        if(!$peserta){
+            return abort(404);
+        }
+        return view('admin.agenda.sertifikat.sertifikat_lomba', compact('peserta'));
     }
 }

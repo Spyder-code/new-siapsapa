@@ -14,6 +14,7 @@ class Lomba extends Model
         'kategori',
         'kepesertaan',
         'penilaian',
+        'sertifikat',
     ];
 
     public function kegiatan()

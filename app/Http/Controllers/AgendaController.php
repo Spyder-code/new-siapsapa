@@ -94,6 +94,13 @@ class AgendaController extends Controller
             $file->move(public_path('/berkas/agenda'), $fileName);
             $data['foto'] = $fileName;
         }
+        if($file = $request->file('sertifikat')){
+            $fileName = 'sertifikat-'.$agenda->id.'.jpg';
+            $file->move(public_path('/berkas/agenda'), $fileName);
+            $data['sertifikat'] = $fileName;
+            $agenda->update($data);
+            return back()->with('success','Sertifikat disimpan');
+        }
         $agenda->update($data);
         return redirect()->route('agenda.index')->with('success', 'Data berhasil diubah');
     }
@@ -123,6 +130,11 @@ class AgendaController extends Controller
             }
         }
         return back()->with('success','pendaftaran Berhasil');
+    }
+
+    public function sertifikat(Agenda $agenda)
+    {
+        return view('admin.agenda.sertifikat.upload',compact('agenda'));
     }
 
 }

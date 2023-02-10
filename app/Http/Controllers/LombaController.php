@@ -317,4 +317,19 @@ class LombaController extends Controller
         }
         return view('admin.agenda.lomba_hasil',compact('lomba','data'));
     }
+
+    public function update(Request $request, Lomba $lomba)
+    {
+        $data = $request->all();
+
+        if($file = $request->file('sertifikat')){
+            $fileName = 'sertifikat-lomba-'.$lomba->id.'.jpg';
+            $file->move(public_path('/berkas/agenda'), $fileName);
+            $data['sertifikat'] = $fileName;
+            $lomba->update($data);
+            return back()->with('success','Sertifikat disimpan');
+        }
+        $lomba->update($data);
+        return redirect()->route('agenda.index')->with('success', 'Data berhasil diubah');
+    }
 }

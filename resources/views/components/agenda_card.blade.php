@@ -47,6 +47,11 @@
                 <a href="{{ route('agenda.hasil', $item) }}" class="btn btn-sm btn-outline-success w-100">Hasil Perlombaan <i class="fas fa-trophy"></i></a>
             </li>
             @endif
+            @if (Auth::id() == $item->created_by || Auth::user()->role=='admin')
+            <li class="list-group-item d-flex gap-1">
+                <a href="{{ route('agenda.sertifikat', $item) }}" class="btn btn-sm btn-outline-success w-100">Upload Sertifikat <i class="fas fa-trophy"></i></a>
+            </li>
+            @endif
         </div>
     </div>
 </div>
