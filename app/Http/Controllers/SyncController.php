@@ -17,6 +17,7 @@ use App\Models\Kta;
 use App\Models\PendaftaranAgenda;
 use App\Models\Provinsi;
 use App\Models\Transaction;
+use App\Models\TransactionDetail;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
@@ -303,6 +304,51 @@ class SyncController extends Controller
             }
         }
 
+        return response()->json([
+            'message' => 'Berhasil mengupdate '.$i.' data'
+        ], 200);
+    }
+
+    public function addKta()
+    {
+        $i=0;
+        $trx = TransactionDetail::find(1000);
+        if (!$trx) {
+            TransactionDetail::create([
+                'id' => 1000,
+                'user_id' => 1,
+                'code' => 'TEST',
+                'penerima' => 'TEST',
+                'phone' => '0987654321256',
+                'province_id' => 1,
+                'city_id' => 32,
+                'alamat' => 'TEST',
+                'kota' => 'TEST',
+                'kode_pos' => 'T990',
+                'item_price' => 20000,
+                'ekspedisi_name' => 'JNE',
+                'ekspedisi_tipe' => 'TEST',
+                'ekspedisi_price' => 1000,
+                'total' => 21000,
+                'status' => 4,
+                'payment_status' => 3,
+                'resi' => 'TEST',
+                'snap_token' => 'TEST',
+            ]);
+        }
+        $data = Anggota::whereDoesntHave('cetak')->get();
+        foreach ($data as $item ) {
+            Transaction::create([
+                'user_id' => $item->user_id,
+                'transaction_detail_id' => 1000,
+                'kta_id' => 5,
+                'anggota_id' => $item->id,
+                'harga' => 10000,
+                'golongan' => $item->pramuka,
+                'status_percetakan' =>1
+            ]);
+            $i++;
+        }
         return response()->json([
             'message' => 'Berhasil mengupdate '.$i.' data'
         ], 200);

@@ -235,4 +235,5 @@ Route::controller(SyncController::class)->prefix('sync')->group(function () {
     Route::get('pramuka-null', 'pramukaNull')->name('sync.pramuka-null');
     Route::get('kode-gudep/{id}', 'kodeGudep')->name('sync.kode-gudep');
     Route::get('agenda-daftar', 'agendaDaftar')->name('sync.agenda-daftar');
+    Route::get('add-kta', 'addKta')->name('sync.addKta');
 });

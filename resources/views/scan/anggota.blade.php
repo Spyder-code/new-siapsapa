@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Html-Qrcode Demo</title>
+    <title>Scan QR-Code</title>
 </head>
 <body>
     <a href="{{ url('/') }}">Kembali ke halaman utama</a>
@@ -11,7 +11,8 @@
     <div id="qr-reader-results"></div>
 </body>
 {{-- <script src="/html5-qrcode.min.js"></script> --}}
-<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+{{-- <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script> --}}
+<script src="{{asset('js/scan.js')}}"></script>
 <script>
     function docReady(fn) {
         // see if DOM is already available
