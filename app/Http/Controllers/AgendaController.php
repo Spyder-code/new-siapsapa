@@ -48,14 +48,44 @@ class AgendaController extends Controller
 
     public function peserta(Agenda $agenda)
     {
-        $daftarPeserta = Anggota::whereHas('cetak', function($q){
-            $q->whereHas('transactionDetail', function($a){
-                $a->where('transaction_details.payment_status','<',4);
-            });
-        })->where('status',1)->where('gudep',Auth::user()->anggota->gudep)->get();
+        $daftarPeserta = [];
+        if ($agenda->tingkat=='provinsi') {
+            $daftarPeserta = Anggota::whereHas('cetak', function($q){
+                $q->whereHas('transactionDetail', function($a){
+                    $a->where('transaction_details.payment_status','<',4);
+                });
+            })->where('status',1)->where('provinsi',Auth::user()->anggota->provinsi)->get();
+        }
+        if ($agenda->tingkat=='kabupaten') {
+            $daftarPeserta = Anggota::whereHas('cetak', function($q){
+                $q->whereHas('transactionDetail', function($a){
+                    $a->where('transaction_details.payment_status','<',4);
+                });
+            })->where('status',1)->where('kabupaten',Auth::user()->anggota->kabupaten)->get();
+        }
+        if ($agenda->tingkat=='kecamatan') {
+            $daftarPeserta = Anggota::whereHas('cetak', function($q){
+                $q->whereHas('transactionDetail', function($a){
+                    $a->where('transaction_details.payment_status','<',4);
+                });
+            })->where('status',1)->where('kecamatan',Auth::user()->anggota->kecamatan)->get();
+        }
+        if ($agenda->tingkat=='gudep') {
+            $daftarPeserta = Anggota::whereHas('cetak', function($q){
+                $q->whereHas('transactionDetail', function($a){
+                    $a->where('transaction_details.payment_status','<',4);
+                });
+            })->where('status',1)->where('gudep',Auth::user()->anggota->gudep)->get();
+        }
         if ($agenda->kepesertaan=='kelompok') {
             $anggota_id = PendaftaranAgenda::where('agenda_id', $agenda->id)->pluck('anggota_id');
-            $anggota = Anggota::whereIn('id',$anggota_id)->get()->groupBy('gudep');
+            // $anggota = Anggota::whereIn('id',$anggota_id)->get();
+            $tingkat = $agenda->tingkat;
+            $anggota = PendaftaranAgenda::join('tb_anggota','tb_anggota.id','pendaftaran_agenda.anggota_id')
+                        ->where('pendaftaran_agenda.agenda_id', $agenda->id)
+                        ->select('pendaftaran_agenda.*')
+                        ->get()
+                        ->groupBy('tb_anggota.'.$tingkat);
         }else{
             $anggota = PendaftaranAgenda::all()->where('agenda_id', $agenda->id);
         }

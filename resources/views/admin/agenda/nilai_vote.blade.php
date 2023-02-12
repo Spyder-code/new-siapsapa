@@ -6,7 +6,7 @@
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th>{{ $lomba->kepesertaan=='kelompok'?'Gudep':'Nama Peserta' }}</th>
+                    <th>{{ $lomba->kepesertaan=='kelompok'?ucfirst($lomba->kegiatan->agenda->tingkat):'Nama Peserta' }}</th>
                     <th>File</th>
                     <th>Jumlah Suara</th>
                     <th>Vote</th>
@@ -16,7 +16,21 @@
                 @forelse ($files as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $lomba->kepesertaan=='kelompok'?$item->gudep->nama_sekolah:$item->anggota->nama }}</td>
+                        <td>
+                            @if ($lomba->kepesertaan=='kelompok')
+                                @if ($lomba->kegiatan->agenda->tingkat=='provinsi')
+                                    {{ $item->anggota->province->name }}
+                                @elseif($lomba->kegiatan->agenda->tingkat=='kabupaten')
+                                    {{ $item->anggota->city->name }}
+                                @elseif($lomba->kegiatan->agenda->tingkat=='kecamatan')
+                                    {{ $item->anggota->district->name }}
+                                @elseif($lomba->kegiatan->agenda->tingkat=='gudep')
+                                    {{ $item->anggota->gudepInfo->nama_sekolah }}
+                                @endif
+                            @else
+                                {{ $item->anggota->nama }}
+                            @endif
+                        </td>
                         <td><a href="{{ route('lomba.file.open',$item) }}">Lihat</a></td>
                         <td>{{ $item->votes->count() }}</td>
                         <td>

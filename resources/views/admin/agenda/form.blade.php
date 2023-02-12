@@ -4,7 +4,7 @@
     <x-input :type="'text'" :name="'tanggal_selesai'" :value="$agenda->tanggal_selesai ?? ''" :label="'Tanggal Selesai'" :col="4" :attr="['required']"/>
     <x-input :value="$agenda->kepesertaan??''" :name="'kepesertaan'" :col="4" :label="'Kepesertaan'" :type="'select'" :attr="['required']" :options="['kelompok'=>'Kelompok','perorangan'=>'Perorangan']" />
     <x-input :value="$agenda->kategori??''" :name="'kategori'" :col="6" :label="'Kategori'" :type="'select'" :attr="['required']" :options="['putra'=>'Putra','putri'=>'Putri','campuran'=>'Campuran']" />
-    {{-- <x-input :value="$agenda->jenis??'non_lomba'" :name="'jenis'" :col="6" :label="'Jenis'" :type="'select'" :attr="['required']" :options="['non_lomba'=>'Non Lomba','lomba'=>'Lomba']" /> --}}
+    <x-input :value="$agenda->tingkat??''" :name="'tingkat'" :col="6" :label="'Tingkat'" :type="'select'" :attr="['required']" :options="['provinsi'=>'Provinsi','kabupaten'=>'Kabupaten','kecamatan'=>'Kecamatan','gudep'=>'gudep']" />
     <div class="col-6 mb-3 lomba">
         <label>Jenis Penilaian Lomba</label>
         <div class="form-check">

@@ -11,7 +11,6 @@
             </div>
             <div class="card-body">
                 <h3 class="card-title">{{ $agenda->nama }}</h3>
-                <h6 class="card-subtitle">{{ $agenda->jenis }}</h6>
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-6">
                         <div class="white-box text-center">
@@ -50,6 +49,10 @@
                             <li class=" list-group-item border-bottom-0 py-1 px-0 text-muted">
                                 <i data-feather="check-circle" class="text-primary feather-sm me-2"></i>
                                 Kepesertaan: {{ $agenda->kepesertaan }}
+                            </li>
+                            <li class=" list-group-item border-bottom-0 py-1 px-0 text-muted">
+                                <i data-feather="check-circle" class="text-primary feather-sm me-2"></i>
+                                Tingkat: {{ $agenda->tingkat ?? '-' }}
                             </li>
                         </ul>
                     </div>
@@ -92,8 +95,13 @@
                                                                     @if ($item->lomba->penilaian=='subjective' && Auth::id()==$item->agenda->created_by)
                                                                     <li><a href="{{ route('lomba.juri', $item->lomba) }}" class="dropdown-item text-warning">Management Juri <i class="fas fa-check-circle"></i></a></li>
                                                                     @endif
+                                                                    @if ($item->lomba->penilaian=='objective' && (Auth::id()==$item->agenda->created_by||Auth::user()->role == 'admin'))
+                                                                    <li><a href="{{ route('lomba.stage', $item->lomba) }}" class="dropdown-item text-warning">Management Pertandingan <i class="fas fa-check-circle"></i></a></li>
+                                                                    @endif
                                                                 @endif
-                                                                <li><a href="{{ route('lomba.nilai', $item->lomba) }}" class="dropdown-item text-danger">Penilaian <i class="fas fa-list-alt"></i></a></li>
+                                                                @if ($item->lomba->penilaian!='objective')
+                                                                    <li><a href="{{ route('lomba.nilai', $item->lomba) }}" class="dropdown-item text-danger">Penilaian <i class="fas fa-list-alt"></i></a></li>
+                                                                @endif
                                                             @endif
                                                             <li>
                                                                 <a href="{{ route('lomba.hasil', $item->lomba) }}" class="dropdown-item text-success">Hasil <i class="fas fa-trophy"></i></a>

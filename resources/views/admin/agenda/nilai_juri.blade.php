@@ -8,7 +8,7 @@
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th>Gudep</th>
+                    <th>{{ ucfirst($lomba->kegiatan->agenda->tingkat) }}</th>
                     <th>Nilai (1-100)</th>
                     <th>Keterangan</th>
                     <th>Aksi</th>
@@ -18,14 +18,24 @@
                 @forelse ($files as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->first()->gudep->nama_sekolah }}</td>
-                        <td><input type="number" value="{{ $item->first()->pointJuriGudep($lomba->id,$juri_id) ?? '' }}" max="100" min="1" class="text-center form-control" id="point-{{ $item->first()->gudep_id }}"></td>
                         <td>
-                            <input type="hidden" id="id-{{ $item->first()->gudep_id }}" value="{{ $item->first()->idJuriGudep($lomba->id,$juri_id) }}">
-                            <input class="form-control" style="font-size:.7rem" type="text" id="deskripsi-{{ $item->first()->gudep_id }}" value="{{ $item->first()->deskripsiJuriGudep($lomba->id,$juri_id) ?? '' }}">
+                            @if ($lomba->kegiatan->agenda->tingkat=='provinsi')
+                                {{ $item->first()->anggota->province->name }}
+                            @elseif($lomba->kegiatan->agenda->tingkat=='kabupaten')
+                                {{ $item->first()->anggota->city->name }}
+                            @elseif($lomba->kegiatan->agenda->tingkat=='kecamatan')
+                                {{ $item->first()->anggota->district->name }}
+                            @elseif($lomba->kegiatan->agenda->tingkat=='gudep')
+                                {{ $item->first()->anggota->gudepInfo->nama_sekolah }}
+                            @endif
+                        </td>
+                        <td><input type="number" value="{{ $item->first()->pointJuriPesertaKelompok($lomba->id,$juri_id) ?? '' }}" max="100" min="1" class="text-center form-control" id="point-{{ $item->first()->id }}"></td>
+                        <td>
+                            <input type="hidden" id="id-{{ $item->first()->id }}" value="{{ $item->first()->idJuriPesertaKelompok($lomba->id,$juri_id) }}">
+                            <input class="form-control" style="font-size:.7rem" type="text" id="deskripsi-{{ $item->first()->id }}" value="{{ $item->first()->deskripsiJuriPesertaKelompok($lomba->id,$juri_id) ?? '' }}">
                         </td>
                         <td>
-                            <button type="submit" class="btn btn-sm btn-primary" style="font-size: .7rem" onclick="submitGudep({{ $item->first()->gudep_id }})">Simpan</button>
+                            <button type="submit" class="btn btn-sm btn-primary" style="font-size: .7rem" onclick="submitPeserta({{ $item->first()->id }})">Simpan</button>
                         </td>
                     </tr>
                 @empty

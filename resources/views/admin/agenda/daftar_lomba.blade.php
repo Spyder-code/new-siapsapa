@@ -30,7 +30,7 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Nama Gudep</th>
+                                <th>Nama {{ ucfirst($lomba->kegiatan->agenda->tingkat) }}</th>
                                 <th>Peserta</th>
                                 <th>Aksi</th>
                             </tr>
@@ -41,11 +41,21 @@
                                 <tr>
                                     @if ($loop->first)
                                     <td rowspan="{{ $item->count() }}">{{ $loop->iteration }}</td>
-                                    <td rowspan="{{ $item->count() }}">{{ $item->first()->gudep->nama_sekolah }}</td>
+                                    <td rowspan="{{ $item->count() }}">
+                                        @if ($lomba->kegiatan->agenda->tingkat=='provinsi')
+                                            {{ $item->first()->anggota->province->name }}
+                                        @elseif($lomba->kegiatan->agenda->tingkat=='kabupaten')
+                                            {{ $item->first()->anggota->city->name }}
+                                        @elseif($lomba->kegiatan->agenda->tingkat=='kecamatan')
+                                            {{ $item->first()->anggota->district->name }}
+                                        @elseif($lomba->kegiatan->agenda->tingkat=='gudep')
+                                            {{ $item->first()->anggota->gudepInfo->nama_sekolah }}
+                                        @endif
+                                    </td>
                                     @endif
                                     <td>{{ $a->nodaf }} - {{ $a->anggota->nama }}</td>
                                     <td>
-                                        @if (Auth::user()->anggota->gudep==$a->gudep_id)
+                                        @if (Auth::id()==$lomba->kegiatan->agenda->created_by)
                                             <form action="{{ route('lomba.daftar.destroy',$a) }}" method="post">
                                                 @csrf
                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>

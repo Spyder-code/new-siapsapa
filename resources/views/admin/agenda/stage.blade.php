@@ -24,7 +24,7 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>{{ $lomba->kepesertaan=='kelompok'?'Gudep':'Nama' }}</th>
+                            <th>{{ $lomba->kepesertaan=='kelompok'?ucfirst($lomba->kegiatan->agenda->tingkat):'Nama' }}</th>
                             <th>Pertandingan Ke</th>
                             <th>Point</th>
                             <th>Aksi</th>
@@ -32,12 +32,22 @@
                     </thead>
                     <tbody>
                         @if ($lomba->kepesertaan=='kelompok')
-                            @forelse ($lives->groupBy('gudep_id') as $item)
+                            @forelse ($lives as $item)
                                 <tr  @if($item->first()->is_elimination==1) style="background-color: lightcoral; color:white" @endif>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->first()->gudep->nama_sekolah }}</td>
+                                    <td>
+                                        @if ($lomba->kegiatan->agenda->tingkat=='provinsi')
+                                            {{ $item->first()->peserta->anggota->province->name }}
+                                        @elseif($lomba->kegiatan->agenda->tingkat=='kabupaten')
+                                            {{ $item->first()->peserta->anggota->city->name }}
+                                        @elseif($lomba->kegiatan->agenda->tingkat=='kecamatan')
+                                            {{ $item->first()->peserta->anggota->district->name }}
+                                        @elseif($lomba->kegiatan->agenda->tingkat=='gudep')
+                                            {{ $item->first()->peserta->anggota->gudepInfo->nama_sekolah }}
+                                        @endif
+                                    </td>
                                     <td>{{ $item->first()->stage }}</td>
-                                    <td>{{ $item->first()->point==0?'-':$item->point }}</td>
+                                    <td>{{ $item->first()->point==0?'-':$item->first()->point }}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#lomba-stage-{{ $item->first()->id }}">
                                             Set

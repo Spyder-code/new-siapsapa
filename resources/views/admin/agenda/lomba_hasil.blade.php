@@ -15,7 +15,7 @@
                         <thead>
                             <tr>
                                 <th>Peringkat</th>
-                                <th>{{ $lomba->kepesertaan=='kelompok'?'Gudep':'Nama Peserta' }}</th>
+                                <th>{{ $lomba->kepesertaan=='kelompok'?ucfirst($lomba->kegiatan->agenda->tingkat):'Nama Peserta' }}</th>
                                 <th>Jumlah Suara</th>
                             </tr>
                         </thead>
@@ -23,7 +23,21 @@
                             @forelse ($data as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $lomba->kepesertaan=='kelompok'?$item->lomba_file->gudep->nama_sekolah:$item->lomba_file->anggota->nama }}</td>
+                                    <td>
+                                        @if ($lomba->kepesertaan=='kelompok')
+                                            @if ($lomba->kegiatan->agenda->tingkat=='provinsi')
+                                                {{ $item->lomba_file->anggota->province->name }}
+                                            @elseif($lomba->kegiatan->agenda->tingkat=='kabupaten')
+                                                {{ $item->lomba_file->anggota->city->name }}
+                                            @elseif($lomba->kegiatan->agenda->tingkat=='kecamatan')
+                                                {{ $item->lomba_file->anggota->district->name }}
+                                            @elseif($lomba->kegiatan->agenda->tingkat=='gudep')
+                                                {{ $item->lomba_file->anggota->gudepInfo->nama_sekolah }}
+                                            @endif
+                                        @else
+                                            {{ $item->lomba_file->anggota->nama }}
+                                        @endif
+                                    </td>
                                     <td>{{ $item->total }}</td>
                                 </tr>
                             @empty
@@ -41,7 +55,7 @@
                         <thead>
                             <tr>
                                 <th>Peringkat</th>
-                                <th>{{ $lomba->kepesertaan=='kelompok'?'Gudep':'Nama Peserta' }}</th>
+                                <th>{{ $lomba->kepesertaan=='kelompok'?ucfirst($lomba->kegiatan->agenda->tingkat):'Nama Peserta' }}</th>
                                 <th>Total Nilai</th>
                             </tr>
                         </thead>
@@ -67,7 +81,7 @@
                         <thead>
                             <tr>
                                 <th>Peringkat</th>
-                                <th>{{ $lomba->kepesertaan=='kelompok'?'Gudep':'Nama Peserta' }}</th>
+                                <th>{{ $lomba->kepesertaan=='kelompok'?ucfirst($lomba->kegiatan->agenda->tingkat):'Nama Peserta' }}</th>
                                 <th>Stage</th>
                                 <th>Total Nilai</th>
                                 <th>Status</th>
@@ -78,7 +92,17 @@
                                 @forelse ($data as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->first()->gudep->nama_sekolah }}</td>
+                                        <td>
+                                            @if ($lomba->kegiatan->agenda->tingkat=='provinsi')
+                                                {{ $item->first()->peserta->anggota->province->name }}
+                                            @elseif($lomba->kegiatan->agenda->tingkat=='kabupaten')
+                                                {{ $item->first()->peserta->anggota->city->name }}
+                                            @elseif($lomba->kegiatan->agenda->tingkat=='kecamatan')
+                                                {{ $item->first()->peserta->anggota->district->name }}
+                                            @elseif($lomba->kegiatan->agenda->tingkat=='gudep')
+                                                {{ $item->first()->peserta->anggota->gudepInfo->nama_sekolah }}
+                                            @endif
+                                        </td>
                                         <td>{{ $item->first()->stage }}</td>
                                         <td>{{ $item->first()->point }}</td>
                                         <td>{{ $item->first()->is_elimination=='1'?'Eliminasi':'-' }}</td>

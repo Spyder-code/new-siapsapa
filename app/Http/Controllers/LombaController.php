@@ -18,28 +18,64 @@ class LombaController extends Controller
 {
     public function daftar(Lomba $lomba)
     {
-        $gudep = Auth::user()->anggota->gudep;
         if ($lomba->kepesertaan=='kelompok') {
-            $peserta = PesertaLomba::where('lomba_id',$lomba->id)->get()->groupBy('gudep_id');
+            $peserta = PesertaLomba::join('tb_anggota','tb_anggota.id','peserta_lomba.anggota_id')
+                        ->where('peserta_lomba.lomba_id', $lomba->id)
+                        ->select('peserta_lomba.*')
+                        ->get()
+                        ->groupBy('tb_anggota.'.$lomba->kegiatan->agenda->tingkat);
         }else{
             $peserta = PesertaLomba::where('lomba_id',$lomba->id)->get();
         }
 
         if ($lomba->kategori=='campuran') {
-            $daftarPeserta = PendaftaranAgenda::where('agenda_id',$lomba->kegiatan->agenda_id)->whereHas('anggota', function($q) use($gudep){
-                $q->where('gudep',$gudep);
+            $daftarPeserta = PendaftaranAgenda::where('agenda_id',$lomba->kegiatan->agenda_id)->whereHas('anggota', function($q) use($lomba){
+                if($lomba->kegiatan->agenda->tingkat=='provinsi'){
+                    $q->where('provinsi',Auth::user()->anggota->provinsi);
+                }
+                if($lomba->kegiatan->agenda->tingkat=='kabupaten'){
+                    $q->where('kabupaten',Auth::user()->anggota->kabupaten);
+                }
+                if($lomba->kegiatan->agenda->tingkat=='kecamatan'){
+                    $q->where('kecamatan',Auth::user()->anggota->kecamatan);
+                }
+                if($lomba->kegiatan->agenda->tingkat=='gudep'){
+                    $q->where('gudep',Auth::user()->anggota->gudep);
+                }
             })->get();
         }
         if ($lomba->kategori=='putri') {
-            $daftarPeserta = PendaftaranAgenda::where('agenda_id',$lomba->kegiatan->agenda_id)->whereHas('anggota', function($q) use($gudep){
+            $daftarPeserta = PendaftaranAgenda::where('agenda_id',$lomba->kegiatan->agenda_id)->whereHas('anggota', function($q) use($lomba){
+                if($lomba->kegiatan->agenda->tingkat=='provinsi'){
+                    $q->where('provinsi',Auth::user()->anggota->provinsi);
+                }
+                if($lomba->kegiatan->agenda->tingkat=='kabupaten'){
+                    $q->where('kabupaten',Auth::user()->anggota->kabupaten);
+                }
+                if($lomba->kegiatan->agenda->tingkat=='kecamatan'){
+                    $q->where('kecamatan',Auth::user()->anggota->kecamatan);
+                }
+                if($lomba->kegiatan->agenda->tingkat=='gudep'){
+                    $q->where('gudep',Auth::user()->anggota->gudep);
+                }
                 $q->where('jk','P');
-                $q->where('gudep',$gudep);
             })->get();
         }
         if ($lomba->kategori=='putra') {
-            $daftarPeserta = PendaftaranAgenda::where('agenda_id',$lomba->kegiatan->agenda_id)->whereHas('anggota', function($q) use($gudep){
+            $daftarPeserta = PendaftaranAgenda::where('agenda_id',$lomba->kegiatan->agenda_id)->whereHas('anggota', function($q) use( $lomba){
+                if($lomba->kegiatan->agenda->tingkat=='provinsi'){
+                    $q->where('provinsi',Auth::user()->anggota->provinsi);
+                }
+                if($lomba->kegiatan->agenda->tingkat=='kabupaten'){
+                    $q->where('kabupaten',Auth::user()->anggota->kabupaten);
+                }
+                if($lomba->kegiatan->agenda->tingkat=='kecamatan'){
+                    $q->where('kecamatan',Auth::user()->anggota->kecamatan);
+                }
+                if($lomba->kegiatan->agenda->tingkat=='gudep'){
+                    $q->where('gudep',Auth::user()->anggota->gudep);
+                }
                 $q->where('jk','L');
-                $q->where('gudep',$gudep);
             })->get();
         }
         return view('admin.agenda.daftar_lomba', compact('lomba','peserta','daftarPeserta'));
@@ -85,16 +121,40 @@ class LombaController extends Controller
         $anggota = Auth::user()->anggota;
         $gudep = $anggota->gudep;
         if ($lomba->kepesertaan=='kelompok') {
-            $cek = PesertaLomba::where('lomba_id',$lomba->id)->whereHas('anggota', function($q) use($gudep){
-                $q->where('gudep',$gudep);
+            $cek = PesertaLomba::where('lomba_id',$lomba->id)->whereHas('anggota', function($q) use($lomba){
+                if($lomba->kegiatan->agenda->tingkat=='provinsi'){
+                    $q->where('provinsi',Auth::user()->anggota->provinsi);
+                }
+                if($lomba->kegiatan->agenda->tingkat=='kabupaten'){
+                    $q->where('kabupaten',Auth::user()->anggota->kabupaten);
+                }
+                if($lomba->kegiatan->agenda->tingkat=='kecamatan'){
+                    $q->where('kecamatan',Auth::user()->anggota->kecamatan);
+                }
+                if($lomba->kegiatan->agenda->tingkat=='gudep'){
+                    $q->where('gudep',Auth::user()->anggota->gudep);
+                }
             })->first();
         }else{
             $cek = PesertaLomba::where('agenda_id',$lomba->id)->where('anggota',$anggota->id)->first();
         }
         if (is_null($cek)) {
-            return back()->with('danger','Anda harus daftar agenda terlebih dahulu');
+            return back()->with('danger','Anda harus daftar lomba terlebih dahulu');
         }
-        $file = LombaFile::where('gudep_id',$anggota->gudep)->first();
+        $file = LombaFile::where('lomba_id',$lomba->id)->whereHas('anggota', function($q) use($lomba){
+            if($lomba->kegiatan->agenda->tingkat=='provinsi'){
+                $q->where('provinsi',Auth::user()->anggota->provinsi);
+            }
+            if($lomba->kegiatan->agenda->tingkat=='kabupaten'){
+                $q->where('kabupaten',Auth::user()->anggota->kabupaten);
+            }
+            if($lomba->kegiatan->agenda->tingkat=='kecamatan'){
+                $q->where('kecamatan',Auth::user()->anggota->kecamatan);
+            }
+            if($lomba->kegiatan->agenda->tingkat=='gudep'){
+                $q->where('gudep',Auth::user()->anggota->gudep);
+            }
+        })->first();
         return view('admin.agenda.file', compact('lomba','file'));
     }
 
@@ -107,25 +167,33 @@ class LombaController extends Controller
         $data['size'] = $request->file->getSize();
         $lomba = Lomba::find($request->lomba_id);
         $anggota = Anggota::where('user_id',$request->user_id)->first();
-        $anggota_id = $anggota->id;
-        if ($lomba->kepesertaan=='kelompok') {
-            $data['gudep_id'] = $anggota->gudep;
-        }else{
-            $peserta = PesertaLomba::where('lomba_id',$request->lomba_id)->where('anggota', $anggota_id)->first();
-            if (!$peserta) {
-                return response('Maaf anda tidak terdaftar!');
-            }
-            $data['peserta_id'] = $peserta->id;
+        $peserta = PesertaLomba::where('lomba_id',$request->lomba_id)->where('anggota_id', $anggota->id)->first();
+        if (!$peserta) {
+            return response('Maaf anda tidak terdaftar!');
         }
+        $data['peserta_id'] = $peserta->id;
         if($file = $request->file('file')){
             $fileName = time().'.'.$file->getClientOriginalExtension();
             $file->move(public_path('/berkas/lomba/'.$request->lomba_id.'/'), $fileName);
             $data['lomba_id'] = $request->lomba_id;
-            $data['anggota_id'] = $anggota_id;
+            $data['anggota_id'] = $anggota->id;
             $data['file_name'] = $fileName;
             $data['file_path'] = 'berkas/lomba/'.$request->lomba_id.'/'.$fileName;
             $data['mime'] = $file->getClientMimeType();
-            $cek = LombaFile::where('gudep_id',$data['gudep_id'])->first();
+            $cek = LombaFile::where('lomba_id',$lomba->id)->whereHas('anggota', function($q) use($lomba,$anggota){
+                        if($lomba->kegiatan->agenda->tingkat=='provinsi'){
+                            $q->where('provinsi',$anggota->provinsi);
+                        }
+                        if($lomba->kegiatan->agenda->tingkat=='kabupaten'){
+                            $q->where('kabupaten',$anggota->kabupaten);
+                        }
+                        if($lomba->kegiatan->agenda->tingkat=='kecamatan'){
+                            $q->where('kecamatan',$anggota->kecamatan);
+                        }
+                        if($lomba->kegiatan->agenda->tingkat=='gudep'){
+                            $q->where('gudep',$anggota->gudep);
+                        }
+                    })->first();
             if ($cek) {
                 $cek->update($data);
             }else{
@@ -156,7 +224,17 @@ class LombaController extends Controller
     public function stage(Lomba $lomba)
     {
         $peserta = LombaStage::where('lomba_id',$lomba->id)->get();
-        $lives = LombaStage::where('lomba_id',$lomba->id)->where('stage',$peserta->max('stage'))->get();
+        if ($lomba->kepesertaan=='kelompok') {
+            $lives = LombaStage::join('peserta_lomba','peserta_lomba.id','=','lomba_stages.peserta_id')
+                        ->join('tb_anggota','tb_anggota.id','=','peserta_lomba.anggota_id')
+                        ->where('lomba_stages.lomba_id',$lomba->id)
+                        ->where('lomba_stages.stage',$peserta->max('stage'))
+                        ->select('lomba_stages.*')
+                        ->get()
+                        ->groupBy('tb_anggota.'.$lomba->kegiatan->agenda->tingkat);
+        }else{
+            $lives = LombaStage::where('lomba_id',$lomba->id)->where('stage',$peserta->max('stage'))->get();
+        }
         return view('admin.agenda.stage', compact('peserta','lomba','lives'));
     }
 
@@ -171,16 +249,7 @@ class LombaController extends Controller
     }
 
     public function updateLombaStage(LombaStage $lomba_stage, Request $request){
-        $type = $lomba_stage->lomba->kepesertaan;
-        if($type=='kelompok'){
-            $stage = $lomba_stage->stage;
-            $lomba_id = $lomba_stage->lomba_id;
-            $gudep_id = $lomba_stage->gudep_id;
-            LombaStage::where('lomba_id',$lomba_id)->where('stage',$stage)->where('gudep_id',$gudep_id)->update($request->all());
-        }else{
-            $lomba_stage->update($request->all());
-        }
-
+        $lomba_stage->update($request->all());
         return back()->with('success','Data berhasil disimpan');
     }
 
@@ -226,7 +295,11 @@ class LombaController extends Controller
         }
         if ($lomba->penilaian=='subjective') {
             if ($lomba->kepesertaan=='kelompok') {
-                $files = PesertaLomba::all()->where('lomba_id',$lomba_id)->groupBy('gudep_id');
+                $files = PesertaLomba::join('tb_anggota','tb_anggota.id','peserta_lomba.anggota_id')
+                    ->where('peserta_lomba.lomba_id', $lomba->id)
+                    ->select('peserta_lomba.*')
+                    ->get()
+                    ->groupBy('tb_anggota.'.$lomba->kegiatan->agenda->tingkat);
             } else {
                 $files = PesertaLomba::all()->where('lomba_id',$lomba_id);
             }
@@ -266,11 +339,7 @@ class LombaController extends Controller
         $data = $request->all();
         $data['lomba_id'] =  $juri->lomba_id;
         $data['juri_id'] =  $juri->id;
-        if($juri->lomba->kepesertaan=='kelompok'){
-            $res = PointJuri::upsert([$data],['id'],['point','description']);
-        }else{
-            $res = PointJuri::upsert([$data],['juri_id','peserta_id','lomba_id'],['point','description']);
-        }
+        $res = PointJuri::upsert([$data],['juri_id','peserta_id','lomba_id'],['point','description']);
 
         return response($res);
     }
@@ -288,12 +357,19 @@ class LombaController extends Controller
             $juriCount = Juri::where('lomba_id',$lomba->id)->count();
             if ($lomba->kepesertaan=='kelompok') {
                 $data = array();
-                $pen = PesertaLomba::all()->where('lomba_id',$lomba->id)->keyBy('gudep_id')->groupBy('gudep_id');
-                $i=0;
+                $pen = PointJuri::all()->where('lomba_id',$lomba->id);
                 foreach ($pen as $key => $item) {
-                    $data[$i]['nama'] = $item->first()->gudep->nama_sekolah;
-                    $data[$i]['point'] = (int)PointJuri::all()->where('lomba_id',$lomba->id)->whereNull('peserta_id')->where('gudep_id',$key)->sum('point')/$juriCount;
-                    $i++;
+                    if($lomba->kegiatan->agenda->tingkat=='provinsi'){
+                        $name = $item->peserta->anggota->province->name;
+                    }elseif($lomba->kegiatan->agenda->tingkat=='kabupaten'){
+                        $name = $item->peserta->anggota->city->name;
+                    }elseif($lomba->kegiatan->agenda->tingkat=='kecamatan'){
+                        $name = $item->peserta->anggota->district->name;
+                    }else{
+                        $name = $item->peserta->anggota->gudepInfo->nama_sekolah;
+                    }
+                    $data[$key]['nama'] = $name;
+                    $data[$key]['point'] = (int)PointJuri::all()->where('lomba_id',$lomba->id)->whereNull('gudep_id')->where('peserta_id',$item->peserta_id)->sum('point')/$juriCount;
                 }
                 $data = collect($data);
                 $data = $data->sortByDesc('point');
@@ -310,7 +386,13 @@ class LombaController extends Controller
         }
         if ($lomba->penilaian=='objective') {
             if($lomba->kepesertaan=='kelompok'){
-                $data = LombaStage::where('lomba_id',$lomba->id)->orderBy('stage','desc')->orderBy('point','desc')->get()->groupBy('gudep_id');
+                $data = LombaStage::join('peserta_lomba','peserta_lomba.id','=','lomba_stages.peserta_id')
+                        ->join('tb_anggota','tb_anggota.id','=','peserta_lomba.anggota_id')
+                        ->where('lomba_stages.lomba_id',$lomba->id)
+                        ->select('lomba_stages.*')
+                        ->orderBy('stage','desc')
+                        ->get()
+                        ->groupBy('tb_anggota.'.$lomba->kegiatan->agenda->tingkat);
             }else{
                 $data = LombaStage::where('lomba_id',$lomba->id)->orderBy('stage','desc')->orderBy('point','desc')->get()->groupBy('peserta_id');
             }

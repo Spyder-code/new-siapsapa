@@ -19,4 +19,9 @@ class PointJuri extends Model
         'status',
         'juri_id',
     ];
+
+    public function peserta()
+    {
+        return $this->belongsTo(PesertaLomba::class,'peserta_id');
+    }
 }

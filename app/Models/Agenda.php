@@ -21,6 +21,7 @@ class Agenda extends Model
       'tanggal_mulai',
       'tanggal_selesai',
       'kepesertaan',
+      'tingkat',
       'kategori',
       'jenis',
       'is_finish',

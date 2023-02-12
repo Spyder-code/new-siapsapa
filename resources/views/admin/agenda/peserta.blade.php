@@ -30,7 +30,7 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Nama Gudep</th>
+                                <th>Nama {{ ucfirst($agenda->tingkat) }}</th>
                                 <th>Peserta</th>
                                 <th>Aksi</th>
                             </tr>
@@ -41,12 +41,22 @@
                                 <tr>
                                     @if ($loop->first)
                                     <td rowspan="{{ $item->count() }}">{{ $loop->iteration }}</td>
-                                    <td rowspan="{{ $item->count() }}">{{ $item->first()->gudepInfo->nama_sekolah }}</td>
+                                    <td rowspan="{{ $item->count() }}">
+                                        @if ($agenda->tingkat=='provinsi')
+                                            {{ $item->first()->anggota->province->name }}
+                                        @elseif($agenda->tingkat=='kabupaten')
+                                            {{ $item->first()->anggota->city->name }}
+                                        @elseif($agenda->tingkat=='kecamatan')
+                                            {{ $item->first()->anggota->district->name }}
+                                        @elseif($agenda->tingkat=='gudep')
+                                            {{ $item->first()->anggota->gudepInfo->nama_sekolah }}
+                                        @endif
+                                    </td>
                                     @endif
-                                    <td>{{ $a->nodaf($agenda->id) }} - {{ $a->nama }}</td>
+                                    <td>{{ $a->nodaf }} - {{ $a->anggota->nama }}</td>
                                     <td>
-                                        @if (Auth::user()->anggota->gudep==$a->gudep)
-                                        <button type="button" class="btn btn-danger" onclick="deletePeserta('{{ $a->nodaf($agenda->id) }}')"><i class="fas fa-trash-alt"></i></button>
+                                        @if (Auth::id()==$agenda->created_by)
+                                        <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $a->id }})"><i class="fas fa-trash-alt"></i></button>
                                         @endif
                                     </td>
                                 </tr>
@@ -191,12 +201,13 @@
     function deletePeserta(id){
         if(confirm('are you sure?')){
             $.ajax({
-                url: "{{ url('/api/delete-peserta') }}",
+                url: "{{ url('api/delete-peserta') }}",
                 type: "DELETE",
                 data:{
                     id:id
                 },
                 success: function(data){
+                    console.log(data);
                     alert('Pendaftar berhasil dihapus');
                     location.reload();
                 }

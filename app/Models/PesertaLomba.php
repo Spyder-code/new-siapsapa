@@ -34,19 +34,61 @@ class PesertaLomba extends Model
         return $this->belongsTo(Gudep::class,'gudep_id');
     }
 
-    public function pointJuriGudep($lomba_id,$juri_id)
+    public function pointJuriPesertaKelompok($lomba_id,$juri_id)
     {
-        return PointJuri::where('lomba_id',$lomba_id)->where('juri_id',$juri_id)->where('gudep_id',$this->gudep_id)->first()->point ?? '';
+        $tingkat = Lomba::find($lomba_id)->kegiatan->agenda->tingkat;
+        if($tingkat=='provinsi'){
+            $wilayah = $this->anggota->provinsi;
+        }elseif($tingkat=='kabupaten'){
+            $wilayah = $this->anggota->kecamatan;
+        }elseif($tingkat=='kecamatan'){
+            $wilayah = $this->anggota->kecamatan;
+        }else{
+            $wilayah = $this->anggota->gudep;
+        }
+        return PointJuri::join('peserta_lomba','peserta_lomba.id','=','point_juri.peserta_id')
+                ->join('tb_anggota','tb_anggota.id','=','peserta_lomba.anggota_id')
+                ->where('point_juri.lomba_id',$lomba_id)
+                ->where('point_juri.juri_id',$juri_id)
+                ->where('tb_anggota.'.$tingkat,$wilayah)->first()->point ?? '';
     }
 
-    public function idJuriGudep($lomba_id,$juri_id)
+    public function idJuriPesertaKelompok($lomba_id,$juri_id)
     {
-        return PointJuri::where('lomba_id',$lomba_id)->where('juri_id',$juri_id)->where('gudep_id',$this->gudep_id)->first()->id ?? null;
+        $tingkat = Lomba::find($lomba_id)->kegiatan->agenda->tingkat;
+        if($tingkat=='provinsi'){
+            $wilayah = $this->anggota->provinsi;
+        }elseif($tingkat=='kabupaten'){
+            $wilayah = $this->anggota->kecamatan;
+        }elseif($tingkat=='kecamatan'){
+            $wilayah = $this->anggota->kecamatan;
+        }else{
+            $wilayah = $this->anggota->gudep;
+        }
+        return PointJuri::join('peserta_lomba','peserta_lomba.id','=','point_juri.peserta_id')
+                ->join('tb_anggota','tb_anggota.id','=','peserta_lomba.anggota_id')
+                ->where('point_juri.lomba_id',$lomba_id)
+                ->where('point_juri.juri_id',$juri_id)
+                ->where('tb_anggota.'.$tingkat,$wilayah)->first()->id ?? null;
     }
 
-    public function deskripsiJuriGudep($lomba_id,$juri_id)
+    public function deskripsiJuriPesertaKelompok($lomba_id,$juri_id)
     {
-        return PointJuri::where('lomba_id',$lomba_id)->where('juri_id',$juri_id)->where('gudep_id',$this->gudep_id)->first()->description ?? '';
+        $tingkat = Lomba::find($lomba_id)->kegiatan->agenda->tingkat;
+        if($tingkat=='provinsi'){
+            $wilayah = $this->anggota->provinsi;
+        }elseif($tingkat=='kabupaten'){
+            $wilayah = $this->anggota->kecamatan;
+        }elseif($tingkat=='kecamatan'){
+            $wilayah = $this->anggota->kecamatan;
+        }else{
+            $wilayah = $this->anggota->gudep;
+        }
+        return PointJuri::join('peserta_lomba','peserta_lomba.id','=','point_juri.peserta_id')
+                ->join('tb_anggota','tb_anggota.id','=','peserta_lomba.anggota_id')
+                ->where('point_juri.lomba_id',$lomba_id)
+                ->where('point_juri.juri_id',$juri_id)
+                ->where('tb_anggota.'.$tingkat,$wilayah)->first()->description ?? '';
     }
 
     public function pointJuriPeserta($lomba_id,$juri_id)
