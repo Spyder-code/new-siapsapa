@@ -51,6 +51,9 @@
             <li class="list-group-item d-flex gap-1">
                 <a href="{{ route('agenda.sertifikat', $item) }}" class="btn btn-sm btn-outline-success w-100">Upload Sertifikat <i class="fas fa-trophy"></i></a>
             </li>
+            <li class="list-group-item d-flex gap-1">
+                <a href="{{ route('agenda.panitia', $item) }}" class="btn btn-sm btn-outline-info w-100">Panitia <i class="fas fa-users"></i></a>
+            </li>
             @endif
         </div>
     </div>

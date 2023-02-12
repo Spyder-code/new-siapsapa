@@ -78,7 +78,7 @@
                                             <td>{{ $item->nama_kegiatan }}</td>
                                             <td>
                                                 <div class="btn-group">
-                                                @if (Auth::user()->role == 'admin' || Auth::id()==$agenda->created_by)
+                                                @if (Auth::user()->role == 'admin' || $agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first())
                                                     <button type="button" onclick="editKegiatan('{{ $item->lomba?'lomba':'non' }}',{{ $item->id }},'{{ $item->waktu_mulai }}','{{ $item->waktu_selesai }}','{{ $item->nama_kegiatan }}')" class="btn btn-primary btn-sm">Edit</button>
                                                     <button type="button" onclick="deleteKegiatan({{ $item->id }})" class="btn btn-danger btn-sm">Hapus</button>
                                                     @endif
@@ -92,10 +92,10 @@
                                                                     @if ($item->lomba->penilaian=='vote')
                                                                         <li><a href="{{ route('lomba.file', $item->lomba) }}" class="dropdown-item text-primary">Upload File <i class="fas fa-paper-plane"></i></a></li>
                                                                     @endif
-                                                                    @if ($item->lomba->penilaian=='subjective' && Auth::id()==$item->agenda->created_by)
+                                                                    @if ($item->lomba->penilaian=='subjective' && $agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first())
                                                                     <li><a href="{{ route('lomba.juri', $item->lomba) }}" class="dropdown-item text-warning">Management Juri <i class="fas fa-check-circle"></i></a></li>
                                                                     @endif
-                                                                    @if ($item->lomba->penilaian=='objective' && (Auth::id()==$item->agenda->created_by||Auth::user()->role == 'admin'))
+                                                                    @if ($item->lomba->penilaian=='objective' && ($agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first()||Auth::user()->role == 'admin'))
                                                                     <li><a href="{{ route('lomba.stage', $item->lomba) }}" class="dropdown-item text-warning">Management Pertandingan <i class="fas fa-check-circle"></i></a></li>
                                                                     @endif
                                                                 @endif
@@ -115,15 +115,17 @@
                                         @endforeach
                                     @empty
                                     <tr id="empty">
-                                        <td colspan="@if (Auth::user()->role == 'admin' || Auth::id()==$agenda->created_by) 3 @else 2 @endif">Tidak ada data</td>
+                                        <td colspan="@if (Auth::user()->role == 'admin' || $agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first()) 3 @else 2 @endif">Tidak ada data</td>
                                     </tr>
                                     @endforelse
                                 </tbody>
                                 <tfoot>
+                                    @if ($agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first())
                                     <tr>
                                         <td colspan="2"><button type="button" data-toggle="modal" data-target="#nonLomba" class="btn btn-sm btn-outline-primary w-100">Tambah Kegiatan non Lomba</button></td>
                                         <td colspan="2"><button type="button" data-toggle="modal" data-target="#lomba" class="btn btn-sm btn-outline-success w-100">Tambah Kegiatan Lomba</button></td>
                                     </tr>
+                                    @endif
                                 </tfoot>
                             </table>
                         </div>

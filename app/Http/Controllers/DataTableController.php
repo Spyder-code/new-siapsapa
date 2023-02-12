@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\Distrik;
 use App\Models\Gudep;
 use App\Models\Juri;
+use App\Models\PanitiaAgenda;
 use App\Models\Provinsi;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -143,10 +144,10 @@ class DataTableController extends Controller
                 ';
             })
             ->addColumn('action', function ($data) {
-                $cek = Juri::where('anggota_id',$data->id)->first();
+                $cek = PanitiaAgenda::where('anggota_id',$data->id)->first();
                 $html = '';
                 if(!$cek){
-                    $html = '<button class="btn btn-sm btn-outline-success" onclick="addJuri('.$data->id.')" style="font-size:.7rem">Jadikan Juri</button>';
+                    $html = '<button class="btn btn-sm btn-outline-success" onclick="addJuri('.$data->id.')" style="font-size:.7rem">Jadikan Panitia</button>';
                 }
                 return $html;
             })

@@ -55,7 +55,7 @@
                                     @endif
                                     <td>{{ $a->nodaf }} - {{ $a->anggota->nama }}</td>
                                     <td>
-                                        @if (Auth::id()==$lomba->kegiatan->agenda->created_by)
+                                        @if ($lomba->kegiatan->agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first())
                                             <form action="{{ route('lomba.daftar.destroy',$a) }}" method="post">
                                                 @csrf
                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
@@ -112,7 +112,9 @@
                                 <td>{{ $item->anggota->city->name }}</td>
                                 <td>{{ $item->anggota->district->name }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $item->id }})"><i class="fas fa-trash-alt"></i></button>
+                                    @if ($lomba->kegiatan->agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first())
+                                        <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $item->id }})"><i class="fas fa-trash-alt"></i></button>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

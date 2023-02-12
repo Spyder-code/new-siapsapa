@@ -7,6 +7,7 @@ use App\Models\AgendaFile;
 use App\Models\Anggota;
 use App\Models\Juri;
 use App\Models\Kegiatan;
+use App\Models\PanitiaAgenda;
 use App\Models\PendaftaranAgenda;
 use App\Models\PointJuri;
 use App\Models\PointVote;
@@ -112,7 +113,11 @@ class AgendaController extends Controller
         $data['provinsi_id'] = $anggota->provinsi;
         $data['kabupaten_id'] = $anggota->kabupaten;
         $data['kecamatan_id'] = $anggota->kecamatan;
-        Agenda::create($data);
+        $agenda = Agenda::create($data);
+        PanitiaAgenda::create([
+            'agenda_id' => $agenda->id,
+            'anggota_id' => $anggota->id
+        ]);
         return redirect()->route('agenda.index')->with('success', 'Data berhasil ditambahkan');
     }
 
@@ -165,6 +170,12 @@ class AgendaController extends Controller
     public function sertifikat(Agenda $agenda)
     {
         return view('admin.agenda.sertifikat.upload',compact('agenda'));
+    }
+
+    public function panitia(Agenda $agenda)
+    {
+        $panitia = PanitiaAgenda::all()->where('agenda_id',$agenda->id);
+        return view('admin.agenda.panitia', compact('agenda','panitia'));
     }
 
 }

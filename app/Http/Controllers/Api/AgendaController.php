@@ -10,6 +10,7 @@ use App\Models\AgendaFile;
 use App\Models\Anggota;
 use App\Models\Juri;
 use App\Models\Kegiatan;
+use App\Models\PanitiaAgenda;
 use App\Models\PendaftaranAgenda;
 use App\Models\PointJuri;
 use Illuminate\Http\Request;
@@ -214,5 +215,15 @@ class AgendaController extends Controller
             'status' => 1,
             'message' => 'Batalkan daftar ulang berhasil!'
         ]);
+    }
+
+    public function panitiaAdd(Request $request)
+    {
+        $panitia = PanitiaAgenda::create([
+            'agenda_id' => $request->agenda_id,
+            'anggota_id' => $request->anggota_id,
+        ]);
+
+        return response($panitia);
     }
 }

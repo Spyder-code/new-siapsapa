@@ -51,4 +51,9 @@ class Agenda extends Model
    {
       return $this->hasMany(Kegiatan::class , 'agenda_id', 'id');
    }
+
+   public function panitia()
+   {
+        return $this->hasMany(PanitiaAgenda::class,'agenda_id');
+   }
 }

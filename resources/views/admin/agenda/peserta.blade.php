@@ -55,7 +55,7 @@
                                     @endif
                                     <td>{{ $a->nodaf }} - {{ $a->anggota->nama }}</td>
                                     <td>
-                                        @if (Auth::id()==$agenda->created_by)
+                                        @if ($agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first())
                                         <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $a->id }})"><i class="fas fa-trash-alt"></i></button>
                                         @endif
                                     </td>
@@ -109,7 +109,9 @@
                                 <td>{{ $item->anggota->city->name }}</td>
                                 <td>{{ $item->anggota->district->name }}</td>
                                 <td>
+                                    @if ($agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first())
                                     <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $item->id }})"><i class="fas fa-trash-alt"></i></button>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

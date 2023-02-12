@@ -18,6 +18,7 @@ use App\Http\Controllers\LombaController;
 use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\OrganizationUserController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PanitiaAgendaController;
 use App\Http\Controllers\PercetakanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SocialController;
@@ -150,6 +151,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::resource('transaction',TransactionController::class);
         Route::resource('cartproduct',CartProductController::class);
         Route::resource('organization_user',OrganizationUserController::class);
+        Route::resource('panitia_agenda',PanitiaAgendaController::class);
         Route::resource('anggota', AnggotaController::class)->except(['edit','show','index']);
         Route::get('invoice',[TransactionController::class,'paymentSuccess']);
         Route::post('pay/{transactionDetail}',[TransactionController::class,'pay'])->name('transaction.pay');
@@ -181,6 +183,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::resource('dokumen', DocumentController::class)->except(['store']);
         Route::resource('agenda', AgendaController::class);
         Route::get('agenda/{agenda}/peserta', [AgendaController::class, 'peserta'])->name('agenda.peserta');
+        Route::get('agenda/{agenda}/panitia', [AgendaController::class, 'panitia'])->name('agenda.panitia');
         Route::get('upload-sertif/{agenda}/agenda', [AgendaController::class, 'sertifikat'])->name('agenda.sertifikat');
         Route::get('lomba/{lomba}/juri', [LombaController::class, 'juri'])->name('lomba.juri');
         Route::get('lomba/{lomba}/stage', [LombaController::class, 'stage'])->name('lomba.stage');
