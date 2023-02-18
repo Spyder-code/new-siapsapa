@@ -339,9 +339,18 @@ class LombaController extends Controller
         $data = $request->all();
         $data['lomba_id'] =  $juri->lomba_id;
         $data['juri_id'] =  $juri->id;
-        $res = PointJuri::upsert([$data],['juri_id','peserta_id','lomba_id'],['point','description']);
+        $cek = PointJuri::where('peserta_id',$request->peserta_id)->where('juri_id',$request->juri_id)->where('lomba_id',$request->lomba_id)->first();
+        if ($cek) {
+            $cek->update([
+                'point' => $request->point,
+                'description' => $request->description
+            ]);
+        }else{
+            $cek = PointJuri::create($request->all());
+        }
+        // $res = PointJuri::upsert([$data],['juri_id','peserta_id','lomba_id'],['point','description']);
 
-        return response($res);
+        return response($cek);
     }
 
     public function hasil(Lomba $lomba)
@@ -357,19 +366,19 @@ class LombaController extends Controller
             $juriCount = Juri::where('lomba_id',$lomba->id)->count();
             if ($lomba->kepesertaan=='kelompok') {
                 $data = array();
-                $pen = PointJuri::all()->where('lomba_id',$lomba->id);
+                $pen = PointJuri::all()->where('lomba_id',$lomba->id)->groupBy('peserta_id');
                 foreach ($pen as $key => $item) {
                     if($lomba->kegiatan->agenda->tingkat=='provinsi'){
-                        $name = $item->peserta->anggota->province->name;
+                        $name = $item->first()->peserta->anggota->province->name;
                     }elseif($lomba->kegiatan->agenda->tingkat=='kabupaten'){
-                        $name = $item->peserta->anggota->city->name;
+                        $name = $item->first()->peserta->anggota->city->name;
                     }elseif($lomba->kegiatan->agenda->tingkat=='kecamatan'){
-                        $name = $item->peserta->anggota->district->name;
+                        $name = $item->first()->peserta->anggota->district->name;
                     }else{
-                        $name = $item->peserta->anggota->gudepInfo->nama_sekolah;
+                        $name = $item->first()->peserta->anggota->gudepInfo->nama_sekolah;
                     }
                     $data[$key]['nama'] = $name;
-                    $data[$key]['point'] = (int)PointJuri::all()->where('lomba_id',$lomba->id)->whereNull('gudep_id')->where('peserta_id',$item->peserta_id)->sum('point')/$juriCount;
+                    $data[$key]['point'] = $item->sum('point')/$juriCount;
                 }
                 $data = collect($data);
                 $data = $data->sortByDesc('point');

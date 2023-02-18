@@ -122,6 +122,7 @@
             let idP = $('#id-'+id).val();
             let description = $('#deskripsi-'+id).val();
             let juri_id = @json($juri_id);
+            let lomba_id = @json($lomba->id);
             if (point==''&&description=='') {
                 alert('Harap isi point dan deskripsi!')
             }else{
@@ -129,11 +130,11 @@
                     type: "post",
                     url: "{{ route('lomba.juri.addPoint') }}",
                     data: {
+                        lomba_id:lomba_id,
                         point:point,
                         description:description,
                         peserta_id:id,
                         juri_id:juri_id,
-                        id:idP,
                     },
                     success: function (response) {
                         alert('Data berhasil tersimpan!');

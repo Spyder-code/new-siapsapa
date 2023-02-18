@@ -10,6 +10,7 @@ class PesertaLomba extends Model
     use HasFactory;
     protected $table = 'peserta_lomba';
     protected $fillable = [
+        'id',
         'nodaf',
         'lomba_id',
         'anggota_id',
@@ -50,7 +51,7 @@ class PesertaLomba extends Model
                 ->join('tb_anggota','tb_anggota.id','=','peserta_lomba.anggota_id')
                 ->where('point_juri.lomba_id',$lomba_id)
                 ->where('point_juri.juri_id',$juri_id)
-                ->where('tb_anggota.'.$tingkat,$wilayah)->first()->point ?? '';
+                ->where('point_juri.peserta_id',$this->id)->first()->point ?? '';
     }
 
     public function idJuriPesertaKelompok($lomba_id,$juri_id)
@@ -69,7 +70,7 @@ class PesertaLomba extends Model
                 ->join('tb_anggota','tb_anggota.id','=','peserta_lomba.anggota_id')
                 ->where('point_juri.lomba_id',$lomba_id)
                 ->where('point_juri.juri_id',$juri_id)
-                ->where('tb_anggota.'.$tingkat,$wilayah)->first()->id ?? null;
+                ->where('point_juri.peserta_id',$this->id)->first()->id ?? null;
     }
 
     public function deskripsiJuriPesertaKelompok($lomba_id,$juri_id)
@@ -88,7 +89,7 @@ class PesertaLomba extends Model
                 ->join('tb_anggota','tb_anggota.id','=','peserta_lomba.anggota_id')
                 ->where('point_juri.lomba_id',$lomba_id)
                 ->where('point_juri.juri_id',$juri_id)
-                ->where('tb_anggota.'.$tingkat,$wilayah)->first()->description ?? '';
+                ->where('point_juri.peserta_id',$this->id)->first()->description ?? '';
     }
 
     public function pointJuriPeserta($lomba_id,$juri_id)

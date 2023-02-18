@@ -6,9 +6,9 @@
             <p style="text-transform: uppercase">Penilaian {{ $lomba->kegiatan->nama_kegiatan }}</p>
             @if (strtotime(date('Y-m-d H:i'))<strtotime($lomba->kegiatan->waktu_selesai))
                 <div class="alert alert-warning">
-                    <p class="text-center"> <strong id="countdown"></strong></p>
+                    <p class="text-center"> <strong id="countdown"></strong> <br> Waktu berakhir penilaian</p>
                 </div>
-            @else
+            @endif
                 @if ($lomba->penilaian=='vote')
                 <div class="card p-3 shadow">
                     <table class="table table-sm table-bordered" style="font-size: .7rem">
@@ -131,7 +131,6 @@
                     </table>
                 </div>
                 @endif
-            @endif
         </div>
     </section>
 @endsection

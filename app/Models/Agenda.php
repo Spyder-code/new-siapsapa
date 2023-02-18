@@ -54,6 +54,11 @@ class Agenda extends Model
 
    public function panitia()
    {
-        return $this->hasMany(PanitiaAgenda::class,'agenda_id');
+      return $this->hasMany(PanitiaAgenda::class,'agenda_id');
+   }
+
+   public function owner()
+   {
+      return $this->belongsTo(User::class,'created_by');
    }
 }

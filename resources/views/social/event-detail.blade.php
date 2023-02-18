@@ -36,11 +36,7 @@
                             </li>
                             <li class=" list-group-item border-bottom-0 py-1 px-0 text-muted">
                                 <i data-feather="check-circle" class="text-primary feather-sm me-2"></i>
-                                @if ($agenda->jenis=='lomba')
-                                Provinsi {{ Str::lower($agenda->provinsi->name) }}
-                                @else
-                                Wilayah: {{ Str::lower($agenda->kecamatan->name) }}, {{ Str::lower($agenda->kabupaten->name) }}, Provinsi {{ Str::lower($agenda->provinsi->name) }}
-                                @endif
+                                Ketua Panitia: {{ $agenda->owner->anggota->nama }}
                             </li>
                             <li class=" list-group-item border-bottom-0 py-1 px-0 text-muted">
                                 <i data-feather="check-circle" class="text-primary feather-sm me-2"></i>
