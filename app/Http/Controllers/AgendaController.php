@@ -84,9 +84,9 @@ class AgendaController extends Controller
             $tingkat = $agenda->tingkat;
             $anggota = PendaftaranAgenda::join('tb_anggota','tb_anggota.id','pendaftaran_agenda.anggota_id')
                         ->where('pendaftaran_agenda.agenda_id', $agenda->id)
-                        ->select('pendaftaran_agenda.*')
+                        ->select('pendaftaran_agenda.*','tb_anggota.provinsi','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.gudep')
                         ->get()
-                        ->groupBy('tb_anggota.'.$tingkat);
+                        ->groupBy($tingkat);
         }else{
             $anggota = PendaftaranAgenda::all()->where('agenda_id', $agenda->id);
         }

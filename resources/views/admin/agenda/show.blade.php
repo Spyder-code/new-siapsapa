@@ -50,7 +50,7 @@
                             </li>
                             <li class=" list-group-item border-bottom-0 py-1 px-0 text-muted">
                                 <i data-feather="check-circle" class="text-primary feather-sm me-2"></i>
-                                Panitia Agenda: {{ $agenda->owner->anggota->nama }}
+                                Admin: {{ $agenda->owner->anggota->nama }}
                             </li>
                             <li class=" list-group-item border-bottom-0 py-1 px-0 text-muted">
                                 <i data-feather="check-circle" class="text-primary feather-sm me-2"></i>

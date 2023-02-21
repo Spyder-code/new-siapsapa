@@ -86,4 +86,9 @@ class Anggota extends Model
     {
         return PendaftaranAgenda::where('agenda_id',$agenda_id)->where('anggota_id',$this->id)->first()->nodaf;
     }
+
+    public function agenda()
+    {
+        return $this->hasMany(Agenda::class,'anggota_id');
+    }
 }
