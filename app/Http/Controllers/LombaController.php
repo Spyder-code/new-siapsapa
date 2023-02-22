@@ -21,9 +21,9 @@ class LombaController extends Controller
         if ($lomba->kepesertaan=='kelompok') {
             $peserta = PesertaLomba::join('tb_anggota','tb_anggota.id','peserta_lomba.anggota_id')
                         ->where('peserta_lomba.lomba_id', $lomba->id)
-                        ->select('peserta_lomba.*')
+                        ->select('peserta_lomba.*','tb_anggota.provinsi','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.gudep')
                         ->get()
-                        ->groupBy('tb_anggota.'.$lomba->kegiatan->agenda->tingkat);
+                        ->groupBy($lomba->kegiatan->agenda->tingkat);
         }else{
             $peserta = PesertaLomba::where('lomba_id',$lomba->id)->get();
         }
@@ -229,9 +229,9 @@ class LombaController extends Controller
                         ->join('tb_anggota','tb_anggota.id','=','peserta_lomba.anggota_id')
                         ->where('lomba_stages.lomba_id',$lomba->id)
                         ->where('lomba_stages.stage',$peserta->max('stage'))
-                        ->select('lomba_stages.*')
+                        ->select('lomba_stages.*','tb_anggota.provinsi','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.gudep')
                         ->get()
-                        ->groupBy('tb_anggota.'.$lomba->kegiatan->agenda->tingkat);
+                        ->groupBy($lomba->kegiatan->agenda->tingkat);
         }else{
             $lives = LombaStage::where('lomba_id',$lomba->id)->where('stage',$peserta->max('stage'))->get();
         }
@@ -297,9 +297,9 @@ class LombaController extends Controller
             if ($lomba->kepesertaan=='kelompok') {
                 $files = PesertaLomba::join('tb_anggota','tb_anggota.id','peserta_lomba.anggota_id')
                     ->where('peserta_lomba.lomba_id', $lomba->id)
-                    ->select('peserta_lomba.*')
+                    ->select('peserta_lomba.*','tb_anggota.provinsi','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.gudep')
                     ->get()
-                    ->groupBy('tb_anggota.'.$lomba->kegiatan->agenda->tingkat);
+                    ->groupBy($lomba->kegiatan->agenda->tingkat);
             } else {
                 $files = PesertaLomba::all()->where('lomba_id',$lomba_id);
             }
@@ -398,10 +398,10 @@ class LombaController extends Controller
                 $data = LombaStage::join('peserta_lomba','peserta_lomba.id','=','lomba_stages.peserta_id')
                         ->join('tb_anggota','tb_anggota.id','=','peserta_lomba.anggota_id')
                         ->where('lomba_stages.lomba_id',$lomba->id)
-                        ->select('lomba_stages.*')
+                        ->select('lomba_stages.*','tb_anggota.provinsi','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.gudep')
                         ->orderBy('stage','desc')
                         ->get()
-                        ->groupBy('tb_anggota.'.$lomba->kegiatan->agenda->tingkat);
+                        ->groupBy($lomba->kegiatan->agenda->tingkat);
             }else{
                 $data = LombaStage::where('lomba_id',$lomba->id)->orderBy('stage','desc')->orderBy('point','desc')->get()->groupBy('peserta_id');
             }
