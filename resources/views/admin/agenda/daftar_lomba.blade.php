@@ -36,11 +36,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $no = 1;
+                            @endphp
                             @foreach ($peserta as $item)
                                 @foreach ($item as $a)
                                 <tr>
                                     @if ($loop->first)
-                                    <td rowspan="{{ $item->count() }}">{{ $loop->iteration }}</td>
+                                    <td rowspan="{{ $item->count() }}">{{ $no }}</td>
                                     <td rowspan="{{ $item->count() }}">
                                         @if ($lomba->kegiatan->agenda->tingkat=='provinsi')
                                             {{ $item->first()->anggota->province->name }}
@@ -64,6 +67,9 @@
                                     </td>
                                 </tr>
                                 @endforeach
+                                @php
+                                    $no++;
+                                @endphp
                             @endforeach
                         </tbody>
                     </table>
