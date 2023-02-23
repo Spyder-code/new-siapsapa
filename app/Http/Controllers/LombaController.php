@@ -335,10 +335,6 @@ class LombaController extends Controller
 
     public function addPointJuri(Request $request)
     {
-        $juri = Juri::find($request->juri_id);
-        $data = $request->all();
-        $data['lomba_id'] =  $juri->lomba_id;
-        $data['juri_id'] =  $juri->id;
         $cek = PointJuri::where('peserta_id',$request->peserta_id)->where('juri_id',$request->juri_id)->where('lomba_id',$request->lomba_id)->first();
         if ($cek) {
             $cek->update([
