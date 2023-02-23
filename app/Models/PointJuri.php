@@ -18,6 +18,7 @@ class PointJuri extends Model
         'description',
         'status',
         'juri_id',
+        'lomba_id',
     ];
 
     public function peserta()
