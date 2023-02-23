@@ -24,4 +24,5 @@ Route::prefix('datatable')->group(function(){
     Route::get('kwartir/anggota', [KwartirController::class, 'data_table_anggota'])->name('datatable.kwartir.anggota');
     Route::get('statistik-kwartir', [DataTableController::class, 'kwartir'])->name('datatable.kwartir.statistik');
     Route::get('juri', [DataTableController::class, 'juri'])->name('datatable.lomba.juri');
+    Route::get('panitia', [DataTableController::class, 'panitia'])->name('datatable.lomba.panitia');
 });

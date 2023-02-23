@@ -118,7 +118,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: '{!! route('datatable.lomba.juri') !!}',
+                url: '{!! route('datatable.lomba.panitia') !!}',
                 type: 'GET',
             },
             columns: [
@@ -130,7 +130,7 @@
             ],
         });
 
-        function addJuri(id){
+        function addPanitia(id){
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
