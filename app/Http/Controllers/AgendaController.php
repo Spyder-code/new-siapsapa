@@ -50,7 +50,9 @@ class AgendaController extends Controller
     public function peserta(Agenda $agenda)
     {
         $daftarPeserta = [];
+        $role = '';
         if ($agenda->tingkat=='provinsi') {
+            $role = 'kwarda';
             $daftarPeserta = Anggota::whereHas('cetak', function($q){
                 $q->whereHas('transactionDetail', function($a){
                     $a->where('transaction_details.payment_status','<',4);
@@ -58,6 +60,7 @@ class AgendaController extends Controller
             })->where('status',1)->where('provinsi',Auth::user()->anggota->provinsi)->get();
         }
         if ($agenda->tingkat=='kabupaten') {
+            $role = 'kwarcab';
             $daftarPeserta = Anggota::whereHas('cetak', function($q){
                 $q->whereHas('transactionDetail', function($a){
                     $a->where('transaction_details.payment_status','<',4);
@@ -65,6 +68,7 @@ class AgendaController extends Controller
             })->where('status',1)->where('kabupaten',Auth::user()->anggota->kabupaten)->get();
         }
         if ($agenda->tingkat=='kecamatan') {
+            $role = 'kwaran';
             $daftarPeserta = Anggota::whereHas('cetak', function($q){
                 $q->whereHas('transactionDetail', function($a){
                     $a->where('transaction_details.payment_status','<',4);
@@ -72,6 +76,7 @@ class AgendaController extends Controller
             })->where('status',1)->where('kecamatan',Auth::user()->anggota->kecamatan)->get();
         }
         if ($agenda->tingkat=='gudep') {
+            $role = 'gudep';
             $daftarPeserta = Anggota::whereHas('cetak', function($q){
                 $q->whereHas('transactionDetail', function($a){
                     $a->where('transaction_details.payment_status','<',4);
@@ -90,7 +95,7 @@ class AgendaController extends Controller
         }else{
             $anggota = PendaftaranAgenda::all()->where('agenda_id', $agenda->id);
         }
-        return view('admin.agenda.peserta', compact('agenda','anggota','daftarPeserta'));
+        return view('admin.agenda.peserta', compact('agenda','anggota','daftarPeserta','role'));
     }
 
     public function show(Agenda $agenda)
@@ -153,10 +158,16 @@ class AgendaController extends Controller
         foreach ($anggota_id as $key ) {
             $cek = PendaftaranAgenda::where('agenda_id', $agenda_id)->where('anggota_id',$key)->first();
             if($cek==null){
+                $anggota = Anggota::find($key);
+                if(strtolower($anggota->jk[0])=='p'){
+                    $na = 'PI';
+                }else{
+                    $na = 'PA';
+                }
                 $pendaftar = PendaftaranAgenda::where('agenda_id', $agenda_id)->max('order');
                 $order = $pendaftar + 1;
                 $data = PendaftaranAgenda::create([
-                    'nodaf' => 'PA.'.sprintf('%03d',$agenda_id).'.'.sprintf('%03d',$order),
+                    'nodaf' =>  $na.'.'.sprintf('%03d',$agenda_id).'.'.sprintf('%03d',$order),
                     'agenda_id' => $agenda_id,
                     'anggota_id' => $key,
                     'status' => 0,

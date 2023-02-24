@@ -152,7 +152,7 @@ table tr td{
                     </tr>
                     <tr>
                         <td >Nama</td>
-                        <td> {{ ucwords(strtolower($cart->anggota->nama)) }}</td>
+                        <td> {{ $cart->anggota->nama }}</td>
                     </tr>
                     <tr >
                         <td>TTL</td>

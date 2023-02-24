@@ -28,18 +28,24 @@ class LombaController extends Controller
             $peserta = PesertaLomba::where('lomba_id',$lomba->id)->get();
         }
 
+        $role = '';
+
         if ($lomba->kategori=='campuran') {
             $daftarPeserta = PendaftaranAgenda::where('agenda_id',$lomba->kegiatan->agenda_id)->whereHas('anggota', function($q) use($lomba){
                 if($lomba->kegiatan->agenda->tingkat=='provinsi'){
+                    $role = 'kwarda';
                     $q->where('provinsi',Auth::user()->anggota->provinsi);
                 }
                 if($lomba->kegiatan->agenda->tingkat=='kabupaten'){
+                    $role = 'kwarcab';
                     $q->where('kabupaten',Auth::user()->anggota->kabupaten);
                 }
                 if($lomba->kegiatan->agenda->tingkat=='kecamatan'){
+                    $role = 'kwaran';
                     $q->where('kecamatan',Auth::user()->anggota->kecamatan);
                 }
                 if($lomba->kegiatan->agenda->tingkat=='gudep'){
+                    $role = 'gudep';
                     $q->where('gudep',Auth::user()->anggota->gudep);
                 }
             })->get();
@@ -47,15 +53,19 @@ class LombaController extends Controller
         if ($lomba->kategori=='putri') {
             $daftarPeserta = PendaftaranAgenda::where('agenda_id',$lomba->kegiatan->agenda_id)->whereHas('anggota', function($q) use($lomba){
                 if($lomba->kegiatan->agenda->tingkat=='provinsi'){
+                    $role = 'kwarda';
                     $q->where('provinsi',Auth::user()->anggota->provinsi);
                 }
                 if($lomba->kegiatan->agenda->tingkat=='kabupaten'){
+                    $role = 'kwarcab';
                     $q->where('kabupaten',Auth::user()->anggota->kabupaten);
                 }
                 if($lomba->kegiatan->agenda->tingkat=='kecamatan'){
+                    $role = 'kwaran';
                     $q->where('kecamatan',Auth::user()->anggota->kecamatan);
                 }
                 if($lomba->kegiatan->agenda->tingkat=='gudep'){
+                    $role = 'gudep';
                     $q->where('gudep',Auth::user()->anggota->gudep);
                 }
                 $q->where('jk','P');
@@ -64,21 +74,25 @@ class LombaController extends Controller
         if ($lomba->kategori=='putra') {
             $daftarPeserta = PendaftaranAgenda::where('agenda_id',$lomba->kegiatan->agenda_id)->whereHas('anggota', function($q) use( $lomba){
                 if($lomba->kegiatan->agenda->tingkat=='provinsi'){
+                    $role = 'kwarda';
                     $q->where('provinsi',Auth::user()->anggota->provinsi);
                 }
                 if($lomba->kegiatan->agenda->tingkat=='kabupaten'){
+                    $role = 'kwarcab';
                     $q->where('kabupaten',Auth::user()->anggota->kabupaten);
                 }
                 if($lomba->kegiatan->agenda->tingkat=='kecamatan'){
+                    $role = 'kwaran';
                     $q->where('kecamatan',Auth::user()->anggota->kecamatan);
                 }
                 if($lomba->kegiatan->agenda->tingkat=='gudep'){
+                    $role = 'gudep';
                     $q->where('gudep',Auth::user()->anggota->gudep);
                 }
                 $q->where('jk','L');
             })->get();
         }
-        return view('admin.agenda.daftar_lomba', compact('lomba','peserta','daftarPeserta'));
+        return view('admin.agenda.daftar_lomba', compact('lomba','peserta','daftarPeserta','role'));
     }
 
     public function storeDaftar(Lomba $lomba, Request $request)
@@ -90,8 +104,14 @@ class LombaController extends Controller
             if($cek==null){
                 $pendaftar = PesertaLomba::where('lomba_id', $lomba_id)->max('order');
                 $order = $pendaftar + 1;
+                $anggota = Anggota::find($key);
+                if(strtolower($anggota->jk[0])=='p'){
+                    $na = 'LA';
+                }else{
+                    $na = 'LI';
+                }
                 $data = PesertaLomba::create([
-                    'nodaf' => 'KL.'.sprintf('%03d',$lomba_id).'.'.sprintf('%03d',$order),
+                    'nodaf' => $na.'.'.sprintf('%03d',$lomba_id).'.'.sprintf('%03d',$order),
                     'lomba_id' => $lomba_id,
                     'anggota_id' => $key,
                     'gudep_id' => Auth::user()->anggota->gudep,
@@ -383,7 +403,7 @@ class LombaController extends Controller
                 $pen = PesertaLomba::all()->where('lomba_id',$lomba->id);
                 foreach ($pen as $key => $item) {
                     $data[$key]['nama'] = $item->anggota->nama;
-                    $data[$key]['point'] = (int)PointJuri::all()->where('lomba_id',$lomba->id)->whereNull('gudep_id')->where('peserta_id',$item->id)->sum('point')/$juriCount;
+                    $data[$key]['point'] = (int)PointJuri::all()->where('lomba_id',$lomba->id)->whereNull('gudep_id')->where('peserta_id',$item->id)->sum('point');
                 }
                 $data = collect($data);
                 $data = $data->sortByDesc('point');

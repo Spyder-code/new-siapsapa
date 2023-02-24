@@ -325,6 +325,11 @@ class GudepController extends Controller
                 }else{
                     $warna = '<span class="badge bg-white text-dark">-</span>';
                 }
+                if ($data->cetak) {
+                    if($data->cetak->transactionDetail->payment_statu<4){
+                        $warna.='<br><span class="text-success" style=" position:relative; font-size:1.4rem"><i class="fas fa-check-circle"></i></span>';
+                    }
+                }
                 return '
                     <div class="justify-content-center text-center">
                     <img src="'.asset('berkas/anggota/'.$data->foto).'" class="img-thumbnail mx-auto d-block" height="80px" width="80px">

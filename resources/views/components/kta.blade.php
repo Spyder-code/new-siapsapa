@@ -71,7 +71,7 @@
             </tr>
             <tr>
                 <td >Nama</td>
-                <td> {{ ucwords(strtolower($anggota->nama)) }}</td>
+                <td> {{ $anggota->nama }}</td>
             </tr>
             <tr>
                 <td>TTL</td>
