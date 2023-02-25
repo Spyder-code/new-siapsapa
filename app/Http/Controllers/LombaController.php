@@ -394,7 +394,7 @@ class LombaController extends Controller
                         $name = $item->first()->peserta->anggota->gudepInfo->nama_sekolah;
                     }
                     $data[$key]['nama'] = $name;
-                    $data[$key]['point'] = $item->sum('point')/$juriCount;
+                    $data[$key]['point'] = $item->sum('point');
                 }
                 $data = collect($data);
                 $data = $data->sortByDesc('point');
