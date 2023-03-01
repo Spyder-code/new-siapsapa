@@ -80,7 +80,7 @@
         </div>
         <div class="post-footer">
             <div class="insert-btn">
-                <input type="file" name="file" id="file" class="form-control-file text-center" style="height: 60px"
+                <input type="file" name="sertif" id="file" class="form-control-file text-center" style="height: 60px"
                     required>
             </div>
             <input class="btn btn-primary" type="submit" value="Submit Sertifikat">

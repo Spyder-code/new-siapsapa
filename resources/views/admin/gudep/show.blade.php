@@ -13,6 +13,12 @@
     />
     <div class="col-md-4 justify-content-end align-self-center d-none d-md-flex gap-2">
         <a href="{{ route('gudep.edit', $gudep) }}" class="btn btn-primary btn-sm">Edit Gudep</a>
+        @if (Auth::user()->role=='admin')
+        <form action="{{ route('gudep.sync.kta') }}" target="d_blank" method="post">
+            @csrf
+            <button type="submit" name="gudep" value="{{ $gudep->id }}" class="btn btn-info btn-sm">Sync No. KTA</button>
+        </form>
+        @endif
         {{-- <form action="{{ route('anggota.export') }}" method="post">
             @csrf
             <button type="submit" name="gudep_id" value="{{ $gudep->id }}" class="btn btn-sm btn-success">Export Anggota</button>

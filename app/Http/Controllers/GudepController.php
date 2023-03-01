@@ -276,6 +276,28 @@ class GudepController extends Controller
             ->make(true);
     }
 
+    public function syncNoKta()
+    {
+        $anggota = Anggota::all()->where('gudep',request('gudep'));
+        foreach ($anggota as $item) {
+            $kode = $item->kode;
+            $depan = substr($kode,0,9);
+            $belakang = substr($kode,12,18);
+            $lk = $item->gudepInfo->no_putra;
+            $pr = $item->gudepInfo->no_putri;
+            if ($item->jk=='L') {
+                $new = $depan.$lk.$belakang;
+            }else{
+                $new = $depan.$pr.$belakang;
+            }
+            $item->update([
+                'kode' => $new
+            ]);
+        }
+
+        return back()->with('success','Sinkronisasi berhasil!');
+    }
+
     public function data_table_anggota()
     {
         $limit = request('length');

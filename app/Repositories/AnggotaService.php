@@ -120,6 +120,18 @@ class AnggotaService{
         if($kta){
             $data['kta_id'] = $kta->id;
         }
+        $kode = $anggota->kode;
+        $depan = substr($kode,0,9);
+        $belakang = substr($kode,12,18);
+        $lk = $anggota->gudepInfo->no_putra;
+        $pr = $anggota->gudepInfo->no_putri;
+        if ($data['jk']=='L') {
+            $new = $depan.$lk.$belakang;
+        }else{
+            $new = $depan.$pr.$belakang;
+        }
+
+        $data['kode'] = $new;
         $anggota->update($data);
         $user = User::find($anggota->user_id)->update($user_data);
 

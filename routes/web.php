@@ -162,6 +162,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('anggota/gudep/{gudep}', [GudepController::class,'anggota'])->name('gudep.anggota');
         Route::get('gudep/anggota/transfer', [GudepController::class,'transfer'])->name('gudep.transfer');
         Route::put('gudep/anggota/transfer', [GudepController::class,'transfer_store'])->name('gudep.transfer.store');
+        Route::post('gudep/sync/kta', [GudepController::class,'syncNoKta'])->name('gudep.sync.kta');
         Route::get('import/anggota', [AnggotaController::class,'import'])->name('anggota.import');
         Route::get('import/anggota/confirm', [AnggotaController::class,'import_confirm_view'])->name('anggota.import.confirm.view');
         Route::post('import/anggota/excel', [AnggotaController::class,'import_excel'])->name('anggota.import.excel');
