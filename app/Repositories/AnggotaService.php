@@ -121,20 +121,23 @@ class AnggotaService{
             $data['kta_id'] = $kta->id;
         }
 
-        if(!is_null($data['gudep'])){
-            $kode = $anggota->kode;
-            $depan = substr($kode,0,9);
-            $belakang = substr($kode,12,18);
-            $lk = $anggota->gudepInfo->no_putra;
-            $pr = $anggota->gudepInfo->no_putri;
-            if ($data['jk']=='L') {
-                $new = $depan.$lk.$belakang;
-            }else{
-                $new = $depan.$pr.$belakang;
-            }
+        if(!empty($data['gudep'])){
+            if(!is_null($data['gudep'])){
+                $kode = $anggota->kode;
+                $depan = substr($kode,0,9);
+                $belakang = substr($kode,12,18);
+                $lk = $anggota->gudepInfo->no_putra;
+                $pr = $anggota->gudepInfo->no_putri;
+                if ($data['jk']=='L') {
+                    $new = $depan.$lk.$belakang;
+                }else{
+                    $new = $depan.$pr.$belakang;
+                }
 
-            $data['kode'] = $new;
+                $data['kode'] = $new;
+            }
         }
+
         $anggota->update($data);
         $user = User::find($anggota->user_id)->update($user_data);
 
