@@ -85,10 +85,17 @@
                 <td>Agama</td>
                 <td> {{ ucwords(strtolower($anggota->agama)) }}</td>
             </tr>
+            @if (is_null($anggota->tingkat))
+                <tr>
+                    <td>Golongan</td>
+                    <td> {{ ucwords(strtolower($anggota->golongan->name)) }} <span style="position: relative; left:20px">Gol.Darah: {{ $anggota->gol_darah }}</span></td>
+                </tr>
+            @else
             <tr>
                 <td>Golongan</td>
-                <td> {{ ucwords(strtolower($anggota->golongan->name)) }} <span style="position: relative; left:20px">Gol.Darah: {{ $anggota->gol_darah }}</span></td>
+                <td> {{ ucwords(strtolower($anggota->document_type->pramuka->name)) }} <span style="position: relative; left:20px">Gol.Darah: {{ $anggota->gol_darah }}</span></td>
             </tr>
+            @endif
             @if ($anggota->gudep != null)
                 <tr>
                     <td>Pangkalan</td>

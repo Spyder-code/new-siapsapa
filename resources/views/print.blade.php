@@ -166,10 +166,17 @@ table tr td{
                         <td>Agama</td>
                         <td> {{ ucwords(strtolower($cart->anggota->agama)) }}</td>
                     </tr>
+                    @if (is_null($cart->anggota->tingkat))
+                        <tr >
+                            <td>Golongan</td>
+                            <td> {{ ucwords(strtolower($cart->pramuka->name)) }} <span style="margin-left: 20px;">Gol.Darah: {{ $cart->anggota->gol_darah }}</span></td>
+                        </tr>
+                    @else
                     <tr >
                         <td>Golongan</td>
-                        <td> {{ ucwords(strtolower($cart->pramuka->name)) }} <span style="margin-left: 20px;">Gol.Darah: {{ $cart->anggota->gol_darah }}</span></td>
+                        <td> {{ ucwords(strtolower($cart->anggota->document_type->pramuka->name)) }} <span style="margin-left: 20px;">Gol.Darah: {{ $cart->anggota->gol_darah }}</span></td>
                     </tr>
+                    @endif
                     @if ($cart->anggota->gudep != null)
                         <tr >
                             <td>Pangkalan</td>
