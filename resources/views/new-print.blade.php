@@ -30,7 +30,7 @@
                         </tr>
                         <tr>
                             <td >Nama</td>
-                            <td> {{  ucwords(strtolower($item->anggota->nama))  }}</td>
+                            <td> {{  $item->anggota->nama  }}</td>
                         </tr>
                         <tr >
                             <td>TTL</td>
@@ -44,10 +44,17 @@
                             <td>Agama</td>
                             <td> {{  ucwords(strtolower($item->anggota->agama))  }}</td>
                         </tr>
+                        @if (is_null($item->anggota->tingkat))
                         <tr >
                             <td>Golongan</td>
                             <td> {{  ucwords(strtolower($item->pramuka->name))  }} <span style="margin-left: 20px;">Gol.Darah: {{ $item->anggota->gol_darah }}</span></td>
                         </tr>
+                        @else
+                        <tr >
+                            <td>Golongan</td>
+                            <td> {{  ucwords(strtolower($item->anggota->document_type->pramuka->name))  }} <span style="margin-left: 20px;">Gol.Darah: {{ $item->anggota->gol_darah }}</span></td>
+                        </tr>
+                        @endif
                         @if ($item->anggota->gudep != null)
                             <tr >
                                 <td>Pangkalan</td>
