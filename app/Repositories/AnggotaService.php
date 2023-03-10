@@ -124,11 +124,12 @@ class AnggotaService{
         if(!empty($data['gudep'])){
             if ($data['kode']==$anggota->kode) {
                 if(!is_null($data['gudep'])){
+                    $gud = Gudep::find($data['gudep']);
                     $kode = $anggota->kode;
                     $depan = substr($kode,0,9);
                     $belakang = substr($kode,12,18);
-                    $lk = $anggota->gudepInfo->no_putra;
-                    $pr = $anggota->gudepInfo->no_putri;
+                    $lk = $gud->no_putra;
+                    $pr = $gud->no_putri;
                     if ($data['jk']=='L') {
                         $new = $depan.$lk.$belakang;
                     }else{
