@@ -16,6 +16,7 @@
     <div class="col-md-7 justify-content-end align-self-center d-none d-md-flex">
         <ul class="list-group list-group-horizontal">
             <li class="list-group-item">Total Anggota: <strong id="total-anggota">{{ number_format($active) }}</strong></li>
+            <li class="list-group-item">Total Anggota Sudah Cetak KTA: <strong id="total-anggota-cetak">{{ number_format($cetak) }}</strong></li>
             @if($id_wilayah!='all')
                 <li class="list-group-item">Total Admin: <strong id="total-admin">-</strong></li>
                 <li class="list-group-item">

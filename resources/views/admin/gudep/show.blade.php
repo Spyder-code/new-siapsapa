@@ -84,6 +84,16 @@
                         </div>
                     </div>
                 </li>
+                <li class="list-group-item bg-transparent">
+                    <div class="d-flex align-items-center">
+                        <div class="ms-3">
+                            <h6 class="mb-0">Total KTA Tercetak</h6>
+                        </div>
+                        <div class="ms-auto star">
+                            <span class="badge bg-success lg"><strong>{{ $cetak }}</strong></span>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>

@@ -24,6 +24,7 @@ class StatistikController extends Controller
             $len = strlen($id_wilayah);
             if ($len==2) {
                 $active = Anggota::where('provinsi',$id_wilayah)->where('status',1)->count();
+                $cetak = Anggota::where('provinsi',$id_wilayah)->where('is_cetak',1)->count();
                 $kwarcab = City::where('province_id',$id_wilayah)->count();
                 $kwaran = Distrik::whereHas('regency', function($q) use($id_wilayah){
                     $q->where('province_id',$id_wilayah);
@@ -31,11 +32,13 @@ class StatistikController extends Controller
                 $gudep = Gudep::where('provinsi',$id_wilayah)->count();
             }elseif($len==4){
                 $active = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->count();
+                $cetak = Anggota::where('kabupaten',$id_wilayah)->where('is_cetak',1)->count();
                 $kwarcab = Anggota::where('kabupaten',$id_wilayah)->where('status',0)->count();
                 $kwaran = Distrik::where('regency_id', $id_wilayah)->count();
                 $gudep = Gudep::where('kabupaten',$id_wilayah)->count();
             }else{
                 $active = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->count();
+                $cetak = Anggota::where('kecamatan',$id_wilayah)->where('is_cetak',1)->count();
                 $kwarcab = Anggota::where('kecamatan',$id_wilayah)->where('status',0)->count();
                 $kwaran = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->whereNull('gudep')->count();
                 $gudep = Gudep::where('kecamatan',$id_wilayah)->count();
@@ -44,6 +47,7 @@ class StatistikController extends Controller
             if($role=='admin'){
                 $id_wilayah = 'all';
                 $active = Anggota::where('status',1)->count();
+                $cetak = Anggota::where('is_cetak',1)->count();
                 $kwarcab = City::count();
                 $kwaran = Distrik::count();
                 $gudep = Gudep::count();
@@ -51,6 +55,7 @@ class StatistikController extends Controller
             if($role=='kwarda'){
                 $id_wilayah = $user->anggota->provinsi;
                 $active = Anggota::where('provinsi',$id_wilayah)->where('status',1)->count();
+                $cetak = Anggota::where('provinsi',$id_wilayah)->where('sis_cetak',1)->count();
                 $kwarcab = City::where('province_id',$id_wilayah)->count();
                 $kwaran = Distrik::whereHas('regency', function($q) use($id_wilayah){
                     $q->where('province_id',$id_wilayah);
@@ -60,6 +65,7 @@ class StatistikController extends Controller
             if($role=='kwarcab'){
                 $id_wilayah = $user->anggota->kabupaten;
                 $active = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->count();
+                $cetak = Anggota::where('kabupaten',$id_wilayah)->where('is_cetak',1)->count();
                 $kwarcab = Anggota::where('kabupaten',$id_wilayah)->where('status',0)->count();
                 $kwaran = Distrik::where('regency_id', $id_wilayah)->count();
                 $gudep = Gudep::where('kabupaten',$id_wilayah)->count();
@@ -67,6 +73,7 @@ class StatistikController extends Controller
             if($role=='kwaran'){
                 $id_wilayah = $user->anggota->kecamatan;
                 $active = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->count();
+                $cetak = Anggota::where('kecamatan',$id_wilayah)->where('is_cetak',1)->count();
                 $kwarcab = Anggota::where('kecamatan',$id_wilayah)->where('status',0)->count();
                 $kwaran = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->whereNull('gudep')->count();
                 $gudep = Gudep::where('kecamatan',$id_wilayah)->count();
@@ -79,7 +86,7 @@ class StatistikController extends Controller
         $data = $this->getData($id_wilayah);
         $title = $data[0]->name ?? 'Kwartir Nasional';
         $kwartir = $data[1];
-        return view('admin.new-statistik', compact('id_wilayah','title','kwartir', 'data','active','kwarcab','kwaran','gudep'));
+        return view('admin.new-statistik', compact('id_wilayah','title','kwartir', 'data','active','kwarcab','kwaran','gudep','cetak'));
     }
 
     public function index()

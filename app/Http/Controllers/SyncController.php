@@ -353,4 +353,18 @@ class SyncController extends Controller
             'message' => 'Berhasil mengupdate '.$i.' data'
         ], 200);
     }
+
+    public function cetak()
+    {
+        $transaction_id = TransactionDetail::whereIn('payment_status',[1,2,3])->pluck('id')->toArray();
+        $transactions = Transaction::whereIn('transaction_detail_id',$transaction_id)->whereHas('anggota', function($q){
+            $q->where('is_cetak',0);
+        })->pluck('anggota_id')->toArray();
+        $anggota = Anggota::whereIn('id',$transactions)->update([
+            'is_cetak' => 1
+        ]);
+
+        return response('Berhasil mengupdate : '.count($transactions).' Data');
+
+    }
 }

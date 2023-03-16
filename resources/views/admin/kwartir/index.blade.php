@@ -56,6 +56,7 @@
                                 <th>Nama {{ $len>4 ? 'Gudep' : '' }}</th>
                                 <th>Jumlah Admin</th>
                                 <th>Jumlah Anggota</th>
+                                <th>KTA Tercetak</th>
                                 <th>Detail</th>
                                 <th>Tool</th>
                             </tr>
@@ -100,6 +101,7 @@
                 {data: 'nama_sekolah', name: 'nama_sekolah'},
                 {data: 'admin', name: 'admin', searchable: false,},
                 {data: 'anggota', name: 'anggota', searchable: false,},
+                {data: 'cetak', name: 'cetak', searchable: false,},
                 {data: 'action', name: 'action', searchable: false, orderable: false},
                 {data: 'tools', name: 'tools', searchable: false, orderable: false},
             ]
@@ -109,6 +111,7 @@
                 {data: 'name', name: 'name'},
                 {data: 'admin', name: 'admin', searchable: false,},
                 {data: 'anggota', name: 'anggota', searchable: false,},
+                {data: 'cetak', name: 'cetak', searchable: false,},
                 {data: 'action', name: 'action', searchable: false, orderable: false},
                 {data: 'tools', name: 'tools', searchable: false, orderable: false},
             ]

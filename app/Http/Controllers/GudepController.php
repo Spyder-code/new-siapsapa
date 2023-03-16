@@ -118,8 +118,9 @@ class GudepController extends Controller
         }
         $plk = Anggota::where('gudep',$gudep->id)->where('status',1)->where('pramuka',5)->where('jk','L')->count();
         $ppr = Anggota::where('gudep',$gudep->id)->where('status',1)->where('pramuka',5)->where('jk','P')->count();
+        $cetak = Anggota::where('gudep',$gudep->id)->where('is_cetak',1)->count();
         $pramuka = Pramuka::whereIn('id',[1,2,3,4,6,7])->get();
-        return view('admin.gudep.show', compact('data','id_wilayah','gudep','pramuka','plk','ppr'));
+        return view('admin.gudep.show', compact('data','id_wilayah','gudep','pramuka','plk','ppr','cetak'));
     }
 
     public function anggota(Gudep $gudep)
@@ -308,13 +309,13 @@ class GudepController extends Controller
             if($limit==-1){
                 $limit = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',1)->count();
             }
-            $data = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',1)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi','user_id')->offset($start)->limit($limit);
+            $data = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',1)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi','user_id')->offset($start)->limit($limit);
             $count = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',1)->count();
         }else{
             if($limit==-1){
                 $limit = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',$active)->count();
             }
-            $data = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',$active)->select('id','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi','user_id')->offset($start)->limit($limit);
+            $data = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',$active)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi','user_id')->offset($start)->limit($limit);
             $count = Anggota::where('user_id','!=',1)->where('gudep',$gudep)->where('status',$active)->count();
         }
 
@@ -347,10 +348,8 @@ class GudepController extends Controller
                 }else{
                     $warna = '<span class="badge bg-white text-dark">-</span>';
                 }
-                if ($data->cetak) {
-                    if($data->cetak->transactionDetail->payment_statu<4){
-                        $warna.='<br><span class="text-success" style=" position:relative; font-size:1.4rem"><i class="fas fa-check-circle"></i></span>';
-                    }
+                if ($data->is_cetak==1) {
+                    $warna.='<br><span class="text-success" style=" position:relative; font-size:1.4rem"><i class="fas fa-check-circle"></i></span>';
                 }
                 return '
                     <div class="justify-content-center text-center">
