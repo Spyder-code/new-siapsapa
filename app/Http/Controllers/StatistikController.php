@@ -55,7 +55,7 @@ class StatistikController extends Controller
             if($role=='kwarda'){
                 $id_wilayah = $user->anggota->provinsi;
                 $active = Anggota::where('provinsi',$id_wilayah)->where('status',1)->count();
-                $cetak = Anggota::where('provinsi',$id_wilayah)->where('sis_cetak',1)->count();
+                $cetak = Anggota::where('provinsi',$id_wilayah)->where('is_cetak',1)->count();
                 $kwarcab = City::where('province_id',$id_wilayah)->count();
                 $kwaran = Distrik::whereHas('regency', function($q) use($id_wilayah){
                     $q->where('province_id',$id_wilayah);
