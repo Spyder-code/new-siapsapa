@@ -275,10 +275,13 @@ class LombaController extends Controller
 
     public function juriAdd(Request $request)
     {
-        $juri = Juri::create([
-            'lomba_id' => $request->lomba_id,
-            'anggota_id' => $request->anggota_id,
-        ]);
+        $cek = Juri::where('lomba_id',$request->lomba_id)->where('anggota_id',$request->anggota_id)->first();
+        if(!$cek){
+            $juri = Juri::create([
+                'lomba_id' => $request->lomba_id,
+                'anggota_id' => $request->anggota_id,
+            ]);
+        }
 
         return response($juri);
     }

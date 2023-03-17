@@ -144,11 +144,7 @@ class DataTableController extends Controller
                 ';
             })
             ->addColumn('action', function ($data) {
-                $cek = Juri::where('anggota_id',$data->id)->first();
-                $html = '';
-                if(!$cek){
-                    $html = '<button class="btn btn-sm btn-outline-success" onclick="addJuri('.$data->id.')" style="font-size:.7rem">Jadikan Juri</button>';
-                }
+                $html = '<button class="btn btn-sm btn-outline-success" onclick="addJuri('.$data->id.')" style="font-size:.7rem">Jadikan Juri</button>';
                 return $html;
             })
             ->setFilteredRecords($count)
