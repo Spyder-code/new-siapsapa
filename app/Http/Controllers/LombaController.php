@@ -114,7 +114,7 @@ class LombaController extends Controller
                     'nodaf' => $na.'.'.sprintf('%03d',$lomba_id).'.'.sprintf('%03d',$order),
                     'lomba_id' => $lomba_id,
                     'anggota_id' => $key,
-                    'gudep_id' => Auth::user()->anggota->gudep,
+                    'gudep_id' => Auth::user()->anggota->gudep ?? null,
                     'status' => 0,
                     'order' => $order,
                 ]);
