@@ -29,6 +29,11 @@
                     <div class="col-lg-3 col-md-3 col-sm-6">
                         <div class="white-box text-center">
                             <img src="{{ asset('berkas/agenda/'.$agenda->foto) }}" class="img-fluid" />
+                            <ul class="list-group mt-5">
+                                @foreach ($umum as $idx => $champ)
+                                    <li class="list-group-item d-flex justify-content-between">{{ $champ['nama'] }} <span>{{ $champ['point'] }}</span></li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-6">

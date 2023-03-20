@@ -156,12 +156,14 @@ class AgendaController extends Controller
                     }
                     $data = collect($data);
                     $data = $data->sortByDesc('point');
+                    $a = 0;
                     foreach ($data as $idx => $nilai) {
-                        if($idx<3){
+                        if($a<3){
                             $juara[$index]['nama'] = $nilai['nama'];
-                            $juara[$index]['point'] = 100 - ($idx * 40);
+                            $juara[$index]['point'] = 100 - ($a * 40);
                             $index++;
                         }
+                        $a++;
                     }
                 }else{
                     $data = array();
@@ -181,12 +183,14 @@ class AgendaController extends Controller
                     }
                     $data = collect($data);
                     $data = $data->sortByDesc('point');
+                    $a = 0;
                     foreach ($data as $idx => $nilai) {
-                        if($idx<3){
+                        if($a<3){
                             $juara[$index]['nama'] = $nilai['nama'];
-                            $juara[$index]['point'] = 100 - ($idx * 40);
+                            $juara[$index]['point'] = 100 - ($a * 40);
                             $index++;
                         }
+                        $a++;
                     }
                 }
             }
@@ -231,9 +235,18 @@ class AgendaController extends Controller
                 $champion[$jua['nama']] = $jua['point'];
         }
 
+        $umum = array();
+        $p = 0;
+        foreach ($champion as $key => $value) {
+            $umum[$p]['nama'] = $key;
+            $umum[$p]['point'] = $value;
+            $p++;
+        }
+
+        usort($umum, fn($a, $b) => strcmp($b['point'], $a['point']));
 
         $kegiatan = Kegiatan::where('agenda_id', $agenda->id)->orderBy('waktu_mulai', 'asc')->get()->groupBy('waktu_mulai');
-        return view('admin.agenda.show', compact('agenda', 'kegiatan'));
+        return view('admin.agenda.show', compact('agenda', 'kegiatan','umum'));
     }
 
     public function store(Request $request)
