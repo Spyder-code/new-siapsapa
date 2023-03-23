@@ -37,6 +37,7 @@
                                         <td>Emas (100p)</td>
                                         <td>Perak (45p)</td>
                                         <td>Perunggu (20p)</td>
+                                        <td>Total Medali</td>
                                         <td>Total Point</td>
                                     </tr>
                                 </thead>
@@ -48,6 +49,7 @@
                                             <td>{{ $item['one'] }}</td>
                                             <td>{{ $item['two'] }}</td>
                                             <td>{{ $item['three'] }}</td>
+                                            <td>{{ $item['three'] + $item['two'] + $item['one'] }}</td>
                                             <td>{{ $item['point'] }}</td>
                                         </tr>
                                     @endforeach
