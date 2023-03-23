@@ -58,11 +58,44 @@
                                     @endif
                                     <td>{{ $a->nodaf }} - {{ $a->anggota->nama }}</td>
                                     <td>
-                                        @if ($lomba->kegiatan->agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first()||Auth::user()->role==$role)
+                                        @if ($lomba->kegiatan->agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first())
                                             <form action="{{ route('lomba.daftar.destroy',$a) }}" method="post">
                                                 @csrf
                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                             </form>
+                                        @else
+                                            @if ($role=='kwarda')
+                                                @if (Auth::user()->anggota->provinsi==$a->anggota->provinsi)
+                                                <form action="{{ route('lomba.daftar.destroy',$a) }}" method="post">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                                </form>
+                                                @endif
+                                            @endif
+                                            @if ($role=='kwarcab')
+                                                @if (Auth::user()->anggota->kabupaten==$a->anggota->kabupaten)
+                                                <form action="{{ route('lomba.daftar.destroy',$a) }}" method="post">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                                </form>
+                                                @endif
+                                            @endif
+                                            @if ($role=='kwaran')
+                                                @if (Auth::user()->anggota->kecamatan==$a->anggota->kecamatan)
+                                                <form action="{{ route('lomba.daftar.destroy',$a) }}" method="post">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                                </form>
+                                                @endif
+                                            @endif
+                                            @if ($role=='gudep')
+                                                @if (Auth::user()->anggota->gudep==$a->anggota->gudep)
+                                                <form action="{{ route('lomba.daftar.destroy',$a) }}" method="post">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                                </form>
+                                                @endif
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>
@@ -118,8 +151,44 @@
                                 <td>{{ $item->anggota->city->name }}</td>
                                 <td>{{ $item->anggota->district->name }}</td>
                                 <td>
-                                    @if ($lomba->kegiatan->agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first()||Auth::user()->role==$role)
-                                        <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $item->id }})"><i class="fas fa-trash-alt"></i></button>
+                                    @if ($lomba->kegiatan->agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first())
+                                        <form action="{{ route('lomba.daftar.destroy',$item) }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                        </form>
+                                    @else
+                                        @if ($role=='kwarda')
+                                            @if (Auth::user()->anggota->provinsi==$item->anggota->provinsi)
+                                            <form action="{{ route('lomba.daftar.destroy',$item) }}" method="post">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                            </form>
+                                            @endif
+                                        @endif
+                                        @if ($role=='kwarcab')
+                                            @if (Auth::user()->anggota->kabupaten==$item->anggota->kabupaten)
+                                            <form action="{{ route('lomba.daftar.destroy',$item) }}" method="post">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                            </form>
+                                            @endif
+                                        @endif
+                                        @if ($role=='kwaran')
+                                            @if (Auth::user()->anggota->kecamatan==$item->anggota->kecamatan)
+                                            <form action="{{ route('lomba.daftar.destroy',$item) }}" method="post">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                            </form>
+                                            @endif
+                                        @endif
+                                        @if ($role=='gudep')
+                                            @if (Auth::user()->anggota->gudep==$item->anggota->gudep)
+                                            <form action="{{ route('lomba.daftar.destroy',$item) }}" method="post">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                            </form>
+                                            @endif
+                                        @endif
                                     @endif
                                 </td>
                             </tr>

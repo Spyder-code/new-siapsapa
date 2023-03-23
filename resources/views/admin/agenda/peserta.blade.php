@@ -58,8 +58,29 @@
                                     @endif
                                     <td>{{ $a->nodaf }} - {{ $a->anggota->nama }}</td>
                                     <td>
-                                        @if ($agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first() || Auth::user()->role == $role)
+                                        @if ($agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first())
                                         <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $a->id }})"><i class="fas fa-trash-alt"></i></button>
+                                        @else
+                                            @if ($role=='kwarda')
+                                                @if (Auth::user()->anggota->provinsi==$a->anggota->provinsi)
+                                                    <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $a->id }})"><i class="fas fa-trash-alt"></i></button>
+                                                @endif
+                                            @endif
+                                            @if ($role=='kwarcab')
+                                                @if (Auth::user()->anggota->kabupaten==$a->anggota->kabupaten)
+                                                    <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $a->id }})"><i class="fas fa-trash-alt"></i></button>
+                                                @endif
+                                            @endif
+                                            @if ($role=='kwaran')
+                                                @if (Auth::user()->anggota->kecamatan==$a->anggota->kecamatan)
+                                                    <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $a->id }})"><i class="fas fa-trash-alt"></i></button>
+                                                @endif
+                                            @endif
+                                            @if ($role=='gudep')
+                                                @if (Auth::user()->anggota->gudep==$a->anggota->gudep)
+                                                    <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $a->id }})"><i class="fas fa-trash-alt"></i></button>
+                                                @endif
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>
@@ -115,8 +136,29 @@
                                 <td>{{ $item->anggota->city->name }}</td>
                                 <td>{{ $item->anggota->district->name }}</td>
                                 <td>
-                                    @if ($agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first() || Auth::user()->role==$role)
+                                    @if ($agenda->panitia->where('anggota_id',Auth::user()->anggota->id)->first())
                                     <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $item->id }})"><i class="fas fa-trash-alt"></i></button>
+                                    @else
+                                        @if ($role=='kwarda')
+                                            @if (Auth::user()->anggota->provinsi==$item->anggota->provinsi)
+                                                <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $item->id }})"><i class="fas fa-trash-alt"></i></button>
+                                            @endif
+                                        @endif
+                                        @if ($role=='kwarcab')
+                                            @if (Auth::user()->anggota->kabupaten==$item->anggota->kabupaten)
+                                                <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $item->id }})"><i class="fas fa-trash-alt"></i></button>
+                                            @endif
+                                        @endif
+                                        @if ($role=='kwaran')
+                                            @if (Auth::user()->anggota->kecamatan==$item->anggota->kecamatan)
+                                                <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $item->id }})"><i class="fas fa-trash-alt"></i></button>
+                                            @endif
+                                        @endif
+                                        @if ($role=='gudep')
+                                            @if (Auth::user()->anggota->gudep==$item->anggota->gudep)
+                                                <button type="button" class="btn btn-danger" onclick="deletePeserta({{ $item->id }})"><i class="fas fa-trash-alt"></i></button>
+                                            @endif
+                                        @endif
                                     @endif
                                 </td>
                             </tr>

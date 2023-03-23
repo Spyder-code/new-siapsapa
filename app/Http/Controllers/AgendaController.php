@@ -132,7 +132,15 @@ class AgendaController extends Controller
                     if($tingkat=='provinsi'){
                         $juara[$index]['nama'] = $nilai->lomba_file->anggota->province->name;
                     }
-                    $juara[$index]['point'] = 100 - ($idx * 40);
+                    if($idx==0){
+                        $juara[$index]['point'] = 100;
+                    }
+                    if($idx==1){
+                        $juara[$index]['point'] = 45;
+                    }
+                    if($idx==2){
+                        $juara[$index]['point'] = 20;
+                    }
                     $index++;
                 }
             }
@@ -160,7 +168,15 @@ class AgendaController extends Controller
                     foreach ($data as $idx => $nilai) {
                         if($a<3){
                             $juara[$index]['nama'] = $nilai['nama'];
-                            $juara[$index]['point'] = 100 - ($a * 40);
+                            if($a==0){
+                                $juara[$index]['point'] = 100;
+                            }
+                            if($a==1){
+                                $juara[$index]['point'] = 45;
+                            }
+                            if($a==2){
+                                $juara[$index]['point'] = 20;
+                            }
                             $index++;
                         }
                         $a++;
@@ -187,7 +203,15 @@ class AgendaController extends Controller
                     foreach ($data as $idx => $nilai) {
                         if($a<3){
                             $juara[$index]['nama'] = $nilai['nama'];
-                            $juara[$index]['point'] = 100 - ($a * 40);
+                            if($a==0){
+                                $juara[$index]['point'] = 100;
+                            }
+                            if($a==1){
+                                $juara[$index]['point'] = 45;
+                            }
+                            if($a==2){
+                                $juara[$index]['point'] = 20;
+                            }
                             $index++;
                         }
                         $a++;
@@ -220,11 +244,27 @@ class AgendaController extends Controller
                         if($tingkat=='provinsi'){
                             $juara[$index]['nama'] = $nilai->first()->peserta->anggota->province->name;
                         }
-                        $juara[$index]['point'] = 100 - ($idx * 40);
+                        if($a==0){
+                            $juara[$index]['point'] = 100;
+                        }
+                        if($a==1){
+                            $juara[$index]['point'] = 45;
+                        }
+                        if($a==2){
+                            $juara[$index]['point'] = 20;
+                        }
                         $index++;
                     }
                 }
             }
+        }
+
+        $grouped = array();
+        foreach ($juara as $object) {
+            if (!isset($grouped[$object['nama']])) {
+                $grouped[$object['nama']] = array();
+            }
+            $grouped[$object['nama']][] = $object;
         }
 
         $champion = array();
@@ -238,8 +278,26 @@ class AgendaController extends Controller
         $umum = array();
         $p = 0;
         foreach ($champion as $key => $value) {
+            $one = 0;
+            $two = 0;
+            $three = 0;
+            foreach($grouped[$key] as $poin){
+                if( $poin['point']==100){
+                    $one++;
+                }
+                if( $poin['point']==45){
+                    $two++;
+                }
+                if( $poin['point']==20){
+                    $three++;
+                }
+            }
+            $umum[$p]['data'] = $grouped[$key];
             $umum[$p]['nama'] = $key;
             $umum[$p]['point'] = $value;
+            $umum[$p]['one'] = $one;
+            $umum[$p]['two'] = $two;
+            $umum[$p]['three'] = $three;
             $p++;
         }
 

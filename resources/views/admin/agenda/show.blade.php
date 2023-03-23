@@ -26,17 +26,36 @@
             <div class="card-body">
                 <h3 class="card-title">{{ $agenda->nama }}</h3>
                 <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="col-lg-6 col-md-6 col-sm-12 mt-2">
                         <div class="white-box text-center">
                             <img src="{{ asset('berkas/agenda/'.$agenda->foto) }}" class="img-fluid" />
-                            <ul class="list-group mt-5">
-                                @foreach ($umum as $idx => $champ)
-                                    <li class="list-group-item d-flex justify-content-between">{{ $champ['nama'] }} <span>{{ $champ['point'] }}</span></li>
-                                @endforeach
-                            </ul>
+                            <table class="table mt-3">
+                                <thead>
+                                    <tr>
+                                        <td>Ranking</td>
+                                        <td>Group</td>
+                                        <td>Emas (100p)</td>
+                                        <td>Perak (45p)</td>
+                                        <td>Perunggu (20p)</td>
+                                        <td>Total Point</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($umum as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item['nama'] }}</td>
+                                            <td>{{ $item['one'] }}</td>
+                                            <td>{{ $item['two'] }}</td>
+                                            <td>{{ $item['three'] }}</td>
+                                            <td>{{ $item['point'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="col-lg-9 col-md-9 col-sm-6">
+                    <div class="col-lg-6 col-md-6 col-sm-12 mt-2">
                         <h4 class="box-title mt-5">Deskripsi Agenda</h4>
                         <p>{{ $agenda->deskripsi }}</p>
                         <h3 class="box-title mt-5">Keterangan Lain</h3>
