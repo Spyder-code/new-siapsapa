@@ -148,7 +148,7 @@ class AgendaController extends Controller
                 $juriCount = Juri::where('lomba_id',$lom->id)->count();
                 if ($lom->kepesertaan=='kelompok') {
                     $data = array();
-                    $pen = PointJuri::all()->where('lomba_id',$lom->id)->groupBy('peserta_id');
+                    $pen = PointJuri::all()->where('point','>',0)->where('lomba_id',$lom->id)->groupBy('peserta_id');
                     foreach ($pen as $key => $item) {
                         if($lom->kegiatan->agenda->tingkat=='provinsi'){
                             $name = $item->first()->peserta->anggota->province->name;
@@ -183,7 +183,7 @@ class AgendaController extends Controller
                     }
                 }else{
                     $data = array();
-                    $pen = PesertaLomba::all()->where('lomba_id',$lom->id);
+                    $pen = PesertaLomba::all()->where('lomba_id',$lom->id)->where('point','>',0);
                     foreach ($pen as $key => $item) {
                         if($lom->kegiatan->agenda->tingkat=='provinsi'){
                             $name = $item->anggota->province->name;
