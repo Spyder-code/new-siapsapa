@@ -183,7 +183,7 @@ class AgendaController extends Controller
                     }
                 }else{
                     $data = array();
-                    $pen = PesertaLomba::all()->where('lomba_id',$lom->id)->where('point','>',0);
+                    $pen = PesertaLomba::all()->where('lomba_id',$lom->id);
                     foreach ($pen as $key => $item) {
                         if($lom->kegiatan->agenda->tingkat=='provinsi'){
                             $name = $item->anggota->province->name;
@@ -196,12 +196,13 @@ class AgendaController extends Controller
                         }
                         $data[$key]['nama'] = $name;
                         $data[$key]['point'] = (int)PointJuri::all()->where('lomba_id',$lom->id)->whereNull('gudep_id')->where('peserta_id',$item->id)->sum('point');
+                        $data[$key]['is_nilai'] = $data[$key]['point'] > 0 ? true : false;
                     }
                     $data = collect($data);
                     $data = $data->sortByDesc('point');
                     $a = 0;
                     foreach ($data as $idx => $nilai) {
-                        if($a<3){
+                        if($a<3 && $nilai['is_nilai']){
                             $juara[$index]['nama'] = $nilai['nama'];
                             if($a==0){
                                 $juara[$index]['point'] = 100;
