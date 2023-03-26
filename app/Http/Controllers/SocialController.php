@@ -12,7 +12,13 @@ use App\Models\Tag;
 use App\Models\Agenda;
 use App\Models\Cart;
 use App\Models\Follower;
+use App\Models\Juri;
 use App\Models\Kegiatan;
+use App\Models\Lomba;
+use App\Models\LombaStage;
+use App\Models\PesertaLomba;
+use App\Models\PointJuri;
+use App\Models\PointVote;
 use App\Models\Post;
 use App\Models\PostMedia;
 use App\Models\Product;
@@ -173,7 +179,208 @@ class SocialController extends Controller
         }
         $agenda = Agenda::find($id);
         $kegiatan = Kegiatan::where('agenda_id', $agenda->id)->orderBy('waktu_mulai', 'asc')->get()->groupBy('waktu_mulai');
-        return view('social.event-detail', compact('agenda', 'kegiatan'));
+        $lomba = Lomba::join('kegiatan','kegiatan.id','=','lomba.kegiatan_id')
+                    ->join('agenda','agenda.id','=','kegiatan.agenda_id')
+                    ->where('agenda.id',$agenda->id)
+                    ->select('lomba.*')
+                    ->get();
+
+        $juara = array();
+        $tingkat = $agenda->tingkat;
+        $index = 0;
+        foreach ($lomba as $lom) {
+            if ($lom->penilaian=='vote') {
+                $data = PointVote::select('lomba_file_id')
+                        ->selectRaw('count(*) as total')
+                        ->groupBy('lomba_file_id')
+                        ->orderByRaw('total desc')
+                        ->take(3)->get();
+                foreach ($data as $idx => $nilai) {
+                    if($tingkat=='gudep'){
+                        $juara[$index]['nama'] = $nilai->lomba_file->anggota->gudepInfo->nama_sekolah;
+                    }
+                    if($tingkat=='kecamatan'){
+                        $juara[$index]['nama'] = $nilai->lomba_file->anggota->district->name;
+                    }
+                    if($tingkat=='kabupaten'){
+                        $juara[$index]['nama'] = $nilai->lomba_file->anggota->city->name;
+                    }
+                    if($tingkat=='provinsi'){
+                        $juara[$index]['nama'] = $nilai->lomba_file->anggota->province->name;
+                    }
+                    if($idx==0){
+                        $juara[$index]['point'] = 100;
+                    }
+                    if($idx==1){
+                        $juara[$index]['point'] = 45;
+                    }
+                    if($idx==2){
+                        $juara[$index]['point'] = 20;
+                    }
+                    $index++;
+                }
+            }
+            if ($lom->penilaian=='subjective') {
+                $juriCount = Juri::where('lomba_id',$lom->id)->count();
+                if ($lom->kepesertaan=='kelompok') {
+                    $data = array();
+                    $pen = PointJuri::all()->where('lomba_id',$lom->id)->groupBy('peserta_id');
+                    foreach ($pen as $key => $item) {
+                        if($lom->kegiatan->agenda->tingkat=='provinsi'){
+                            $name = $item->first()->peserta->anggota->province->name;
+                        }elseif($lom->kegiatan->agenda->tingkat=='kabupaten'){
+                            $name = $item->first()->peserta->anggota->city->name;
+                        }elseif($lom->kegiatan->agenda->tingkat=='kecamatan'){
+                            $name = $item->first()->peserta->anggota->district->name;
+                        }else{
+                            $name = $item->first()->peserta->anggota->gudepInfo->nama_sekolah;
+                        }
+                        $data[$key]['nama'] = $name;
+                        $data[$key]['point'] = $item->sum('point');
+                    }
+                    $data = collect($data);
+                    $data = $data->sortByDesc('point');
+                    $a = 0;
+                    foreach ($data as $idx => $nilai) {
+                        if($a<3){
+                            $juara[$index]['nama'] = $nilai['nama'];
+                            if($a==0){
+                                $juara[$index]['point'] = 100;
+                            }
+                            if($a==1){
+                                $juara[$index]['point'] = 45;
+                            }
+                            if($a==2){
+                                $juara[$index]['point'] = 20;
+                            }
+                            $index++;
+                        }
+                        $a++;
+                    }
+                }else{
+                    $data = array();
+                    $pen = PesertaLomba::all()->where('lomba_id',$lom->id);
+                    foreach ($pen as $key => $item) {
+                        if($lom->kegiatan->agenda->tingkat=='provinsi'){
+                            $name = $item->anggota->province->name;
+                        }elseif($lom->kegiatan->agenda->tingkat=='kabupaten'){
+                            $name = $item->anggota->city->name;
+                        }elseif($lom->kegiatan->agenda->tingkat=='kecamatan'){
+                            $name = $item->anggota->district->name;
+                        }else{
+                            $name = $item->anggota->gudepInfo->nama_sekolah;
+                        }
+                        $data[$key]['nama'] = $name;
+                        $data[$key]['point'] = (int)PointJuri::all()->where('lomba_id',$lom->id)->whereNull('gudep_id')->where('peserta_id',$item->id)->sum('point');
+                    }
+                    $data = collect($data);
+                    $data = $data->sortByDesc('point');
+                    $a = 0;
+                    foreach ($data as $idx => $nilai) {
+                        if($a<3){
+                            $juara[$index]['nama'] = $nilai['nama'];
+                            if($a==0){
+                                $juara[$index]['point'] = 100;
+                            }
+                            if($a==1){
+                                $juara[$index]['point'] = 45;
+                            }
+                            if($a==2){
+                                $juara[$index]['point'] = 20;
+                            }
+                            $index++;
+                        }
+                        $a++;
+                    }
+                }
+            }
+            if ($lom->penilaian=='objective') {
+                if($lom->kepesertaan=='kelompok'){
+                    $data = LombaStage::join('peserta_lomba','peserta_lomba.id','=','lomba_stages.peserta_id')
+                            ->join('tb_anggota','tb_anggota.id','=','peserta_lomba.anggota_id')
+                            ->where('lomba_stages.lomba_id',$lom->id)
+                            ->select('lomba_stages.*','tb_anggota.provinsi','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.gudep')
+                            ->orderBy('stage','desc')
+                            ->get()
+                            ->groupBy($lom->kegiatan->agenda->tingkat);
+                }else{
+                    $data = LombaStage::where('lomba_id',$lom->id)->orderBy('stage','desc')->orderBy('point','desc')->get()->groupBy('peserta_id');
+                }
+                foreach ($data as $idx => $nilai) {
+                    if($idx<3){
+                        if($tingkat=='gudep'){
+                            $juara[$index]['nama'] = $nilai->first()->peserta->anggota->gudepInfo->nama_sekolah;
+                        }
+                        if($tingkat=='kecamatan'){
+                            $juara[$index]['nama'] = $nilai->first()->peserta->anggota->district->name;
+                        }
+                        if($tingkat=='kabupaten'){
+                            $juara[$index]['nama'] = $nilai->first()->peserta->anggota->city->name;
+                        }
+                        if($tingkat=='provinsi'){
+                            $juara[$index]['nama'] = $nilai->first()->peserta->anggota->province->name;
+                        }
+                        if($a==0){
+                            $juara[$index]['point'] = 100;
+                        }
+                        if($a==1){
+                            $juara[$index]['point'] = 45;
+                        }
+                        if($a==2){
+                            $juara[$index]['point'] = 20;
+                        }
+                        $index++;
+                    }
+                }
+            }
+        }
+
+        $grouped = array();
+        foreach ($juara as $object) {
+            if (!isset($grouped[$object['nama']])) {
+                $grouped[$object['nama']] = array();
+            }
+            $grouped[$object['nama']][] = $object;
+        }
+
+        $champion = array();
+        foreach($juara as $jua){
+            if(isset($champion[$jua['nama']]))
+                $champion[$jua['nama']] += $jua['point'];
+            else
+                $champion[$jua['nama']] = $jua['point'];
+        }
+
+        $umum = array();
+        $p = 0;
+        foreach ($champion as $key => $value) {
+            $one = 0;
+            $two = 0;
+            $three = 0;
+            foreach($grouped[$key] as $poin){
+                if( $poin['point']==100){
+                    $one++;
+                }
+                if( $poin['point']==45){
+                    $two++;
+                }
+                if( $poin['point']==20){
+                    $three++;
+                }
+            }
+            $umum[$p]['data'] = $grouped[$key];
+            $umum[$p]['nama'] = $key;
+            $umum[$p]['point'] = $value;
+            $umum[$p]['one'] = $one;
+            $umum[$p]['two'] = $two;
+            $umum[$p]['three'] = $three;
+            $p++;
+        }
+
+        usort($umum, fn($a, $b) => strcmp($b['point'], $a['point']));
+        $collect = collect($umum);
+        $umum = $collect->sortByDesc('point');
+        return view('social.event-detail', compact('agenda', 'kegiatan','umum'));
     }
 
     public function cart()

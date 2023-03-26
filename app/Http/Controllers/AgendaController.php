@@ -302,7 +302,8 @@ class AgendaController extends Controller
         }
 
         usort($umum, fn($a, $b) => strcmp($b['point'], $a['point']));
-
+        $collect = collect($umum);
+        $umum = $collect->sortByDesc('point');
         $kegiatan = Kegiatan::where('agenda_id', $agenda->id)->orderBy('waktu_mulai', 'asc')->get()->groupBy('waktu_mulai');
         return view('admin.agenda.show', compact('agenda', 'kegiatan','umum'));
     }

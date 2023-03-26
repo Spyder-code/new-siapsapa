@@ -64,7 +64,7 @@
                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                             </form>
                                         @else
-                                            @if ($role=='kwarda')
+                                            @if ($lomba->kegiatan->agenda->tingkat=='provinsi')
                                                 @if (Auth::user()->anggota->provinsi==$a->anggota->provinsi)
                                                 <form action="{{ route('lomba.daftar.destroy',$a) }}" method="post">
                                                     @csrf
@@ -72,7 +72,7 @@
                                                 </form>
                                                 @endif
                                             @endif
-                                            @if ($role=='kwarcab')
+                                            @if ($lomba->kegiatan->agenda->tingkat=='kabupaten')
                                                 @if (Auth::user()->anggota->kabupaten==$a->anggota->kabupaten)
                                                 <form action="{{ route('lomba.daftar.destroy',$a) }}" method="post">
                                                     @csrf
@@ -80,7 +80,7 @@
                                                 </form>
                                                 @endif
                                             @endif
-                                            @if ($role=='kwaran')
+                                            @if ($lomba->kegiatan->agenda->tingkat=='kecamatan')
                                                 @if (Auth::user()->anggota->kecamatan==$a->anggota->kecamatan)
                                                 <form action="{{ route('lomba.daftar.destroy',$a) }}" method="post">
                                                     @csrf
@@ -88,7 +88,7 @@
                                                 </form>
                                                 @endif
                                             @endif
-                                            @if ($role=='gudep')
+                                            @if ($lomba->kegiatan->agenda->tingkat=='gudep')
                                                 @if (Auth::user()->anggota->gudep==$a->anggota->gudep)
                                                 <form action="{{ route('lomba.daftar.destroy',$a) }}" method="post">
                                                     @csrf
@@ -206,9 +206,34 @@
                 <h4 class="card-title mb-0">Daftarkan Peserta</h4>
             </div>
             <div class="card-body">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Pilih Peserta
-                </button>
+                @if ($lomba->kegiatan->agenda->tingkat=='provinsi')
+                    @if (Auth::user()->role=='kwarda')
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Pilih Peserta
+                        </button>
+                    @endif
+                @endif
+                @if ($lomba->kegiatan->agenda->tingkat=='kabupaten')
+                    @if (Auth::user()->role=='kwarcab')
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Pilih Peserta
+                        </button>
+                    @endif
+                @endif
+                @if ($lomba->kegiatan->agenda->tingkat=='kecamatan')
+                    @if (Auth::user()->role=='kwaran')
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Pilih Peserta
+                        </button>
+                    @endif
+                @endif
+                @if ($lomba->kegiatan->agenda->tingkat=='gudep')
+                    @if (Auth::user()->role=='gudep')
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Pilih Peserta
+                        </button>
+                    @endif
+                @endif
             </div>
         </div>
     </div>
