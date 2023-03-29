@@ -144,6 +144,11 @@ class MidtransService extends Repository
                         'payment_status' => 3,
                         'status' => 2,
                     ]);
+                    foreach ($transaksi->transactions as $item ) {
+                        $item->anggota->update([
+                            'is_cetak' => 1
+                        ]);
+                    }
                     // $this->booked($booking, $transaksi);
                     // TODO set payment status in merchant's database to 'Success'
                     return response( "Transaction order_id: " . $order_id ." successfully captured using " . $type);
@@ -155,6 +160,11 @@ class MidtransService extends Repository
                 'payment_status' => 3,
                 'status' => 2,
             ]);
+            foreach ($transaksi->transactions as $item ) {
+                $item->anggota->update([
+                    'is_cetak' => 1
+                ]);
+            }
             // $this->booked($booking, $transaksi);
             // TODO set payment status in merchant's database to 'Settlement'
             return response( "Transaction order_id: " . $order_id ." successfully transfered using " . $type);

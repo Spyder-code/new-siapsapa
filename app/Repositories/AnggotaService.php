@@ -121,7 +121,7 @@ class AnggotaService{
             $data['kta_id'] = $kta->id;
         }
 
-        if(!empty($data['gudep'])){
+        if(!empty($data['gudep'])&&!empty($data['kode'])){
             if ($data['kode']==$anggota->kode) {
                 if(!is_null($data['gudep'])){
                     $gud = Gudep::find($data['gudep']);
