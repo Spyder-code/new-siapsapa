@@ -38,7 +38,6 @@ class AnggotaRequest extends FormRequest
             'kabupaten' => 'required',
             'kecamatan' => 'required',
             'gudep' => 'nullable',
-            'status_anggota' => 'required',
             'foto' => 'nullable',
             'kawin' => 'required',
             'status' => 'nullable',
