@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Kta;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Repositories\MidtransService;
@@ -120,7 +121,12 @@ class TransactionController extends Controller
 
     public function update(Request $request, Transaction $transaction)
     {
-        $transaction->update($request->all());
+        $data = $request->all();
+        if($request->golongan){
+            $data['kta_id'] = Kta::where('pramuka_id',$request->golongan)->where('kabupaten',$transaction->anggota->kabupaten)->first()->id;
+        }
+        $transaction->update($data);
+
         return back()->with('success','Data berhasil diupdate');
     }
 

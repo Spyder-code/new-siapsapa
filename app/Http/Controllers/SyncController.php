@@ -365,6 +365,23 @@ class SyncController extends Controller
         ]);
 
         return response('Berhasil mengupdate : '.count($transactions).' Data');
+    }
 
+    public function syncKtaTransaction()
+    {
+        $data = Transaction::all();
+        $i = 0;
+        foreach ($data as $item ) {
+            $kta = Kta::where('pramuka_id',$item->golongan)->where('kabupaten',$item->anggota->kabupaten)->first();
+            if($kta){
+                $item->update([
+                    'kta_id' => $kta->id
+                ]);
+                $i++;
+            }
+        }
+        return response()->json([
+            'message' => 'Berhasil mengupdate '.$i.' data'
+        ], 200);
     }
 }
