@@ -190,10 +190,7 @@ class GudepController extends Controller
         $service = new GudepService();
         $service->updateKodeAnggota($gudep->id);
         $role = Auth::user()->role;
-        if ($role=='gudep') {
-            return redirect()->route('gudep.show',$gudep);
-        }
-        return redirect()->route('gudep.index');
+        return redirect()->route('gudep.show',$gudep);
     }
 
     public function data_table()
@@ -282,8 +279,9 @@ class GudepController extends Controller
         $anggota = Anggota::all()->where('gudep',request('gudep'));
         foreach ($anggota as $item) {
             $kode = $item->kode;
-            $depan = substr($kode,0,9);
-            $belakang = substr($kode,12,18);
+            $arr = explode('.',$kode);
+            $depan = $arr[0].'.'.$arr[1].'.'.$arr[2].'.';
+            $belakang = '.'.end($arr);
             $lk = $item->gudepInfo->no_putra;
             $pr = $item->gudepInfo->no_putri;
             if ($item->jk=='L') {
