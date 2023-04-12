@@ -27,6 +27,8 @@ class TransactionDetail extends Model
         'total',
         'status',
         'payment_status',
+        'payment_type',
+        'file',
         'resi',
         'snap_token',
     ];

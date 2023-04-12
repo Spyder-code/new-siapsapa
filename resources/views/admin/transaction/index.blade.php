@@ -30,6 +30,7 @@
                                 <th>Total Pembayaran KTA</th>
                                 <th>Ongkir</th>
                                 <th>Status Pesanan</th>
+                                <th>Metode Pembayaran</th>
                                 <th>Status Pembayaran</th>
                                 <th>action</th>
                             </tr>
@@ -44,6 +45,16 @@
                                 <td>Rp. {{ number_format($item->ekspedisi_price) }}</td>
                                 <td>{{ $item->statusInfo->name }}</td>
                                 <td>
+                                    <form action="{{ route('transactiondetail.update',$item) }}" method="post">
+                                        @csrf
+                                        @method('PUT')
+                                        <select name="payment_type" id="payment_type{{ $item->id }}" class="form-control" onchange="submit()">
+                                            <option {{ $item->payment_type=='midtrans'?'selected':'' }} value="midtrans">E-Money/Transfer Rekening</option>
+                                            <option {{ $item->payment_type=='siplah'?'selected':'' }} value="siplah">SIPLAH (BLIBLI)</option>
+                                        </select>
+                                    </form>
+                                </td>
+                                <td>
                                     <div class="badge bg-light-primary">
                                         {{ $item->paymentInfo->name??'-' }}
                                     </div>
@@ -53,8 +64,7 @@
                                         Detail
                                     </a>
                                     @if ($item->payment_status>=4)
-                                    <form action="{{ route('transaction.pay',$item) }}" method="post">
-                                        @csrf
+                                    <form action="{{ route('transaction.pay.page',$item) }}" method="GET">
                                         <button type="submit" class="btn btn-sm btn-success">
                                             Bayar
                                         </button>

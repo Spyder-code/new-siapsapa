@@ -100,6 +100,7 @@ Route::middleware(['auth','anggota'])->group(function(){
     Route::get('/cart', [SocialController::class, 'cart'])->name('social.cart');
     Route::get('/transaction/create', [SocialController::class, 'createTransaction'])->name('social.transaction.create');
     Route::get('/transaction', [SocialController::class, 'transaction'])->name('social.transaction');
+    Route::get('/transaction-pay/{transaction}', [TransactionController::class, 'pay_page'])->name('transaction.pay.page');
     Route::get('/berita', [SocialController::class, 'news'])->name('social.news');
     Route::get('/berita/{id}', [SocialController::class, 'newsDetail'])->name('social.news.detail');
     Route::get('/agenda', [SocialController::class, 'event'])->name('social.event');
@@ -157,6 +158,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::post('pay/{transactionDetail}',[TransactionController::class,'pay'])->name('transaction.pay');
         Route::get('get-anggota/{type}', [AnggotaController::class,'index'])->name('anggota.index');
         Route::put('anggota/update/status/{anggota}', [AnggotaController::class,'updateStatus'])->name('anggota.update.status');
+        Route::put('update-transactionDetail/{transaction}', [TransactionController::class,'updateTransactionDetail'])->name('transactiondetail.update');
         Route::get('anggota/non-validate', [AnggotaController::class,'non_validate'])->name('anggota.non_validate');
         Route::get('anggota/search-document/{id}', [AnggotaController::class,'searchByDocument'])->name('anggota.search_document');
         Route::get('anggota/gudep/{gudep}', [GudepController::class,'anggota'])->name('gudep.anggota');

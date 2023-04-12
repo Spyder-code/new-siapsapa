@@ -29,11 +29,33 @@
             <li class="list-group-item d-flex justify-content-between"><span style="width:100px">Total Pembayaran</span> Rp. {{ number_format($transaction->total) }}</li>
             <li class="list-group-item d-flex justify-content-between"><span style="width:100px">Status Pesanan:</span> {{ $transaction->statusInfo->name }}</li>
             <li class="list-group-item d-flex justify-content-between"><span style="width:100px">Status Pembayaran:</span> {{ $transaction->paymentInfo->name }}</li>
+            <li class="list-group-item d-flex justify-content-between"><span style="width:100px">Metode Pembayaran:</span> {{ strtoupper($transaction->payment_type) }}</li>
             @if ($transaction->payment_status <= 3)
             <li class="list-group-item d-flex justify-content-between"><span style="width:100px">INVOICE:</span> {{ $transaction->code }}</li>
             @endif
         </ul>
     </div>
+    @if ($transaction->payment_type=='siplah')
+    <div class="col-12 mt-3">
+        <div class="row">
+            <div class="col-12 col-md-4">
+                @if ($transaction->file)
+                <span>Bukti Transaksi :</span>
+                <img src="{{ asset($transaction->file) }}" alt="TRX" class="img-fluid">
+                @else
+                <strong>Bukti Transaksi Belum diupload!</strong>
+                @endif
+                @if ($transaction->status==1)
+                <form action="{{ route('transactiondetail.update',$transaction) }}" method="post">
+                    @csrf
+                    @method('PUT')
+                    <button type="submit" name="verifikasi" value="1" class="btn btn-success mt-2 w-100" onclick="return confirm('are you sure?')">Tandai Sudah Bayar</button>
+                </form>
+                @endif
+            </div>
+        </div>
+    </div>
+    @endif
     <div class="col-12 mt-5">
         <div class="card">
             <div class="border-bottom title-part-padding d-flex justify-content-between">

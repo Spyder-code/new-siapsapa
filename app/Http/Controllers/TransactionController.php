@@ -83,9 +83,9 @@ class TransactionController extends Controller
         $data['payment_status'] = 4;
         $data['status'] = 1;
         $cek = Cart::all()->where('user_id', Auth::id())->whereNull('kta_id')->count();
-        if($cek>0){
-            return back()->with('danger', 'KTA ada yang salah. Harap hubungi admin untuk proses selanjutnya');
-        }
+        // if($cek>0){
+        //     return back()->with('danger', 'KTA ada yang salah. Harap hubungi admin untuk proses selanjutnya');
+        // }
         $transactionDetail = TransactionDetail::create($data);
         foreach ($carts as $cart) {
             $items = [
@@ -130,6 +130,24 @@ class TransactionController extends Controller
         return back()->with('success','Data berhasil diupdate');
     }
 
+    public function updateTransactionDetail(Request $request, TransactionDetail $transaction)
+    {
+        $data = $request->all();
+        if($request->file){
+            $file = $request->file('file');
+            $name = $transaction->id.'_'.$file->getClientOriginalName();
+            $file->storeAs('public/transaction',$name);
+            $data['file'] = 'storage/transaction/'.$name;
+        }
+        if($request->verifikasi){
+            $data['payment_status'] = 1;
+            $data['status'] = 2;
+        }
+        $transaction->update($data);
+
+        return back()->with('success','Data berhasil diupdate');
+    }
+
 
     public function destroy(Transaction $transaction)
     {
@@ -139,8 +157,32 @@ class TransactionController extends Controller
     public function pay(TransactionDetail $transactionDetail)
     {
         $midtransService = new MidtransService();
-        $paymentUrl = $midtransService->pay($transactionDetail);
-        return redirect($paymentUrl);
+        $trx = $midtransService->pay($transactionDetail);
+        return redirect()->route('transaction.pay.page',$trx);
+    }
+
+    public function pay_page(TransactionDetail $transaction)
+    {
+        if($transaction->payment_type=='midtrans'){
+            if(!$transaction->snap_token){
+                return redirect()->route('transaction.pay',$transaction);
+            }else{
+                $kode = substr($transaction->snap_token,0,4);
+                if($kode=='http'){
+                    return redirect()->route('transaction.pay',$transaction);
+                }
+            }
+            return view('payment', compact('transaction'));
+        }else{
+            if(!$transaction->code){
+                $transaction->update([
+                    'code' => 'KTA/'.date('ymdHi').'/'.sprintf('%03d',$transaction->id),
+                ]);
+
+                $transaction = TransactionDetail::find($transaction->id);
+            }
+            return view('siplah', compact('transaction'));
+        }
     }
 
     public function notificationHandling()

@@ -38,7 +38,7 @@ class MidtransService extends Repository
                 'id' => $item->anggota->kode,
                 'price' => $item->harga,
                 'quantity' => 1,
-                'name' => 'KTA-',$item->anggota->name,
+                'name' => 'KTA-'.$item->anggota->nama,
             );
         }
 
@@ -56,7 +56,7 @@ class MidtransService extends Repository
 
         try {
             // Get Snap Payment Page URL
-            $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
+            $paymentUrl = \Midtrans\Snap::getSnapToken($params);
             // Redirect to Snap Payment Page
 
             $transactionDetail->update([
@@ -64,7 +64,9 @@ class MidtransService extends Repository
                 'snap_token' => $paymentUrl
             ]);
 
-            return $paymentUrl;
+            $trx = TransactionDetail::find($transactionDetail->id);
+
+            return $trx;
         }
         catch (Exception $e) {
             return response($e->getMessage());
@@ -106,7 +108,7 @@ class MidtransService extends Repository
 
         try {
             // Get Snap Payment Page URL
-            $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
+            $paymentUrl = \Midtrans\Snap::getSnapToken($params);
             // Redirect to Snap Payment Page
 
             return $paymentUrl;

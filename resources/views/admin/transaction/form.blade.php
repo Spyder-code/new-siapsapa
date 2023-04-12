@@ -1,15 +1,16 @@
 <div class="row">
-    <x-input :type="'text'" :name="'penerima'" :value="$transaction->penerima ?? ''" :label="'Nama Penerima'" :col="6" :attr="['required']"/>
-    <x-input :type="'text'" :name="'phone'" :value="$transaction->phone ?? ''" :label="'Nomor Telepone'" :col="6" :attr="['required']"/>
-    <x-input :type="'select'" :name="'province_id'" :value="$transaction->province_id ?? ''" :label="'Provinsi'" :col="6" :options="[]" :attr="['required']"/>
-    <x-input :type="'select'" :name="'city_id'" :value="$transaction->city_id ?? ''" :label="'Kota'" :col="6" :options="[]" :attr="['required']"/>
-    <x-input :type="'select'" :name="'ekspedisi_name'" :value="$transaction->ekspedisi_name ?? ''" :label="'Jasa Pengiriman'" :col="12" :options="['jne'=>'JNE','pos'=>'Kantor POS','tiki'=>'TIKI']" :attr="['required']"/>
-    <x-input :type="'select'" :name="'ekspedisi_tipe'" :value="$transaction->ekspedisi_tipe ?? ''" :label="'Ongkir'" :col="12" :options="[]"/>
-    <x-input :type="'textarea'" :name="'alamat'" :label="'Alamat lengkap'" :value="$transaction->alamat ?? ''" :col="12" :attr="['required']"/>
-    <x-input :type="'text'" :name="'kota'" :value="$transaction->kota ?? ''" :label="'Kota'" :col="6" :attr="['required','readonly']"/>
-    <x-input :type="'text'" :name="'kode_pos'" :value="$transaction->kode_pos ?? ''" :label="'Kode Pos'" :col="6" :attr="['required']"/>
-    <x-input :type="'text'" :name="'item_price'" :value="'Rp. '.number_format($total) ?? ''" :label="'Total Harga'" :col="6" :attr="['required','readonly']"/>
-    <x-input :type="'text'" :name="'ekspedisi_price'" :value="''" :label="'Ongkos Kirim'" :col="6" :attr="['required','readonly']"/>
+    <x-input :type="'text'" :name="'penerima'" :value="$transaction->penerima ?? old('penerima')" :label="'Nama Penerima'" :col="6" :attr="['required']"/>
+    <x-input :type="'text'" :name="'phone'" :value="$transaction->phone ?? old('phone')" :label="'Nomor Telepone'" :col="6" :attr="['required']"/>
+    <x-input :type="'select'" :name="'province_id'" :value="$transaction->province_id ?? old('province_id')" :label="'Provinsi'" :col="6" :options="[]" :attr="['required']"/>
+    <x-input :type="'select'" :name="'city_id'" :value="$transaction->city_id ?? old('city_id')" :label="'Kota'" :col="6" :options="[]" :attr="['required']"/>
+    <x-input :type="'select'" :name="'ekspedisi_name'" :value="$transaction->ekspedisi_name ?? old('ekspedisi_name')" :label="'Jasa Pengiriman'" :col="12" :options="['jne'=>'JNE','pos'=>'Kantor POS','tiki'=>'TIKI']" :attr="['required']"/>
+    <x-input :type="'select'" :name="'ekspedisi_tipe'" :value="$transaction->ekspedisi_tipe ?? old('ekspedisi_tipe')" :label="'Ongkir'" :col="12" :options="[]"/>
+    <x-input :type="'textarea'" :name="'alamat'" :label="'Alamat lengkap'" :value="$transaction->alamat ?? old('alamat')" :col="12" :attr="['required']"/>
+    <x-input :type="'text'" :name="'kota'" :value="$transaction->kota ?? old('kota')" :label="'Kota'" :col="6" :attr="['required','readonly']"/>
+    <x-input :type="'text'" :name="'kode_pos'" :value="$transaction->kode_pos ?? old('kode_pos')" :label="'Kode Pos'" :col="6" :attr="['required']"/>
+    <x-input :type="'text'" :name="'item_price'" :value="'Rp. '.number_format($total) ?? old('item_price')" :label="'Total Harga'" :col="6" :attr="['required','readonly']"/>
+    <x-input :type="'text'" :name="'ekspedisi_price'" :value="$transaction->ekspedisi_price ?? old('ekspedisi_price')" :label="'Ongkos Kirim'" :col="6" :attr="['required','readonly']"/>
+    <x-input :type="'select'" :name="'payment_type'" :value="$transaction->payment_type ?? old('payment_type')" :label="'Metode Pembayaran'" :col="12" :options="['siplah'=>'SIPLAH (BLIBLI)','midtrans'=>'E-Money/Transfer Rekening']" :attr="['required']"/>
     <hr>
 </div>
 
