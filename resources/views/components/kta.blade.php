@@ -58,7 +58,9 @@
     <div style="height:53.98mm;width:85.60mm;display:inline-block;margin-right:20px;position: relative; margin-top:10px">
         {{-- <img style="width:85.60mm" src="{{ asset('berkas/kta/depan.png') }}" class="img-kta"> --}}
         <img style="width:85.60mm" src="{{ asset('berkas/kta/'. $anggota->kta->depan) }}" class="img-kta">
+        @if ($anggota->is_cetak==0)
         <img src="{{ asset('images/logosiap.png') }}" class="watermark">
+        @endif
         <div style="height:108px;position: absolute;top:65px;left:28px;">
             <img  style="position: absolute;top:0; width:55px; height:62px;" src="{{ asset('berkas/anggota/'.$anggota->foto) }}" id="pasfoto-kta" class="img rounded">
             <img  style="position: absolute;bottom:-10px; width:55px; height:55px;" src="data:image/png;base64,{{DNS2D::getBarcodePNG(route('social.userFeed',$anggota->id), 'QRCODE')}}" class="img">
@@ -79,7 +81,7 @@
             </tr>
             <tr>
                 <td>Alamat</td>
-                <td> {{ Str::words(ucwords(strtolower($anggota->alamat)), 20,'') }}</td>
+                <td> {{ $anggota->alamat }}</td>
             </tr>
             <tr>
                 <td>Agama</td>
@@ -120,16 +122,14 @@
                 </tr>
             @endif
         </table>
-        @if ($anggota->cetak)
-            @if ($anggota->cetak->transactionDetail->payment_status > 3 )
-                <div class="watermark1 text-center bg-success text-white" id="add-tocart">
-                    <span class="text-white" style="top:7px; position:relative"><b>PESAN KTA</b></span>
-                </div>
-            @endif
+        @if ($anggota->is_cetak==1)
+            {{-- <div class="watermark1 text-center bg-success text-white" id="add-tocart">
+                <span class="text-white" style="top:7px; position:relative"><b>Download KTAs</b></span>
+            </div> --}}
         @else
-        <div class="watermark1 text-center bg-success text-white" id="add-tocart">
-            <span class="text-white" style="top:7px; position:relative"><b>PESAN KTA</b></span>
-        </div>
+            <div class="watermark1 text-center bg-success text-white" id="add-tocart">
+                <span class="text-white" style="top:7px; position:relative"><b>PESAN KTA</b></span>
+            </div>
         @endif
     </div>
     {{-- <div style="height:53.98mm;width:85.60mm;display:inline-block; margin-top:10px">

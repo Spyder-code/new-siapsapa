@@ -64,7 +64,7 @@
                 </tr>
                 <tr style="top:-12px">
                     <td>Alamat</td>
-                    <td> {{ Str::words(ucwords(strtolower($anggota->alamat)), 20,'') }}</td>
+                    <td> {{ $anggota->alamat }}</td>
                 </tr>
                 <tr style="top:-15px">
                     <td>Agama</td>

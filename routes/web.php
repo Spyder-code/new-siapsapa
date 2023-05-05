@@ -28,6 +28,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransferAnggotaController;
 use App\Http\Controllers\UserController;
 use App\Models\Anggota;
+use App\Models\User;
 use App\Models\DocumentType;
 use App\Models\Provinsi;
 use App\Repositories\StatistikService;
@@ -78,6 +79,25 @@ Route::get('play/video/{url}',function($url){
 Route::get('scan-anggota',function(){
     return view('scan.anggota');
 });
+
+Route::get('KTA-{anggota}',function(Anggota $anggota){
+    return view('components.kta2',compact('anggota'));
+});
+
+Route::get('admin-list', function(){
+    $data = User::where('role','!=','anggota')->whereHas('anggota')->get();
+    $res = array();
+    foreach ($data as $key => $item) {
+        $res[$key]['role'] = $item->role;
+        $res[$key]['nama'] = $item->anggota->nama ?? '-';
+        $res[$key]['hp'] = $item->anggota->nohp ?? '-';
+        $res[$key]['kabupaten'] = $item->anggota->city->name ?? '-';
+        $res[$key]['kecamatan'] = $item->anggota->district->name ?? '-';
+    }
+
+    return response($res);
+});
+
 
 Route::get('check-login', [HomeController::class, 'index']);
 Route::get('/', [PageController::class, 'home'])->name('home');

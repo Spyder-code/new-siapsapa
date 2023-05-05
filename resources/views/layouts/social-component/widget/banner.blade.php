@@ -12,8 +12,9 @@
             </svg>
         </span>
     </a>
+    <div class="item-subtitle">Gratis t-shirt untuk 10  pemesan</div>
     <div class="item-img">
-        <img src="{{ asset('social') }}/media/figure/widget_banner_1.png" alt="banner">
+        <img src="{{ asset('berkas/tshirt.png') }}" alt="banner">
     </div>
 </div>
 @endif
