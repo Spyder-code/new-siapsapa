@@ -93,6 +93,7 @@ Route::get('admin-list', function(){
         $res[$key]['hp'] = $item->anggota->nohp ?? '-';
         $res[$key]['kabupaten'] = $item->anggota->city->name ?? '-';
         $res[$key]['kecamatan'] = $item->anggota->district->name ?? '-';
+        $res[$key]['gudep'] = $item->anggota->gudepInfo->nama_sekolah ?? '-';
     }
 
     return response($res);
