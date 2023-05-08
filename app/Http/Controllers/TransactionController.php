@@ -156,6 +156,7 @@ class TransactionController extends Controller
 
     public function pay(TransactionDetail $transactionDetail)
     {
+        dd($transactionDetail);
         $midtransService = new MidtransService();
         $trx = $midtransService->pay($transactionDetail);
         return redirect()->route('transaction.pay.page',$trx);
@@ -165,11 +166,13 @@ class TransactionController extends Controller
     {
         if($transaction->payment_type=='midtrans'){
             if(!$transaction->snap_token){
-                return redirect()->route('transaction.pay',$transaction);
+                $midtransService = new MidtransService();
+                $transaction = $midtransService->pay($transaction);
             }else{
                 $kode = substr($transaction->snap_token,0,4);
                 if($kode=='http'){
-                    return redirect()->route('transaction.pay',$transaction);
+                    $midtransService = new MidtransService();
+                    $transaction = $midtransService->pay($transaction);
                 }
             }
             return view('payment', compact('transaction'));
