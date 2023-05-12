@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Agenda;
 use App\Models\AgendaFile;
 use App\Models\Anggota;
+use App\Models\City;
+use App\Models\Distrik;
+use App\Models\Gudep;
 use App\Models\Juri;
 use App\Models\Kegiatan;
 use App\Models\Lomba;
@@ -268,6 +271,32 @@ class AgendaController extends Controller
             $grouped[$object['nama']][] = $object;
         }
 
+        $peserta_juara = array();
+        foreach ($grouped as $key => $value) {
+            array_push($peserta_juara,$key);
+        }
+
+        $peserta = PesertaLomba::join('tb_anggota','tb_anggota.id','=','peserta_lomba.anggota_id')
+                    ->select('peserta_lomba.anggota_id','tb_anggota.kabupaten as kabupaten','tb_anggota.kecamatan','tb_anggota.provinsi','tb_anggota.gudep')
+                    ->pluck('tb_anggota.'.$tingkat)
+                    ->toArray();
+        $peserta = array_unique($peserta);
+
+        if($tingkat=='provinsi'){
+            $peserta = Provinsi::whereIn('id',$peserta)->pluck('name')->toArray();
+        }
+        if($tingkat=='kabupaten'){
+            $peserta = City::whereIn('id',$peserta)->pluck('name')->toArray();
+        }
+        if($tingkat=='kecamatan'){
+            $peserta = Distrik::whereIn('id',$peserta)->pluck('name')->toArray();
+        }
+        if($tingkat=='gudep'){
+            $peserta = Gudep::whereIn('id',$peserta)->pluck('nama_sekolah')->toArray();
+        }
+
+        $non_juara = array_diff($peserta,$peserta_juara);
+
         $champion = array();
         foreach($juara as $jua){
             if(isset($champion[$jua['nama']]))
@@ -306,7 +335,7 @@ class AgendaController extends Controller
         $collect = collect($umum);
         $umum = $collect->sortByDesc('point');
         $kegiatan = Kegiatan::where('agenda_id', $agenda->id)->orderBy('waktu_mulai', 'asc')->get()->groupBy('waktu_mulai');
-        return view('admin.agenda.show', compact('agenda', 'kegiatan','umum'));
+        return view('admin.agenda.show', compact('agenda', 'kegiatan','umum','non_juara'));
     }
 
     public function store(Request $request)

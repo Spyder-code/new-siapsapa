@@ -61,4 +61,9 @@ class Agenda extends Model
    {
       return $this->belongsTo(User::class,'created_by');
    }
+
+   public function peserta()
+   {
+    return $this->hasMany(PendaftaranAgenda::class,'agenda_id');
+   }
 }

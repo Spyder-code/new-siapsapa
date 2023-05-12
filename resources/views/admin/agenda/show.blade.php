@@ -53,6 +53,17 @@
                                             <td>{{ $item['point'] }}</td>
                                         </tr>
                                     @endforeach
+                                    @foreach ($non_juara as $pes)
+                                        <tr>
+                                            <td>-</td>
+                                            <td>{{ $pes }}</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
