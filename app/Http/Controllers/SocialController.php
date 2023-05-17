@@ -422,14 +422,24 @@ class SocialController extends Controller
 
     public function transaction()
     {
-        $status = 'all';
+        $status = request('status') ?? 'all';
         $query = TransactionDetail::query();
-        if(request()->has('status')){
-            $query->where('status',request('status'));
+        if($status!='all'){
+            if($status==1||$status=='1'){
+                $query->whereIn('payment_status',[1,2,3]);
+            }else{
+                $query->whereNotIn('payment_status',[1,2,3]);
+            }
             $status= request('status');
         }
         $transactions = $query->where('user_id',Auth::user()->id)->get();
 
         return view('social.transaction.index', compact('transactions','status'));
+    }
+
+    public function transactionCancel(TransactionDetail $transaction)
+    {
+        $transaction->delete();
+        return back()->with('success','Transaksi berhasil dibatalkan!');
     }
 }

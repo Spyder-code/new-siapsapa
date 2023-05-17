@@ -64,6 +64,13 @@
                                             Bayar
                                         </button>
                                     </form>
+                                    <form action="{{ route('social.transaction.cancel',$item) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('are you sure?')">
+                                            Cancel
+                                        </button>
+                                    </form>
                                     @endif
                                     @if ($item->status==2)
                                     <form action="{{ route('cart.print', $item) }}" method="post">

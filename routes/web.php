@@ -121,6 +121,7 @@ Route::middleware(['auth','anggota'])->group(function(){
     Route::get('/cart', [SocialController::class, 'cart'])->name('social.cart');
     Route::get('/transaction/create', [SocialController::class, 'createTransaction'])->name('social.transaction.create');
     Route::get('/transaction', [SocialController::class, 'transaction'])->name('social.transaction');
+    Route::delete('/transaction-cancel/{transaction}', [SocialController::class, 'transactionCancel'])->name('social.transaction.cancel');
     Route::get('/transaction-pay/{transaction}', [TransactionController::class, 'pay_page'])->name('transaction.pay.page');
     Route::get('/berita', [SocialController::class, 'news'])->name('social.news');
     Route::get('/berita/{id}', [SocialController::class, 'newsDetail'])->name('social.news.detail');
