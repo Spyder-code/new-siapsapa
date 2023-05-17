@@ -1,7 +1,7 @@
 @if (Auth::user()->anggota->kta)
     @include('components.kta', ['anggota'=>Auth::user()->anggota])
-@else
-<div class="widget widget-banner">
+@endif
+<div class="widget widget-banner {{ Auth::user()->anggota->kta ? 'mt-5' : '' }}">
     <h3 class="item-title">PESAN KTA</h3>
     <div class="item-subtitle">Kartu Anggota</div>
     <a href="#" class="item-btn">
@@ -17,5 +17,4 @@
         <img src="{{ asset('berkas/tshirt.png') }}" alt="banner">
     </div>
 </div>
-@endif
 
