@@ -156,7 +156,6 @@ class TransactionController extends Controller
 
     public function pay(TransactionDetail $transactionDetail)
     {
-        dd($transactionDetail);
         $midtransService = new MidtransService();
         $trx = $midtransService->pay($transactionDetail);
         return redirect()->route('transaction.pay.page',$trx);
