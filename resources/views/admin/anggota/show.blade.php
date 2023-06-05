@@ -45,7 +45,15 @@
         <div class="card">
             <div class="border-bottom title-part-padding d-flex justify-content-between">
                 <h4 class="card-title mb-0">Detail Profile</h4>
-                <a href="{{ route('anggota.edit', $anggota) }}"><i class="fas fa-pencil-alt"></i> Edit</a>
+                <div class="d-flex gap-4">
+                    <a href="{{ route('anggota.edit', $anggota) }}"><i class="fas fa-pencil-alt"></i> Edit</a>
+                    @if ($anggota->cetak)
+                    <form action="{{ route('percetakan.print') }}" method="post" target="_blank">
+                        @csrf
+                        <button type="submit" name="transaction_id" class="btn btn-sm btn-success" value="{{ $anggota->cetak->id }}"><i class="fas fa-print"></i> Print</button>
+                    </form>
+                    @endif
+                </div>
             </div>
             <div class="card mb-3">
                 @if ($anggota->kta_id==null)
