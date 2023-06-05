@@ -156,7 +156,7 @@ Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/logout', [LoginController::class, 'logout']);
-
+Route::post('percetakan/print', [PercetakanController::class,'print'])->name('percetakan.print');
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('data/wrong-date', [DataController::class, 'view_date'])->name('data.view.date');
@@ -222,7 +222,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('percetakan/batch', [PercetakanController::class,'batch'])->name('percetakan.batch');
         Route::post('percetakan/update/status', [PercetakanController::class,'updateStatus'])->name('percetakan.update.status');
         Route::get('percetakan/batch/{transaction}', [PercetakanController::class,'batchShow'])->name('percetakan.batch.show');
-        Route::post('percetakan/print', [PercetakanController::class,'print'])->name('percetakan.print');
         Route::post('percetakan/complete/{transaction}', [PercetakanController::class,'complete'])->name('percetakan.complete');
         Route::post('transaction/complete/{transaction}', [TransactionController::class,'complete'])->name('transaction.complete');
         Route::post('transfer-anggota/cancel/{transfer_anggota}', [TransferAnggotaController::class,'cancel'])->name('transfer.anggota.cancel');
