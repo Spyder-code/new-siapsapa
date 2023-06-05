@@ -123,9 +123,12 @@
             @endif
         </table>
         @if ($anggota->is_cetak==1)
-            {{-- <div class="watermark1 text-center bg-success text-white" id="add-tocart">
-                <span class="text-white" style="top:7px; position:relative"><b>Download KTAs</b></span>
-            </div> --}}
+            <div class="watermark1 text-center bg-success text-white">
+                <form action="{{ route('percetakan.print') }}" method="post" target="_blank">
+                    @csrf
+                    <button type="submit" name="transaction_id" style="top:7px; position:relative" value="{{ $anggota->cetak->id }}"><span class="text-white"><b>CETAK KTA</b></span></button>
+                </form>
+            </div>
         @else
             <div class="watermark1 text-center bg-success text-white" id="add-tocart">
                 <span class="text-white" style="top:7px; position:relative"><b>PESAN KTA</b></span>
