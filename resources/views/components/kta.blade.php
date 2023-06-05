@@ -126,7 +126,7 @@
             <div class="watermark1 text-center bg-success text-white">
                 <form action="{{ route('percetakan.print') }}" method="post" target="_blank">
                     @csrf
-                    <button type="submit" name="transaction_id" style="top:7px; position:relative; background:transparent; border:none" value="{{ $anggota->cetak->id }}"><span class="text-white"><b>CETAK KTA</b></span></button>
+                    <button type="submit" name="transaction_id" style="top:7px; position:relative; background:transparent; border:none" value="{{ $anggota->cetak->id }}"><span class="text-white"><b>SIMPAN KTA</b></span></button>
                 </form>
             </div>
         @else
