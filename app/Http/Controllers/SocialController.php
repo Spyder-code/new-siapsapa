@@ -35,7 +35,7 @@ class SocialController extends Controller
         $user = $anggota->user;
         $kategori = PostCategory::all();
         $tags = Tag::all();
-        $post = Post::orderByDesc('id')->get();
+        $post = Post::where('user_created',$user->id)->orderBy('created_at','desc')->get();
         return view('social.user.feed', compact('user', 'anggota', 'kategori', 'tags', 'post'));
     }
 

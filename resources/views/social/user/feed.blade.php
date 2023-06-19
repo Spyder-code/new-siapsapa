@@ -193,7 +193,7 @@
             <div class="post-header">
                 <div class="media">
                     <div class="user-img">
-                        <img src="{{ asset('berkas/anggota/'.$item->user->anggota->foto) }}" alt="Aahat">
+                        <img src="{{ asset('berkas/anggota/'.$item->user->anggota->foto) }}" alt="{{$item->user->anggota->nama}}" style="width:44px; height:44px">
                     </div>
                     <div class="media-body">
                         <div class="user-title">{{ $item->user->name }}</div>
