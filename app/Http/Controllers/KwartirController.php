@@ -55,11 +55,11 @@ class KwartirController extends Controller
         $kwartir = $data[1];
         $data1 = $data[0];
         if($data1->code != $request->code){
-            if ($kwartir=='Provinsi') {
+            if ($kwartir=='Kwartir Daerah') {
                 $offset = 0;
-            }elseif($kwartir=='Kabupaten'){
+            }elseif($kwartir=='Kwartir Cabang'){
                 $offset = 3;
-            }elseif($kwartir=='Kecamatan'){
+            }elseif($kwartir=='Kwartir Ranting'){
                 $offset = 6;
             }
 

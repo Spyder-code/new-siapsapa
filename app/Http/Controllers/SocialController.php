@@ -43,7 +43,7 @@ class SocialController extends Controller
     {
         $kategori = PostCategory::all();
         $tags = Tag::all();
-        $post = Post::paginate(3);
+        $post = Post::orderBy('created_at','desc')->paginate(3);
         $stories = Story::where('status',1)
                     ->whereDate('start_date','>=', date('Y-m-d'))
                     ->whereDate('end_date','<=', date('Y-m-d',strtotime("+1 days")))

@@ -193,7 +193,7 @@
             <div class="post-header">
                 <div class="media">
                     <div class="user-img">
-                        <img src="https://radiustheme.com/demo/html/cirkle/media/figure/chat_5.jpg" alt="Aahat">
+                        <img src="{{ asset('berkas/anggota/'.$item->user->anggota->foto) }}" alt="Aahat">
                     </div>
                     <div class="media-body">
                         <div class="user-title">{{ $item->user->name }}</div>
