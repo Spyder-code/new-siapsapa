@@ -17,7 +17,7 @@
     />
     <div class="col-md-7 justify-content-end align-self-center d-none d-md-flex">
         <ul class="list-group list-group-horizontal">
-            <li class="list-group-item">Status saya: <strong>{{ Auth::user()->anggota->document_type->name ?? Auth::user()->anggota->golongan->name }}</strong></li>
+            <li class="list-group-item">Status Anggota: <strong>{{ $cek->document_type->name ?? $cek->golongan->name }}</strong></li>
         </ul>
     </div>
 </div>
@@ -27,9 +27,9 @@
     <div class="col-8">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="mydocument-tab" data-bs-toggle="tab" data-bs-target="#mydocument" type="button" role="tab" aria-controls="mydocument" aria-selected="true">Dokumen Saya</button>
+                <button class="nav-link active" id="mydocument-tab" data-bs-toggle="tab" data-bs-target="#mydocument" type="button" role="tab" aria-controls="mydocument" aria-selected="true">Dokumen {{ request('anggota_id') ? $cek->nama : 'Saya'}}</button>
             </li>
-            @if (Auth::user()->role != 'anggota')
+            @if (Auth::user()->role != 'anggota' && empty(request('anggota_id')))
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="validatedocument-tab" data-bs-toggle="tab" data-bs-target="#validatedocument" type="button" role="tab" aria-controls="validatedocument" aria-selected="false">Validasi Dokumen
                     @if ($data->count() > 0)
@@ -54,6 +54,7 @@
     </div>
     <div class="col-4">
         <form action="{{ route('dokumen.store') }}" method="post" class="card p-3 needs-validation" novalidate enctype="multipart/form-data">
+            <input type="hidden" name="user_id" value="{{ $cek->user_id }}">
             <div class="border-bottom title-part-padding">
                 <h4 class="card-title mb-0">Upload Dokumen</h4>
             </div>
@@ -69,6 +70,7 @@
                     </ul>
                 </div>
                 @endif
+                <x-input :name="'test'" :type="'text'" :label="'Anggota'" :value="$cek->nama" :attr="['required','disabled']" />
                 <x-input :name="'pramuka'" :type="'select'" :label="'Kepramukaan'" :options="$pramuka" :attr="['required']" />
                 <x-input :name="'document_type_id'" :type="'select'" :label="'Jenis Dokumen'" :options="[]" :attr="['required']" />
                 <x-input :name="'sertif'" :type="'file'" :label="'File (.jpg/jpeg/png)'" :attr="['required']" />

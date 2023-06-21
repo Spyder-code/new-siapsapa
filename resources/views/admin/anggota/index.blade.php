@@ -63,8 +63,8 @@
                 <h4 class="card-title mb-0">List Anggota</h4>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-sm table-bordered file-export" style="width: 100%">
+                <div class="table-responsives">
+                    <table class="table table-sm table-bordered file-export" style="width: 100%; white-space:nowrap">
                         <thead>
                             <tr>
                                 <th></th>
@@ -163,6 +163,7 @@
             select:true,
             // pagingType: "simple",
             scrollY: '500px',
+            scrollX:true,
             ajax: {
             url: @json($url),
             type: 'GET',

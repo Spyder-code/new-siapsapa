@@ -37,8 +37,8 @@
                 <h4 class="card-title mb-0">List Anggota</h4>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered file-export" style="width: 100%">
+                <div class="table-responsives">
+                    <table class="table table-bordered file-export" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th></th>
@@ -105,6 +105,7 @@
             processing: true,
             serverSide: true,
             scrollY: '500px',
+            scrollX:true,
             ajax: {
             url: '{!! route('datatable.gudep.anggota') !!}',
             type: 'GET',

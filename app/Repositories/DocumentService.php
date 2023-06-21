@@ -9,7 +9,6 @@ class DocumentService {
     public function insertDocument($data)
     {
         $user = Auth::user();
-        $data['user_id'] = $user->id;
         $file = $data['sertif'];
         $fileName = time().'.'.$file->getClientOriginalExtension();
         $file->move(public_path('/berkas/dokumen'.'/'.$data['document_type_id']), $fileName);
@@ -20,14 +19,14 @@ class DocumentService {
         }else{
             $data['status'] = 0;
         }
-        $check = Document::where('user_id', Auth::id())->where('document_type_id', $data['document_type_id'])->first();
+        $check = Document::where('user_id', $data['user_id'])->where('document_type_id', $data['document_type_id'])->first();
         if($check && $check->pramuka != 8){
             $check->update($data);
         }else{
             $check = Document::create($data);
         }
 
-        $this->checkStatus($user->id);
+        $this->checkStatus($data['user_id']);
 
         return $check;
     }
