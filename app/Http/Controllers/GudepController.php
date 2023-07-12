@@ -294,7 +294,7 @@ class GudepController extends Controller
             ]);
         }
 
-        return back()->with('success','Sinkronisasi berhasil!');
+        return response('Sinkronisasi berhasil!');
     }
 
     public function data_table_anggota()

@@ -14,9 +14,9 @@
     <div class="col-md-4 justify-content-end align-self-center d-none d-md-flex gap-2">
         <a href="{{ route('gudep.edit', $gudep) }}" class="btn btn-primary btn-sm">Edit Gudep</a>
         @if (Auth::user()->role=='admin')
-        <form action="{{ route('gudep.sync.kta') }}" target="d_blank" method="post">
+        <form action="{{ route('gudep.sync.kta') }}" method="post">
             @csrf
-            <button type="submit" name="gudep" value="{{ $gudep->id }}" class="btn btn-info btn-sm">Sync No. KTA</button>
+            <button type="button" onclick="syncKTA({{ $gudep->id }})" name="gudep" value="{{ $gudep->id }}" class="btn btn-info btn-sm">Sync No. KTA</button>
         </form>
         @endif
         {{-- <form action="{{ route('anggota.export') }}" method="post">
@@ -574,6 +574,23 @@
             success: function(data) {
                 number_of_member();
                 admin();
+                table.ajax.reload();
+            }
+        });
+    }
+
+    let syncKTA = (id) => {
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: {!! json_encode(url('admin/gudep/sync/kta')) !!},
+            type: 'POST',
+            data: {
+                gudep: id,
+            },
+            success: function(data) {
+                alert(data);
                 table.ajax.reload();
             }
         });
