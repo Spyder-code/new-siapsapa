@@ -49,6 +49,7 @@ class DocumentController extends Controller
     {
         $document_id = request('document_id');
         $user_id = request('user_id');
+        $anggota = Anggota::where('user_id',$user_id)->first();
         $check = Document::where('id', $document_id)->where('user_id', $user_id)->first();
         if($check == null){
             return response()->json([
@@ -59,10 +60,27 @@ class DocumentController extends Controller
         Document::destroy($document_id);
         $data = Document::where('user_id', $user_id)->get();
         if($data->count() > 0){
-            $tingkat = $data->max('document_type_id');
-            Anggota::where('user_id', $user_id)->update(['tingkat'=>$tingkat]);
+            $tingkat = Document::all()->where('user_id', $user_id)->where('status',1)->max('document_type_id');
+            $pramuka = Document::all()->where('user_id', $user_id)->where('status',1)->max('pramuka');
+            $anggota->update(['tingkat'=>$tingkat,'pramuka'=>$pramuka]);
         }else{
-            Anggota::where('user_id', $user_id)->update(['tingkat'=>null]);
+            if($anggota->kawin==1){
+                $golongan = 5;
+            }else{
+                $usia = umur($anggota->tgl_lahir);
+                if ($usia[0] < 10) {
+                    $golongan = 1;
+                } else if ($usia[0] >= 10 && $usia[0] <= 15) {
+                    $golongan = 2;
+                } else if ($usia[0] >= 16 && $usia[0] <= 20) {
+                    $golongan = 3;
+                } else if ($usia[0] >= 21 && $usia[0] < 25) {
+                    $golongan = 4;
+                } else if ($usia[0] >= 25) {
+                    $golongan = 5;
+                }
+            }
+            $anggota->update(['tingkat'=>null,'pramuka'=>$golongan]);
         }
 
         return response()->json(['success'=>'Document berhasil dihapus']);

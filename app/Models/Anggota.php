@@ -39,6 +39,7 @@ class Anggota extends Model
         'tingkat',
         'jabatan',
         'is_cetak',
+        'sync',
     ];
 
     public function user()

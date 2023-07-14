@@ -324,28 +324,11 @@ class GudepController extends Controller
             ->addColumn('jk', function($data){
                 $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
                 $date = date('d/m/Y', strtotime($data->tgl_lahir));
-                return $nama.' ('.$date.')';
+                $umur = umur($data->tgl_lahir);
+                return $nama.' ('.$date.') '.$umur[0].' Tahun';
             })
             ->addColumn('foto', function($data){
-                if($data->pramuka==1){
-                    $warna = '<span class="badge bg-siaga">Siaga</span>';
-                }elseif($data->pramuka==2){
-                    $warna = '<span class="badge bg-penggalang">Penggalang</span>';
-                }elseif($data->pramuka==3){
-                    $warna = '<span class="badge bg-penegak">Penegak</span>';
-                }elseif($data->pramuka==4){
-                    $warna = '<span class="badge bg-pandega">Pandega</span>';
-                }elseif($data->pramuka==5){
-                    $warna = '<span class="badge bg-dewasa">Dewasa</span>';
-                }elseif($data->pramuka==6){
-                    $warna = '<span class="badge bg-dewasa">Pembina</span>';
-                }elseif($data->pramuka==7){
-                    $warna = '<span class="badge bg-dewasa">Pelatih</span>';
-                }elseif($data->pramuka==8){
-                    $warna = '<span class="badge bg-dewasa">Saka</span>';
-                }else{
-                    $warna = '<span class="badge bg-white text-dark">-</span>';
-                }
+                $warna = golongan($data->id);
                 if ($data->is_cetak==1) {
                     $warna.='<br><span class="text-success" style=" position:relative; font-size:1.4rem"><i class="fas fa-check-circle"></i></span>';
                 }

@@ -432,28 +432,11 @@ class AnggotaController extends Controller
             ->addColumn('jk', function($data){
                 $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
                 $date = date('d/m/Y', strtotime($data->tgl_lahir));
-                return $nama.' ('.$date.')';
+                $umur = umur($data->tgl_lahir);
+                return $nama.' ('.$date.') '.$umur[0].' Tahun';
             })
             ->addColumn('foto', function($data){
-                if($data->pramuka==1){
-                    $warna = '<span class="badge bg-siaga">Siaga</span>';
-                }elseif($data->pramuka==2){
-                    $warna = '<span class="badge bg-penggalang">Penggalang</span>';
-                }elseif($data->pramuka==3){
-                    $warna = '<span class="badge bg-penegak">Penegak</span>';
-                }elseif($data->pramuka==4){
-                    $warna = '<span class="badge bg-pandega">Pandega</span>';
-                }elseif($data->pramuka==5){
-                    $warna = '<span class="badge bg-dewasa">Dewasa</span>';
-                }elseif($data->pramuka==6){
-                    $warna = '<span class="badge bg-dewasa">Pembina</span>';
-                }elseif($data->pramuka==7){
-                    $warna = '<span class="badge bg-dewasa">Pelatih</span>';
-                }elseif($data->pramuka==8){
-                    $warna = '<span class="badge bg-dewasa">Saka</span>';
-                }else{
-                    $warna = '<span class="badge bg-white text-dark">-</span>';
-                }
+                $warna = golongan($data->id);
                 if ($data->is_cetak==1) {
                     $warna.='<br><span class="text-success" style=" position:relative; font-size:1.4rem"><i class="fas fa-check-circle"></i></span>';
                 }
@@ -490,7 +473,7 @@ class AnggotaController extends Controller
                         <button type="button" onclick="tolak('.$data->id.')" class="btn btn-secondary btn-sm"><i class="fa fa-crosshairs"></i> Tolak</button>
                     ';
                 }
-                $html = '<div class="btn-group">
+                $html = '<div class="btn-group" style="white-space:nowrap">
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             <a href="'.route('dokumen.index',['anggota_id'=>$data->id]).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Dokumen Anggota" class="btn btn-sm btn-primary"><i class="fas fa-book"></i> Dokumen</a>
@@ -541,28 +524,11 @@ class AnggotaController extends Controller
             ->addColumn('jk', function($data){
                 $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
                 $date = date('d/m/Y', strtotime($data->tgl_lahir));
-                return $nama.' ('.$date.')';
+                $umur = umur($data->tgl_lahir);
+                return $nama.' ('.$date.') '.$umur[0].' Tahun';
             })
             ->addColumn('foto', function($data){
-                if($data->pramuka==1){
-                    $warna = '<span class="badge bg-siaga">Siaga</span>';
-                }elseif($data->pramuka==2){
-                    $warna = '<span class="badge bg-penggalang">Penggalang</span>';
-                }elseif($data->pramuka==3){
-                    $warna = '<span class="badge bg-penegak">Penegak</span>';
-                }elseif($data->pramuka==4){
-                    $warna = '<span class="badge bg-pandega">Pandega</span>';
-                }elseif($data->pramuka==5){
-                    $warna = '<span class="badge bg-dewasa">Dewasa</span>';
-                }elseif($data->pramuka==6){
-                    $warna = '<span class="badge bg-dewasa">Pembina</span>';
-                }elseif($data->pramuka==7){
-                    $warna = '<span class="badge bg-dewasa">Pelatih</span>';
-                }elseif($data->pramuka==8){
-                    $warna = '<span class="badge bg-dewasa">Saka</span>';
-                }else{
-                    $warna = '<span class="badge bg-white text-dark">-</span>';
-                }
+                $warna = golongan($data->id);
                 if ($data->is_cetak==1) {
                     $warna.='<br><span class="text-success" style=" position:relative; font-size:1.4rem"><i class="fas fa-check-circle"></i></span>';
                 }
@@ -599,7 +565,7 @@ class AnggotaController extends Controller
                         <button type="button" onclick="tolak('.$data->id.')" class="btn btn-secondary btn-sm"><i class="fa fa-crosshairs"></i> Tolak</button>
                     ';
                 }
-                $html = '<div class="btn-group">
+                $html = '<div class="btn-group" style="white-space:nowrap">
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             <a href="'.route('dokumen.index',['anggota_id'=>$data->id]).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Dokumen Anggota" class="btn btn-sm btn-primary"><i class="fas fa-book"></i> Dokumen</a>
@@ -650,28 +616,11 @@ class AnggotaController extends Controller
             ->addColumn('jk', function($data){
                 $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
                 $date = date('d/m/Y', strtotime($data->tgl_lahir));
-                return $nama.' ('.$date.')';
+                $umur = umur($data->tgl_lahir);
+                return $nama.' ('.$date.') '.$umur[0].' Tahun';
             })
             ->addColumn('foto', function($data){
-                if($data->pramuka==1){
-                    $warna = '<span class="badge bg-siaga">Siaga</span>';
-                }elseif($data->pramuka==2){
-                    $warna = '<span class="badge bg-penggalang">Penggalang</span>';
-                }elseif($data->pramuka==3){
-                    $warna = '<span class="badge bg-penegak">Penegak</span>';
-                }elseif($data->pramuka==4){
-                    $warna = '<span class="badge bg-pandega">Pandega</span>';
-                }elseif($data->pramuka==5){
-                    $warna = '<span class="badge bg-dewasa">Dewasa</span>';
-                }elseif($data->pramuka==6){
-                    $warna = '<span class="badge bg-dewasa">Pembina</span>';
-                }elseif($data->pramuka==7){
-                    $warna = '<span class="badge bg-dewasa">Pelatih</span>';
-                }elseif($data->pramuka==8){
-                    $warna = '<span class="badge bg-dewasa">Saka</span>';
-                }else{
-                    $warna = '<span class="badge bg-white text-dark">-</span>';
-                }
+                $warna = golongan($data->id);
                 if ($data->is_cetak==1) {
                     $warna.='<br><span class="text-success" style=" position:relative; font-size:1.4rem"><i class="fas fa-check-circle"></i></span>';
                 }
@@ -708,7 +657,7 @@ class AnggotaController extends Controller
                         <button type="button" onclick="tolak('.$data->id.')" class="btn btn-secondary btn-sm"><i class="fa fa-crosshairs"></i> Tolak</button>
                     ';
                 }
-                $html = '<div class="btn-group">
+                $html = '<div class="btn-group" style="white-space:nowrap">
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             <a href="'.route('dokumen.index',['anggota_id'=>$data->id]).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Dokumen Anggota" class="btn btn-sm btn-primary"><i class="fas fa-book"></i> Dokumen</a>
@@ -759,28 +708,11 @@ class AnggotaController extends Controller
             ->addColumn('jk', function($data){
                 $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
                 $date = date('d/m/Y', strtotime($data->tgl_lahir));
-                return $nama.' ('.$date.')';
+                $umur = umur($data->tgl_lahir);
+                return $nama.' ('.$date.') '.$umur[0].' Tahun';
             })
             ->addColumn('foto', function($data){
-                if($data->pramuka==1){
-                    $warna = '<span class="badge bg-siaga">Siaga</span>';
-                }elseif($data->pramuka==2){
-                    $warna = '<span class="badge bg-penggalang">Penggalang</span>';
-                }elseif($data->pramuka==3){
-                    $warna = '<span class="badge bg-penegak">Penegak</span>';
-                }elseif($data->pramuka==4){
-                    $warna = '<span class="badge bg-pandega">Pandega</span>';
-                }elseif($data->pramuka==5){
-                    $warna = '<span class="badge bg-dewasa">Dewasa</span>';
-                }elseif($data->pramuka==6){
-                    $warna = '<span class="badge bg-dewasa">Pembina</span>';
-                }elseif($data->pramuka==7){
-                    $warna = '<span class="badge bg-dewasa">Pelatih</span>';
-                }elseif($data->pramuka==8){
-                    $warna = '<span class="badge bg-dewasa">Saka</span>';
-                }else{
-                    $warna = '<span class="badge bg-white text-dark">-</span>';
-                }
+                $warna = golongan($data->id);
                 if ($data->is_cetak==1) {
                     $warna.='<br><span class="text-success" style=" position:relative; font-size:1.4rem"><i class="fas fa-check-circle"></i></span>';
                 }
@@ -827,7 +759,7 @@ class AnggotaController extends Controller
                                         <button type="submit" onclick="return confirm(`are you sure?`)" class="btn btn-sm btn-secondary"><i class="fas fa-arrows-alt"></i>  Aktifkan Non-Gudep</button>
                                     </form>';
                 }
-                $html = '<div class="btn-group" style="font-size:.7rem">
+                $html = '<div class="btn-group" style="font-size:.7rem; white-space:nowrap">
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             <a href="'.route('dokumen.index',['anggota_id'=>$data->id]).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Dokumen Anggota" class="btn btn-sm btn-primary"><i class="fas fa-book"></i> Dokumen</a>
@@ -881,28 +813,11 @@ class AnggotaController extends Controller
             ->addColumn('jk', function($data){
                 $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
                 $date = date('d/m/Y', strtotime($data->tgl_lahir));
-                return $nama.' ('.$date.')';
+                $umur = umur($data->tgl_lahir);
+                return $nama.' ('.$date.') '.$umur[0].' Tahun';
             })
             ->addColumn('foto', function($data){
-                if($data->pramuka==1){
-                    $warna = '<span class="badge bg-siaga">Siaga</span>';
-                }elseif($data->pramuka==2){
-                    $warna = '<span class="badge bg-penggalang">Penggalang</span>';
-                }elseif($data->pramuka==3){
-                    $warna = '<span class="badge bg-penegak">Penegak</span>';
-                }elseif($data->pramuka==4){
-                    $warna = '<span class="badge bg-pandega">Pandega</span>';
-                }elseif($data->pramuka==5){
-                    $warna = '<span class="badge bg-dewasa">Dewasa</span>';
-                }elseif($data->pramuka==6){
-                    $warna = '<span class="badge bg-dewasa">Pembina</span>';
-                }elseif($data->pramuka==7){
-                    $warna = '<span class="badge bg-dewasa">Pelatih</span>';
-                }elseif($data->pramuka==8){
-                    $warna = '<span class="badge bg-dewasa">Saka</span>';
-                }else{
-                    $warna = '<span class="badge bg-white text-dark">-</span>';
-                }
+                $warna = golongan($data->id);
 
                 if ($data->is_cetak==1) {
                     $warna.='<br><span class="text-success" style=" position:relative; font-size:1.4rem"><i class="fas fa-check-circle"></i></span>';
@@ -923,7 +838,7 @@ class AnggotaController extends Controller
                         <button type="button" onclick="tolak('.$data->id.')" class="btn btn-secondary btn-sm"><i class="fa fa-crosshairs"></i> Tolak</button>
                     ';
                 }
-                $html = '<div class="btn-group">
+                $html = '<div class="btn-group" style="white-space:nowrap">
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             <a href="'.route('dokumen.index',['anggota_id'=>$data->id]).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Dokumen Anggota" class="btn btn-sm btn-primary"><i class="fas fa-book"></i> Dokumen</a>
@@ -996,28 +911,11 @@ class AnggotaController extends Controller
             ->addColumn('jk', function($data){
                 $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
                 $date = date('d/m/Y', strtotime($data->tgl_lahir));
-                return $nama.' ('.$date.')';
+                $umur = umur($data->tgl_lahir);
+                return $nama.' ('.$date.') '.$umur[0].' Tahun';
             })
             ->addColumn('foto', function($data){
-                if($data->pramuka==1){
-                    $warna = '<span class="badge bg-siaga">Siaga</span>';
-                }elseif($data->pramuka==2){
-                    $warna = '<span class="badge bg-penggalang">Penggalang</span>';
-                }elseif($data->pramuka==3){
-                    $warna = '<span class="badge bg-penegak">Penegak</span>';
-                }elseif($data->pramuka==4){
-                    $warna = '<span class="badge bg-pandega">Pandega</span>';
-                }elseif($data->pramuka==5){
-                    $warna = '<span class="badge bg-dewasa">Dewasa</span>';
-                }elseif($data->pramuka==6){
-                    $warna = '<span class="badge bg-dewasa">Pembina</span>';
-                }elseif($data->pramuka==7){
-                    $warna = '<span class="badge bg-dewasa">Pelatih</span>';
-                }elseif($data->pramuka==8){
-                    $warna = '<span class="badge bg-dewasa">Saka</span>';
-                }else{
-                    $warna = '<span class="badge bg-white text-dark">-</span>';
-                }
+                $warna = golongan($data->id);
 
                 if ($data->is_cetak==1) {
                     $warna.='<br><span class="text-success" style=" position:relative; font-size:1.4rem"><i class="fas fa-check-circle"></i></span>';
@@ -1044,7 +942,7 @@ class AnggotaController extends Controller
                         <button type="button" onclick="tolak('.$data->id.')" class="btn btn-secondary btn-sm"><i class="fa fa-crosshairs"></i> Tolak</button>
                     ';
                 }
-                $html = '<div class="btn-group">
+                $html = '<div class="btn-group" style="white-space:nowrap">
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
                             <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
                             <a href="'.route('dokumen.index',['anggota_id'=>$data->id]).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Dokumen Anggota" class="btn btn-sm btn-primary"><i class="fas fa-book"></i> Dokumen</a>

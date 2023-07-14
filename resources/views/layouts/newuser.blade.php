@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{ asset('social') }}/dependencies/select2/css/select2.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Site Stylesheet -->
     <link rel="stylesheet" href="{{ asset('social') }}/assets/css/app.css">
     <!-- Google Web Fonts -->

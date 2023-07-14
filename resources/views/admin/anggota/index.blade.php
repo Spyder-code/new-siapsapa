@@ -64,7 +64,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsives">
-                    <table class="table table-sm table-bordered file-export" style="width: 100%; white-space:nowrap">
+                    <table class="table table-sm table-bordered file-export" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th></th>

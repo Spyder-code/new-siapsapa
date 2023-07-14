@@ -13,12 +13,10 @@
     />
     <div class="col-md-4 justify-content-end align-self-center d-none d-md-flex gap-2">
         <a href="{{ route('gudep.edit', $gudep) }}" class="btn btn-primary btn-sm">Edit Gudep</a>
-        @if (Auth::user()->role=='admin')
         <form action="{{ route('gudep.sync.kta') }}" method="post">
             @csrf
-            <button type="button" onclick="syncKTA({{ $gudep->id }})" name="gudep" value="{{ $gudep->id }}" class="btn btn-info btn-sm">Sync No. KTA</button>
+            <button type="button" onclick="syncData({{ $gudep->id }})" name="gudep" value="{{ $gudep->id }}" class="btn btn-info btn-sm">Sinkronisasi Data</button>
         </form>
-        @endif
         {{-- <form action="{{ route('anggota.export') }}" method="post">
             @csrf
             <button type="submit" name="gudep_id" value="{{ $gudep->id }}" class="btn btn-sm btn-success">Export Anggota</button>
@@ -588,6 +586,23 @@
             type: 'POST',
             data: {
                 gudep: id,
+            },
+            success: function(data) {
+                alert(data);
+                table.ajax.reload();
+            }
+        });
+    }
+
+    let syncData = (id) => {
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: {!! json_encode(route('sync.all.gudep')) !!},
+            type: 'POST',
+            data: {
+                gudep_id: id,
             },
             success: function(data) {
                 alert(data);

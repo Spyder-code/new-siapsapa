@@ -374,3 +374,16 @@
             </div>
         </section>
 @endsection
+@section('script')
+    <script>
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: {!! json_encode(route('sync.date')) !!},
+            type: 'POST',
+            success: function(data) {
+            }
+        });
+    </script>
+@endsection

@@ -384,4 +384,92 @@ class SyncController extends Controller
             'message' => 'Berhasil mengupdate '.$i.' data'
         ], 200);
     }
+
+    public function syncDate()
+    {
+        $anggotas = Anggota::whereDate('tgl_lahir',date('Y-m-d'))->whereIn('pramuka',[1,2,3,4])->whereDate('sync','!=',date('Y-m-d'))->get();
+        foreach ($anggotas as $anggota ) {
+            $usia = umur($anggota->tgl_lahir);
+            if ($usia[0] < 10) {
+                $golongan = 1;
+            } else if ($usia[0] >= 10 && $usia[0] <= 15) {
+                $golongan = 2;
+            } else if ($usia[0] >= 16 && $usia[0] <= 20) {
+                $golongan = 3;
+            } else if ($usia[0] >= 21 && $usia[0] < 25) {
+                $golongan = 4;
+            } else if ($usia[0] >= 25) {
+                $golongan = 5;
+            }
+
+            $kta = Kta::where('kabupaten',$anggota->kabupaten)->where('pramuka_id', $golongan)->first();
+            $anggota->update([
+                'pramuka' => $golongan,
+                'sync' => date('Y-m-d'),
+                'kta_id' => $kta->id
+            ]);
+        }
+
+        return response('success');
+    }
+
+    public function syncAllGudep()
+    {
+        $gudep_id = request('gudep_id');
+        $anggotas = Anggota::where('gudep',$gudep_id)->get();
+        foreach ($anggotas as $anggota ) {
+            $usia = umur($anggota->tgl_lahir);
+            $golongan = $anggota->pramuka;
+            $tingkat = null;
+            if ($anggota->pramuka<5) {
+                if ($usia[0] < 10) {
+                    $golongan = 1;
+                } else if ($usia[0] >= 10 && $usia[0] <= 15) {
+                    $golongan = 2;
+                } else if ($usia[0] >= 16 && $usia[0] <= 20) {
+                    $golongan = 3;
+                } else if ($usia[0] >= 21 && $usia[0] < 25) {
+                    $golongan = 4;
+                } else if ($usia[0] >= 25) {
+                    $golongan = 5;
+                }
+            }
+            $pramuka = $golongan;
+
+            if($golongan>5){
+                $pramuka = 5;
+            }
+            $kta = Kta::where('kabupaten',$anggota->kabupaten)->where('pramuka_id', $pramuka)->first();
+
+            $kode = $anggota->kode;
+            $depan = substr($kode,0,9);
+            $belakang = substr($kode,12,18);
+            $lk = $anggota->gudepInfo->no_putra;
+            $pr = $anggota->gudepInfo->no_putri;
+            if ($anggota->jk=='L') {
+                $new = $depan.$lk.$belakang;
+            }else{
+                $new = $depan.$pr.$belakang;
+            }
+
+            $documents =  Document::all()->where('user_id', $anggota->user_id)->where('status',1)->count();
+            if($documents>0){
+                $tingkat = Document::all()->where('user_id', $anggota->user_id)->where('status',1)->max('document_type_id');
+                $pramuka = Document::all()->where('user_id', $anggota->user_id)->where('status',1)->max('pramuka');
+                if($pramuka>$golongan){
+                    $golongan = $pramuka;
+                }
+            }
+
+            $anggota->update([
+                'pramuka' => $golongan,
+                'sync' => date('Y-m-d'),
+                'kta_id' => $kta->id,
+                'kode' => $new,
+                'tingkat' => $tingkat
+            ]);
+        }
+
+        return response('Sinkronisasi '.$anggotas->count().' anggota berhasil!');
+    }
 }

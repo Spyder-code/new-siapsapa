@@ -265,4 +265,6 @@ Route::controller(SyncController::class)->prefix('sync')->group(function () {
     Route::get('add-kta', 'addKta')->name('sync.addKta');
     Route::get('cetak', 'cetak')->name('sync.cetak');
     Route::get('transaction-kta', 'syncKtaTransaction')->name('sync.transaction.kta');
+    Route::post('all-gudep', 'syncAllGudep')->name('sync.all.gudep');
+    Route::post('date', 'syncDate')->name('sync.date');
 });
