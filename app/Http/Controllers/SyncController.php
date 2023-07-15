@@ -390,15 +390,15 @@ class SyncController extends Controller
         $anggotas = Anggota::whereDate('tgl_lahir',date('Y-m-d'))->whereIn('pramuka',[1,2,3,4])->whereDate('sync','!=',date('Y-m-d'))->get();
         foreach ($anggotas as $anggota ) {
             $usia = umur($anggota->tgl_lahir);
-            if ($usia[0] < 10) {
+            if ($usia[0] <= 10) {
                 $golongan = 1;
-            } else if ($usia[0] >= 10 && $usia[0] <= 15) {
+            } else if ($usia[0] > 10 && $usia[0] <= 15) {
                 $golongan = 2;
             } else if ($usia[0] >= 16 && $usia[0] <= 20) {
                 $golongan = 3;
-            } else if ($usia[0] >= 21 && $usia[0] < 25) {
+            } else if ($usia[0] >= 21 && $usia[0] <= 25) {
                 $golongan = 4;
-            } else if ($usia[0] >= 25) {
+            } else if ($usia[0] > 25) {
                 $golongan = 5;
             }
 
@@ -422,15 +422,15 @@ class SyncController extends Controller
             $golongan = $anggota->pramuka;
             $tingkat = null;
             if ($anggota->pramuka<5) {
-                if ($usia[0] < 10) {
+                if ($usia[0] <= 10) {
                     $golongan = 1;
-                } else if ($usia[0] >= 10 && $usia[0] <= 15) {
+                } else if ($usia[0] > 10 && $usia[0] <= 15) {
                     $golongan = 2;
                 } else if ($usia[0] >= 16 && $usia[0] <= 20) {
                     $golongan = 3;
-                } else if ($usia[0] >= 21 && $usia[0] < 25) {
+                } else if ($usia[0] >= 21 && $usia[0] <= 25) {
                     $golongan = 4;
-                } else if ($usia[0] >= 25) {
+                } else if ($usia[0] > 25) {
                     $golongan = 5;
                 }
             }
