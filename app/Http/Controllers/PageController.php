@@ -35,6 +35,9 @@ class PageController extends Controller
 
     public function profile()
     {
+        if(!Auth::check()){
+            return redirect()->route('login');
+        }
         $anggota = Auth::user()->anggota;
         $provinsi = Provinsi::pluck('name','id');
         return view('user.profile', compact('anggota','provinsi'));

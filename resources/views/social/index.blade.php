@@ -107,6 +107,69 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="col-12 mt-3" style="font-size: .9rem">
+                        <h3 class="item-title">Salam Pramuka...!</h3>
+                        <p style="text-indent: .5in"><span class="text-primary">Siapsapa.id</span> adalah sebuah sistem informasi yang didedikasikan untuk Anggota Pramuka, dengan semangat gotong royong kami membangun sistem ini untuk mempermudah dalam pengelolaan data potensi anggota Pramuka yang ada. Berbasis teknologi informasi kami mengembangkan sebuah sistem untuk pengurus Gerakan Pramuka dari Gudep sampai Kwarda guna memudahkan dalam mendata, mengelola, dan menyajikan data anggota secara cepat, tepat, akurat, dan uptodate. Monitoring data, statistik anggota mulai dari siaga hingga menegemen kepengurusan akan dengan mudah diakses melalui genggaman. Kami terus meningkatkan fitur guna memenuhi kebutuhan dan tantangan dilapangan untuk menyajikan data dengan baik.</p>
+                        <p style="text-indent: .5in">Kami menawarkan hubungan kerjasama kepada Kwarda se-Indonesia untuk menggunakan dan menjadi Mitra kami. Beberpa fitur di <span class="text-primary">Siapsapa.id</span> yang bisa kakak gunakan untuk memudahkan dalam mengelola data potensi yang baik dan realtime. Diantaranya:</p>
+                    </div>
+                    <div class="col-lg-6 mt-3">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="media">
+                                    <div class="item-icon text-primary" style="font-size: 50px; margin-right:10px">
+                                        1
+                                    </div>
+                                    <div class="text-dark">
+                                        <p class="text-dark">Input data mandiri maupun masal bisa dilakukan dimana saja kapan saja.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="media">
+                                    <div class="item-icon text-primary" style="font-size: 50px; margin-right:10px">
+                                        2
+                                    </div>
+                                    <div class="text-dark">
+                                        <p class="text-dark">Buat Nomor Tanda Anggota secara otomatis dan dapat di custom sesui dengan ketentuan.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="media">
+                                    <div class="item-icon text-primary" style="font-size: 50px; margin-right:10px">
+                                        3
+                                    </div>
+                                    <div class="text-dark">
+                                        <p class="text-dark">Klasifikasi Golongan sesui dengan usia mulai dari siaga hingga dewasa beserta sub golongan dan pembina.</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 mt-3">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="media">
+                                    <div class="item-icon text-primary" style="font-size: 50px; margin-right:10px">
+                                        4
+                                    </div>
+                                    <div class="text-dark">
+                                        <p class="text-dark">Otomatis menampilkan KTA secara digital dan dapat disimpan dengan format pdf sesui ketentuan, serta bisa menggunakan desain terbaik dari masing-masing KWARCAB.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="media">
+                                    <div class="item-icon text-primary" style="font-size: 50px; margin-right:10px">
+                                        5
+                                    </div>
+                                    <div class="text-dark">
+                                        <p class="text-dark">Menegemen kegiatan dan penilaian dalam penjurian secara online.</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
