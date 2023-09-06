@@ -427,7 +427,11 @@ class AnggotaController extends Controller
 
         return DataTables::of($data)
             ->addColumn('nama', function($data){
-                return $data->nama.' ('.$data->is_cetak==1?$data->kode:'--.--.--.------'.')';
+                if($data->is_cetak==1){
+                    return $data->nama.' ('.$data->kode.')';
+                }else{
+                    return $data->nama;
+                }
             })
             ->addColumn('jk', function($data){
                 $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
@@ -519,7 +523,11 @@ class AnggotaController extends Controller
 
         return DataTables::of($data)
             ->addColumn('nama', function($data){
-                return $data->nama.' ('.$data->is_cetak==1?$data->kode:'--.--.--.------'.')';
+                if($data->is_cetak==1){
+                    return $data->nama.' ('.$data->kode.')';
+                }else{
+                    return $data->nama;
+                }
             })
             ->addColumn('jk', function($data){
                 $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
@@ -611,7 +619,11 @@ class AnggotaController extends Controller
 
         return DataTables::of($data)
             ->addColumn('nama', function($data){
-                return $data->nama.' ('.$data->is_cetak==1?$data->kode:'--.--.--.------'.')';
+                if($data->is_cetak==1){
+                    return $data->nama.' ('.$data->kode.')';
+                }else{
+                    return $data->nama;
+                }
             })
             ->addColumn('jk', function($data){
                 $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
@@ -703,7 +715,11 @@ class AnggotaController extends Controller
 
         return DataTables::of($data)
             ->addColumn('nama', function($data){
-                return $data->nama.' ('.$data->is_cetak==1?$data->kode:'--.--.--.------'.')';
+                if($data->is_cetak==1){
+                    return $data->nama.' ('.$data->kode.')';
+                }else{
+                    return $data->nama;
+                }
             })
             ->addColumn('jk', function($data){
                 $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
@@ -808,7 +824,11 @@ class AnggotaController extends Controller
 
         return DataTables::of($data)
             ->addColumn('nama', function($data){
-                return $data->nama.' ('.$data->is_cetak==1?$data->kode:'--.--.--.------'.')';
+                if($data->is_cetak==1){
+                    return $data->nama.' ('.$data->kode.')';
+                }else{
+                    return $data->nama;
+                }
             })
             ->addColumn('jk', function($data){
                 $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
@@ -906,7 +926,11 @@ class AnggotaController extends Controller
 
         return DataTables::of($data)
             ->addColumn('nama', function($data){
-                return $data->nama.' ('.$data->is_cetak==1?$data->kode:'--.--.--.------'.')';
+                if($data->is_cetak==1){
+                    return $data->nama.' ('.$data->kode.')';
+                }else{
+                    return $data->nama;
+                }
             })
             ->addColumn('jk', function($data){
                 $nama = strtoupper($data->jk[0]) == 'P' ? 'Perempuan' : 'Laki-laki';
