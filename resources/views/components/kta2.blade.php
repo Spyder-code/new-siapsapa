@@ -72,7 +72,7 @@
         <table style="position: absolute;top:65px;left:100px; color:white;font-size: 0.6rem;width:60%; opacity:0.9; z-index:99999"id="data-kta" cellspacing="0" cellpadding="0">
             <tr>
                 <td>NTA</td>
-                <td> <b>{{ $anggota->kode }}</b></td>
+                <td> <b>{{ $anggota->is_cetak==1?$anggota->kode:'--.--.--.------' }}</b></td>
             </tr>
             <tr>
                 <td >Nama</td>

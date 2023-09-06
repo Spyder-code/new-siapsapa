@@ -341,12 +341,15 @@ class AgendaController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $anggota = Auth::user()->anggota;
+        if($anggota->is_cetak==0){
+            return back()->with('danger','Harap cetak KTA terlebih dahulu untuk melanjutkan.');
+        }
         if($file = $request->file('foto')){
             $fileName = time().'.'.$file->getClientOriginalExtension();
             $file->move(public_path('/berkas/agenda'), $fileName);
             $data['foto'] = $fileName;
         }
-        $anggota = Auth::user()->anggota;
         $data['jenis'] = 'non_lomba';
         $data['created_by'] = Auth::id();
         $data['provinsi_id'] = $anggota->provinsi;

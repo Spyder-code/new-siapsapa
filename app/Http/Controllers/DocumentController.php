@@ -40,6 +40,10 @@ class DocumentController extends Controller
             'user_id' => 'required',
         ]);
 
+        $anggota = Anggota::where('user_id',$data['user_id'])->first();
+        if($anggota->is_cetak==0){
+            return back()->with('danger','Harap cetak KTA terlebih dahulu untuk melanjutkan.');
+        }
         $service = new DocumentService();
         $service->insertDocument($data);
         return back()->with('success', 'Document berhasil diupload');
