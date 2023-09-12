@@ -65,9 +65,9 @@
         @if ($anggota->is_cetak==0)
         <img src="{{ asset('images/logosiap.png') }}" class="watermark">
         @endif
-        <div style="height:127px;position: absolute;top:65px;left: 22px;background-color: white;padding: 5px;border-radius: 10px; ">
+        <div style="height:127px;position: absolute;top:65px;left: 22px;background-color: white;padding: 3.4px;border-radius: 10px; ">
             <img  style="position: relative;left:0px;top:0; width:55px; height:62px;" src="{{ asset('berkas/anggota/'.$anggota->foto) }}" id="pasfoto-kta" class="img rounded">
-            <img  style="position: absolute;left:5px;bottom:3px; width:55px; height:55px;" src="data:image/png;base64,{{DNS2D::getBarcodePNG(route('social.userFeed',$anggota->id), 'QRCODE')}}" class="img">
+            <img  style="position: absolute;left:3.5px;bottom:3px; width:55px; height:55px;" src="data:image/png;base64,{{DNS2D::getBarcodePNG(route('social.userFeed',$anggota->id), 'QRCODE')}}" class="img">
         </div>
         <p style="font-size: 5.3pt; position: absolute !important; top:193px !important; left:20px !important; color:white;">Masa berlaku s/d {{ date('Y') + 3 }}</p>
         <table style="position: absolute;top:65px;left:100px; color:white;font-size: 0.6rem;width:60%; opacity:0.9; z-index:99999"id="data-kta" cellspacing="0" cellpadding="0">
