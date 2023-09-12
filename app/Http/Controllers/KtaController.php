@@ -72,8 +72,8 @@ class KtaController extends Controller
             ]);
             $data_siaga = $data;
             $data_siaga['pramuka_id'] = 1;
-            $data_siaga['depan'] = $request->siaga[0];
-            $data_siaga['belakang'] = $request->siaga[1];
+            $data_siaga['depan'] = $request->siaga[0] ?? null;
+            $data_siaga['belakang'] = $request->siaga[1] ?? null;
             if($siaga==null){
                 $service = new KtaService();
                 $service->insertData($data_siaga);
@@ -86,8 +86,8 @@ class KtaController extends Controller
         if($request->penggalang){
             $data_penggalang = $data;
             $data_penggalang['pramuka_id'] = 2;
-            $data_penggalang['depan'] = $request->penggalang[0];
-            $data_penggalang['belakang'] = $request->penggalang[1];
+            $data_penggalang['depan'] = $request->penggalang[0] ?? null;
+            $data_penggalang['belakang'] = $request->penggalang[1] ?? null;
             if($penggalang==null){
                 $service = new KtaService();
                 $service->insertData($data_penggalang);
@@ -100,8 +100,8 @@ class KtaController extends Controller
         if($request->penegak){
             $data_penegak = $data;
             $data_penegak['pramuka_id'] = 3;
-            $data_penegak['depan'] = $request->penegak[0];
-            $data_penegak['belakang'] = $request->penegak[1];
+            $data_penegak['depan'] = $request->penegak[0] ?? null;
+            $data_penegak['belakang'] = $request->penegak[1] ?? null;
             if($penegak==null){
                 $service = new KtaService();
                 $service->insertData($data_penegak);
@@ -114,8 +114,8 @@ class KtaController extends Controller
         if($request->pandega){
             $data_pandega = $data;
             $data_pandega['pramuka_id'] = 4;
-            $data_pandega['depan'] = $request->pandega[0];
-            $data_pandega['belakang'] = $request->pandega[1];
+            $data_pandega['depan'] = $request->pandega[0] ?? null;
+            $data_pandega['belakang'] = $request->pandega[1] ?? null;
             if($pandega==null){
                 $service = new KtaService();
                 $service->insertData($data_pandega);
@@ -128,8 +128,8 @@ class KtaController extends Controller
         if($request->dewasa){
             $data_dewasa = $data;
             $data_dewasa['pramuka_id'] = 5;
-            $data_dewasa['depan'] = $request->dewasa[0];
-            $data_dewasa['belakang'] = $request->dewasa[1];
+            $data_dewasa['depan'] = $request->dewasa[0] ?? null;
+            $data_dewasa['belakang'] = $request->dewasa[1] ?? null;
             if($dewasa==null){
                 $service = new KtaService();
                 $service->insertData($data_dewasa);
