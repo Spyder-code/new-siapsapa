@@ -45,6 +45,7 @@ class TransactionController extends Controller
         } else {
             $data = Cart::where('user_id', Auth::id())->with('anggota')->get();
         }
+        $data = Cart::where('user_id', Auth::id())->with('anggota')->get();
         $count = $data->count();
         $total = $data->sum('harga');
         $weight = $data->count() * 10;
