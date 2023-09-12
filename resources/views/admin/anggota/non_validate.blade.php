@@ -50,7 +50,6 @@
                             <tr>
                                 <th>Foto</th>
                                 <th>Nik</th>
-                                <th>Nomor Anggota</th>
                                 <th>Nama Lengkap</th>
                                 <th>Tgl Lahir</th>
                                 <th>Gender</th>
@@ -85,7 +84,6 @@
             columns: [
                 {data: 'foto', name: 'foto'},
                 {data: 'nik', name: 'tb_anggota.nik', visible: false},
-                {data: 'kode', name: 'kode'},
                 {data: 'nama', name: 'tb_anggota.nama'},
                 {data: 'tgl_lahir', name: 'tgl_lahir'},
                 {data: 'jk', name: 'jk'},

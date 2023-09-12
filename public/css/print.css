@@ -117,13 +117,17 @@ table{
     font-size: .57rem;
     color: white;
 }
-.img-left{
+.img-left {
     display: flex;
     flex-direction: column;
     gap: 4px;
     position: relative;
-    top: 30.5%;
-    left: 5.4%;
+    top: 65px;
+    left: 14px;
+    background-color: white;
+    width: 61px;
+    border-radius: 10px;
+    padding: 4.5px;
 }
 .foto{
     height: 67px;
@@ -131,9 +135,11 @@ table{
     border-radius: 5px;
 }
 .exp{
-    /* margin-top: 2px; */
-    font-size: .35rem;
-    /* color : white; */
+    font-weight: bold;
+    font-size: .4rem;
+    position: absolute;
+    top: 211px;
+    left: 21px;
 }
 .qr{
     height: 60px;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>Print</title>
-    <link rel="stylesheet" href="{{ asset('css/print.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/print.css') }}?{{ time() }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
         <page size="A4">
             <div class="container">
                 @foreach ($card as $item)
-                {{-- <div class="card" style="background-image: url('{{ asset('berkas/kta/depan.png') }}'); background-size: cover; background-position: center;"> --}}
+                {{-- <div class="card" style="background-image: url('{{ asset('berkas/kta/no-depan.png') }}'); background-size: cover; background-position: center;"> --}}
                 <div class="card" style="background-image: url('{{ asset('berkas/kta/'.$item->kta->depan) }}'); background-size: cover; background-position: center;">
                     <div class="circle-left"></div>
                     <div class="circle-right"></div>
@@ -21,8 +21,8 @@
                         <img src="{{ asset('berkas/anggota/'. $item->anggota->foto) }}"  alt="foto" class="foto">
                         {{-- <img src="{{ asset('berkas/kta/foto.jpg') }}"  alt="foto" class="foto"> --}}
                         <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(route('social.userFeed',$item->anggota->id), 'QRCODE')}}"alt="QRCODE" class="qr">
-                        <span class="exp">Masa Berlaku s/d {{ date('Y') + 3 }}</span>
                     </div>
+                    <span class="exp">Masa Berlaku s/d {{ date('Y') + 3 }}</span>
                     <table cellspacing="1" cellpadding="0">
                         <tr>
                             <td width="50px">NTA</td>
