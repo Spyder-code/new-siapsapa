@@ -57,7 +57,11 @@
 <div class="item">
     <div style="height:53.98mm;width:85.60mm;display:inline-block;margin-right:20px;position: relative; margin-top:10px">
         {{-- <img style="width:85.60mm" src="{{ asset('berkas/kta/no-depan.png') }}" class="img-kta"> --}}
+        @if ($anggota->kta)
         <img style="width:85.60mm" src="{{ asset('berkas/kta/'. $anggota->kta->depan) }}" class="img-kta">
+        @else
+        <img style="width:85.60mm" src="{{ asset('berkas/kta/'.strtolower($anggota->golongan->name).'-depan.png') }}" class="img-kta">
+        @endif
         @if ($anggota->is_cetak==0)
         <img src="{{ asset('images/logosiap.png') }}" class="watermark">
         @endif

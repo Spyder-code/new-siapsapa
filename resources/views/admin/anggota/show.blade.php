@@ -56,16 +56,17 @@
                 </div>
             </div>
             <div class="card mb-3">
-                @if ($anggota->kta_id==null)
+                {{-- @if ($anggota->kta_id==null)
                     <div class="alert alert-info">
                         <i class="fas fa-info-circle"></i>
                         <strong>Info!</strong>
                         Mohon maaf KTA masih belum tersedia untuk anggota ini.
                     </div>
                 @else
-                    {{-- <img src="{{ asset('images/logosiap.png') }}" alt="siapsapa" style=""> --}}
+                    <img src="{{ asset('images/logosiap.png') }}" alt="siapsapa" style="">
                     <x-kta :anggota="$anggota" />
-                @endif
+                @endif --}}
+                <x-kta :anggota="$anggota" />
                 <div class="card-body row">
                     <ul class="list-group list-group-flush col-6">
                         <li class="list-group-item d-flex justify-content-between align-items-start">

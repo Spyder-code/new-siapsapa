@@ -13,8 +13,15 @@
         <page size="A4">
             <div class="container">
                 @foreach ($card as $item)
+                @php
+                    if ($item->anggota->kta){
+                        $link = asset('berkas/kta/'. $item->anggota->kta->depan);
+                    }else{
+                        $link = asset('berkas/kta/'.strtolower($item->anggota->golongan->name).'-depan.png');
+                    }
+                @endphp
                 {{-- <div class="card" style="background-image: url('{{ asset('berkas/kta/no-depan.png') }}'); background-size: cover; background-position: center;"> --}}
-                <div class="card" style="background-image: url('{{ asset('berkas/kta/'.$item->kta->depan) }}'); background-size: cover; background-position: center;">
+                <div class="card" style="background-image: url('{{ $link }}'); background-size: cover; background-position: center;">
                     <div class="circle-left"></div>
                     <div class="circle-right"></div>
                     <div class="img-left">

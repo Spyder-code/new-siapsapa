@@ -1,6 +1,7 @@
-@if (Auth::user()->anggota->kta)
+{{-- @if (Auth::user()->anggota->kta)
     @include('components.kta', ['anggota'=>Auth::user()->anggota])
-@endif
+@endif --}}
+@include('components.kta', ['anggota'=>Auth::user()->anggota])
 <div class="widget widget-banner {{ Auth::user()->anggota->kta ? 'mt-5' : '' }}">
     <h3 class="item-title">PESAN KTA</h3>
     <div class="item-subtitle">Kartu Anggota</div>
