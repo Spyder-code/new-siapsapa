@@ -115,9 +115,14 @@ class AgendaController extends Controller
         $juara = array();
         $tingkat = $agenda->tingkat;
         $index = 0;
+        $agenda_id = $agenda->id;
         foreach ($lomba as $lom) {
             if ($lom->penilaian=='vote') {
-                $data = PointVote::select('lomba_file_id')
+                $lomba_id = $lom->id;
+                $data = PointVote::whereHas('lomba_file', function($a) use($lomba_id){
+                            $a->where('lomba_id',$lomba_id);
+                        })
+                        ->select('lomba_file_id')
                         ->selectRaw('count(*) as total')
                         ->groupBy('lomba_file_id')
                         ->orderByRaw('total desc')
@@ -276,12 +281,13 @@ class AgendaController extends Controller
             array_push($peserta_juara,$key);
         }
 
-        $peserta = PesertaLomba::join('tb_anggota','tb_anggota.id','=','peserta_lomba.anggota_id')
-                    ->select('peserta_lomba.anggota_id','tb_anggota.kabupaten as kabupaten','tb_anggota.kecamatan','tb_anggota.provinsi','tb_anggota.gudep')
-                    ->pluck('tb_anggota.'.$tingkat)
-                    ->toArray();
-        $peserta = array_unique($peserta);
+        $peserta = PendaftaranAgenda::join('tb_anggota','tb_anggota.id','=','pendaftaran_agenda.anggota_id')
+            ->select('pendaftaran_agenda.anggota_id','tb_anggota.kabupaten as kabupaten','tb_anggota.kecamatan','tb_anggota.provinsi','tb_anggota.gudep')
+            ->where('pendaftaran_agenda.agenda_id',$agenda->id)
+            ->pluck('tb_anggota.'.$tingkat)
+            ->toArray();
 
+        $peserta = array_unique($peserta);
         if($tingkat=='provinsi'){
             $peserta = Provinsi::whereIn('id',$peserta)->pluck('name')->toArray();
         }
