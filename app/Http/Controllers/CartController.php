@@ -18,6 +18,7 @@ class CartController extends Controller
     {
         $carts = Cart::where('user_id', Auth::id())->with('anggota')->get();
         $pramuka = Pramuka::all();
+        Cart::whereNull('kta_id')->delete();
         return view('admin.cart.index', compact('carts','pramuka'));
     }
     public function store(Request $request)
@@ -26,7 +27,7 @@ class CartController extends Controller
         $anggota = Anggota::whereIn('id', $data)->get();
         foreach ($anggota as $item ) {
             $check = Cart::where('anggota_id',$item->id)->where('user_id',Auth::id())->first();
-            if(!$check){
+            if(!$check && !is_null($item->kta_id)){
                 Cart::create([
                     'user_id' => Auth::id(),
                     'anggota_id' => $item->id,

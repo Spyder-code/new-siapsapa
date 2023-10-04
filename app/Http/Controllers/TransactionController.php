@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\City;
 use App\Models\Kta;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
@@ -47,8 +48,22 @@ class TransactionController extends Controller
         }
         $data = Cart::where('user_id', Auth::id())->with('anggota')->get();
         $count = $data->count();
-        $total = $data->sum('harga');
+        $total = 0;
         $weight = $data->count() * 10;
+        foreach ($data as $item) {
+            $anggota = $item->anggota;
+            $city = City::find($anggota->kabupaten);
+            $kta = Kta::where('kabupaten',$anggota->kabupaten)->where('provinsi',$anggota->provinsi)->where('pramuka_id',$anggota->pramuka)->first();
+            if($kta){
+                $anggota->update([
+                    'kta_id' => $kta->id
+                ]);
+            }
+            $total += $city->harga;
+            $item->update([
+                'harga' => $city->harga
+            ]);
+        }
         if($count<5){
             return back()->with('danger','Minimal pesan 5 KTA untuk melakukan transaksi');
         }
