@@ -59,7 +59,9 @@ class KtaController extends Controller
         $penegak = Kta::where('kabupaten', $request->kabupaten)->where('pramuka_id', 3)->first();
         $pandega = Kta::where('kabupaten', $request->kabupaten)->where('pramuka_id', 4)->first();
         $dewasa = Kta::where('kabupaten', $request->kabupaten)->where('pramuka_id', 5)->first();
-
+        City::find($request->kabupaten)->update([
+            'harga' => $request->harga
+        ]);
         $data = [
             'provinsi' => $request->provinsi,
             'kabupaten' => $request->kabupaten,

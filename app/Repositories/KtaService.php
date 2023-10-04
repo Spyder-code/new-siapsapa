@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Anggota;
 use App\Models\Kta;
 
 class KtaService extends Repository
@@ -32,6 +33,10 @@ class KtaService extends Repository
             ]);
         }
 
+        Anggota::where('provinsi',$data['provinsi'])->where('kabupaten',$data['kabupaten'])->where('pramuka',$data['pramuka_id'])->update([
+            'kta_id' => $kta->id
+        ]);
+
         return 'success';
     }
 
@@ -51,6 +56,10 @@ class KtaService extends Repository
                 'belakang' => $belakang,
             ]);
         }
+
+        Anggota::where('provinsi',$data['provinsi'])->where('kabupaten',$data['kabupaten'])->where('pramuka',$kta->pramuka_id)->update([
+            'kta_id' => $kta->id
+        ]);
 
         return 'success';
     }
