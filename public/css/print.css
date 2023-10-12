@@ -22,17 +22,17 @@ page[size="A4"] {
     /* border: 1px solid black; */
     margin: 0 auto;
 }
-page[size="A4"]::before{
+/* page[size="A4"]::before{
     content:"";
-    /* position: relative; */
+    position: relative;
     position: fixed;
     z-index: 9999;
     top: 0;
     bottom: 0;
     left: 50%;
     height: 29.7cm;
-    border-left: 3px dotted rgb(0, 0, 0); /*change these values to suit your liking*/
-}
+    border-left: 3px dotted rgb(0, 0, 0);
+} */
 .circle-right{
     border: 1px solid black;
     height: 3.4mm;
