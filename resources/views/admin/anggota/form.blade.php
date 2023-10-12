@@ -37,7 +37,7 @@
     <x-input :type="'select'" :name="'jk'" :label="'Jenis Kelamin'" :value="$anggota->jk ?? ''" :col="4" :options="['L'=>'Laki-laki','P'=>'Perempuan']" :attr="['required']"/>
     <x-input :type="'select'" :name="'kawin'" :label="'Status'" :value="$anggota->kawin ?? ''" :col="4" :options="[1=>'Nikah',0=>'Belum Nikah']" :attr="['required']"/>
     <x-input :type="'select'" :name="'gol_darah'" :label="'Golongan Darah'" :value="$anggota->gol_darah ?? ''" :col="4" :options="['-'=>'-','A'=>'A','B'=>'B','AB'=>'AB','O'=>'O']" :attr="['required']"/>
-    <x-input :type="'select'" :name="'agama'" :label="'Agama'" :col="4" :value="$anggota->agama ?? ''" :options="['Islam'=>'Islam','Protestan'=>'Protestan','Katolik'=>'Katolik','Hindu'=>'Hindu','Budha'=>'Budha','Khonghucu'=>'Khonghucu']" :attr="['required']"/>
+    <x-input :type="'select'" :name="'agama'" :label="'Agama'" :col="4" :value="$anggota->agama ?? ''" :options="['Islam'=>'Islam','Kristen'=>'Kristen','Katolik'=>'Katolik','Hindu'=>'Hindu','Budha'=>'Budha','Khonghucu'=>'Khonghucu']" :attr="['required']"/>
     <x-input :type="'text'" :name="'nohp'" :label="'No. Handphone'" :value="$anggota->nohp ?? ''" :col="4" :attr="['required']"/>
     <x-input :type="'textarea'" :name="'alamat'" :label="'Alamat'" :value="$anggota->alamat ?? ''" :col="12" :attr="['required']"/>
     <p class="font-weight-bold text-primary fs-5">2. Data Gugus.</p>

@@ -433,7 +433,7 @@ class StatistikService {
         if($this->gudep==null){
             if($id_wilayah=='all'){
                 $islam = Anggota::where('status',1)->where('agama','Islam')->count();
-                $protestan = Anggota::where('status',1)->where('agama','Protestan')->count();
+                $protestan = Anggota::where('status',1)->where('agama','Kristen')->count();
                 $katolik = Anggota::where('status',1)->where('agama','Katolik')->count();
                 $hindu = Anggota::where('status',1)->where('agama','Hindu')->count();
                 $budha = Anggota::where('status',1)->where('agama','Budha')->count();
@@ -442,21 +442,21 @@ class StatistikService {
                 $len = strlen($id_wilayah);
                 if ($len==2) {
                     $islam = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('agama','Islam')->count();
-                    $protestan = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('agama','Protestan')->count();
+                    $protestan = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('agama','Kristen')->count();
                     $katolik = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('agama','Katolik')->count();
                     $hindu = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('agama','Hindu')->count();
                     $budha = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('agama','Budha')->count();
                     $khonghucu = Anggota::where('provinsi',$id_wilayah)->where('status',1)->where('agama','Khonghucu')->count();
                 }elseif($len==4){
                     $islam = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('agama','Islam')->count();
-                    $protestan = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('agama','Protestan')->count();
+                    $protestan = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('agama','Kristen')->count();
                     $katolik = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('agama','Katolik')->count();
                     $hindu = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('agama','Hindu')->count();
                     $budha = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('agama','Budha')->count();
                     $khonghucu = Anggota::where('kabupaten',$id_wilayah)->where('status',1)->where('agama','Khonghucu')->count();
                 }else{
                     $islam = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('agama','Islam')->count();
-                    $protestan = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('agama','Protestan')->count();
+                    $protestan = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('agama','Kristen')->count();
                     $katolik = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('agama','Katolik')->count();
                     $hindu = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('agama','Hindu')->count();
                     $budha = Anggota::where('kecamatan',$id_wilayah)->where('status',1)->where('agama','Budha')->count();
@@ -465,7 +465,7 @@ class StatistikService {
             }
         }else{
             $islam = Anggota::where('gudep',$this->gudep)->where('status',1)->where('agama','Islam')->count();
-            $protestan = Anggota::where('gudep',$this->gudep)->where('status',1)->where('agama','Protestan')->count();
+            $protestan = Anggota::where('gudep',$this->gudep)->where('status',1)->where('agama','Kristen')->count();
             $katolik = Anggota::where('gudep',$this->gudep)->where('status',1)->where('agama','Katolik')->count();
             $hindu = Anggota::where('gudep',$this->gudep)->where('status',1)->where('agama','Hindu')->count();
             $budha = Anggota::where('gudep',$this->gudep)->where('status',1)->where('agama','Budha')->count();
