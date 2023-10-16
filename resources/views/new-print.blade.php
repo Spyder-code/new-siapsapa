@@ -15,7 +15,7 @@
                 @foreach ($card as $item)
                 @php
                     if ($item->anggota->kta){
-                        $link = asset('berkas/kta/'. $item->anggota->kta->depan);
+                        $link = asset('berkas/kta/'. $item->kta->depan);
                     }else{
                         $link = asset('berkas/kta/'.strtolower($item->anggota->golongan->name).'-depan.png');
                     }
