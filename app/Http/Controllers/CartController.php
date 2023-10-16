@@ -72,7 +72,7 @@ class CartController extends Controller
         foreach ($carts->chunk(5) as $idx => $cart) {
             foreach ($cart as $item) {
                 $anggota = $item->anggota;
-                $kta = Kta::where('kabupaten',$item->golongan)->where('pramuka_id', $anggota->pramuka)->first();
+                $kta = Kta::where('kabupaten',$item->kabupaten)->where('pramuka_id', $item->golongan)->first();
                 if($kta){
                     $item->update([
                         'kta_id' => $kta->id
