@@ -70,7 +70,22 @@ class CartController extends Controller
         $carts = Transaction::where('transaction_detail_id', $transactionDetail->id)->with('anggota')->get();
         $data = array();
         foreach ($carts->chunk(5) as $idx => $cart) {
+            foreach ($cart as $item) {
+                $anggota = $item->anggota;
+                $kta = Kta::where('kabupaten',$anggota->kabupaten)->where('pramuka_id', $item->golongan)->first();
+                if($kta){
+                    $item->update([
+                        'kta_id' => $kta->id
+                    ]);
+                }
+            }
+        }
+        $carts = Transaction::where('transaction_detail_id', $transactionDetail->id)->with('anggota')->get();
+        foreach ($carts->chunk(5) as $idx => $cart) {
             $data[$idx] = $cart;
+            foreach ($cart as $item) {
+                $anggota = $item->anggota;
+            }
         }
         return view('new-print', compact('data'));
         $pdf = Pdf::loadView('new-print', compact('data'));
