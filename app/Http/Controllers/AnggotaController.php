@@ -860,10 +860,7 @@ class AnggotaController extends Controller
                 }
                 $html = '<div class="btn-group" style="white-space:nowrap">
                             <a href="'.route('anggota.edit',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Anggota" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
-                            <a href="'.route('anggota.show',$data->id).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Anggota" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detail</a>
-                            <a href="'.route('dokumen.index',['anggota_id'=>$data->id]).'" data-bs-toggle="tooltip" data-bs-placement="top" title="Dokumen Anggota" class="btn btn-sm btn-primary"><i class="fas fa-book"></i> Dokumen</a>
                             '.$btn.'
-                            <button type="button" onclick="promoteAnggota('.$data->id.')" class="btn btn-sm btn-success"><i class="fas fa-star"></i>  Promosikan</button>
                             <button type="button" onclick="deleteAnggota('.$data->id.')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>  Hapus</button>
                         </div>';
                 return $html;

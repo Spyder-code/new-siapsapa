@@ -13,6 +13,7 @@
                         <div class="d-flex gap-3">
                             <input type="file" name="sertifikat">
                             <button type="submit" class="btn btn-sm btn-success">Simpan</button>
+                            <a class="btn btn-sm btn-info" href="{{ route('page.sertifikat.agenda',['agenda'=>$agenda->id]) }}">Print Sertifikat</a>
                         </div>
                         <img src="{{ asset('berkas/agenda/sertifikat-'.$agenda->id.'.jpg') }}" class="img-fluid my-2" style="height: 100px">
                     </form>
@@ -26,6 +27,7 @@
                         <div class="d-flex gap-3">
                             <input type="file" name="sertifikat">
                             <button type="submit" class="btn btn-sm btn-success">Simpan</button>
+                            <a class="btn btn-sm btn-info" href="{{ route('page.sertifikat.lomba',['lomba'=>$kegiatan->lomba->id]) }}">Print Sertifikat</a>
                         </div>
                         <img src="{{ asset('berkas/agenda/sertifikat-lomba-'.$kegiatan->lomba->id.'.jpg') }}" class="img-fluid my-2" style="height: 100px">
                         </form>

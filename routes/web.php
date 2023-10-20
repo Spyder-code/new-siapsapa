@@ -108,8 +108,8 @@ Route::get('/i/agenda', [PageController::class, 'agenda'])->name('page.agenda');
 Route::get('/i/agenda/{agenda}', [PageController::class, 'show_agenda'])->name('page.agenda.show');
 Route::get('/i/agenda/{agenda}/peserta', [PageController::class, 'peserta_agenda'])->name('page.agenda.peserta');
 Route::get('/i/profile', [PageController::class, 'profile'])->name('page.profile');
-Route::get('/sertifikat/agenda/{code}', [PageController::class, 'sertifikatAgenda'])->name('page.sertifikat.agenda');
-Route::get('/sertifikat/lomba/{code}', [PageController::class, 'sertifikatLomba'])->name('page.sertifikat.lomba');
+Route::get('/sertifikat/agenda/{code?}', [PageController::class, 'sertifikatAgenda'])->name('page.sertifikat.agenda');
+Route::get('/sertifikat/lomba/{code?}', [PageController::class, 'sertifikatLomba'])->name('page.sertifikat.lomba');
 
 // Social
 Route::middleware(['auth','anggota'])->group(function(){

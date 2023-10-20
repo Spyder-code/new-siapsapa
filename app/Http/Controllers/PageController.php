@@ -160,21 +160,29 @@ class PageController extends Controller
         return view('user.document.index', compact('data','pramuka'));
     }
 
-    public function sertifikatAgenda($code)
+    public function sertifikatAgenda($code = null)
     {
-        $peserta = PendaftaranAgenda::where('nodaf',$code)->first();
-        if(!$peserta){
-            return abort(404);
+        if($code==null){
+            $data = PendaftaranAgenda::where('agenda_id',request('agenda'))->get();
+        }else{
+            $data = PendaftaranAgenda::where('nodaf',$code)->get();
+            if(!$data){
+                return abort(404);
+            }
         }
-        return view('admin.agenda.sertifikat.sertifikat_agenda', compact('peserta'));
+        return view('admin.agenda.sertifikat.sertifikat_agenda', compact('data'));
     }
 
-    public function sertifikatLomba($code)
+    public function sertifikatLomba($code = null)
     {
-        $peserta = PesertaLomba::where('nodaf',$code)->first();
-        if(!$peserta){
-            return abort(404);
+        if($code==null){
+            $data = PesertaLomba::where('lomba_id',request('lomba'))->get();
+        }else{
+            $data = PesertaLomba::where('nodaf',$code)->get();
+            if(!$data){
+                return abort(404);
+            }
         }
-        return view('admin.agenda.sertifikat.sertifikat_lomba', compact('peserta'));
+        return view('admin.agenda.sertifikat.sertifikat_lomba', compact('data'));
     }
 }
