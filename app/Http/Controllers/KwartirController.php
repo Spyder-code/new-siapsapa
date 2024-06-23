@@ -274,4 +274,36 @@ class KwartirController extends Controller
             ->rawColumns(['action','foto'])
             ->make(true);
     }
+
+    public function create()
+    {
+        $id_wilayah = request('id_wilayah');
+        $data = $this->getData($id_wilayah);
+        $title = $data[0]->name ?? 'Nasional';
+        $kwartir = $data[1];
+        return view('admin.kwartir.create', compact('id_wilayah', 'title', 'kwartir'));
+    }
+
+    public function store(Request $request)
+    {
+        $tipe = strlen($request->id_wilayah);
+        if ($tipe==2) {
+            City::create([
+                'id' => City::max('id') + 1,
+                'province_id' => $request->id_wilayah,
+                'name' => $request->name,
+                'no_kab' => $request->code,
+                'harga' => 10000
+            ]);
+        }else{
+            Distrik::create([
+                'id' => Distrik::max('id') + 1,
+                'regency_id' => $request->id_wilayah,
+                'name' => $request->name,
+                'no_kec' => $request->code,
+            ]);
+        }
+
+        return redirect()->route('kwartir.index',['id_wilayah'=>$request->id_wilayah])->with('success','Data Berhasil disimpan!');
+    }
 }

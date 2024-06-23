@@ -40,13 +40,16 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostMediaController;
 use App\Http\Controllers\StoryController;
 use App\Repositories\RajaOngkirService;
+use Illuminate\Support\Facades\Hash;
 
 /* |-------------------------------------------------------------------------- | Web Routes |-------------------------------------------------------------------------- | | Here is where you can register web routes for your application. These | routes are loaded by the RouteServiceProvider within a group which | contains the "web" middleware group. Now create something great! | */
 
 Route::get('test', function () {
-    $kode = '11.20.00.000.740765';
-    dd(substr($kode,0,9),substr($kode,12,18));
-    // return view('social.single-blog');
+    User::find(1)->update([
+        'password' => Hash::make('password')
+    ]);
+
+    return 'ok';
 });
 
 Route::get('cek-data', function(){
@@ -165,7 +168,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('statistik', [StatistikController::class, 'new'])->name('statistik.index');
         Route::get('new-statistik', [StatistikController::class, 'new'])->name('statistik.new');
         Route::post('print-kta/{transactionDetail}', [CartController::class, 'print'])->name('cart.print');
-        Route::resource('kwartir', KwartirController::class)->except(['show', 'create', 'store']);
+        Route::resource('kwartir', KwartirController::class)->except(['show']);
         Route::resource('gudep', GudepController::class);
         Route::resource('kegiatan', KegiatanController::class);
         Route::resource('product',ProductController::class);

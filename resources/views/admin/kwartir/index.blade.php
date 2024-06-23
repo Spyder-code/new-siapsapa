@@ -17,9 +17,16 @@
             @if($id_wilayah!='all')
                 <li class="list-group-item">
                     <a href="{{ route('kwartir.anggota',$id_wilayah) }}" style="font-size: .8rem" class="btn btn-sm btn-outline-success">
-                        <i class="fa fa-plus-circle"></i> Tambah admin
+                        <i class="fa fa-plus-circle"></i> Tambah Admin
                     </a>
                 </li>
+            @endif
+            @if (strlen($id_wilayah)==2 || strlen($id_wilayah)==4)
+            <li class="list-group-item">
+                <a href="{{ route('kwartir.create',['id_wilayah'=>$id_wilayah]) }}" style="font-size: .8rem" class="btn btn-sm btn-outline-success">
+                    <i class="fa fa-plus-circle"></i> Tambah {{ strlen($id_wilayah)==2?'Kabupaten':'Kecamatan' }}
+                </a>
+            </li>
             @endif
         </ul>
     </div>

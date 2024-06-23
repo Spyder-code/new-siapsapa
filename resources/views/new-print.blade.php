@@ -6,6 +6,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <style>
+        td{
+            vertical-align: text-top;
+        }
+    </style>
 </head>
 <body>
     <div id="print">
@@ -30,7 +35,7 @@
                         <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(route('social.userFeed',$item->anggota->id), 'QRCODE')}}"alt="QRCODE" class="qr">
                     </div>
                     <span class="exp">Masa Berlaku s/d {{ date('Y') + 3 }}</span>
-                    <table cellspacing="1" cellpadding="0">
+                    <table cellspacing="1" cellpadding="0" style="width:72%">
                         <tr>
                             <td width="50px">NTA</td>
                             <td style="font-weight: 900;">{{ $item->anggota->kode }}</td>
