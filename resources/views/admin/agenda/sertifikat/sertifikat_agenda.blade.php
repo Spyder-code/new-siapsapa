@@ -26,9 +26,30 @@
         }
         .name{
             text-align: center;
-            margin-top: 280px;
+            margin-top: 210px;
             font-size: 30pt;
             font-family: 'Rajdhani', sans-serif;
+        }
+        p{
+            text-align: center;
+            font-size: 15pt;
+            font-family: 'Rajdhani', sans-serif;
+            margin-top: 30px;
+        }
+        p.lomba{
+            line-height: '1px';
+            text-align: center;
+            font-size: 20pt;
+            font-family: 'Rajdhani', sans-serif;
+            margin: 10px !important;
+        }
+        .line{
+            width: 80%;
+            border-bottom: 3px solid black;
+        }
+        .flex{
+            display: flex;
+            justify-content: center;
         }
         @media print {
             .pagebreak { page-break-before: always; }
@@ -49,6 +70,11 @@
             <div class="cover" style="background-image: url('{{ asset('berkas/agenda/sertifikat-'.$peserta->agenda_id.'.jpg') }}') ">
                 {{-- <img class="cover" src="" alt="{{ $peserta->nodaf }}"> --}}
                 <div class="name">{{ strtoupper($peserta->anggota->nama) }}</div>
+                <div class="flex">
+                    <div class="line"></div>
+                </div>
+                <p>SEBAGAI PESERTA</p>
+                <p class="lomba">{{ strtoupper($peserta->agenda->nama) }}</p>
             </div>
     </div>
     <div class="pagebreak"></div>

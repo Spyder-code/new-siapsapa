@@ -7,9 +7,14 @@ use App\Models\Anggota;
 use App\Models\City;
 use App\Models\Distrik;
 use App\Models\Document;
+use App\Models\Juri;
 use App\Models\Kegiatan;
+use App\Models\Lomba;
+use App\Models\LombaStage;
 use App\Models\PendaftaranAgenda;
 use App\Models\PesertaLomba;
+use App\Models\PointJuri;
+use App\Models\PointVote;
 use App\Models\Pramuka;
 use App\Models\Provinsi;
 use App\Models\User;
@@ -183,6 +188,129 @@ class PageController extends Controller
                 return abort(404);
             }
         }
-        return view('admin.agenda.sertifikat.sertifikat_lomba', compact('data'));
+        $lomba = Lomba::find(request('lomba'));
+
+        if ($lomba->penilaian=='vote') {
+            $data = PointVote::select('lomba_file_id')
+                    ->selectRaw('count(*) as total')
+                    ->groupBy('lomba_file_id')
+                    ->orderByRaw('total desc')
+                    ->get();
+        }
+        if ($lomba->penilaian=='subjective') {
+            $juriCount = Juri::where('lomba_id',$lomba->id)->count();
+            if ($lomba->kepesertaan=='kelompok') {
+                $data = array();
+                $pen = PointJuri::all()->where('lomba_id',$lomba->id)->groupBy('peserta_id');
+                foreach ($pen as $key => $item) {
+                    if($lomba->kegiatan->agenda->tingkat=='provinsi'){
+                        $name = $item->first()->peserta->anggota->province->name;
+                    }elseif($lomba->kegiatan->agenda->tingkat=='kabupaten'){
+                        $name = $item->first()->peserta->anggota->city->name;
+                    }elseif($lomba->kegiatan->agenda->tingkat=='kecamatan'){
+                        $name = $item->first()->peserta->anggota->district->name;
+                    }else{
+                        $name = $item->first()->peserta->anggota->gudepInfo->nama_sekolah;
+                    }
+                    $data[$key]['nama'] = $name;
+                    $data[$key]['point'] = $item->sum('point');
+                }
+                $data = collect($data);
+                $data = $data->sortByDesc('point');
+            }else{
+                $data = array();
+                $pen = PesertaLomba::all()->where('lomba_id',$lomba->id);
+                foreach ($pen as $key => $item) {
+                    $data[$key]['nama'] = $item->anggota->nama;
+                    $data[$key]['point'] = (int)PointJuri::all()->where('lomba_id',$lomba->id)->whereNull('gudep_id')->where('peserta_id',$item->id)->sum('point');
+                }
+                $data = collect($data);
+                $data = $data->sortByDesc('point');
+            }
+        }
+        if ($lomba->penilaian=='objective') {
+            if($lomba->kepesertaan=='kelompok'){
+                $data = LombaStage::join('peserta_lomba','peserta_lomba.id','=','lomba_stages.peserta_id')
+                        ->join('tb_anggota','tb_anggota.id','=','peserta_lomba.anggota_id')
+                        ->where('lomba_stages.lomba_id',$lomba->id)
+                        ->select('lomba_stages.*','tb_anggota.provinsi','tb_anggota.kabupaten','tb_anggota.kecamatan','tb_anggota.gudep')
+                        ->orderBy('stage','desc')
+                        ->get()
+                        ->groupBy($lomba->kegiatan->agenda->tingkat);
+            }else{
+                $data = LombaStage::where('lomba_id',$lomba->id)->orderBy('stage','desc')->orderBy('point','desc')->get()->groupBy('peserta_id');
+            }
+        }
+        $i = 1;
+        $juara = array();
+        if($lomba->kepesertaan=='kelompok'){
+            foreach ($data as $key => $item) {
+                if($i<=6){
+                    $name = $item['nama'];
+                    if($lomba->kegiatan->agenda->tingkat=='provinsi'){
+                        $j = PesertaLomba::where('lomba_id',request('lomba'))->whereHas('anggota', function($q) use($name){
+                            $q->whereHas('province', function($a) use($name){
+                                $a->where('name',$name);
+                            });
+                        })->get();
+                    }elseif($lomba->kegiatan->agenda->tingkat=='kabupaten'){
+                        $j = PesertaLomba::where('lomba_id',request('lomba'))->whereHas('anggota', function($q) use($name){
+                            $q->whereHas('city', function($a) use($name){
+                                $a->where('name',$name);
+                            });
+                        })->get();
+                    }elseif($lomba->kegiatan->agenda->tingkat=='kecamatan'){
+                        $j = PesertaLomba::where('lomba_id',request('lomba'))->whereHas('anggota', function($q) use($name){
+                            $q->whereHas('district', function($a) use($name){
+                                $a->where('name',$name);
+                            });
+                        })->get();
+                    }else{
+                        $j = PesertaLomba::where('lomba_id',request('lomba'))->whereHas('anggota', function($q) use($name){
+                            $q->whereHas('gudepInfo', function($a) use($name){
+                                $a->where('name',$name);
+                            });
+                        })->get();
+                    }
+                    $juara_text = $i;
+                    if($i==4){
+                        $juara_text = 'HARAPAN 1';
+                    }
+                    if($i==5){
+                        $juara_text = 'HARAPAN 2';
+                    }
+                    if($i==6){
+                        $juara_text = 'HARAPAN 3';
+                    }
+                    foreach($j as $val){
+                        array_push($juara, ['nama'=>$val->anggota->nama,'lomba'=>$lomba->kegiatan->nama_kegiatan,'juara'=>$juara_text]);
+                    }
+                }
+                $i++;
+            }
+        }else{
+            foreach ($data as $key => $item) {
+                if($i<=6){
+                    $name = $item['nama'];
+                    $j = PesertaLomba::where('lomba_id',request('lomba'))->whereHas('anggota', function($q) use($name){
+                        $q->where('nama',$name);
+                    })->first();
+                    $juara_text = $i;
+                    if($i==4){
+                        $juara_text = 'HARAPAN 1';
+                    }
+                    if($i==5){
+                        $juara_text = 'HARAPAN 2';
+                    }
+                    if($i==6){
+                        $juara_text = 'HARAPAN 3';
+                    }
+                    $juara[$i] = ['nama'=>$j->anggota->nama,'lomba'=>$lomba->kegiatan->nama_kegiatan,'juara'=>$juara_text];
+                }
+                $i++;
+            }
+        }
+
+        return view('admin.agenda.sertifikat.sertifikat_lomba', compact('lomba','juara'));
     }
 }
