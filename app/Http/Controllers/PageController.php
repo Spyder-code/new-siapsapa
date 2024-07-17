@@ -268,7 +268,7 @@ class PageController extends Controller
                     }else{
                         $j = PesertaLomba::where('lomba_id',request('lomba'))->whereHas('anggota', function($q) use($name){
                             $q->whereHas('gudepInfo', function($a) use($name){
-                                $a->where('name',$name);
+                                $a->where('nama_sekolah',$name);
                             });
                         })->get();
                     }
