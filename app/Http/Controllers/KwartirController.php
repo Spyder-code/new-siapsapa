@@ -22,7 +22,7 @@ class KwartirController extends Controller
         if (request('id_wilayah')) {
             $id_wilayah = request('id_wilayah');
         }else{
-            if($role=='admin')
+            if($role=='admin'||$role=='kwarnas')
                 $id_wilayah = 'all';
             if($role=='kwarda')
                 $id_wilayah = $user->anggota->provinsi;

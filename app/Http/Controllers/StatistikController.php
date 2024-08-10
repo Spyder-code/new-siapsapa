@@ -44,7 +44,7 @@ class StatistikController extends Controller
                 $gudep = Gudep::where('kecamatan',$id_wilayah)->count();
             }
         }else{
-            if($role=='admin'){
+            if($role=='admin' || $role=='kwarnas'){
                 $id_wilayah = 'all';
                 $active = Anggota::where('status',1)->count();
                 $cetak = Anggota::where('is_cetak',1)->count();

@@ -280,7 +280,7 @@ class StatistikService {
             $id_wilayah = $this->id_wilayah;
             if($id_wilayah=='all'){
                 $admin = Anggota::where('status',1)->whereHas('user', function($q){
-                    $q->where('role','kwarda');
+                    $q->where('role','kwarnas');
                 })->count();
                 $member = Anggota::where('status',1)->count();
                 $type = 1;

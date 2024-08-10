@@ -17,14 +17,12 @@
         <ul class="list-group list-group-horizontal">
             <li class="list-group-item">Total Anggota: <strong id="total-anggota">{{ number_format($active) }}</strong></li>
             <li class="list-group-item">Total Anggota Sudah Cetak KTA: <strong id="total-anggota-cetak">{{ number_format($cetak) }}</strong></li>
-            @if($id_wilayah!='all')
-                <li class="list-group-item">Total Admin: <strong id="total-admin">-</strong></li>
-                <li class="list-group-item">
-                    <a href="{{ route('kwartir.anggota',$id_wilayah) }}" style="font-size: .8rem" class="btn btn-sm btn-outline-success">
-                        <i class="fa fa-plus-circle"></i> Tambah admin
-                    </a>
-                </li>
-            @endif
+            <li class="list-group-item">Total Admin: <strong id="total-admin">-</strong></li>
+            <li class="list-group-item">
+                <a href="{{ route('kwartir.anggota',$id_wilayah) }}" style="font-size: .8rem" class="btn btn-sm btn-outline-success">
+                    <i class="fa fa-plus-circle"></i> Tambah admin
+                </a>
+            </li>
         </ul>
     </div>
 </div>

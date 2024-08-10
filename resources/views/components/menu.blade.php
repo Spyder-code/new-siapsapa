@@ -31,7 +31,7 @@
         'text' => 'Kwartir',
         'href' => route('kwartir.index'),
         'icon' => 'map',
-        'access' => ['admin','kwarda','kwarcab','kwaran'],
+        'access' => ['admin','kwarnas','kwarda','kwarcab','kwaran'],
     ],[
         'text' => 'Fungsionaris Organisasi',
         'href' => route('organization_user.index'),
@@ -41,7 +41,7 @@
         'text' => 'Data Gudep',
         'href' => '#',
         'icon' => 'bookmark',
-        'access' => ['admin','kwarda','kwarcab','kwaran'],
+        'access' => ['admin','kwarnas','kwarda','kwarcab','kwaran'],
         'sub' => [
             ['text'=>'List Gudep','href'=>route('gudep.index'),'icon'=>'fa-list'],
             ['text'=>'Registrasi Gudep','href'=>route('gudep.create'),'icon'=>'fa-plus'],
@@ -64,7 +64,7 @@
         'text' => 'Data Anggota',
         'href' => '#',
         'icon' => 'users',
-        'access' => ['admin','kwarda','kwarcab','kwaran'],
+        'access' => ['admin','kwarnas','kwarda','kwarcab','kwaran'],
         'sub' => [
             ['text' => 'Anggota non Gudep','href' => route('anggota.index','non-gudep'),'icon' => 'fa-users'],
             ['text' => 'Anggota Gudep','href' => route('anggota.index','is-gudep'),'icon' => 'fa-users',],
@@ -75,7 +75,7 @@
         'text' => 'Validasi Anggota',
         'href' => route('anggota.non_validate'),
         'icon' => 'user-check',
-        'access' => ['admin','kwarda','kwarcab','kwaran','gudep'],
+        'access' => ['admin','kwarnas','kwarda','kwarcab','kwaran','gudep'],
     ],[
         'text' => 'Dokumen',
         'href' => route('dokumen.index'),

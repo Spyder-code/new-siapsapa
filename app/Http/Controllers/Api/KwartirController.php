@@ -14,7 +14,10 @@ class KwartirController extends Controller
     public function getAdmin($id_wilayah)
     {
         if($id_wilayah=='all'){
-            return false;
+            $admin = 'kwarnas';
+            $data = Anggota::whereHas('user', function ($query) {
+                $query->where('role','kwarnas');
+            })->select('id','nama','email')->get();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
@@ -46,11 +49,11 @@ class KwartirController extends Controller
         $id_wilayah = request()->id_wilayah;
         $anggota_id = request()->anggota_id;
         $len = strlen($id_wilayah);
+        $anggota = Anggota::find($anggota_id);
         if($id_wilayah=='all'){
-            return false;
+            $role = 'kwarnas';
         }else{
             $len = strlen($id_wilayah);
-            $anggota = Anggota::find($anggota_id);
             if ($len==2) {
                 $role = 'kwarda';
             }elseif($len==4){
@@ -58,10 +61,9 @@ class KwartirController extends Controller
             }else{
                 $role = 'kwaran';
             }
-
-            $anggota->user->role = $role;
-            $anggota->user->save();
         }
+        $anggota->user->role = $role;
+        $anggota->user->save();
 
         return response()->json([
             'status' => 'success'
