@@ -57,7 +57,7 @@
                                 <td>
                                     <div class="justify-content-center text-center">
                                         <img src="{{ asset('berkas/anggota/'.$item->anggota->foto) }}" class="img-thumbnail mx-auto d-block" height="80px" width="80px">
-                                        <span class="badge bg-primary">{{ $item->anggota->kode }}</span>
+                                        <span class="badge bg-primary">-</span>
                                     </div>
                                 </td>
                                 <td>{{ $item->anggota->nama }}</td>
