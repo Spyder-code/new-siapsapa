@@ -154,7 +154,7 @@ class AnggotaController extends Controller
         }else{
             $user = Auth::user();
             $role = $user->role;
-            if($role=='admin')
+            if($role=='admin' || $role=='kwarnas')
                 $id_wilayah = 'all';
             if($role=='kwarda')
                 $id_wilayah = $user->anggota->provinsi;
