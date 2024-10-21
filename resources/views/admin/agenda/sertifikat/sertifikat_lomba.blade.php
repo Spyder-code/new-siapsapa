@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
@@ -12,6 +13,7 @@
             color-adjust: exact !important;
             print-color-adjust: exact !important;
         }
+
         .cover {
             height: 600px;
             width: 900px;
@@ -20,60 +22,77 @@
             -o-background-size: cover;
             background-size: cover;
         }
-        .container{
+
+        .container {
             display: flex;
             justify-content: center;
         }
-        .name{
+
+        .name {
             text-align: center;
             margin-top: 210px;
             font-size: 30pt;
             font-family: 'Rajdhani', sans-serif;
         }
-        p{
+
+        p {
             text-align: center;
             font-size: 15pt;
             font-family: 'Rajdhani', sans-serif;
             margin-top: 30px;
         }
-        p.lomba{
+
+        p.lomba {
             line-height: '1px';
             text-align: center;
             font-size: 20pt;
             font-family: 'Rajdhani', sans-serif;
             margin: 10px !important;
         }
-        .line{
+
+        .line {
             width: 80%;
             border-bottom: 3px solid black;
         }
-        .flex{
+
+        .flex {
             display: flex;
             justify-content: center;
         }
+
         @media print {
-            .pagebreak { page-break-before: always; }
+            .pagebreak {
+                page-break-before: always;
+            }
+
             body {
                 margin: 0;
                 padding: 0;
             }
         }
+
         @page {
             size: 900px 600px;
             margin: 0px;
         }
     </style>
 </head>
+
 <body>
     @foreach ($juara as $peserta)
         <div class="container mb-5">
-            <div class="cover" style="background-image: url('{{ asset('berkas/agenda/sertifikat-'.$lomba->kegiatan->agenda_id.'.jpg') }}') ">
+            <div class="cover"
+                style="background-image: url('{{ asset('berkas/agenda/sertifikat-' . $lomba->kegiatan->agenda_id . '.jpg') }}') ">
                 {{-- <img class="cover" src="" alt="{{ $peserta->nodaf }}"> --}}
                 <div class="name">{{ strtoupper($peserta['nama']) }}</div>
                 <div class="flex">
                     <div class="line"></div>
                 </div>
-                <p>SEBAGAI JUARA {{ $peserta['juara'] }}</p>
+                @if (request()->type == 'PESERTA')
+                    <p>SEBAGAI PESERTA</p>
+                @elseif(request()->type == 'JUARA')
+                    <p>SEBAGAI JUARA {{ $peserta['juara'] }}</p>
+                @endif
                 <p class="lomba">{{ strtoupper($lomba->kegiatan->nama_kegiatan) }}</p>
             </div>
         </div>
@@ -83,4 +102,5 @@
         window.print()
     </script>
 </body>
+
 </html>
