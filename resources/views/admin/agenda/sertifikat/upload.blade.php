@@ -12,10 +12,10 @@
                         @method('PUT')
                         <div class="d-flex gap-3">
                             <input type="file" name="sertifikat">
-                            <div class="btn-group">
-                                <button type="submit" class="btn btn-sm btn-success">Simpan</button>
-                                <a class="btn btn-sm btn-info" href="{{ route('page.sertifikat.agenda',['agenda'=>$agenda->id,'type'=>'PESERTA']) }}">Print Sertifikat</a>
-                            </div>
+                        </div>
+                        <div class="btn-group mt-2">
+                            <button type="submit" class="btn btn-sm btn-success">Simpan</button>
+                            <a class="btn btn-sm btn-info" href="{{ route('page.sertifikat.agenda',['agenda'=>$agenda->id,'type'=>'PESERTA']) }}">Print Sertifikat</a>
                         </div>
                         <img src="{{ asset('berkas/agenda/sertifikat-'.$agenda->id.'.jpg') }}" class="img-fluid my-2" style="height: 100px">
                     </form>
