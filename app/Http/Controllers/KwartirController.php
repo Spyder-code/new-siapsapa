@@ -125,7 +125,7 @@ class KwartirController extends Controller
             'anggota as cetak' => function($q){
                 $q->where('is_cetak', 1);
             }
-            ])->offset($start)->limit($limit);
+            ])->orderBy('name')->offset($start)->limit($limit);
             $count =  Provinsi::select('id')->count();
             $type = 1;
             $len = 1;
@@ -147,7 +147,7 @@ class KwartirController extends Controller
                 'anggota as cetak' => function($q){
                     $q->where('is_cetak', 1);
                 }
-                ])->offset($start)->limit($limit);
+                ])->orderBy('name')->offset($start)->limit($limit);
                 $count = City::where('province_id',$id_wilayah)->select('id')->count();
                 $type = 2;
             }elseif($len==4){
@@ -166,7 +166,7 @@ class KwartirController extends Controller
                 'anggota as cetak' => function($q){
                     $q->where('is_cetak', 1);
                 }
-                ])->offset($start)->limit($limit);
+                ])->orderBy('name')->offset($start)->limit($limit);
                 $count = Distrik::where('regency_id',$id_wilayah)->select('id')->count();
                 $type = 3;
             }else{
@@ -185,7 +185,7 @@ class KwartirController extends Controller
                 'anggota as cetak' => function($q){
                     $q->where('is_cetak', 1);
                 }
-                ])->offset($start)->limit($limit);
+                ])->orderBy('nama_sekolah')->offset($start)->limit($limit);
                 $count = Gudep::where('kecamatan',$id_wilayah)->select('id')->count();
                 $type = 4;
             }

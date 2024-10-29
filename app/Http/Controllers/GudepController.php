@@ -14,6 +14,7 @@ use App\Repositories\GudepService;
 use App\Repositories\WilayahService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Yajra\Datatables\Datatables;
 
 class GudepController extends Controller
@@ -180,7 +181,14 @@ class GudepController extends Controller
 
     public function store()
     {
-        Gudep::create(request()->all());
+        $gudep = Gudep::create(request()->all());
+        try {
+            Http::post(env('URL_SEKOLAH'). '/sync/account-sekolah', [
+                'id' => $gudep->id
+            ]);
+        } catch (\Throwable $th) {
+            
+        }
         return redirect()->route('gudep.index');
     }
 

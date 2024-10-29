@@ -22,7 +22,7 @@ use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class SyncController extends Controller
@@ -468,6 +468,14 @@ class SyncController extends Controller
                 'kode' => $new,
                 'tingkat' => $tingkat
             ]);
+        }
+
+        try {
+            Http::post(env('URL_SEKOLAH') . '/sync/account-sekolah', [
+                'id' => $gudep_id
+            ]);
+        } catch (\Exception $e) {
+            // return $e->getMessage();
         }
 
         return response('Sinkronisasi '.$anggotas->count().' anggota berhasil!');
