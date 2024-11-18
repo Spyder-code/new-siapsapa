@@ -66,7 +66,7 @@ class AnggotaController extends Controller
         $kwartir = $data[1];
         $title = $data[0]->name ?? 'Kwartir Nasional';
         $organizations = Organizations::pluck('name','id');
-        return view('admin.anggota.index', compact('url','data','id_wilayah','kwartir','title','type','organizations'));
+        return view('admin.anggota.index', compact('url','data','id_wilayah','kwartir','title','type','organizations','role'));
     }
 
     public function searchByDocument($id)
@@ -408,18 +408,18 @@ class AnggotaController extends Controller
         $start = request('start') * request('length');
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Anggota::where('status',1)->where('user_id','!=',1)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+            $data = Anggota::where('status',1)->where('user_id','!=',1)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
             $count = Anggota::where('status',1)->where('user_id','!=',1)->select('id')->count();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = Anggota::where('status',1)->where('user_id','!=',1)->where('provinsi',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $data = Anggota::where('status',1)->where('user_id','!=',1)->where('provinsi',$id_wilayah)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
                 $count = Anggota::where('status',1)->where('user_id','!=',1)->where('provinsi',$id_wilayah)->select('id')->count();
             }elseif($len==4){
-                $data =  Anggota::where('status',1)->where('user_id','!=',1)->where('kabupaten',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $data =  Anggota::where('status',1)->where('user_id','!=',1)->where('kabupaten',$id_wilayah)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
                 $count = Anggota::where('status',1)->where('user_id','!=',1)->where('kabupaten',$id_wilayah)->select('id')->count();
             }else{
-                $data = Anggota::where('status',1)->where('user_id','!=',1)->where('kecamatan',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $data = Anggota::where('status',1)->where('user_id','!=',1)->where('kecamatan',$id_wilayah)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
                 $count = Anggota::where('status',1)->where('user_id','!=',1)->where('kecamatan',$id_wilayah)->select('id')->count();
             }
 
@@ -504,18 +504,18 @@ class AnggotaController extends Controller
         $start = request('start') * request('length');
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+            $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
             $count =  Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->select('id')->count();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('provinsi',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('provinsi',$id_wilayah)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
                 $count = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('provinsi',$id_wilayah)->select('id')->count();
             }elseif($len==4){
-                $data =  Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('kabupaten',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $data =  Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('kabupaten',$id_wilayah)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
                 $count = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('kabupaten',$id_wilayah)->select('id')->count();
             }else{
-                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('kecamatan',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('kecamatan',$id_wilayah)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
                 $count = Anggota::where('status',1)->where('user_id','!=',1)->whereNotNull('gudep')->where('kecamatan',$id_wilayah)->select('id')->count();
             }
 
@@ -600,18 +600,18 @@ class AnggotaController extends Controller
         $start = request('start') * request('length');
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+            $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->select('id','nik','is_cetak', 'nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
             $count = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->select('id')->count();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('provinsi',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('provinsi',$id_wilayah)->select('id','nik','is_cetak', 'nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
                 $count = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('provinsi',$id_wilayah)->select('id')->count();
             }elseif($len==4){
-                $data =  Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('kabupaten',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $data =  Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('kabupaten',$id_wilayah)->select('id','nik','is_cetak', 'nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
                 $count = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('kabupaten',$id_wilayah)->select('id')->count();
             }else{
-                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('kecamatan',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
+                $data = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('kecamatan',$id_wilayah)->select('id','nik','is_cetak', 'nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc')->offset($start)->limit($limit);
                 $count = Anggota::where('status',1)->where('user_id','!=',1)->whereNull('gudep')->where('kecamatan',$id_wilayah)->select('id')->count();
             }
 
@@ -696,18 +696,18 @@ class AnggotaController extends Controller
         $start = request('start') * request('length');
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Anggota::where('status',0)->where('user_id','!=',1)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+            $data = Anggota::where('status',0)->where('user_id','!=',1)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
             $count = Anggota::where('status',0)->where('user_id','!=',1)->select('id')->count();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = Anggota::where('status',0)->where('user_id','!=',1)->where('provinsi',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+                $data = Anggota::where('status',0)->where('user_id','!=',1)->where('provinsi',$id_wilayah)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
                 $count = Anggota::where('status',0)->where('user_id','!=',1)->where('provinsi',$id_wilayah)->select('id')->count();
             }elseif($len==4){
-                $data =  Anggota::where('status',0)->where('user_id','!=',1)->where('kabupaten',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+                $data =  Anggota::where('status',0)->where('user_id','!=',1)->where('kabupaten',$id_wilayah)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
                 $count = Anggota::where('status',0)->where('user_id','!=',1)->where('kabupaten',$id_wilayah)->select('id')->count();
             }else{
-                $data = Anggota::where('status',0)->where('user_id','!=',1)->where('kecamatan',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+                $data = Anggota::where('status',0)->where('user_id','!=',1)->where('kecamatan',$id_wilayah)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
                 $count = Anggota::where('status',0)->where('user_id','!=',1)->where('kecamatan',$id_wilayah)->select('id')->count();
             }
 
@@ -801,25 +801,25 @@ class AnggotaController extends Controller
         $start = request('start') * request('length');
         $id_wilayah = request('id_wilayah');
         if($id_wilayah=='all'){
-            $data = Anggota::where('status',2)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+            $data = Anggota::where('status',2)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
             $count = Anggota::where('status',2)->select('id')->count();
         }else{
             $len = strlen($id_wilayah);
             if ($len==2) {
-                $data = Anggota::where('status',2)->where('provinsi',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+                $data = Anggota::where('status',2)->where('provinsi',$id_wilayah)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
                 $count = Anggota::where('status',2)->where('provinsi',$id_wilayah)->select('id')->count();
             }elseif($len==4){
-                $data =  Anggota::where('status',2)->where('kabupaten',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+                $data =  Anggota::where('status',2)->where('kabupaten',$id_wilayah)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
                 $count = Anggota::where('status',2)->where('kabupaten',$id_wilayah)->select('id')->count();
             }else{
-                $data = Anggota::where('status',2)->where('kecamatan',$id_wilayah)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
+                $data = Anggota::where('status',2)->where('kecamatan',$id_wilayah)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->offset($start)->limit($limit);
                 $count = Anggota::where('status',2)->where('kecamatan',$id_wilayah)->select('id')->count();
             }
 
         }
 
         if(Auth::user()->role=='gudep'){
-            $data = Anggota::where('status',2)->where('gudep', Auth::user()->anggota->gudep)->select('id','nik','is_cetak','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
+            $data = Anggota::where('status',2)->where('gudep', Auth::user()->anggota->gudep)->select('id','nik','is_cetak','nohp','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')->orderBy('id','desc');
         }
 
         return DataTables::of($data)
@@ -893,31 +893,31 @@ class AnggotaController extends Controller
         if ($role===0) {
             $data = Anggota::where('tingkat',request('document_type_id'))
                     ->where('status',1)
-                    ->select('id','user_id','is_cetak','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
+                    ->select('id','user_id','is_cetak','nohp','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
         } elseif($role===2) {
             $data = Anggota::where('tingkat',request('document_type_id'))
                     ->where('status',1)
                     ->where('provinsi',$id_wilayah)
-                    ->select('id','user_id','is_cetak','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
+                    ->select('id','user_id','is_cetak','nohp','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
         } elseif($role===4) {
             $data = Anggota::where('tingkat',request('document_type_id'))
                     ->where('status',1)
                     ->where('kabupaten',$id_wilayah)
-                    ->select('id','user_id','is_cetak','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
+                    ->select('id','user_id','is_cetak','nohp','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
         } elseif($role==7) {
             $data = Anggota::where('tingkat',request('document_type_id'))
                     ->where('status',1)
                     ->where('kecamatan',$id_wilayah)
-                    ->select('id','user_id','is_cetak','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
+                    ->select('id','user_id','is_cetak','nohp','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','pramuka','gudep','kabupaten','kecamatan','provinsi')
                     ->get();
         } elseif($role==='gudep') {
             $data = Anggota::where('tingkat',request('document_type_id'))
             ->where('status',1)
             ->where('gudep',$id_wilayah)
-            ->select('id','user_id','is_cetak','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','gudep','kabupaten','kecamatan','provinsi')
+            ->select('id','user_id','is_cetak','nohp','tingkat','nik','status','kode','jk','nama','tgl_lahir','foto','gudep','kabupaten','kecamatan','provinsi')
             ->get();
         }
 

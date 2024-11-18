@@ -72,6 +72,9 @@
                                 <th>Nik</th>
                                 {{-- <th>Nomor Anggota</th> --}}
                                 <th>Nama Lengkap</th>
+                                @if ($role=='admin')
+                                <th>Nomor HP</th>
+                                @endif
                                 {{-- <th>Tgl Lahir</th> --}}
                                 <th>Gender</th>
                                 <th>Kabupaten</th>
@@ -156,22 +159,32 @@
             keyboard: false
         })
 
-
-        var table = $(".file-export").DataTable({
-            processing: true,
-            serverSide: true,
-            select:true,
-            // pagingType: "simple",
-            scrollY: '500px',
-            scrollX:true,
-            ajax: {
-            url: @json($url),
-            type: 'GET',
-            data: {
-                    id_wilayah: {!! json_encode($id_wilayah) !!},
+        var role = '{{ $role }}';
+        if(role=='admin'){
+            var columns_table = [
+                {
+                    orderable: false,
+                    searchable: false,
+                    data: 'id',
+                    name: 'id',
+                    render: function (data, type, row, meta) {
+                        return '';
+                    },
                 },
-            },
-            columns: [
+                {data: 'foto', name: 'foto', searchable: false, orderable: false},
+                {data: 'nik', name: 'tb_anggota.nik', visible: false},
+                // {data: 'kode', name: 'kode'},
+                {data: 'nama', name: 'tb_anggota.nama'},
+                {data: 'nohp', name: 'tb_anggota.nohp'},
+                // {data: 'tgl_lahir', name: 'tgl_lahir', searchable: false, orderable: false},
+                {data: 'jk', name: 'jk', searchable: false, orderable: false},
+                {data: 'kabupaten', name: 'kabupaten', searchable: false, orderable: false},
+                {data: 'kecamatan', name: 'kecamatan', searchable: false, orderable: false},
+                {data: 'status', name: 'status', searchable: false, orderable: false},
+                {data: 'action', name: 'action', searchable: false, orderable: false},
+            ];
+        }else{
+            var columns_table = [
                 {
                     orderable: false,
                     searchable: false,
@@ -191,7 +204,25 @@
                 {data: 'kecamatan', name: 'kecamatan', searchable: false, orderable: false},
                 {data: 'status', name: 'status', searchable: false, orderable: false},
                 {data: 'action', name: 'action', searchable: false, orderable: false},
-            ],
+            ];
+        }
+
+
+        var table = $(".file-export").DataTable({
+            processing: true,
+            serverSide: true,
+            select:true,
+            // pagingType: "simple",
+            scrollY: '500px',
+            scrollX:true,
+            ajax: {
+            url: @json($url),
+            type: 'GET',
+            data: {
+                    id_wilayah: {!! json_encode($id_wilayah) !!},
+                },
+            },
+            columns: columns_table,
             columnDefs: [ {
                 className: 'select-checkbox',
                 targets:   0,
