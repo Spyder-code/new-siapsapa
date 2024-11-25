@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="alert alert-warning">
-                            {{ strtoupper($transaction->paymentInfo->name) }} <br>
+                            {{ strtoupper($transaction->paymentInfo->name ?? '-') }} <br>
                             <i style="font-size: .8rem" class="text-justify">{{ $transaction->paymentInfo->description }}</i>
                         </div>
                         <ul class="list-group mt-2" style="font-size: .8rem">
