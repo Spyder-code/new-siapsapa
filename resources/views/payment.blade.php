@@ -5,10 +5,12 @@
             <div class="col-12 col-md-8 mt-5">
                 <div class="card">
                     <div class="card-body">
-                        <div class="alert alert-warning">
-                            {{ strtoupper($transaction->paymentInfo->name ?? '-') }} <br>
-                            <i style="font-size: .8rem" class="text-justify">{{ $transaction->paymentInfo->description }}</i>
-                        </div>
+                        @if ($transaction->paymentInfo)
+                            <div class="alert alert-warning">
+                                {{ strtoupper($transaction->paymentInfo->name) }} <br>
+                                <i style="font-size: .8rem" class="text-justify">{{ $transaction->paymentInfo->description }}</i>
+                            </div>
+                        @endif
                         <ul class="list-group mt-2" style="font-size: .8rem">
                             <li class="list-group-item d-flex justify-content-between">
                                 INVOICE : <span>{{ $transaction->code }}</span>
