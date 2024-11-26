@@ -33,14 +33,21 @@ class MidtransService extends Repository
             'phone'    => $customer->anggota->nohp,
         );
 
-        foreach ($items as $idx => $item) {
-            $item_details[$idx] = array(
-                'id' => $item->anggota->kode,
-                'price' => $item->harga,
-                'quantity' => 1,
-                'name' => 'KTA-'.$item->anggota->nama,
-            );
-        }
+        // foreach ($items as $idx => $item) {
+        //     $item_details[$idx] = array(
+        //         'id' => $item->anggota->kode,
+        //         'price' => $item->harga,
+        //         'quantity' => 1,
+        //         'name' => 'KTA-'.$item->anggota->nama,
+        //     );
+        // }
+
+        $item_details[0] = array(
+            'id' => 'KTA-'.$customer->id,
+            'price' => $item_price,
+            'quantity' => $items->count(),
+            'name' => 'KTA (KARTU TANDA ANGGOTA)',
+        );
 
         $transaction_details = array(
             'order_id' => $orderId,
@@ -69,6 +76,7 @@ class MidtransService extends Repository
             return $trx;
         }
         catch (Exception $e) {
+            dd($e);
             return response($e->getMessage());
         }
     }
