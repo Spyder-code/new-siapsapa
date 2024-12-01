@@ -173,7 +173,7 @@ class TransactionController extends Controller
     public function pay(TransactionDetail $transactionDetail)
     {
         $midtransService = new MidtransService();
-        $trx = $midtransService->pay($transactionDetail);
+        $trx = $midtransService->qris($transactionDetail);
         return redirect()->route('transaction.pay.page',$trx);
     }
 
@@ -182,12 +182,12 @@ class TransactionController extends Controller
         if($transaction->payment_type=='midtrans'){
             if(!$transaction->snap_token){
                 $midtransService = new MidtransService();
-                $transaction = $midtransService->pay($transaction);
+                $transaction = $midtransService->qris($transaction);
             }else{
                 $kode = substr($transaction->snap_token,0,4);
                 if($kode=='http'){
                     $midtransService = new MidtransService();
-                    $transaction = $midtransService->pay($transaction);
+                    $transaction = $midtransService->qris($transaction);
                 }
             }
             return view('payment', compact('transaction'));

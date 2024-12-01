@@ -126,6 +126,53 @@ class MidtransService extends Repository
         }
     }
 
+    public function qris(TransactionDetail $transactionDetail)
+    {
+        $transaction_details = array(
+            'order_id'    => $transactionDetail->code,
+            'gross_amount'  => $transactionDetail->item_price
+        );
+
+        $items = array(
+            array(
+                'id'       => "KTA-01",
+                'price'    => $transactionDetail->item_price,
+                'quantity' => 1,
+                'name'     => "KARTU TANDA ANGGOTA (KTA)"
+            )
+        );
+
+        $customer_details = array(
+            'first_name'       => $transactionDetail->user->name,
+            'last_name'        => "SIAPSAPA",
+            'email'            => $transactionDetail->user->email,
+            'phone'            => $transactionDetail->phone,
+        );
+
+        // Transaction data to be sent
+        $transaction_data = array(
+            'payment_type'        => 'qris',
+            'transaction_details' => $transaction_details,
+            'item_details'        => $items,
+            'customer_details'    => $customer_details,
+        );
+
+        $response = \Midtrans\CoreApi::charge($transaction_data);
+        if ($response) {
+            return $response->actions;
+        }
+        return false;
+    }
+
+    public function checkStatus(TransactionDetail $transactionDetail)
+    {
+        $status = \Midtrans\Transaction::status($transactionDetail->code);
+        if ($status->transaction_status == 'settlement') {
+            $transactionDetail->update(['is_paid' => 1, 'status_wizard' => 'photo']);
+        }
+        return $status;
+    }
+
     public function notification()
     {
         $notif = new \Midtrans\Notification();

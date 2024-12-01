@@ -27,11 +27,11 @@
                         @if ($transaction->status==1)
                         <form action="{{ route('transaction.pay',$transaction) }}" method="post" style="width: 100%">
                             @csrf
-                            <button class="btn py-2 btn-sm btn-warning btn-rounded w-100" type="submit"> Reset Payment Method</button>
-                        </form>
-                        <div style="width: 100%">
+                            <button class="btn py-2 btn-sm btn-warning btn-rounded w-100" type="submit"> Reset QR Code</button>
+                        </form>/
+                        {{-- <div style="width: 100%">
                             <button id="pay-button" class="btn py-2 btn-sm btn-success btn-rounded w-100"> Pay</button>
-                        </div>
+                        </div> --}}
                         @endif
                         <div style="width: 100%">
                             <button type="button" onclick="checkPayment()" class="btn py-2 btn-sm btn-info btn-rounded w-100"> Check Payment Status</button>
@@ -40,14 +40,14 @@
                             <a href="{{ route('transaction.index') }}" class="btn py-2 btn-sm btn-secondary btn-rounded w-100"> Back to home</a>
                         </div>
                     </div>
-                    <pre class="p-4"><div id="result-json">JSON result will appear here after payment:<br></div></pre>
+                    {{-- <pre class="p-4"><div id="result-json">JSON result will appear here after payment:<br></div></pre> --}}
                 </div>
             </div>
         </div>
     </div>
 @endsection
 @push('script')
-    <script src="https://app.midtrans.com/snap/snap.js" data-client-key="{{ env('CLIENT_KEY_MIDTRANS') }}"></script>
+    {{-- <script src="https://app.midtrans.com/snap/snap.js" data-client-key="{{ env('CLIENT_KEY_MIDTRANS') }}"></script>
     <script type="text/javascript">
         document.getElementById('pay-button').onclick = function(){
             payMidtrans();
@@ -75,5 +75,5 @@
         }
 
         payMidtrans();
-    </script>
+    </script> --}}
 @endpush
