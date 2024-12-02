@@ -146,7 +146,7 @@
                                     </li>
                                     @else
                                     <li class="login-btn">
-                                        <a href="{{ url('app') }}" class="item-btn"><i class="fas fa-user"></i>Login</a>
+                                        <a href="{{ url('login') }}" class="item-btn"><i class="fas fa-user"></i>Login</a>
                                     </li>
                                     @endif
                                 </ul>

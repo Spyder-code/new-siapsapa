@@ -22,10 +22,10 @@ class MidtransService extends Repository
     public function pay(TransactionDetail $transactionDetail)
     {
         $customer = $transactionDetail->user;
-        $date = date('ymdHi');
         $item_price = $transactionDetail->total;
         $item_details = array();
-        $orderId = 'KTA/'.$date.'/'.sprintf('%03d',$transactionDetail->id);
+        $date = date('ymdHi');
+        $orderId = 'KTA/' . $date . '/' . sprintf('%03d', $transactionDetail->id);
         $items = $transactionDetail->transactions;
         $customer_details = array(
             'first_name' => $customer->name,
@@ -43,7 +43,7 @@ class MidtransService extends Repository
         // }
 
         $item_details[0] = array(
-            'id' => 'KTA-'.$customer->id,
+            'id' => 'KTA-' . $customer->id,
             'price' => $item_price,
             'quantity' => $items->count(),
             'name' => 'KTA (KARTU TANDA ANGGOTA)',
@@ -51,7 +51,7 @@ class MidtransService extends Repository
 
         $transaction_details = array(
             'order_id' => $orderId,
-            'gross_amount' =>$item_price, // no decimal allowed for creditcard
+            'gross_amount' => $item_price, // no decimal allowed for creditcard
         );
 
         // Fill SNAP API parameter
@@ -74,8 +74,7 @@ class MidtransService extends Repository
             $trx = TransactionDetail::find($transactionDetail->id);
 
             return $trx;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             dd($e);
             return response($e->getMessage());
         }
@@ -85,7 +84,7 @@ class MidtransService extends Repository
     {
         $date = date('ymdHi');
         $item_details = array();
-        $orderId = 'KTA/'.$date.'/'.sprintf('%03d',rand(100,999));
+        $orderId = 'KTA/' . $date . '/' . sprintf('%03d', rand(100, 999));
 
         $customer_details = array(
             'first_name' => 'test_midtrans',
@@ -93,18 +92,18 @@ class MidtransService extends Repository
             'phone'    => '123456789',
         );
 
-        for ($i=0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $item_details[$i] = array(
-                'id' => 'BR-00'.$i,
+                'id' => 'BR-00' . $i,
                 'price' => 10000,
                 'quantity' => 1,
-                'name' => 'KTA-'.$i,
+                'name' => 'KTA-' . $i,
             );
         }
 
         $transaction_details = array(
             'order_id' => $orderId,
-            'gross_amount' =>3000, // no decimal allowed for creditcard
+            'gross_amount' => 3000, // no decimal allowed for creditcard
         );
 
         // Fill SNAP API parameter
@@ -120,16 +119,17 @@ class MidtransService extends Repository
             // Redirect to Snap Payment Page
 
             return $paymentUrl;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return response($e->getMessage());
         }
     }
 
     public function qris(TransactionDetail $transactionDetail)
     {
+        $date = date('ymdHis');
+        $orderId = 'KTA/' . $date . '/' . sprintf('%03d', $transactionDetail->id);
         $transaction_details = array(
-            'order_id'    => $transactionDetail->code,
+            'order_id'    => $orderId,
             'gross_amount'  => $transactionDetail->item_price
         );
 
@@ -158,8 +158,14 @@ class MidtransService extends Repository
         );
 
         $response = \Midtrans\CoreApi::charge($transaction_data);
+        $transactionDetail->update([
+            'code' => $orderId
+        ]);
         if ($response) {
-            return $response->actions;
+            return [
+                'payment_url' => $response->actions[0]->url,
+                'transaction' => TransactionDetail::find($transactionDetail->id)
+            ];
         }
         return false;
     }
@@ -187,76 +193,70 @@ class MidtransService extends Repository
             $transaksi->update([
                 'payment_status' => 2,
             ]);
-            if ($type == 'credit_card'){
-                if($fraud == 'challenge'){
+            if ($type == 'credit_card') {
+                if ($fraud == 'challenge') {
                     // TODO set payment status in merchant's database to 'Challenge by FDS'
                     // TODO merchant should decide whether this transaction is authorized or not in MAP
                     $transaksi->update([
                         'payment_status' => 11,
                     ]);
-                    return response( "Transaction order_id: " . $order_id ." is challenged by FDS");
-                }
-                else {
+                    return response("Transaction order_id: " . $order_id . " is challenged by FDS");
+                } else {
                     $transaksi->update([
                         'payment_status' => 3,
                         'status' => 2,
                     ]);
-                    foreach ($transaksi->transactions as $item ) {
+                    foreach ($transaksi->transactions as $item) {
                         $item->anggota->update([
                             'is_cetak' => 1
                         ]);
                     }
                     // $this->booked($booking, $transaksi);
                     // TODO set payment status in merchant's database to 'Success'
-                    return response( "Transaction order_id: " . $order_id ." successfully captured using " . $type);
+                    return response("Transaction order_id: " . $order_id . " successfully captured using " . $type);
                 }
             }
-        }
-        else if ($transaction == 'settlement'){
+        } else if ($transaction == 'settlement') {
             $transaksi->update([
                 'payment_status' => 3,
                 'status' => 2,
             ]);
-            foreach ($transaksi->transactions as $item ) {
+            foreach ($transaksi->transactions as $item) {
                 $item->anggota->update([
                     'is_cetak' => 1
                 ]);
             }
             // $this->booked($booking, $transaksi);
             // TODO set payment status in merchant's database to 'Settlement'
-            return response( "Transaction order_id: " . $order_id ." successfully transfered using " . $type);
-        }
-        else if($transaction == 'pending'){
+            return response("Transaction order_id: " . $order_id . " successfully transfered using " . $type);
+        } else if ($transaction == 'pending') {
             // TODO set payment status in merchant's database to 'Pending'
             $transaksi->update([
                 'payment_status' => 4,
             ]);
-            return response( "Waiting customer to finish transaction order_id: " . $order_id . " using " . $type);
-        }
-        else if ($transaction == 'deny') {
+            return response("Waiting customer to finish transaction order_id: " . $order_id . " using " . $type);
+        } else if ($transaction == 'deny') {
             // TODO set payment status in merchant's database to 'Denied'
             $transaksi->update([
                 'payment_status' => 5,
             ]);
-            return response( "Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.");
-        }
-        else if ($transaction == 'expire') {
+            return response("Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.");
+        } else if ($transaction == 'expire') {
             // TODO set payment status in merchant's database to 'expire'
             $transaksi->update([
                 'payment_status' => 7,
             ]);
 
             // $this->newSnapUrl($order_id);
-            return response( "Payment using " . $type . " for transaction order_id: " . $order_id . " is expired.");
-        }
-        else if ($transaction == 'cancel') {
+            return response("Payment using " . $type . " for transaction order_id: " . $order_id . " is expired.");
+        } else if ($transaction == 'cancel') {
             // TODO set payment status in merchant's database to 'Denied'
             $transaksi->update([
                 'payment_status' => 6,
             ]);
 
             // $this->newSnapUrl($order_id);
-            return response( "Payment using " . $type . " for transaction order_id: " . $order_id . " is canceled.");
+            return response("Payment using " . $type . " for transaction order_id: " . $order_id . " is canceled.");
         }
     }
 }

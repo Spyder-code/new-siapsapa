@@ -179,27 +179,26 @@ class TransactionController extends Controller
 
     public function pay_page(TransactionDetail $transaction)
     {
-        if($transaction->payment_type=='midtrans'){
-            if(!$transaction->snap_token){
-                $midtransService = new MidtransService();
-                $transaction = $midtransService->qris($transaction);
-            }else{
-                $kode = substr($transaction->snap_token,0,4);
-                if($kode=='http'){
-                    $midtransService = new MidtransService();
-                    $transaction = $midtransService->qris($transaction);
-                }
-            }
-            return view('payment', compact('transaction'));
+        if($transaction->payment_status==3){
+            $transactionDetail = $transaction;
+            return view('successPayment', compact('transactionDetail'));
         }else{
-            if(!$transaction->code){
-                $transaction->update([
-                    'code' => 'KTA/'.date('ymdHi').'/'.sprintf('%03d',$transaction->id),
-                ]);
+            if($transaction->payment_type=='midtrans'){
+                $midtransService = new MidtransService();
+                $data = $midtransService->qris($transaction);
+                $transaction = $data['transaction'];
+                $payment_url = $data['payment_url'];
+                return view('payment', compact('transaction','payment_url'));
+            }else{
+                if(!$transaction->code){
+                    $transaction->update([
+                        'code' => 'KTA/'.date('ymdHi').'/'.sprintf('%03d',$transaction->id),
+                    ]);
 
-                $transaction = TransactionDetail::find($transaction->id);
+                    $transaction = TransactionDetail::find($transaction->id);
+                }
+                return view('siplah', compact('transaction'));
             }
-            return view('siplah', compact('transaction'));
         }
     }
 
